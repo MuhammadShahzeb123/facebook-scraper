@@ -228,25 +228,6 @@ def extract_transparency(sb: SB, data: Dict):
                 except:
                     pass
                         
-        try:
-            # Contact Phone
-            data["contact_phone"] = sb.get_text(XP["contact_phone"], "xpath", timeout=1).strip()
-        except:
-            pass
-            
-        try:
-            # Contact Email
-            data["contact_email"] = sb.get_text(XP["contact_email"], "xpath", timeout=1).strip()
-        except:
-            pass
-            
-        try:
-            # Website
-            website_el = sb.find_element(XP["website_link"], "xpath", timeout=1)
-            data["website"] = website_el.get_attribute("href") or data.get("website", "")
-        except:
-            pass
-
         # 3) Click See All (if present)
         try:
             wait_click(sb, XP["see_all"], timeout=4)
@@ -255,114 +236,28 @@ def extract_transparency(sb: SB, data: Dict):
             pass
 
         # Try direct extraction first
+        # 4) Extract modal text
         try:
-            # Page ID - strict pattern matching
-            pid_text = sb.get_text(XP["page_id"], "xpath", timeout=2).strip()
-            if re.fullmatch(r'\d{10,}', pid_text):
-                data["page_id"] = pid_text
-        except:
-            pass
             
-        try:
-            # Creation Date - context verification
-            date_text = sb.get_text(XP["creation_date"], "xpath", timeout=2).strip()
-            # Verify it's a real date, not a name change
-            if re.search(r'\d{1,2}\s+[A-Za-z]+\s+\d{4}', date_text):
-                data["created_date"] = date_text
-        except:
-            pass
+            admin_texts = sb.find_elements('//span[text()="Admin info"]/ancestor::div[contains(@class,"x9f619")]//span[position()=1]', "xpath")
+            transparency_text = [t.text for t in admin_texts if t.text]
             
-        try:
-            # Contact Phone
-            data["contact_phone"] = sb.get_text(XP["contact_phone"], "xpath", timeout=1).strip()
-        except:
-            pass
-            
-        try:
-            # Contact Email
-            data["contact_email"] = sb.get_text(XP["contact_email"], "xpath", timeout=1).strip()
-        except:
-            pass
-            
-        try:
-            # Website
-            website_el = sb.find_element(XP["website_link"], "xpath", timeout=1)
-            data["website"] = website_el.get_attribute("href") or data.get("website", "")
-        except:
-            pass
+            transparency_text = "\n".join(transparency_text)
 
-        try:
-            modal = sb.find_element('//div[@role="dialog"]', "xpath", timeout=5)
-            transparency_text = modal.text
-            
-            page_id_found = False
-        except:
-            pass
-        # Method 1: Direct XPath extraction
-        try:
-            pid_text = sb.get_text(XP["page_id"], "xpath", timeout=2).strip()
-            if re.fullmatch(r'\d{10,}', pid_text):
-                data["page_id"] = pid_text
-                page_id_found = True
-        except:
-            pass
-            
-        # Method 2: Extract from transparency text
-        if not page_id_found:
-            try:
-                modal = sb.find_element('//div[@role="dialog"]', "xpath", timeout=5)
-                transparency_text = modal.text
-                # Look for "Page ID" followed by numbers
-                pid_match = re.search(r'Page ID[^\d]*(\d{10,})', transparency_text)
-                if pid_match:
-                    data["page_id"] = pid_match.group(1)
-                    page_id_found = True
-                else:
-                    # Look for any long number in the transparency section
-                    numbers = re.findall(r'\d{10,}', transparency_text)
-                    if numbers:
-                        # The first long number is usually the page ID
-                        data["page_id"] = numbers[0]
-                        page_id_found = True
-            except:
-                pass
-            
-        # Method 3: Extract from page URL
-        if not page_id_found:
-            try:
-                current_url = sb.get_current_url()
-                # Extract page ID from URL patterns
-                patterns = [
-                    r'facebook\.com/(\d+)/',          # facebook.com/1234567890/
-                    r'facebook\.com/pages/[^/]+/(\d+)',  # facebook.com/pages/.../1234567890
-                    r'fbid=(\d+)'                      # facebook.com/page?fbid=1234567890
-                ]
-                for pattern in patterns:
-                    match = re.search(pattern, current_url)
-                    if match:
-                        data["page_id"] = match.group(1)
-                        page_id_found = True
-                        break
-            except:
-                pass
-            
-        # Method 4: Extract from page source metadata
-        if not page_id_found:
-            try:
-                src = sb.get_page_source()
-                # Look for page ID in meta tags
-                meta_match = re.search(r'<meta[^>]+content="(\d+)"[^>]+page_id', src)
-                if meta_match:
-                    data["page_id"] = meta_match.group(1)
-                else:
-                    # Look for FB page ID in scripts
-                    script_match = re.search(r'"pageID":"(\d+)"', src)
-                    if script_match:
-                        data["page_id"] = script_match.group(1)
-            except:
-                pass
-            
-            # 2. Creation Date extraction
+            # modal = sb.find_element('//div[@role="dialog"]', "xpath", timeout=5)
+            # transparency_text = modal.text
+            data["transparency_raw"] = transparency_text  # optional, for debugging
+
+            # 1. Page ID
+            match = re.search(r'Page ID[^\d]*(\d{10,})', transparency_text)
+            if match:
+                data["page_id"] = match.group(1)
+
+            # 2. Creation Date
+            match = re.search(r'(?:Created|Creation date)[^\n]*\n\D*(\d{1,2}\s+[A-Za-z]+\s+\d{4})', transparency_text)
+            if match:
+                data["created_date"] = match.group(1)
+
             if not data["created_date"]:
                 # Look for creation date specifically
                 date_match = re.search(r'Creation date[^\n]*\n\D*(\d{1,2}\s+[A-Za-z]+\s+\d{4})', transparency_text)
@@ -371,7 +266,6 @@ def extract_transparency(sb: SB, data: Dict):
                     date_match = re.search(r'Created[^\n]*\n\D*(\d{1,2}\s+[A-Za-z]+\s+\d{4})', transparency_text)
                 if date_match:
                     data["created_date"] = date_match.group(1)
-            
             # 3. Admin Countries
             country_match = re.search(r'Primary country/region[^\n]*\n((?:\s*\w+\s*\(\d+\)\n?)+)', transparency_text)
             if country_match:
@@ -379,30 +273,30 @@ def extract_transparency(sb: SB, data: Dict):
                 data["admin_countries"] = [c.strip() for c in countries]
             
             # 4. Name Changes
-            name_changes = re.findall(r'Changed name to [^\n]+\n\s*(\d{1,2}\s+[A-Za-z]+\s+\d{4})', transparency_text)
-            data["name_changes"] = len(name_changes)
-            
+            changes = re.findall(r'Changed name to\s+[^\n]+', transparency_text)
+            data["name_changes"] = len(changes)
+
             # 5. Ads Flag
             if "currently running ads" in transparency_text:
                 data["is_running_ads"] = True
-            
-            # 6. Verified Status
+
+            # 6. Verified (fallback)
             if "Verified" in transparency_text:
                 data["verified"] = True
-                
-        # except Exception as e:
-        #     print(f"Transparency parsing error: {str(e)}")
-            
-        # Close the transparency modal
+
+        except Exception as e:
+            print(f"[WARN] Transparency modal parsing failed: {str(e)}")
+
+        # 5) Close the modal
         try:
             close_btn = sb.find_element('//div[@role="dialog"]//*[@aria-label="Close"]', "xpath")
             close_btn.click()
             pause(0.5)
         except:
             pass
-    
+
     except Exception as e:
-        print(f"Transparency section error: {str(e)}")
+        print(f"[ERROR] extract_transparency(): {str(e)}")
 def extract_posts(sb: SB, data: Dict):
     # Save page source for debugging
     with open("debug_page.html", "w", encoding="utf-8") as f:
@@ -548,11 +442,7 @@ def scrape_one_page(sb: SB, link_el, save_dir: Path):
 
     extract_intro(sb, data)
     # Wait specifically for posts to load
-    try:
-        sb.wait_for_element('//div[@role="article"]', "xpath", timeout=10)
-    except:
-        print("Timed out waiting for posts to load")
-    extract_posts(sb, data)
+    # extract_posts(sb, data)
     extract_transparency(sb, data)
 
     # save JSON
