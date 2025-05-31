@@ -5,10 +5,13 @@
 # • Improved creation date detection using context analysis
 # • More reliable description extraction with multiple fallbacks
 # ───────────────────────────────────────────────────────────────────────────
-import csv, json, re, time, unicodedata
+import csv, json, re, time, unicodedata, sys
 from pathlib import Path
 from typing import Dict, List, Tuple
 from urllib.parse import urlparse, parse_qs, unquote
+from datetime import datetime
+from selenium.common.exceptions import (NoSuchElementException, 
+                                      StaleElementReferenceException)
 
 from seleniumbase import SB
 from selenium.webdriver.common.by import By
@@ -19,6 +22,8 @@ KEYWORDS_FILE = Path("keywords.csv")      # keyword , pages_to_visit
 HEADLESS      = False
 WAIT_SECS     = 2.0
 SCROLLS       = 3                        # scrolls before grabbing posts
+POST_LIMIT    = 100                        # number of posts to scrape per page
+RETRY_LIMIT   = 2
 # ══════════════════════════════════════════════════════════════════════════
 
 XP = {
@@ -70,19 +75,287 @@ def load_cookies() -> List[dict]:
 
 def safe_click(sb: SB, el):
     try:
-        el.click()
+        # Re-locate the element before interacting
+        xpath = f'//a[@href="{el.get_attribute("href")}"]'
+        new_el = sb.wait_for_element(xpath, "xpath", timeout=10)
+        new_el.click()
     except:
-        sb.execute_script("arguments[0].scrollIntoView(true);", el)
-        pause(0.2)
-        try: el.click()
-        except: sb.execute_script("arguments[0].click();", el)
+        try:
+            sb.execute_script("arguments[0].scrollIntoView(true);", el)
+            pause(0.5)
+            el.click()
+        except:
+            try:
+                sb.execute_script("arguments[0].click();", el)
+            except Exception as e:
+                print(f"Click failed: {str(e)}")
+                # Fallback to URL navigation
+                url = el.get_attribute("href")
+                if url:
+                    sb.open(url)
+                    pause(3)
 
 def wait_click(sb: SB, xp: str, timeout=15):
     sb.wait_for_element_visible(xp, "xpath", timeout=timeout)
     sb.click(xp, "xpath")
 
-# ═══════════════════ core extractors ══════════════════════════════════════
+def parse_engagement_text(text):
+    """Parse engagement text into numbers (handles K/M abbreviations)"""
+    if not text:
+        return 0
+    
+    # Clean and normalize text
+    text = text.replace(',', '').lower().strip()
+    
+    # Handle abbreviations (K/M)
+    multiplier = 1
+    if 'k' in text:
+        multiplier = 1000
+        text = text.replace('k', '')
+    elif 'm' in text:
+        multiplier = 1000000
+        text = text.replace('m', '')
+    
+    # Extract numbers
+    numbers = re.findall(r'\d+', text)
+    if not numbers:
+        return 0
+    
+    try:
+        return int(numbers[0]) * multiplier
+    except ValueError:
+        return 0
+
+def extract_with_retry(container, extract_func, *args, **kwargs):
+    """Helper function to retry extraction on failure"""
+    for attempt in range(RETRY_LIMIT + 1):
+        try:
+            result = extract_func(container, *args, **kwargs)
+            if result:  # Only return if we got a meaningful result
+                return result
+        except (NoSuchElementException, StaleElementReferenceException) as e:
+            if attempt < RETRY_LIMIT:
+                time.sleep(0.5)
+                continue
+            else:
+                return None
+    return None
+
+# ═════════════════════ POST EXTRACTION FUNCTIONS ══════════════════════════
+def extract_caption(container):
+    """Extract post caption text"""
+    try:
+        # First try: data-ad-preview attribute
+        caption_el = container.find_element(By.XPATH, './/div[@data-ad-preview="message"]')
+        if caption := caption_el.text.strip():
+            return caption
+    except:
+        pass
+    
+    try:
+        # Second try: specific class combination
+        caption_el = container.find_element(
+            By.XPATH,
+            './/div[contains(concat(" ", normalize-space(@class), " xdj266r ") '
+            'and contains(concat(" ", normalize-space(@class), " x11i5rnm ") '
+            'and contains(concat(" ", normalize-space(@class), " xat24cr ") '
+            'and contains(concat(" ", normalize-space(@class), " x1mh8g0r ") '
+            'and contains(concat(" ", normalize-space(@class), " x1vvkbs ") '
+            'and contains(concat(" ", normalize-space(@class), " x126k92a ")]'
+        )
+        return caption_el.text.strip()
+    except:
+        return ""
+
+def extract_url(container):
+    """Extract post URL/permalink"""
+    try:
+        return container.find_element(
+            By.XPATH,
+            './/a[contains(@href, "/posts/") or contains(@href, "/videos/")][@role="link"]'
+        ).get_attribute("href")
+    except:
+        return ""
+
+def extract_timestamp(container):
+    """Extract post timestamp"""
+    try:
+        # First method: aria-label on abbr element
+        timestamp = container.find_element(
+            By.XPATH,
+            './/a[contains(@href, "permalink")]//abbr | '
+            './/abbr[contains(@class, "xt0psk2")]'
+        ).get_attribute("aria-label")
+        if timestamp:
+            return timestamp
+    except:
+        pass
+    
+    try:
+        # Second method: specific class combination
+        timestamp_el = container.find_element(
+            By.XPATH,
+            './/span[contains(concat(" ", normalize-space(@class), " x1rg5ohu ") '
+            'and contains(concat(" ", normalize-space(@class), " x6ikm8r ") '
+            'and contains(concat(" ", normalize-space(@class), " x10wlt62 ") '
+            'and contains(concat(" ", normalize-space(@class), " x16dsc37 ") '
+            'and contains(concat(" ", normalize-space(@class), " xt0b8zv ")]'
+        )
+        return timestamp_el.get_attribute("aria-label")
+    except:
+        return ""
+
+def extract_images(container):
+    """Extract images from post"""
+    try:
+        img_elements = container.find_elements(By.XPATH, './/img[contains(@src, "scontent")]')
+        return [img.get_attribute("src") for img in img_elements if img.get_attribute("src")]
+    except:
+        return []
+
+def extract_video_url(container):
+    """Extract video URL from post"""
+    try:
+        return container.find_element(By.XPATH, './/video | .//video/source').get_attribute("src")
+    except:
+        return ""
+
+def extract_post_engagement(container):
+    """Extract post engagement metrics (likes, comments, shares)"""
+    try:
+        # Find the engagement bar - container for post metrics
+        engagement_bar = container.find_element(
+            By.XPATH, 
+            './/div[@role="toolbar" and contains(@aria-label, "Reactions")]'
+        )
+        
+        # Extract all metrics from the toolbar
+        metrics = {
+            "likes": 0,
+            "comments": 0,
+            "shares": 0
+        }
+        
+        # Get all span elements within the engagement bar
+        spans = engagement_bar.find_elements(By.XPATH, './/span')
+        for span in spans:
+            text = span.text.strip()
+            if not text:
+                continue
+                
+            # Check for likes/reactions
+            if "like" in text.lower() or "reaction" in text.lower():
+                metrics["likes"] = parse_engagement_text(text)
+            
+            # Check for comments
+            elif "comment" in text.lower():
+                metrics["comments"] = parse_engagement_text(text)
+            
+            # Check for shares
+            elif "share" in text.lower():
+                metrics["shares"] = parse_engagement_text(text)
+                
+        return metrics
+        
+    except Exception as e:
+        return {
+            "likes": 0,
+            "comments": 0,
+            "shares": 0
+        }
+
+def extract_post(container):
+    """Extract all data from a single post container"""
+    caption = extract_with_retry(container, extract_caption) or ""
+    url = extract_with_retry(container, extract_url) or ""
+    timestamp = extract_with_retry(container, extract_timestamp) or ""
+    images = extract_with_retry(container, extract_images) or []
+    video_url = extract_with_retry(container, extract_video_url) or ""
+    
+    # Extract engagement metrics
+    engagement = extract_with_retry(container, extract_post_engagement) or {
+        "likes": 0,
+        "comments": 0,
+        "shares": 0
+    }
+    
+    # Validate metrics
+    likes = min(engagement["likes"], 10000000)
+    comments = min(engagement["comments"], 1000000)
+    shares = min(engagement["shares"], 1000000)
+    
+    return {
+        "text": caption[:500] if caption else "",
+        "url": url,
+        "timestamp": timestamp,
+        "images": images,
+        "video_url": video_url,
+        "likes": likes,
+        "comments": comments,
+        "shares": shares,
+        "scraped_at": datetime.now().isoformat()
+    }
+
+def extract_posts(sb: SB, data: dict):
+    """Extract recent posts from the current page"""
+    # Switch to the Posts tab
+    # try:
+    #     wait_click(sb, XP["posts_tab"])
+    #     pause(3)
+    # except Exception as e:
+    #     print(f"⚠️ Couldn't switch to Posts tab: {str(e)}")
+    #     return
+    
+    # Scroll to load more posts
+    last_height = sb.driver.execute_script("return document.body.scrollHeight")
+    scroll_count = 0
+    
+    while scroll_count < SCROLLS:
+        sb.driver.execute_script("window.scrollTo(0, document.body.scrollHeight * 0.8);")
+        pause(2)
+        
+        new_height = sb.driver.execute_script("return document.body.scrollHeight")
+        if new_height == last_height:
+            break
+            
+        last_height = new_height
+        scroll_count += 1
+    
+    # Find post containers
+    try:
+        containers = sb.driver.find_elements(
+            By.XPATH, 
+            '//div[contains(@class, "x1yztbdb") and .//div[contains(@data-ad-preview, "message")]]'
+        )
+        print(f"🔍 Found {len(containers)} post containers")
+    except Exception as e:
+        print(f"❌ Error finding post containers: {str(e)}")
+        return
+    
+    # Extract posts
+    posts = []
+    for i, container in enumerate(containers):
+        if len(posts) >= POST_LIMIT:
+            break
+            
+        try:
+            sb.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", container)
+            pause(0.5)
+            
+            post = extract_post(container)
+            if post.get('text') or post.get('url'):
+                posts.append(post)
+                print(f"✅ Extracted post {len(posts)}/{POST_LIMIT}")
+        except Exception as e:
+            print(f"❌ Error processing post container {i+1}: {str(e)}")
+    
+    data["recent_posts"] = posts
+    for _ in range(SCROLLS):
+        sb.execute_script("window.scrollBy(0, -document.body.scrollHeight*0.7)")
+        pause(1.2)
+# ═════════════════════ PAGE EXTRACTION FUNCTIONS ══════════════════════════
 def extract_home(sb: SB) -> Dict:
+    """Extract basic page information from home"""
     sb.execute_script("window.scrollTo(0,0)")
     out = {
         "name": "", "profile_pic": "", "verified": False,
@@ -156,10 +429,12 @@ def extract_home(sb: SB) -> Dict:
     out["links"] = list(dict.fromkeys(out["links"]))
 
     return out
+
 def extract_intro(sb: SB, data: Dict):
+    """Extract page description/intro text"""
     # Exact XPath for description
     xpath = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div[3]/div[1]/div/div/div[4]/div[2]/div/div[1]/div[2]/div/div[1]/div/div/div/div/div[2]/div[1]/div/div/span'
-    fallback_xpath = '//*[@id="mount_0_0_ZA"]/div/div[1]/div/div[3]/div/div/div[2]/div[1]/div/div/div[4]/div[2]/div/div[1]/div[2]/div/div[1]/div/div/div/div/div[2]/div[1]/div/div/span', 
+    fallback_xpath = '//*[@id="mount_0_0_ZA"]/div/div[1]/div/div[3]/div/div/div[2]/div[1]/div/div/div[4]/div[2]/div/div[1]/div[2]/div/div[1]/div/div/div/div/div[2]/div[1]/div/div/span'
     try:
         desc_el = sb.find_element(xpath, "xpath", timeout=3)
         data["description"] = desc_el.text.strip()
@@ -177,6 +452,7 @@ def extract_intro(sb: SB, data: Dict):
         data["description"] = ""
 
 def extract_transparency(sb: SB, data: Dict):
+    """Extract page transparency information"""
     try:
         # 1) Click About
         try:
@@ -273,8 +549,12 @@ def extract_transparency(sb: SB, data: Dict):
                 data["admin_countries"] = [c.strip() for c in countries]
             
             # 4. Name Changes
-            changes = re.findall(r'Changed name to\s+[^\n]+', transparency_text)
-            data["name_changes"] = len(changes)
+            name_changes = re.findall(
+                r'^Changed name to\s+[^\n]+', 
+                transparency_text, 
+                re.MULTILINE | re.IGNORECASE
+            )
+            data["name_changes"] = len(name_changes)
 
             # 5. Ads Flag
             if "currently running ads" in transparency_text:
@@ -297,138 +577,7 @@ def extract_transparency(sb: SB, data: Dict):
 
     except Exception as e:
         print(f"[ERROR] extract_transparency(): {str(e)}")
-def extract_posts(sb: SB, data: Dict):
-    # Save page source for debugging
-    with open("debug_page.html", "w", encoding="utf-8") as f:
-        f.write(sb.get_page_source())
-    print("Saved page source to debug_page.html")
-    
-    # Scroll to load more posts
-    for _ in range(SCROLLS):
-        sb.execute_script("window.scrollBy(0, document.body.scrollHeight*0.7)")
-        pause(1.2)
-    
-    # NEW APPROACH: Target specific class structure
-    post_containers = sb.find_elements(
-        '//div[contains(@class, "x9f619") and contains(@class, "x1n2onr6") and contains(@class, "x1ja2u2z")]',
-        "xpath"
-    )
-    
-    if not post_containers:
-        print("No post containers found with the specified class structure!")
-        # Fallback to other selectors
-        post_containers = sb.find_elements(
-            '//div[@role="article"] | //div[contains(@class, "x1yztbdb")]',
-            "xpath"
-        )
-        if not post_containers:
-            print("No fallback containers found either!")
-            return
-    
-    print(f"Found {len(post_containers)} post containers")
-    posts = []
-    
-    for container in post_containers:
-        try:
-            post = {
-                "url": "",
-                "caption": "",
-                "image_url": "",
-                "video_url": "",
-                "reactions": "0",
-                "comments": "0",
-                "shares": "0",
-                "timestamp": ""
-            }
-            
-            # 1. URL extraction
-            try:
-                # Look for permalink in multiple locations
-                link = container.find_element(By.XPATH, 
-                    './/a[contains(@href, "/posts/") or contains(@href, "/videos/") or contains(@href, "story_fbid")]')
-                post["url"] = link.get_attribute("href")
-            except:
-                pass
-            
-            # 2. Caption extraction - focus on text content
-            try:
-                # First method: Look for the main text container
-                caption = container.find_element(By.XPATH, 
-                    './/div[@dir="auto" and @style="text-align: start;"] | '
-                    './/div[contains(@class, "xdj266r")]')
-                post["caption"] = caption.text.strip()
-            except:
-                try:
-                    # Second method: Collect all text spans
-                    spans = container.find_elements(By.XPATH, './/span[@dir="auto"]')
-                    texts = [span.text.strip() for span in spans if span.text.strip()]
-                    post["caption"] = " ".join(texts)
-                except:
-                    pass
-            
-            # 3. Media extraction
-            try:
-                # Image extraction
-                img = container.find_element(By.XPATH, 
-                    './/img[contains(@src, "scontent") or contains(@src, "fbcdn")]')
-                post["image_url"] = img.get_attribute("src")
-            except:
-                pass
-            
-            try:
-                # Video extraction
-                video = container.find_element(By.XPATH, './/video/source')
-                post["video_url"] = video.get_attribute("src")
-            except:
-                pass
-            
-            # 4. Engagement metrics - look for specific patterns
-            try:
-                # Reactions
-                reactions = container.find_element(By.XPATH, 
-                    './/*[contains(., "reactions") or contains(., "Reactions") or contains(@aria-label, "reactions")]')
-                post["reactions"] = reactions.text.split()[0] or reactions.get_attribute("aria-label").split()[0]
-            except:
-                pass
-            
-            try:
-                # Comments
-                comments = container.find_element(By.XPATH,
-                    './/*[contains(., "comment") or contains(., "Comment") or contains(., "comments")]')
-                post["comments"] = comments.text.split()[0]
-            except:
-                pass
-            
-            try:
-                # Shares
-                shares = container.find_element(By.XPATH,
-                    './/*[contains(., "share") or contains(., "Share") or contains(., "shares")]')
-                post["shares"] = shares.text.split()[0]
-            except:
-                pass
-            
-            # 5. Timestamp
-            try:
-                time_el = container.find_element(By.XPATH, 
-                    './/a[.//abbr or .//time]//span | '
-                    './/span[contains(text(), "hr") or contains(text(), "min") or contains(text(), "day")]')
-                post["timestamp"] = time_el.text.strip()
-            except:
-                pass
-            
-            # Add the post even if some fields are empty
-            posts.append(post)
-        except Exception as e:
-            print(f"Error processing post: {str(e)}")
-            continue
-    
-    data["recent_posts"] = posts
-    print(f"Extracted {len(posts)} posts (including partial data)")
-    
-    # Scroll back up
-    for _ in range(SCROLLS):
-        sb.execute_script("window.scrollBy(0, -document.body.scrollHeight*0.7)")
-        pause(1.2)
+
 # ───────────────────── scrape one page ───────────────────────────────────
 def scrape_one_page(sb: SB, link_el, save_dir: Path):
     safe_click(sb, link_el)
@@ -441,10 +590,9 @@ def scrape_one_page(sb: SB, link_el, save_dir: Path):
     })
 
     extract_intro(sb, data)
-    # Wait specifically for posts to load
-    # extract_posts(sb, data)
+    extract_posts(sb, data)  # Extract posts here
     extract_transparency(sb, data)
-
+    
     # save JSON
     fname = slugify(data["name"] or "page")
     path  = save_dir / f"{fname}.json"
@@ -471,7 +619,7 @@ def main():
     else:
         pairs = [("coca cola",2)]
 
-    with SB(uc=True, headless=HEADLESS) as sb:
+    with SB(uc=False, headless=HEADLESS) as sb:
         sb.open("https://facebook.com")
         for ck in load_cookies():
             try: sb.driver.add_cookie(ck)
