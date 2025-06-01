@@ -269,21 +269,11 @@ with SB(uc=True, headless=False) as sb:
     sb.refresh()
     sb.sleep(2)
 
-    # ── Search for "Facebook Ad Library" from the FB top search bar ─────────
-    print("[INFO] Navigating to Facebook Ad Library …")
-    SEARCHBAR = 'input[placeholder*="Search"]'
-
-    safe_type(sb, SEARCHBAR, "Facebook Ad Library", press_enter=True)
-    sb.sleep(3)                       # page populates results
-    # click the first visible result that contains the phrase
-    sb.click('//span[contains(text(),"Ad Library")]', by="xpath", timeout=10)
-
-    sb.sleep(5)                       # wait for redirect
-
+    sb.open("https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&is_targeted_country=false&media_type=all")
     # Ad Library now loaded inside a FB shell ( domain may be "facebook.com/ads/library" )
     print("[INFO] Setting country …")
     # 1. open country chooser
-    COUNTRY_CHOOSER = '//div[div/div/text()="Pakistan" or div/div/text()="Country"]/..'
+    COUNTRY_CHOOSER = '//div[div/div/text()="All" or div/div/text()="Country"]/..'
     wait_click(sb, COUNTRY_CHOOSER, by="xpath")
     # 2. type desired country
     COUNTRY_INPUT   = '//input[@placeholder="Search for country"]'
