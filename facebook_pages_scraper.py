@@ -470,8 +470,7 @@ def extract_post(container: WebElement) -> dict:
         "timestamp":   timestamp,
         "images":      images,
         "video_url":   video_url,
-        "likes":       likes,
-        "comments":    0,      # intentionally disabled for now
+        "likes":       likes,    
         "shares":      shares,
         "scraped_at":  datetime.now().isoformat()
     }
@@ -530,8 +529,6 @@ def extract_home(sb: SB) -> Dict:
         "website_label":  "",          # ← new field
         "links":          [],
         "description":    "",
-        "contact_phone":  "",
-        "contact_email":  ""
     }
 
     # — Name & Verified —
