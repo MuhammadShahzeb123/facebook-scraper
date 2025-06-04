@@ -16,7 +16,7 @@ from seleniumbase import SB
 # ═══════════════════════ USER CONFIG ══════════════════════════════════════
 COOKIE_FILE   = Path("saved_cookies/facebook_cookies.txt")
 KEYWORDS_FILE = Path("keywords.csv")      # keyword , pages_to_visit
-HEADLESS      = True
+HEADLESS      = False
 WAIT_SECS     = 2.0
 SCROLLS       = 3        # scrolls before grabbing posts
 POST_LIMIT    = 100      # number of posts to scrape per page
@@ -122,6 +122,91 @@ def click_pages_filter(sb: SB):
     except Exception as e:
         print(f"Final fallback failed: {str(e)}")
         return False
+# ─────────────────────────────────────────────────────────────────────────
+#  avatar-finder  –  replace the old _find_profile_pic()
+# ─────────────────────────────────────────────────────────────────────────
+def _dim_from_url(url: str) -> int:
+    """e.g. …s200x200… → 200   (returns 0 if no size hint)."""
+    m = re.search(r'[sp](\d{2,4})x\1', url)          # same w×h pattern
+    return int(m.group(1)) if m else 0
+
+
+def _find_profile_pic(sb: SB) -> str:
+    """
+    Return the PAGE’s profile-picture URL.
+
+    Approach
+    --------
+    1.  Collect every URL that appears in the *header* (`role="banner"`)
+        •  <img>/<image>  → src / xlink:href / href
+        •  elements whose *style* contains background-image:url(…)
+    2.  Add `<meta property="og:image">` (often the avatar) if present.
+    3.  Deduplicate, then pick the candidate with the largest embedded
+        size hint (s200x200 ≫ s40x40 – nav avatars are tiny).
+    4.  Last-chance fallback: grep the whole HTML for the largest
+        scontent…s###x###.(jpg|png|webp).
+
+    Returns empty string if nothing plausible is found.
+    """
+    cand: list[str] = []
+
+    # ---- header <img> / <image> ----------------------------------------
+    try:
+        nodes = sb.find_elements(
+            '//div[@role="banner"]//*[local-name()="img" or local-name()="image"]',
+            "xpath"
+        )
+        for n in nodes:
+            for attr in ("src", "xlink:href", "href"):
+                u = n.get_attribute(attr) or ""
+                if "scontent" in u:
+                    cand.append(u)
+    except: pass
+
+    # ---- header background-image URLs ----------------------------------
+    try:
+        bg_nodes = sb.find_elements(
+            '//div[@role="banner"]//*[contains(@style,"background-image")]',
+            "xpath"
+        )
+        for n in bg_nodes:
+            style = n.get_attribute("style") or ""
+            m = re.search(
+                r'url\([\'"]?(https://[^)"\']*scontent[^)"\']+)[\'"]?\)', style)
+            if m: cand.append(m.group(1))
+    except: pass
+
+    # ---- og:image meta -------------------------------------------------
+    try:
+        metas = sb.find_elements('//head//meta[@property="og:image"]', "xpath")
+        for m in metas:
+            u = m.get_attribute("content") or ""
+            if "scontent" in u:
+                cand.append(u)
+    except: pass
+
+    # ---- choose the best candidate -------------------------------------
+    uniq = []
+    seen = set()
+    for u in cand:
+        if u not in seen:
+            uniq.append(u); seen.add(u)
+
+    if uniq:
+        uniq.sort(key=_dim_from_url, reverse=True)   # biggest avatar first
+        return uniq[0]
+
+    # ---- final fallback: biggest scontent avatar in full HTML ----------
+    src = sb.get_page_source()
+    all_urls = re.findall(
+        r'https://scontent[^"]+?s\d{2,4}x\d{2,4}[^"]+\.(?:jpg|png|webp)',
+        src, re.I
+    )
+    if all_urls:
+        all_urls.sort(key=_dim_from_url, reverse=True)
+        return all_urls[0]
+
+    return ""
 
 
 def get_page_links(sb: SB) -> List[WebElement]:
@@ -461,8 +546,8 @@ def extract_post(container: WebElement) -> dict:
     video_url = extract_with_retry(container, extract_video_url) or ""
 
     likes, shares = _extract_likes_shares_from_text(container)
-    likes  = min(likes, 10_000_000)         # safety caps
-    shares = min(shares, 1_000_000)
+    # likes  = min(likes, 10_000_000)         # safety caps
+    # shares = min(shares, 1_000_000)
 
     return {
         "text":        caption[:500],
@@ -517,71 +602,52 @@ def extract_posts(sb: SB, data: dict):
 # ═════════════════════ PAGE EXTRACTION FUNCTIONS ══════════════════════════
 def extract_home(sb: SB) -> Dict:
     sb.execute_script("window.scrollTo(0,0)")
-
     out = {
-        "name":           "",
-        "profile_pic":    "",
-        "verified":       False,
-        "followers":      "",
-        "likes":          "",
-        "category":       "",
-        "website":        "",
-        "website_label":  "",          # ← new field
-        "links":          [],
-        "description":    "",
+        "name": "", "profile_pic": "", "verified": False,
+        "followers": "", "likes": "", "category": "",
+        "website": "", "website_label": "", "links": [],
+        "description": ""
     }
 
-    # — Name & Verified —
+    # Name & verified
     try:
         h1 = sb.wait_for_element('//div[@role="main"]//h1', "xpath", timeout=4)
         out["name"] = h1.text.strip()
         out["verified"] = bool(
-            h1.find_elements(By.XPATH, './/svg[@title="Verified account"]')
-        )
+            h1.find_elements(By.XPATH, './/svg[@title="Verified account"]'))
     except: pass
 
-    # — Profile Picture — (primary: svg image, then previous fall-backs) —
-    try:  # <svg><g><image … xlink:href="…">
-        img = sb.find_element('//div[@role="banner"]//svg//image', "xpath", timeout=3)
-        out["profile_pic"] = (
-            img.get_attribute("xlink:href") or img.get_attribute("href") or ""
-        )
-    except:
-        try:
-            img = sb.find_element(
-                '//img[contains(@src,"profile") or contains(@src,"fbcdn")]',
-                "xpath", timeout=3
-            )
-            out["profile_pic"] = img.get_attribute("src") or ""
-        except: out["profile_pic"] = ""
+    # Profile-picture  (single helper covers all cases)
+    out["profile_pic"] = _find_profile_pic(sb)
 
-    # — Followers / Likes (regex over page source) —
+    # Followers / Likes   (regex over page-source)
     src = sb.get_page_source()
     m = re.search(r'([0-9.,]+[A-Za-z万億]*)\s+likes?', src, re.I)
     if m: out["likes"] = m.group(1).replace(" ", "")
     m = re.search(r'([0-9.,]+[A-Za-z万億]*)\s+(followers?|フォロワー)', src, re.I)
     if m: out["followers"] = m.group(1).replace(" ", "")
 
-    # — Category —
+    # Category
     try:
         cat = sb.find_element(
-            '//span[./strong[text()="Page" or text()="ページ"]]', "xpath"
-        ).text
-        out["category"] = cat.split("·", 1)[-1].strip() if "·" in cat else cat.strip("ページ").strip()
+            '//span[./strong[text()="Page" or text()="ページ"]]', "xpath").text
+        out["category"] = (
+            cat.split("·", 1)[-1].strip() if "·" in cat else cat.strip("ページ").strip()
+        )
     except: pass
 
-    # — Links / website href  —
+    # Out-links & website
     for a in sb.find_elements('//a[starts-with(@href,"http")]', "xpath"):
         href = decode(a.get_attribute("href"))
         if href.startswith("http"):
             if not out["website"] and "facebook.com" not in href:
                 out["website"] = href
             out["links"].append(href)
-    out["links"] = list(dict.fromkeys(out["links"]))          # dedupe
+    out["links"] = list(dict.fromkeys(out["links"]))
 
-    # — DESCRIPTION  &  WEBSITE LABEL  (from visible “Intro” block) —
-    blob = get_texts_by_class(sb, "x193iq5w")                 # already in script
-    desc, wlabel = _parse_intro_and_website(blob)
+    # Intro-block parsing  → description & website-label
+    blobs = get_texts_by_class(sb, "x193iq5w")
+    desc, wlabel = _parse_intro_and_website(blobs)
     if desc:   out["description"]   = desc
     if wlabel: out["website_label"] = wlabel
 
@@ -800,11 +866,14 @@ def extract_transparency(sb: SB, data: Dict):
                 countries = re.findall(r'[\w\s]+\(\d+\)', cm.group(1))
                 data["admin_countries"] = [c.strip() for c in countries]
 
-            # Name-change count – only keep lines that *do* specify the NEW name
-            changes = [
-                m for m in re.findall(r'(?m)^Changed name to\s+([^\n]+)', transparency_text, re.I)
-                if m.strip()
-            ]
+            # -------- refined NAME-CHANGE counter -----------------------------
+            changes = []
+            for line in transparency_text.splitlines():
+                if line.lower().startswith("changed name to "):
+                    new_name = line[15:].strip()           # len("Changed name to ")
+                    # ignore if empty OR looks like a date
+                    if new_name and not re.match(r'\d{1,2}\s+\w+\s+\d{4}', new_name):
+                        changes.append(new_name)
             data["name_changes"] = len(changes)
 
             # Ads flag & Verified fallback
