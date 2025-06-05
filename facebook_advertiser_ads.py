@@ -24,6 +24,8 @@ TARGET_FILE    = Path("targets.csv")           # optional CSV (country,keyword)
 OUTPUT_DIR = Path("Results")
 OUTPUT_DIR.mkdir(exist_ok=True)
 OUTPUT_FILE = OUTPUT_DIR / "combined_ads.json"
+CONTINUATION = True  # set to False to always start from scratch
+CHECKPOINT_FILE = Path("ads_checkpoint.json")
 
 TARGET_PAIRS: list[tuple[str,str]] = [
     ("Ukraine",       "rental apartments"),
@@ -83,6 +85,18 @@ def safe_type(sb: SB, selector: str, text: str, *, by="css selector",
 
 def human_scroll(sb: SB, px: int = 1800):
     sb.execute_script(f"window.scrollBy(0,{px});")
+def load_checkpoint() -> set[tuple[str, str]]:
+    if not CONTINUATION or not CHECKPOINT_FILE.exists():
+        return set()
+    try:
+        data = json.loads(CHECKPOINT_FILE.read_text())
+        return {tuple(p) for p in data}
+    except Exception:
+        return set()
+
+def save_checkpoint(done_pairs: set[tuple[str, str]]) -> None:
+    with CHECKPOINT_FILE.open("w", encoding="utf-8") as fh:
+        json.dump([list(p) for p in done_pairs], fh, indent=2)
 
 
 def pairs_from_csv() -> list[tuple[str, str]]:
@@ -274,6 +288,8 @@ def main() -> None:
         print("[WARN] No (country, keyword) pairs supplied.")
         return
 
+    done_pairs = load_checkpoint()
+
     with SB(uc=True, headless=True) as sb:
         print("[INFO] Opening Facebook …")
         sb.open("https://facebook.com")
@@ -286,13 +302,23 @@ def main() -> None:
 
         sb.open(AD_LIBRARY_URL)
         sb.sleep(5)
-            # … inside main(), after sb.open(AD_LIBRARY_URL) and sb.sleep(5):
+
         if not OUTPUT_FILE.exists():
             OUTPUT_FILE.write_text("[]", encoding="utf-8")
             print(f"[INFO] Created new output file: {OUTPUT_FILE}")
 
         for country, keyword in pairs:
-            scrape_pair(sb, country, keyword)
+            if (country, keyword) in done_pairs:
+                print(f"[SKIP] Already processed: {country} | {keyword}")
+                continue
+
+            try:
+                scrape_pair(sb, country, keyword)
+                done_pairs.add((country, keyword))
+                save_checkpoint(done_pairs)
+            except Exception as e:
+                print(f"[ERROR] Failed: {country} | {keyword} → {e}")
+
             sb.open(AD_LIBRARY_URL)
             sb.sleep(4)
 

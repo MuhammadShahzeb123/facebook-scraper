@@ -40,6 +40,7 @@ TARGET_PAIRS: list[tuple[str, str]] = [
     ("United States", "rental properties"),
     ("Canada",        "vacation homes"),
 ]
+
 ############################################################################
 
 import json, csv, time, re, sys
@@ -65,6 +66,8 @@ OUTPUT_DIR = Path("Results")
 
 OUTPUT_DIR.mkdir(exist_ok=True)
 ############################################################################
+CONTINUATION = True  # set False to start fresh
+CHECKPOINT_FILE = OUTPUT_DIR / f"{MODE}_checkpoint.json"
 
 
 # ═════════════════════════════════ HELPERS ════════════════════════════════
@@ -103,6 +106,18 @@ def safe_type(sb: SB, selector: str, text: str, *,
 def human_scroll(sb: SB, px: int = 1800):
     sb.execute_script(f"window.scrollBy(0,{px});")
 
+def load_checkpoint() -> set[tuple[str, str]]:
+    if not CONTINUATION or not CHECKPOINT_FILE.exists():
+        return set()
+    try:
+        data = json.loads(CHECKPOINT_FILE.read_text())
+        return {tuple(p) for p in data}
+    except Exception:
+        return set()
+
+def save_checkpoint(done_pairs: set[tuple[str, str]]) -> None:
+    with CHECKPOINT_FILE.open("w", encoding="utf-8") as fh:
+        json.dump([list(p) for p in done_pairs], fh, indent=2)
 
 def pairs_from_csv() -> list[tuple[str, str]]:
     if not TARGET_FILE.exists():
@@ -230,7 +245,13 @@ def main():
         sb.sleep(5)
 
         # LOOP over all (country, keyword) pairs  ───────────────────────────
+        done_pairs = load_checkpoint()
+
         for country, keyword in pairs:
+            if (country, keyword) in done_pairs:
+                print(f"[SKIP] Already processed: {country} | {keyword}")
+                continue
+
             print(f"\n=== {country} | {keyword} ===")
 
             # 1) Country dropdown
@@ -279,7 +300,8 @@ def main():
                 **({"suggestions": suggestions} if MODE != "ads" else {}),
                 **({"ads": ads}             if MODE != "suggestions" else {}),
             })
-
+            done_pairs.add((country, keyword))
+            save_checkpoint(done_pairs)
             print(f"  > {len(suggestions):>3} suggestions   |   {len(ads):>3} ads")
 
             # Back to Ad-Library home for next pair
