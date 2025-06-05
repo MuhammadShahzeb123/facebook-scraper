@@ -1,93 +1,97 @@
 #!/usr/bin/env python3
-# facebook_ads_scraper.py  –  v2.2  (2025-06-04)
+# facebook_ads_multi_tool.py   –  v1.0  (2025-06-05)
+#
+# HOW IT WORKS ─────────────────────────────────────────────────────────────
+# • Set MODE at the very top to one of:
+#       "ads"              → scrape ads only
+#       "suggestions"      → scrape search-suggestions only
+#       "ads_and_suggestions"
+#                           → collect suggestions first, THEN press <Enter>
+#                             and scrape ads – all in one pass per pair.
+#
+# • All (country, keyword) pairs live in TARGET_PAIRS (or targets.csv).
+#
+# • Each run writes a *single* JSON file whose name is derived from MODE:
+#       ads.json / suggestions.json / ads_and_suggestions.json
+#   – If the base file already exists from a previous run, the script will
+#     create ads_2.json, ads_3.json … etc.  Nothing ever gets overwritten.
+#
+# • Inside that JSON you get one element per pair:
+#       {
+#         "country": "...",
+#         "keyword": "...",
+#         "suggestions": [ … ],    # absent if MODE=="ads"
+#         "ads":          [ … ]     # absent if MODE=="suggestions"
+#       }
+#
+# REQUIREMENTS
+#   pip install seleniumbase==4.*
+#   saved_cookies/facebook_cookies.txt   (exported once with SeleniumBase)
+# -------------------------------------------------------------------------
 
-#  ▄───────────────────────────────────────────────────────────────────▄
-#  │  NEW IN 2.2                                                      │
-#  │    • robust page-id collection via page-source regex             │
-#  │    • for every id → open “view_all_page_id” url and scrape ads   │
-#  ▀───────────────────────────────────────────────────────────────────▀
+############################################################################
+# ── USER-EDITABLE SETTINGS ────────────────────────────────────────────────
+MODE = "ads"        #  "ads" | "suggestions" | "ads_and_suggestions"
+HEADLESS = True                     #  set False for visual debugging
 
-import json, time, csv, re, os
-from pathlib import Path
-from collections import defaultdict
-from seleniumbase import SB
-from selenium.common.exceptions import *
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-import string
-# ── CONFIG ───────────────────────────────────────────────────────────
-SCROLLS_SEARCH = 3
-SCROLLS_PAGE   = 3
-COOKIE_FILE    = Path("./saved_cookies/facebook_cookies.txt")
-TARGET_FILE    = Path("targets.csv")           # optional CSV (country,keyword)
-OUTPUT_FILE = Path("combined_ads.json")
-
-TARGET_PAIRS: list[tuple[str,str]] = [
+# Hard-coded fallback pairs (overridden if targets.csv present)  ───────────
+TARGET_PAIRS: list[tuple[str, str]] = [
     ("Ukraine",       "rental apartments"),
     ("United States", "rental properties"),
     ("Canada",        "vacation homes"),
 ]
+############################################################################
 
+import json, csv, time, re, sys
+from pathlib import Path
+from datetime import datetime
+from typing   import List, Dict, Tuple, Any
+from seleniumbase import SB
+from selenium.common.exceptions import (
+    NoSuchElementException, StaleElementReferenceException,
+    ElementNotInteractableException,
+)
+
+# ── CONSTANTS ─────────────────────────────────────────────────────────────
 AD_LIBRARY_URL = (
     "https://www.facebook.com/ads/library/"
     "?active_status=active&ad_type=all&country=ALL"
     "&is_targeted_country=false&media_type=all"
 )
-PAGE_BY_LIB_URL = (
-    "https://www.facebook.com/ads/library/"
-    "?active_status=active&ad_type=all&country={iso}&id={libid}"
-)
-AD_BY_ID_URL = (
-    "https://www.facebook.com/ads/library/"
-    "?active_status=active&ad_type=all&country={iso}&id={lib_id}"
-)
-POPUP_XPATH_CLOSE = (
-    '//div[@role="button" and .//div[contains(@data-sscoverage-ignore,"true")]'
-    ' and .//*[text()="Close"]]'
-)
-# ── helpers ──────────────────────────────────────────────────────────
+COOKIE_FILE  = Path("./saved_cookies/facebook_cookies.txt")
+TARGET_FILE  = Path("targets.csv")
+SCROLLS      = 3                           # page-downs for ad loading
+OUTPUT_DIR   = Path("")
+OUTPUT_DIR.mkdir(exist_ok=True)
+############################################################################
+
+
+# ═════════════════════════════════ HELPERS ════════════════════════════════
 def load_cookies() -> list[dict]:
     if not COOKIE_FILE.exists():
         raise FileNotFoundError(f"Cookie file not found: {COOKIE_FILE}")
-    data = json.loads(COOKIE_FILE.read_text())
-    for c in data:
+    cookies = json.loads(COOKIE_FILE.read_text())
+    for c in cookies:
         if "sameSite" in c and c["sameSite"].lower() not in {"strict", "lax", "none"}:
             c["sameSite"] = "None"
-    return data
+    return cookies
 
-
-def get_new_output_file(base: str = "combined_ads", ext: str = "json") -> Path:
-    """
-    Finds the next available numbered file like combined_ads_001.json.
-    """
-    existing = list(Path(".").glob(f"{base}_*.{ext}"))
-    nums = [
-        int(re.search(rf"{base}_(\d+)\.{ext}", f.name).group(1))
-        for f in existing
-        if re.search(rf"{base}_(\d+)\.{ext}", f.name)
-    ]
-    next_num = max(nums, default=0) + 1
-    return Path(f"{base}_{next_num:03d}.{ext}")
-
-def sanitize_filename(name: str) -> str:
-    """Sanitize to be safe as a filename on all OSes (esp. Windows)."""
-    valid = f"-_.() {string.ascii_letters}{string.digits}"
-    return "".join(c if c in valid else "_" for c in name).strip("_")
 
 def wait_click(sb: SB, selector: str, *, by="css selector", timeout=10):
     sb.wait_for_element_visible(selector, by=by, timeout=timeout)
     sb.click(selector, by=by)
 
 
-def safe_type(sb: SB, selector: str, text: str, *, by="css selector",
-              press_enter=True, timeout=10):
+def safe_type(sb: SB, selector: str, text: str, *,
+              by="css selector", press_enter: bool = True, timeout: int = 10):
+    from selenium.webdriver.common.keys import Keys
+
     sb.wait_for_element_visible(selector, by=by, timeout=timeout)
     elm = sb.find_element(selector, by=by)
     elm.clear()
     elm.send_keys(text)
     time.sleep(1.0)
     if press_enter:
-        from selenium.webdriver.common.keys import Keys
         elm.send_keys(Keys.RETURN)
         time.sleep(2.0)
 
@@ -111,41 +115,63 @@ def pairs_from_csv() -> list[tuple[str, str]]:
 def get_target_pairs() -> list[tuple[str, str]]:
     return pairs_from_csv() or TARGET_PAIRS
 
-# from utils_collect import collect_page_ids_current_query   # ← new import
 
-# ── extraction primitives ────────────────────────────────────────────
-LIB_ID_RE   = re.compile(r'"ad_archive_id":"(\d{5,})"')
-PAGE_NAME_RE= re.compile(r'"page_name":"([^"]+)"')
-def collect_one_lib_per_page(sb: SB) -> dict[str, str]:
-    """
-    Returns a mapping  {page_name -> ONE library_id}  taken from the *current*
-    search-results grid (whatever is already loaded after the keyword query
-    and a couple of scrolls).
-
-    We simply reuse `extract_cards()` and keep the first lib-id seen for
-    every distinct page name.
-    """
-    unique: dict[str, str] = {}         # {page → lib_id}
-
-    for ad in extract_cards(sb):        # ← unchanged helper
-        pn = (ad.get("page") or "").strip()
-        lid = (ad.get("library_id") or "").strip()
-        if pn and lid and pn not in unique:
-            unique[pn] = lid            # keep the very first one we met
-    return unique
-def _txt(el, xp):
-    try:
-        return el.find_element("xpath", xp).text.strip()
-    except NoSuchElementException:
-        return ""
+def next_output_path(mode: str) -> Path:
+    """Return a file path that does NOT yet exist (base, base_2 …)."""
+    # base = OUTPUT_DIR / f"{mode}.json"
+    # if not base.exists():
+    #     return base
+    i = 1
+    while True:
+        cand = OUTPUT_DIR / f"{mode}_{i}.json"
+        if not cand.exists():
+            return cand
+        i += 1
 
 
-def extract_cards(sb: SB) -> list[dict]:
-    ads, cards = [], sb.find_elements("div.xh8yej3")
+# ══════════════════════ SUGGESTION SCRAPING LOGIC ════════════════════════
+def extract_suggestions(sb: SB, keyword: str) -> list[Dict[str, Any]]:
+    suggestions: list[dict] = []
+    KEYWORD_INPUT = ('//input[@type="search" and contains(@placeholder,"keyword") '
+                     'and not(@aria-disabled="true")]')
+
+    # Type WITHOUT <Enter> so the dropdown stays open
+    safe_type(sb, KEYWORD_INPUT, keyword, by="xpath", press_enter=False)
+    time.sleep(3)
+
+    # Try to harvest all <li role="option"> nodes
+    items = sb.find_elements("//li[@role='option']", by="xpath")
+    for item in items:
+        try:
+            data = {
+                "page_id":    item.get_attribute("id") or "",
+                "name":       item.text.split("\n")[0].strip(),
+                "raw_text":   item.text.strip(),
+            }
+            if data["name"]:
+                suggestions.append(data)
+        except Exception:
+            continue
+
+    # Clear search box for next keyword (if MODE=="suggestions" only)
+    sb.find_element(KEYWORD_INPUT, by="xpath").clear()
+    return suggestions
+
+
+# ════════════════════════ ADS SCRAPING LOGIC ═════════════════════════════
+def extract_ads(sb: SB) -> list[Dict[str, Any]]:
+    ads: list[dict] = []
+    cards = sb.find_elements("div.xh8yej3")
+    def _txt(el, xp):
+        try:
+            return el.find_element("xpath", xp).text.strip()
+        except NoSuchElementException:
+            return ""
     for card in cards:
         try:
             meta = card.find_element(
-                "css selector", "div.x1plvlek.xryxfnj.x1gzqxud.x178xt8z.x1lun4ml.xso031l.xpilrb4.xb9moi8.xe76qn7.x21b0me.x142aazg.xhk9q7s.x1otrzb0.x1i1ezom.x1o6z2jb.x1kmqopl.x13fuv20.x18b5jzi.x1q0q8m5.x1t7ytsu.x9f619"
+                "css selector",
+                "div.x1plvlek.xryxfnj.x1gzqxud.x178xt8z.x1lun4ml.xso031l.xpilrb4.xb9moi8.xe76qn7.x21b0me.x142aazg.xhk9q7s.x1otrzb0.x1i1ezom.x1o6z2jb.x1kmqopl.x13fuv20.x18b5jzi.x1q0q8m5.x1t7ytsu.x9f619"
 
             )
             status      = _txt(meta, './/span[contains(text(),"Active") or contains(text(),"Inactive")]')
@@ -153,9 +179,9 @@ def extract_cards(sb: SB) -> list[dict]:
             started_raw = _txt(meta, './/span[contains(text(),"Started running")]')
 
             creative = card.find_element("css selector", "div._7jyg")
-            page_name    = _txt(creative, ".//a[1]")
-            primary_text = _txt(creative, './/div[@role="button"][1]')
-            cta_button   = _txt(
+            page_name     = _txt(creative, ".//a[1]")
+            primary_text  = _txt(creative, './/div[@role="button"][1]')
+            cta_button    = _txt(
                 creative,
                 './/span[text()="Learn More" or text()="Contact us" or '
                 'text()="Book Now" or text()="Send message"]',
@@ -169,148 +195,108 @@ def extract_cards(sb: SB) -> list[dict]:
                     break
 
             ads.append(
-                dict(
-                    status=status, library_id=library_id, started=started_raw,
-                    page=page_name, primary_text=primary_text,
-                    cta=cta_button, external_url=link,
-                )
+                {
+                    "status":       status,
+                    "library_id":   library_id,
+                    "started":      started_raw,
+                    "page":         page_name,
+                    "primary_text": primary_text,
+                    "cta":          cta_button,
+                    "external_url": link,
+                }
             )
         except (NoSuchElementException,
                 StaleElementReferenceException,
                 ElementNotInteractableException):
             continue
     return ads
-def close_popup_if_present(sb):
-    try:
-        btn=sb.driver.find_element(
-            By.XPATH,
-            '//div[@role="button" and (.="Close" or @aria-label="Close dialog")]')
-        btn.click()
-        sb.sleep(1)
-    except NoSuchElementException:
-        pass
-
-# ── scrape a single “view_all_page_id=” page ─────────────────────────
-def scrape_lib_page(sb: SB, iso: str, page_name: str, lib_id: str) -> None:
-    sb.open(AD_BY_ID_URL.format(iso=iso, lib_id=lib_id))
-    sb.sleep(4)
-
-    try:
-        sb.click(POPUP_XPATH_CLOSE, by="xpath")
-        sb.sleep(1)
-    except Exception:
-        pass
-
-    for i in range(SCROLLS_PAGE):
-        human_scroll(sb)
-        sb.sleep(2 + i * 0.5)
-
-    ads = extract_cards(sb)
-    print(f"    ↳ {len(ads):3d} ads  •  {page_name}  •  lib_id={lib_id}")
-
-    return {
-        "page_name": page_name,
-        "lib_id": lib_id,
-        "ads": ads
-    }
-# ── scrape one (country, keyword) search ──────────────────────────────
-def scrape_pair(sb: SB, country: str, keyword: str) -> None:
-    print(f"\n=== {country}  |  {keyword} ===")
-
-    # 1) Country chooser
-    wait_click(sb, '//div[div/div/text()="All" or div/div/text()="Country"]/..', by="xpath")
-    safe_type(sb, '//input[@placeholder="Search for country"]', country, by="xpath")
-    wait_click(sb, f'//div[contains(@id,"js_") and text()="{country}"]', by="xpath")
-    sb.sleep(2)
-
-    # 2) Ad category → All ads
-    wait_click(sb, '//div[div/div/text()="Ad category"]/..', by="xpath")
-    wait_click(sb, '//span[text()="All ads"]/../../..', by="xpath")
-    sb.sleep(2)
-
-    # 3) Keyword box → type + <Enter>
-    KEY_BOX = ('//input[@type="search" and contains(@placeholder,"keyword") '
-               'and not(@aria-disabled="true")]')
-    safe_type(sb, KEY_BOX, keyword, by="xpath", press_enter=True)
-    sb.sleep(4)
-
-    # 4) Scroll a few times to load results
-    for i in range(SCROLLS_SEARCH):
-        human_scroll(sb)
-        sb.sleep(2 + i * 0.5)
-
-    # 5) Collect one lib‐ID per distinct page name
-    libs = collect_one_lib_per_page(sb)
-    print(f"[INFO] collected {len(libs)} distinct pages (1 lib-id each)")
-
-    # 6) Derive current ISO code from the URL
-    iso_match = re.search(r"country=([A-Z]{2})", sb.get_current_url())
-    iso = iso_match.group(1) if iso_match else "ALL"
-
-    # 7) Accumulate all pages/ads under this (country,keyword):
-    pages_list = []
-    for page_name, lib_id in libs.items():
-        result = scrape_lib_page(sb, iso, page_name, lib_id)
-        # result already is { "page_name": ..., "lib_id": ..., "ads": [...] }
-        pages_list.append(result)
-
-    # 8) Build the object to append:
-    pair_object = {
-        "country": country,
-        "keyword": keyword,
-        "pages": pages_list
-    }
-
-    # 9) Load existing array from combined_ads.json, append, and overwrite
-    try:
-        existing_array = json.loads(OUTPUT_FILE.read_text(encoding="utf-8"))
-        if not isinstance(existing_array, list):
-            existing_array = []
-    except Exception:
-        existing_array = []
-
-    existing_array.append(pair_object)
-
-    OUTPUT_FILE.write_text(
-        json.dumps(existing_array, indent=2, ensure_ascii=False),
-        encoding="utf-8"
-    )
-    print(f"[INFO] Appended branch → combined_ads.json")
 
 
-# ── main ──────────────────────────────────────────────────────────────
-def main() -> None:
+# ═════════════════════════════════ MAIN ══════════════════════════════════
+def main():
     pairs = get_target_pairs()
+    if MODE not in {"ads", "suggestions", "ads_and_suggestions"}:
+        sys.exit(f"[ERR] MODE must be 'ads', 'suggestions' or 'ads_and_suggestions' (got {MODE!r})")
     if not pairs:
-        print("[WARN] No (country, keyword) pairs supplied.")
-        return
+        sys.exit("[ERR] No (country, keyword) pairs found.")
 
-    with SB(uc=True, headless=True) as sb:
+    out_path   = next_output_path(MODE)
+    run_data: List[Dict[str, Any]] = []
+
+    with SB(uc=True, headless=HEADLESS) as sb:
+        # ── Login bootstrap ────────────────────────────────────────────────
         print("[INFO] Opening Facebook …")
         sb.open("https://facebook.com")
         print("[INFO] Restoring session cookies …")
         for ck in load_cookies():
-            try:
-                sb.driver.add_cookie(ck)
-            except Exception:
-                pass
-
+            try: sb.driver.add_cookie(ck)
+            except Exception: pass
         sb.open(AD_LIBRARY_URL)
         sb.sleep(5)
-            # … inside main(), after sb.open(AD_LIBRARY_URL) and sb.sleep(5):
-        global OUTPUT_FILE
-        OUTPUT_FILE = get_new_output_file()
-        OUTPUT_FILE.write_text("[]", encoding="utf-8")
-        print(f"[INFO] Created new output file: {OUTPUT_FILE}")
 
-
+        # LOOP over all (country, keyword) pairs  ───────────────────────────
         for country, keyword in pairs:
-            scrape_pair(sb, country, keyword)
+            print(f"\n=== {country} | {keyword} ===")
+
+            # 1) Country dropdown
+            wait_click(sb, '//div[div/div/text()="All" or div/div/text()="Country"]/..', by="xpath")
+            safe_type(sb, '//input[@placeholder="Search for country"]', country, by="xpath")
+            wait_click(sb, f'//div[contains(@id,"js_") and text()="{country}"]', by="xpath")
+            sb.sleep(2)
+
+            # 2) Ad category → All ads
+            wait_click(sb, '//div[div/div/text()="Ad category"]/..', by="xpath")
+            wait_click(sb, '//span[text()="All ads"]/../../..', by="xpath")
+            sb.sleep(2)
+
+            # 3) Keyword box
+            KEY_BOX = ('//input[@type="search" and contains(@placeholder,"keyword") '
+                       'and not(@aria-disabled="true")]')
+
+            suggestions, ads = [], []
+
+            if MODE == "suggestions":
+                suggestions = extract_suggestions(sb, keyword)
+
+            elif MODE == "ads":
+                # type + <Enter> straight away
+                safe_type(sb, KEY_BOX, keyword, by="xpath", press_enter=True)
+                sb.sleep(4)
+                # scroll to load more
+                for i in range(SCROLLS):
+                    human_scroll(sb); sb.sleep(2+i*0.5)
+                ads = extract_ads(sb)
+
+            elif MODE == "ads_and_suggestions":
+                # 3a) suggestions first (no enter)
+                suggestions = extract_suggestions(sb, keyword)
+                # 3b) now hit <Enter> and scrape ads
+                safe_type(sb, KEY_BOX, keyword, by="xpath", press_enter=True)
+                sb.sleep(4)
+                for i in range(SCROLLS):
+                    human_scroll(sb); sb.sleep(2+i*0.5)
+                ads = extract_ads(sb)
+
+            # store run-unit
+            run_data.append({
+                "country":     country,
+                "keyword":     keyword,
+                **({"suggestions": suggestions} if MODE != "ads" else {}),
+                **({"ads": ads}             if MODE != "suggestions" else {}),
+            })
+
+            print(f"  > {len(suggestions):>3} suggestions   |   {len(ads):>3} ads")
+
+            # Back to Ad-Library home for next pair
             sb.open(AD_LIBRARY_URL)
             sb.sleep(4)
 
-        print("\n[DONE] All pairs processed – browser stays open for 3 min.")
-        sb.sleep(180)
+    # ── WRITE OUTPUT (nothing overwritten) ────────────────────────────────
+    with out_path.open("w", encoding="utf-8") as fh:
+        json.dump(run_data, fh, indent=2, ensure_ascii=False)
 
+    print(f"\n[DONE] Saved {len(run_data)} pairs to {out_path}")
+
+# ──────────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     main()
