@@ -961,7 +961,7 @@ def get_all_attribute_values(sb: SB, xpath: str, attribute: str) -> list:
     return results
 
 # ───────────────────── scrape_one_page ───────────────────────────────────
-AGG_FILE = Path("scraped_pages/all_pages.json")
+AGG_FILE = Path("Results/all_pages.json")
 # ───────────────────────── main loop ──────────────────────────────────────
 def scrape_one_page(sb: SB,
                     link_el: WebElement,
