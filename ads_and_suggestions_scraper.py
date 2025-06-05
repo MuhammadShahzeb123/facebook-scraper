@@ -59,9 +59,10 @@ AD_LIBRARY_URL = (
     "&is_targeted_country=false&media_type=all"
 )
 COOKIE_FILE  = Path("./saved_cookies/facebook_cookies.txt")
-TARGET_FILE  = Path("Results/targets.csv")
+TARGET_FILE  = Path("targets.csv")
 SCROLLS      = 3                           # page-downs for ad loading
-OUTPUT_DIR   = Path("")
+OUTPUT_DIR = Path("Results")
+
 OUTPUT_DIR.mkdir(exist_ok=True)
 ############################################################################
 
@@ -118,9 +119,9 @@ def get_target_pairs() -> list[tuple[str, str]]:
 
 def next_output_path(mode: str) -> Path:
     """Return a file path that does NOT yet exist (base, base_2 …)."""
-    # base = OUTPUT_DIR / f"{mode}.json"
-    # if not base.exists():
-    #     return base
+    base = OUTPUT_DIR / f"{mode}.json"
+    if not base.exists():
+        return base
     i = 1
     while True:
         cand = OUTPUT_DIR / f"{mode}_{i}.json"

@@ -6,30 +6,23 @@
 #  │    • robust page-id collection via page-source regex             │
 #  │    • for every id → open “view_all_page_id” url and scrape ads   │
 #  ▀───────────────────────────────────────────────────────────────────▀
-import json
-import time
-import csv
-import re
-import os
-import string
 
+import json, time, csv, re, os
 from pathlib import Path
 from collections import defaultdict
-from typing import List, Tuple, Dict
-
 from seleniumbase import SB
-from selenium.common.exceptions import (
-    NoSuchElementException,
-    StaleElementReferenceException,
-    ElementNotInteractableException,
-)
+from selenium.common.exceptions import *
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+import string
 # ── CONFIG ───────────────────────────────────────────────────────────
 SCROLLS_SEARCH = 3
 SCROLLS_PAGE   = 3
 COOKIE_FILE    = Path("./saved_cookies/facebook_cookies.txt")
-TARGET_FILE    = Path("Results/targets.csv")           # optional CSV (country,keyword)
+TARGET_FILE    = Path("targets.csv")           # optional CSV (country,keyword)
+OUTPUT_FILE = Path("combined_ads.json")
+OUTPUT_DIR = Path("Results")
+OUTPUT_DIR.mkdir(exist_ok=True)
 
 TARGET_PAIRS: list[tuple[str,str]] = [
     ("Ukraine",       "rental apartments"),
@@ -63,6 +56,21 @@ def load_cookies() -> list[dict]:
         if "sameSite" in c and c["sameSite"].lower() not in {"strict", "lax", "none"}:
             c["sameSite"] = "None"
     return data
+
+
+def get_new_output_file(base: str = "combined_ads", ext: str = "json") -> Path:
+    """
+    Finds the next available numbered file like combined_ads_001.json.
+    """
+    existing = list(OUTPUT_DIR.glob(f"{base}_*.{ext}"))
+
+    nums = [
+        int(re.search(rf"{base}_(\d+)\.{ext}", f.name).group(1))
+        for f in existing
+        if re.search(rf"{base}_(\d+)\.{ext}", f.name)
+    ]
+    next_num = max(nums, default=0) + 1
+    return OUTPUT_DIR / f"{base}_{next_num:03d}.{ext}"
 
 
 def sanitize_filename(name: str) -> str:
@@ -198,28 +206,17 @@ def scrape_lib_page(sb: SB, iso: str, page_name: str, lib_id: str) -> None:
         pass
 
     for i in range(SCROLLS_PAGE):
-        human_scroll(sb); sb.sleep(2 + i * 0.5)
+        human_scroll(sb)
+        sb.sleep(2 + i * 0.5)
 
     ads = extract_cards(sb)
     print(f"    ↳ {len(ads):3d} ads  •  {page_name}  •  lib_id={lib_id}")
 
-    folder = Path(f"data_{iso}")
-    folder.mkdir(exist_ok=True)
-
-    safe_name = sanitize_filename(page_name)[:60]
-    out_file = folder / f"{safe_name}_{lib_id}.json"
-
-    try:
-        out_file.write_text(json.dumps(ads, indent=2, ensure_ascii=False), "utf-8")
-    except Exception as e:
-        fallback_name = f"page_{lib_id}.json"
-        print(f"[WARN] Failed to write '{out_file.name}' → using fallback: {fallback_name}")
-        fallback_path = folder / fallback_name
-        try:
-            fallback_path.write_text(json.dumps(ads, indent=2, ensure_ascii=False), "utf-8")
-        except Exception as e2:
-            print(f"[ERROR] Failed fallback write for lib_id={lib_id}: {e2}")
-
+    return {
+        "page_name": page_name,
+        "lib_id": lib_id,
+        "ads": ads
+    }
 # ── scrape one (country, keyword) search ──────────────────────────────
 def scrape_pair(sb: SB, country: str, keyword: str) -> None:
     print(f"\n=== {country}  |  {keyword} ===")
@@ -235,27 +232,54 @@ def scrape_pair(sb: SB, country: str, keyword: str) -> None:
     wait_click(sb, '//span[text()="All ads"]/../../..', by="xpath")
     sb.sleep(2)
 
-    # 3) Keyword box
+    # 3) Keyword box → type + <Enter>
     KEY_BOX = ('//input[@type="search" and contains(@placeholder,"keyword") '
                'and not(@aria-disabled="true")]')
     safe_type(sb, KEY_BOX, keyword, by="xpath", press_enter=True)
     sb.sleep(4)
 
-    # 4) Scroll to let more ads load
+    # 4) Scroll a few times to load results
     for i in range(SCROLLS_SEARCH):
         human_scroll(sb)
         sb.sleep(2 + i * 0.5)
 
-    # 5) ── grab ONE library-id for every unique page name
+    # 5) Collect one lib‐ID per distinct page name
     libs = collect_one_lib_per_page(sb)
     print(f"[INFO] collected {len(libs)} distinct pages (1 lib-id each)")
 
-    # 6) derive ISO-2 code once from current URL
-    iso = re.search(r"country=([A-Z]{2})", sb.get_current_url()).group(1)
+    # 6) Derive current ISO code from the URL
+    iso_match = re.search(r"country=([A-Z]{2})", sb.get_current_url())
+    iso = iso_match.group(1) if iso_match else "ALL"
 
-    # 7) visit each “id=<LIB_ID>” page and pull its full card set
+    # 7) Accumulate all pages/ads under this (country,keyword):
+    pages_list = []
     for page_name, lib_id in libs.items():
-        scrape_lib_page(sb, iso, page_name, lib_id)
+        result = scrape_lib_page(sb, iso, page_name, lib_id)
+        # result already is { "page_name": ..., "lib_id": ..., "ads": [...] }
+        pages_list.append(result)
+
+    # 8) Build the object to append:
+    pair_object = {
+        "country": country,
+        "keyword": keyword,
+        "pages": pages_list
+    }
+
+    # 9) Load existing array from combined_ads.json, append, and overwrite
+    try:
+        existing_array = json.loads(OUTPUT_FILE.read_text(encoding="utf-8"))
+        if not isinstance(existing_array, list):
+            existing_array = []
+    except Exception:
+        existing_array = []
+
+    existing_array.append(pair_object)
+
+    OUTPUT_FILE.write_text(
+        json.dumps(existing_array, indent=2, ensure_ascii=False),
+        encoding="utf-8"
+    )
+    print(f"[INFO] Appended branch → combined_ads.json")
 
 
 # ── main ──────────────────────────────────────────────────────────────
@@ -277,6 +301,12 @@ def main() -> None:
 
         sb.open(AD_LIBRARY_URL)
         sb.sleep(5)
+            # … inside main(), after sb.open(AD_LIBRARY_URL) and sb.sleep(5):
+        global OUTPUT_FILE
+        OUTPUT_FILE = get_new_output_file()
+        OUTPUT_FILE.write_text("[]", encoding="utf-8")
+        print(f"[INFO] Created new output file: {OUTPUT_FILE}")
+
 
         for country, keyword in pairs:
             scrape_pair(sb, country, keyword)
@@ -285,7 +315,6 @@ def main() -> None:
 
         print("\n[DONE] All pairs processed – browser stays open for 3 min.")
         sb.sleep(180)
-
 
 if __name__ == "__main__":
     main()

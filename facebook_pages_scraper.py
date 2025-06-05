@@ -16,7 +16,7 @@ from seleniumbase import SB
 # ═══════════════════════ USER CONFIG ══════════════════════════════════════
 COOKIE_FILE   = Path("saved_cookies/facebook_cookies.txt")
 KEYWORDS_FILE = Path("keywords.csv")      # keyword , pages_to_visit
-HEADLESS      = False
+HEADLESS      = True
 WAIT_SECS     = 2.0
 SCROLLS       = 6        # scrolls before grabbing posts
 POST_LIMIT    = 100      # number of posts to scrape per page
