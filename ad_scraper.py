@@ -129,7 +129,8 @@ def scrape_pair(sb: SB, country: str, keyword: str) -> None:
         try:
             meta = card.find_element(
                 "css selector",
-                "div.x1cy8zhl.x78zum5.xyamay9.x1pi30zi",
+                "div.x1plvlek.xryxfnj.x1gzqxud.x178xt8z.x1lun4ml.xso031l.xpilrb4.xb9moi8.xe76qn7.x21b0me.x142aazg.xhk9q7s.x1otrzb0.x1i1ezom.x1o6z2jb.x1kmqopl.x13fuv20.x18b5jzi.x1q0q8m5.x1t7ytsu.x9f619"
+
             )
             status      = _txt(meta, './/span[contains(text(),"Active") or contains(text(),"Inactive")]')
             library_id  = _txt(meta, './/span[contains(text(),"Library ID")]').split(":")[-1].strip()
