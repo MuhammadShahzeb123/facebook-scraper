@@ -7,11 +7,11 @@ from typing import Dict, List, Tuple
 from urllib.parse import urlparse, parse_qs, unquote
 from datetime import datetime
 
-from selenium.common.exceptions import (NoSuchElementException,
-                                       StaleElementReferenceException)
-from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.common.by import By
-from seleniumbase import SB
+from selenium.common.exceptions import (NoSuchElementException, #type: ignore
+                                       StaleElementReferenceException)#type: ignore
+from selenium.webdriver.remote.webelement import WebElement #type: ignore
+from selenium.webdriver.common.by import By #type: ignore
+from seleniumbase import SB #type: ignore
 
 # ═══════════════════════ USER CONFIG ══════════════════════════════════════
 COOKIE_FILE   = Path("saved_cookies/facebook_cookies.txt")
@@ -23,6 +23,11 @@ POST_LIMIT    = 100      # number of posts to scrape per page
 RETRY_LIMIT   = 2
 MAX_PAGE_LINKS = 40        # hard cap (can tweak later)
 ACCOUNT_NUMBER = 1          # 1 / 2 / 3  ← choose which FB account to use
+# ── CONTINUATION / AUTO-RESUME ──────────────────────────────────────────
+CONFIG_FILE = Path("config.json")   # provides cookies-file & proxy per account
+PROGRESS_FILE  = Path("progress.json")          # where we checkpoint progress
+CFG_ROOT       = json.loads(CONFIG_FILE.read_text("utf-8"))
+CONTINUATION = True  # or False, depending on your desired behavior
 
 KEYWORDS = [
     "coca cola",
@@ -30,7 +35,6 @@ KEYWORDS = [
     "burger king",
 ]
 
-CONFIG_FILE = Path("config.json")   # provides cookies-file & proxy per account
 # ══════════════════════════════════════════════════════════════════════════
 
 DEBUG_DIR = Path("debug")
@@ -134,6 +138,28 @@ def _sanitise_cookie(c: dict) -> dict:
     ck.setdefault("domain", ".facebook.com")
     ck.setdefault("path",   "/")
     return ck
+# ── checkpoint helpers ──────────────────────────────────────────────────
+def _save_checkpoint(kw_i: int, link_i: int) -> None:
+    """Write current indices to disk so we can resume after a crash."""
+    if CONTINUATION:
+        PROGRESS_FILE.write_text(json.dumps({"kw": kw_i, "lnk": link_i}))
+
+def _load_checkpoint() -> Tuple[int, int]:
+    """(kw_index , link_index) stored from previous run (0,0) if none."""
+    if CONTINUATION and PROGRESS_FILE.exists():
+        try:
+            obj = json.loads(PROGRESS_FILE.read_text())
+            return int(obj.get("kw", 0)), int(obj.get("lnk", 0))
+        except Exception:
+            pass
+    return 0, 0
+
+# ── round-robin account picker ──────────────────────────────────────────
+_ACCOUNT_IDS = sorted(int(k) for k in CFG_ROOT["accounts"].keys())
+
+def _next_account(cur: int) -> int:
+    idx = (_ACCOUNT_IDS.index(cur) + 1) % len(_ACCOUNT_IDS)
+    return _ACCOUNT_IDS[idx]
 
 def click_pages_filter(sb: SB):
     """Improved pages filter click with headless mode support."""
@@ -963,10 +989,7 @@ def get_all_attribute_values(sb: SB, xpath: str, attribute: str) -> list:
 # ───────────────────── scrape_one_page ───────────────────────────────────
 AGG_FILE = Path("Results/all_pages.json")
 # ───────────────────────── main loop ──────────────────────────────────────
-def scrape_one_page(sb: SB,
-                    link_el: WebElement,
-                    save_dir: Path,
-                    serp_avatar: str = ""):
+def scrape_one_page(sb: SB, link_el: WebElement, save_dir: Path, kw_i: int, link_i: int, serp_avatar: str = ""):
 
     safe_click(sb, link_el); pause(5)
     class_texts = get_texts_by_class(sb, 'x193iq5w')
@@ -1011,52 +1034,78 @@ def scrape_one_page(sb: SB,
 )
 
     print(f"[OK] appended to {AGG_FILE}")
+    _save_checkpoint(kw_i, link_i + 1)   # mark the next link as pending
 
     sb.driver.back(); sb.driver.back(); pause(1)
 def main():
-    cookies, proxy_hp, proxy_user, proxy_pass = _select_account()
+    global ACCOUNT_NUMBER
 
-    proxy_string = f"{proxy_user}:{proxy_pass}@{proxy_hp}" if proxy_user and proxy_pass else proxy_hp
+    kw_start, link_start = _load_checkpoint()   # ← where we left off
 
-    with SB(headless=HEADLESS, proxy=proxy_string) as sb:
-        sb.open("https://facebook.com")
-        for ck in cookies:
-            try:
-                sb.driver.add_cookie(ck)
-            except Exception as e:
-                print(f"[cookie error] {ck.get('name')} → {e}")
-        sb.refresh()
-        pause(2)
+    while True:                                 # keeps trying new accounts
+        try:
+            # (re-select cookies & proxy for whichever account we’re on)
+            cookies, proxy_hp, proxy_user, proxy_pass = _select_account()
+            proxy_string = (
+                f"{proxy_user}:{proxy_pass}@{proxy_hp}"
+                if proxy_user and proxy_pass else proxy_hp
+            )
 
-        for kw in KEYWORDS:
-            print(f"\n=== {kw!r} ===")
-            wait_click(sb, XP["search_box"])
-            sb.type(XP["search_box"], kw + "\n", "xpath")
-            pause(2)
-            wait_click(sb, XP["pages_chip"])
-            pause(1.5)
+            with SB(headless=HEADLESS, proxy=proxy_string) as sb:
+                sb.open("https://facebook.com")
+                for ck in cookies:
+                    try: sb.driver.add_cookie(ck)
+                    except Exception as e:
+                        print(f"[cookie error] {ck.get('name')} → {e}")
+                sb.refresh(); pause(2)
 
-            if not click_pages_filter(sb):
-                print(f"[ERROR] Pages filter failed for {kw}")
-                continue
+                for kw_i, kw in enumerate(KEYWORDS):
+                    if kw_i < kw_start:                 # skip done keywords
+                        continue
 
-            link_elements = get_page_links(sb)
-            if not link_elements:
-                print("[WARN] No valid page links found")
-                continue
+                    print(f"\n=== {kw!r} ===")
+                    wait_click(sb, XP["search_box"])
+                    sb.type(XP["search_box"], kw + "\n", "xpath")
+                    pause(2)
+                    wait_click(sb, XP["pages_chip"]); pause(1.5)
 
-            for el in link_elements:
-                avatar = _find_profile_pic(sb) or ""
-                try:
-                    scrape_one_page(sb, el, Path("scraped_pages"), avatar)
-                except Exception as e:
-                    print(f"[ERR] Failed scraping page: {e}")
+                    if not click_pages_filter(sb):
+                        print(f"[ERROR] Pages filter failed for {kw}")
+                        continue
 
-            sb.open("https://facebook.com")
-            pause(1)
+                    link_elements = get_page_links(sb)
+                    if not link_elements:
+                        print("[WARN] No valid page links found")
+                        continue
 
-        print("DONE – browser kept open 30 s")
-        time.sleep(30)
+                    for link_i, el in enumerate(link_elements):
+                        # resume inside the keyword if needed
+                        if kw_i == kw_start and link_i < link_start:
+                            continue
+
+                        _save_checkpoint(kw_i, link_i)       # 🔑 save
+                        avatar = _find_profile_pic(sb) or ""
+                        scrape_one_page(sb, el, Path("scraped_pages"), kw_i, link_i, avatar)
+
+
+                    # finished this keyword – next restart should begin fresh
+                    _save_checkpoint(kw_i + 1, 0)
+
+                    sb.open("https://facebook.com"); pause(1)
+
+                # 🎉 success – wipe checkpoint & exit outer while
+                if CONTINUATION and PROGRESS_FILE.exists():
+                    PROGRESS_FILE.unlink()
+                break
+
+        except Exception as e:
+            print(f"[CRASH] Account {ACCOUNT_NUMBER} died → {e}")
+            ACCOUNT_NUMBER = _next_account(ACCOUNT_NUMBER)
+            kw_start, link_start = _load_checkpoint()
+            print(f"[INFO] Switching to account {ACCOUNT_NUMBER} "
+                  f"& resuming kw={kw_start} link={link_start}")
+            time.sleep(5)         # brief cool-down before retry
+            continue
 
 
 if __name__ == "__main__":

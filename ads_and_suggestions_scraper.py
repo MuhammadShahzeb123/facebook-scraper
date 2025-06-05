@@ -46,11 +46,11 @@ import json, csv, time, re, sys
 from pathlib import Path
 from datetime import datetime
 from typing   import List, Dict, Tuple, Any
-from seleniumbase import SB
-from selenium.common.exceptions import (
+from seleniumbase import SB # type: ignore
+from selenium.common.exceptions import ( # type: ignore
     NoSuchElementException, StaleElementReferenceException,
-    ElementNotInteractableException,
-)
+    ElementNotInteractableException, 
+)#type: ignore 
 
 # ── CONSTANTS ─────────────────────────────────────────────────────────────
 AD_LIBRARY_URL = (
@@ -88,7 +88,7 @@ def next_output_path(mode: str) -> Path:
 
 def safe_type(sb: SB, selector: str, text: str, *,
               by="css selector", press_enter: bool = True, timeout: int = 10):
-    from selenium.webdriver.common.keys import Keys
+    from selenium.webdriver.common.keys import Keys # type: ignore
 
     sb.wait_for_element_visible(selector, by=by, timeout=timeout)
     elm = sb.find_element(selector, by=by)
@@ -202,7 +202,7 @@ def extract_ads(sb: SB) -> list[Dict[str, Any]]:
             )
         except (NoSuchElementException,
                 StaleElementReferenceException,
-                ElementNotInteractableException):
+                ElementNotInteractableException): #type: ignore
             continue
     return ads
 

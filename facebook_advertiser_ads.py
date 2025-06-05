@@ -10,10 +10,10 @@
 import json, time, csv, re, os
 from pathlib import Path
 from collections import defaultdict
-from seleniumbase import SB
-from selenium.common.exceptions import *
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
+from seleniumbase import SB #type: ignore
+from selenium.common.exceptions import * #type: ignore 
+from selenium.webdriver.common.by import By #type: ignore
+from selenium.webdriver.common.keys import Keys #type: ignore
 import string
 # ── CONFIG ───────────────────────────────────────────────────────────
 SCROLLS_SEARCH = 3
@@ -75,8 +75,8 @@ def safe_type(sb: SB, selector: str, text: str, *, by="css selector",
     elm.clear()
     elm.send_keys(text)
     time.sleep(1.0)
-    if press_enter:
-        from selenium.webdriver.common.keys import Keys
+    if press_enter: 
+        from selenium.webdriver.common.keys import Keys #type: ignore
         elm.send_keys(Keys.RETURN)
         time.sleep(2.0)
 
