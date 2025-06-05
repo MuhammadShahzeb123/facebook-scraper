@@ -29,7 +29,7 @@ from selenium.webdriver.common.keys import Keys
 SCROLLS_SEARCH = 3
 SCROLLS_PAGE   = 3
 COOKIE_FILE    = Path("./saved_cookies/facebook_cookies.txt")
-TARGET_FILE    = Path("targets.csv")           # optional CSV (country,keyword)
+TARGET_FILE    = Path("Results/targets.csv")           # optional CSV (country,keyword)
 
 TARGET_PAIRS: list[tuple[str,str]] = [
     ("Ukraine",       "rental apartments"),

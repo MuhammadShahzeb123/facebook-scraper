@@ -59,7 +59,7 @@ AD_LIBRARY_URL = (
     "&is_targeted_country=false&media_type=all"
 )
 COOKIE_FILE  = Path("./saved_cookies/facebook_cookies.txt")
-TARGET_FILE  = Path("targets.csv")
+TARGET_FILE  = Path("Results/targets.csv")
 SCROLLS      = 3                           # page-downs for ad loading
 OUTPUT_DIR   = Path("")
 OUTPUT_DIR.mkdir(exist_ok=True)
