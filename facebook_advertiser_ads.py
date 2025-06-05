@@ -6,15 +6,25 @@
 #  │    • robust page-id collection via page-source regex             │
 #  │    • for every id → open “view_all_page_id” url and scrape ads   │
 #  ▀───────────────────────────────────────────────────────────────────▀
+import json
+import time
+import csv
+import re
+import os
+import string
 
-import json, time, csv, re, os
 from pathlib import Path
 from collections import defaultdict
+from typing import List, Tuple, Dict
+
 from seleniumbase import SB
-from selenium.common.exceptions import *
+from selenium.common.exceptions import (
+    NoSuchElementException,
+    StaleElementReferenceException,
+    ElementNotInteractableException,
+)
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-import string
 # ── CONFIG ───────────────────────────────────────────────────────────
 SCROLLS_SEARCH = 3
 SCROLLS_PAGE   = 3
