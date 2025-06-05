@@ -183,7 +183,7 @@ def main() -> None:
         print("[WARN] No (country, keyword) pairs supplied.")
         return
 
-    with SB(uc=True, headless=True) as sb:        # headless=False kept as in original
+    with SB(uc=True, headless=False) as sb:        # headless=False kept as in original
         # First page-load and cookie injection (unchanged)
         print("[INFO] Opening Facebook …")
         sb.open("https://facebook.com")

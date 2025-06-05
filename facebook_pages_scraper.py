@@ -18,9 +18,19 @@ COOKIE_FILE   = Path("saved_cookies/facebook_cookies.txt")
 KEYWORDS_FILE = Path("keywords.csv")      # keyword , pages_to_visit
 HEADLESS      = False
 WAIT_SECS     = 2.0
-SCROLLS       = 3        # scrolls before grabbing posts
+SCROLLS       = 6        # scrolls before grabbing posts
 POST_LIMIT    = 100      # number of posts to scrape per page
 RETRY_LIMIT   = 2
+MAX_PAGE_LINKS = 40        # hard cap (can tweak later)
+ACCOUNT_NUMBER = 1          # 1 / 2 / 3  ← choose which FB account to use
+
+KEYWORDS = [
+    "coca cola",
+    "pepsi",
+    "burger king",
+]
+
+CONFIG_FILE = Path("config.json")   # provides cookies-file & proxy per account
 # ══════════════════════════════════════════════════════════════════════════
 
 DEBUG_DIR = Path("debug")
@@ -60,6 +70,70 @@ XP = {
 def pause(t=WAIT_SECS):
     time.sleep(t)
 
+def _select_account() -> tuple[list, str | None, str | None, str | None]:
+    """
+    Returns (sanitised_cookie_list , proxy_host_port , proxy_user , proxy_pass)
+
+    Expects config.json of the form:
+    {
+      "accounts": {
+        "1": {
+          "proxy"  : "217.67.72.152,12323,14acfa7f9a57c,74f453f102",
+          "cookies": [ { …raw chrome cookie… }, … ]
+        },
+        "2": { … },
+        "3": { … }
+      }
+    }
+    """
+    cfg  = json.loads(CONFIG_FILE.read_text("utf-8"))
+    acc  = cfg["accounts"][str(ACCOUNT_NUMBER)]
+
+    raw_cookies = acc["cookies"]
+    cookies = [_sanitise_cookie(c) for c in raw_cookies]
+
+    phost, pport, puser, ppass = acc["proxy"].split(",", 3)
+    return cookies, f"{phost}:{pport}", puser, ppass
+
+# ───────────────── cookie helpers ──────────────────
+def _sanitise_cookie(c: dict) -> dict:
+    """
+    Make a cookie dict Selenium-compatible:
+      • keep only allowed keys
+      • coerce SameSite → 'Strict' | 'Lax' | 'None'
+      • ensure expiry is an int  (drop if unparsable / past)
+      • add default domain & path when absent
+    """
+    ck = c.copy()
+
+    # ----- SameSite normalisation -----
+    ss = ck.get("sameSite") or ck.get("same_site")
+    if ss:
+        ss = str(ss).lower()
+        if ss not in ("lax", "strict", "none"):
+            ck.pop("sameSite", None)
+        else:
+            ck["sameSite"] = ss.title()
+
+    # ----- expiry/int coercion --------
+    exp = ck.get("expiry") or ck.get("expirationDate")
+    if exp:
+        try:
+            ck["expiry"] = int(float(exp))
+        except Exception:
+            ck.pop("expiry", None)
+    ck.pop("expirationDate", None)
+
+    # ----- keep only Selenium-accepted keys -----
+    allowed = {
+        "name", "value", "domain", "path",
+        "expiry", "secure", "httpOnly", "sameSite"
+    }
+    ck = {k: v for k, v in ck.items() if k in allowed}
+
+    ck.setdefault("domain", ".facebook.com")
+    ck.setdefault("path",   "/")
+    return ck
 
 def click_pages_filter(sb: SB):
     """Improved pages filter click with headless mode support."""
@@ -207,66 +281,81 @@ def _find_profile_pic(sb: SB) -> str:
         return all_urls[0]
 
     return ""
+def extract_contact_block(sb: SB, data: dict):
+    """
+    Parses the About-page contact chunk and fills:
+        data["about_raw"]   (entire visible text)
+        data["address"] , data["mobile"] , data["email"]
+        data["social_links"]   (list[str])
+    """
+    try:
+        box = sb.find_element(
+            '//*[contains(@class,"xyamay9") and contains(@class,"xsfy40s") '
+            'and contains(@class,"x1gan7if") and contains(@class,"xf7dkkf")]',
+            "xpath", timeout=4
+        )
+        raw = box.text.strip()
+        data["about_raw"] = raw
 
+        lines = [ln.strip() for ln in raw.splitlines() if ln.strip()]
+        lbls = {"address": "Address", "mobile": "Mobile", "email": "Email"}
+        for idx, ln in enumerate(lines):
+            for key, lab in lbls.items():
+                if ln.lower() == lab.lower() and idx > 0:
+                    data[key] = lines[idx - 1]
 
+        # social / website links
+        urls = [ln for ln in lines if ln.lower().startswith("http")]
+        if urls:
+            data["social_links"] = urls
+    except Exception as e:
+        print(f"[INFO] contact-block missing – {e}")
 def get_page_links(sb: SB) -> List[WebElement]:
-    """Get page links with headless-friendly waiting and improved filtering."""
-    print("Searching for page links...")
+    """Return at most MAX_PAGE_LINKS valid page links."""
+    print("Searching for page links…")
     try:
         sb.wait_for_element('//div[@role="article"]', "xpath", timeout=10)
     except:
         print("Couldn't find results container, proceeding anyway")
 
-    # Scroll down a bit to load more
-    for _ in range(2):
+    # small downward nudge helps additional cards load
+    for _ in range(4):
         sb.scroll_to_bottom()
         pause(1)
 
     selectors = [
-        '//a[.//span[text()] and .//image]',                # Links with text + image
-        '//div[@role="article"]//a[.//span]',                # Any link with text in article
-        '//a[contains(@href, "facebook.com") and .//span]',  # Any FB link with text
+        '//a[.//span[text()] and .//image]',
+        '//div[@role="article"]//a[.//span]',
+        '//a[contains(@href, "facebook.com") and .//span]',
     ]
-
-    links = []
-    for selector in selectors:
+    links: list[WebElement] = []
+    for sel in selectors:
         try:
-            elements = sb.find_elements(selector, "xpath")
-            print(f"Found {len(elements)} elements with selector: {selector}")
-            links.extend(elements)
+            els = sb.find_elements(sel, "xpath")
+            links.extend(els)
             if links:
                 break
         except Exception as e:
-            print(f"Selector failed: {selector} - {str(e)}")
+            print(f"Selector failed: {sel} – {e}")
 
-    valid_links = []
+    valid: list[WebElement] = []
     for el in links:
         try:
             if not el.is_displayed() or el.size["width"] <= 0:
                 continue
-
-            href = el.get_attribute("href")
-            if not href:
+            href = el.get_attribute("href") or ""
+            if any(x in href for x in ("/groups/", "/events/", "/hashtag/",
+                                       "facebook.com/stories", "facebook.com/watch")):
                 continue
-
-            # Skip non-page URLs
-            if any(x in href for x in (
-                "/groups/", "/events/", "/hashtag/",
-                "facebook.com/stories", "facebook.com/watch"
-            )):
-                continue
-
-            text = el.text.strip()
-            if not text or len(text) < 2:
-                continue
-
-            valid_links.append(el)
-            print(f"Found page link: {text[:50]} – {href[:50]}...")
+            txt = el.text.strip()
+            if txt and len(txt) >= 2:
+                valid.append(el)
         except StaleElementReferenceException:
             continue
 
-    print(f"Total valid page links found: {len(valid_links)}")
-    return valid_links
+    print(f"Total valid page links found: {len(valid)}")
+    
+    return valid[:MAX_PAGE_LINKS]          # ← cap here
 
 
 def decode(url: str) -> str:
@@ -410,33 +499,6 @@ def extract_url(container: WebElement) -> str:
     except:
         return ""
 
-
-def extract_timestamp(container: WebElement) -> str:
-    """Extract post timestamp via aria-label or fallback class combos."""
-    try:
-        timestamp = container.find_element(
-            By.XPATH,
-            './/a[contains(@href, "permalink")]//abbr | .//abbr[contains(@class, "xt0psk2")]'
-        ).get_attribute("aria-label")
-        if timestamp:
-            return timestamp
-    except:
-        pass
-
-    try:
-        timestamp_el = container.find_element(
-            By.XPATH,
-            './/span[contains(concat(" ", normalize-space(@class), " x1rg5ohu ") '
-            'and contains(concat(" ", normalize-space(@class), " x6ikm8r ") '
-            'and contains(concat(" ", normalize-space(@class), " x10wlt62 ") '
-            'and contains(concat(" ", normalize-space(@class), " x16dsc37 ") '
-            'and contains(concat(" ", normalize-space(@class), " xt0b8zv ")]'
-        )
-        return timestamp_el.get_attribute("aria-label")
-    except:
-        return ""
-
-
 def extract_images(container: WebElement) -> List[str]:
     """Extract any <img> whose src contains 'scontent'."""
     try:
@@ -483,55 +545,6 @@ def extract_post_engagement(container: WebElement) -> dict:
     except:
         return {"likes": 0, "comments": 0, "shares": 0}
 
-
-def extract_post_reactions(container: WebElement) -> int:
-    """
-    Given a single post container, find the “Reactions” number:
-      1. <div data-ad-preview="reactions"> → parse text
-      2. fallback: any <span> whose aria-label contains 'reaction(s)'
-    """
-    try:
-        react_el = container.find_element(
-            By.XPATH, './/div[@data-ad-preview="reactions"]'
-        )
-        raw_text = react_el.text.strip()
-        return parse_engagement_text(raw_text)
-    except:
-        try:
-            fallback_el = container.find_element(
-                By.XPATH,
-                './/span[contains(@aria-label, "reaction") or contains(@aria-label, "Reactions")]'
-            )
-            raw_text = fallback_el.text.strip()
-            return parse_engagement_text(raw_text)
-        except:
-            return 0
-
-
-def extract_post_shares(container: WebElement) -> int:
-    """
-    Given a single post container, find the “Shares” number:
-      1. <div data-ad-preview="shares"> → parse text
-      2. fallback: look for <span> containing “Share”/“Shares” → preceding-sibling::span
-    """
-    try:
-        shares_el = container.find_element(
-            By.XPATH, './/div[@data-ad-preview="shares"]'
-        )
-        raw_text = shares_el.text.strip()
-        return parse_engagement_text(raw_text)
-    except:
-        try:
-            fallback_el = container.find_element(
-                By.XPATH,
-                './/span[contains(text(), "Share") or contains(text(), "Shares")]'
-            )
-            sib = fallback_el.find_element(By.XPATH, './preceding-sibling::span[1]')
-            raw_text = sib.text.strip()
-            return parse_engagement_text(raw_text)
-        except:
-            return 0
-
 def extract_post(container: WebElement) -> dict:
     """
     Extract all data from a single post container:
@@ -541,23 +554,22 @@ def extract_post(container: WebElement) -> dict:
     """
     caption   = extract_with_retry(container, extract_caption) or ""
     url       = extract_with_retry(container, extract_url) or ""
-    timestamp = extract_with_retry(container, extract_timestamp) or ""
     images    = extract_with_retry(container, extract_images) or []
     video_url = extract_with_retry(container, extract_video_url) or ""
 
-    likes, shares = _extract_likes_shares_from_text(container)
+    likes, comments, shares = _extract_likes_shares_from_text(container)
     # likes  = min(likes, 10_000_000)         # safety caps
     # shares = min(shares, 1_000_000)
 
     return {
-        "text":        caption[:500],
-        "url":         url,
-        "timestamp":   timestamp,
-        "images":      images,
-        "video_url":   video_url,
-        "likes":       likes,    
-        "shares":      shares,
-        "scraped_at":  datetime.now().isoformat()
+        "text":       caption[:500],
+        "url":        url,
+        "images":     images,
+        "video_url":  video_url,
+        "likes":      likes,
+        "comments":   comments,
+        "shares":     shares,
+        "scraped_at": datetime.now().isoformat()
     }
 
 def extract_posts(sb: SB, data: dict):
@@ -581,9 +593,9 @@ def extract_posts(sb: SB, data: dict):
         if len(posts) >= POST_LIMIT: break
 
         # ---------- NEW DEBUG: raw container text -------------------------
-        print("\n──────── RAW POST CONTAINER ────────")
-        print(c.text)
-        print("────────────────────────────────────\n")
+        # print("\n──────── RAW POST CONTAINER ────────")
+        # print(c.text)
+        # print("────────────────────────────────────\n")
 
         try:
             sb.execute_script("arguments[0].scrollIntoView({block:'center'});", c)
@@ -605,7 +617,7 @@ def extract_home(sb: SB) -> Dict:
     out = {
         "name": "", "profile_pic": "", "verified": False,
         "followers": "", "likes": "", "category": "",
-        "website": "", "website_label": "", "links": [],
+        "website": "",
         "description": ""
     }
 
@@ -636,14 +648,14 @@ def extract_home(sb: SB) -> Dict:
         )
     except: pass
 
-    # Out-links & website
-    for a in sb.find_elements('//a[starts-with(@href,"http")]', "xpath"):
-        href = decode(a.get_attribute("href"))
-        if href.startswith("http"):
-            if not out["website"] and "facebook.com" not in href:
-                out["website"] = href
-            out["links"].append(href)
-    out["links"] = list(dict.fromkeys(out["links"]))
+    # # Out-links & website
+    # for a in sb.find_elements('//a[starts-with(@href,"http")]', "xpath"):
+    #     href = decode(a.get_attribute("href"))
+    #     if href.startswith("http"):
+    #         if not out["website"] and "facebook.com" not in href:
+    #             out["website"] = href
+    #         out["links"].append(href)
+    # out["links"] = list(dict.fromkeys(out["links"]))
 
     # Intro-block parsing  → description & website-label
     blobs = get_texts_by_class(sb, "x193iq5w")
@@ -655,89 +667,26 @@ def extract_home(sb: SB) -> Dict:
 # ── NEW ────────────────────────────────────────────────────────────────────
 def _extract_likes_shares_from_text(container: WebElement) -> tuple[int, int]:
     """
-    Pattern observed in RAW container dump:
-
-        All reactions:
-        45
-        45
-        1 share
-
-    • The first number after “All reactions:” is the reactions/likes count
-      (it’s usually repeated once more right below – we take the first).
-    • Shares appear later as “N share” or “N shares”.
-
-    Returns  ➜  (likes , shares)
+    Capture engagement numbers exactly as Facebook shows them
+    (e.g.  '192K', '5', '3.4M').  Returns **strings**:
+        →  (likes , comments , shares)
     """
     txt = container.text
-    likes = shares = 0
+    likes = comments = shares = ""
 
-    m_like = re.search(r'All reactions:\s*([\d,.KkMm]+)', txt)
+    m_like = re.search(r'All reactions:\s*([0-9.,KkMm]+)', txt)
     if m_like:
-        likes = parse_engagement_text(m_like.group(1))
+        likes = m_like.group(1)
 
-    m_share = re.search(r'([\d,.KkMm]+)\s+share(?:s)?', txt, re.I)
+    m_com = re.search(r'([0-9.,KkMm]+)\s+comment', txt, re.I)
+    if m_com:
+        comments = m_com.group(1)
+
+    m_share = re.search(r'([0-9.,KkMm]+)\s+share', txt, re.I)
     if m_share:
-        shares = parse_engagement_text(m_share.group(1))
+        shares = m_share.group(1)
 
-    return likes, shares
-
-
-def fetch_front_description(sb: SB) -> str:
-    """
-    1) Try the exact XPath you provided for the <span> containing the "description" text.
-    2) If that fails, look for any <span> under data-pagelet="ProfileTilesFeed" with dir="auto".
-    """
-    # First: the exact, deep absolute XPath (from your snippet).
-    try:
-        DESC_XPATH = (
-            "/html/body/div[1]/div/div[1]/div/div[3]/div/div/div[1]/"
-            "div[1]/div/div/div[4]/div[2]/div/div[1]/div[2]/div/"
-            "div[1]/div/div/div/div/div[2]/div[1]/div/div/span"
-        )
-        desc_el = sb.find_element(DESC_XPATH, "xpath", timeout=3)
-        txt = desc_el.text.strip()
-        if txt:
-            return txt
-    except:
-        pass
-
-    # Fallback: anything under data-pagelet="ProfileTilesFeed" that has dir="auto"
-    try:
-        fallback = sb.find_element(
-            '//div[@data-pagelet="ProfileTilesFeed"]//span[@dir="auto"]',
-            "xpath",
-            timeout=3
-        )
-        txt2 = fallback.text.strip()
-        return txt2
-    except:
-        return ""
-
-
-def fetch_website_name(sb: SB, all_links: List[str]) -> str:
-    """
-    Among all_links, pick the first href that:
-      - doesn’t contain "facebook.com"
-      - doesn’t contain "api.whatsapp.com"
-    Then look up its child <span> to get the visible label (e.g. "coca-cola.com.pk").
-    """
-    candidate = None
-    for href in all_links:
-        if "facebook.com" not in href and "api.whatsapp.com" not in href:
-            candidate = href
-            break
-    if not candidate:
-        return ""
-
-    # Now find <a href="{candidate}">//span</span> and return its text
-    try:
-        # Use normalize-space() around the @href to avoid stray quotes/encoding issues
-        xpath = f'//a[@href="{candidate}"]//span'
-        el = sb.find_element(xpath, "xpath", timeout=3)
-        return el.text.strip()
-    except:
-        return ""
-
+    return likes, comments, shares
 
 def extract_intro(sb: SB, data: Dict):
     """
@@ -773,12 +722,11 @@ def extract_transparency(sb: SB, data: Dict):
     """
     try:
         # 1) Click About (if present)
-        try:
-            wait_click(sb, XP["about_tab"])
-            pause(1)
-        except:
-            pass
-
+        # try:
+        #     wait_click(sb, XP["about_tab"])
+        #     pause(1)
+        # except:
+        #     pass
         # 2) Click Page Transparency
         wait_click(sb, XP["transp_link"])
         pause(1)
@@ -823,13 +771,19 @@ def extract_transparency(sb: SB, data: Dict):
                     pass
                         
 
-        # 4) Click “See All” (if present)
+        see_all_xpath = (
+            '//span[contains(translate(normalize-space(.), "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"), "see all")]/ancestor::*[@role="button"][1]'
+        )
         try:
-            wait_click(sb, XP["see_all"], timeout=4)
+            btn = sb.wait_for_element(see_all_xpath, "xpath", timeout=5)
+            # Scroll it into view
+            sb.execute_script("arguments[0].scrollIntoView({behavior:'instant', block:'center'});", btn)
+            pause(0.5)
+            btn.click()
             pause(1)
-        except:
-            pass
-
+            print("[OK] Clicked See All")
+        except Exception as e:
+            print(f"[WARN] ‘See All’ button not found or clickable: {e}")
         # 5) Now parse the raw admin info in the modal for dates, countries, name changes, ads, etc.
         try:
             admin_texts = sb.find_elements(
@@ -1007,26 +961,17 @@ def get_all_attribute_values(sb: SB, xpath: str, attribute: str) -> list:
     return results
 
 # ───────────────────── scrape_one_page ───────────────────────────────────
-def scrape_one_page(sb: SB, link_el, save_dir: Path):
-    # 1) Click into the page
-    safe_click(sb, link_el)
-    pause(5)
+AGG_FILE = Path("scraped_pages/all_pages.json")
+# ───────────────────────── main loop ──────────────────────────────────────
+def scrape_one_page(sb: SB,
+                    link_el: WebElement,
+                    save_dir: Path,
+                    serp_avatar: str = ""):
 
-    # ────────────────────── PARSE WEBSITE NAME & DESCRIPTION ──────────────────────
-    # Grab all <span> with class='x193iq5w' (often site‐name, description, etc.)
+    safe_click(sb, link_el); pause(5)
     class_texts = get_texts_by_class(sb, 'x193iq5w')
     # Grab fallback description under data-pagelet="ProfileTilesFeed"
     desc_fallback = get_texts_by_xpath(sb, '//div[@data-pagelet="ProfileTilesFeed"]//span[@dir="auto"]')
-
-    # 1) WEBSITE EXACT NAME:
-    website_name_exact = ""
-    for t in class_texts:
-        # pick first text that looks like a domain (e.g. something.something)
-        if re.match(r'^[\w\.-]+\.[A-Za-z]{2,}$', t):
-            website_name_exact = t
-            break
-
-    # 2) DESCRIPTION (text after "Intro\n", until next newline or category)
     description = ""
     for t in class_texts + desc_fallback:
         if t.startswith("Intro"):
@@ -1036,97 +981,51 @@ def scrape_one_page(sb: SB, link_el, save_dir: Path):
                 desc_line = parts[1].split("\n")[0].strip()
                 description = desc_line
                 break
-
-    # 3) PROFILE PICTURE via the specific <image> XPath
-    profile_pic_link = ""
-    try:
-        img_elem = sb.find_element(
-            '//*[@id="mount_0_0_cy"]/div/div[1]/div/div[3]/div/div/div[1]/div[1]/div/div/div[1]/div[2]/div/div/div/div[1]/div/a/div/svg/g/image',
-            "xpath",
-            timeout=3
-        )
-        href = img_elem.get_attribute("xlink:href") or img_elem.get_attribute("href")
-        if href:
-            profile_pic_link = href
-    except:
-        pass
-
-    # 4) Now call existing extract_home(), then override fields as needed
     data = extract_home(sb)
-    data.update({
-        "page_id":         "",
-        "created_date":    "",
-        "admin_countries": [],
-        "name_changes":    0,
-        "is_running_ads":  False,
-        "recent_posts":    []
-    })
-
-    # Override with parsed website name & description if found
-    if website_name_exact:
-        data["website_name_exact"] = website_name_exact
+    if not data.get("profile_pic") and serp_avatar:
+        data["profile_pic"] = serp_avatar
     if description:
         data["description"] = description
-    if profile_pic_link:
-        data["profile_pic"] = profile_pic_link
-
-    # 5) Extract intro if no description (keeps existing logic)
-    extract_intro(sb, data)
-    # 6) Extract posts (with raw-text debug)
     extract_posts(sb, data)
-    # 7) Extract transparency (including refined name_changes)
+
+    try:
+        wait_click(sb, XP["about_tab"]); pause(1)
+        extract_contact_block(sb, data)
+    except: 
+        pass
+
     extract_transparency(sb, data)
 
-    # 8) Print the final JSON so you can see which values to keep:
-    # print("\n" + "="*60)
-    # print(f"FULL RAW DATA for page → {data.get('name','<unknown>')}")
-    # print("="*60 + "\n")
-    # print(json.dumps(data, indent=2, ensure_ascii=False))
-    # print("\n" + "="*60 + "\n")
+    # append to a single running file
+    AGG_FILE.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        blob = json.loads(AGG_FILE.read_text("utf-8"))
+        if not isinstance(blob, list):
+            blob = []
+    except FileNotFoundError:
+        blob = []
+    blob.append(data)
+    AGG_FILE.write_text(json.dumps(blob, indent=2, ensure_ascii=False), "utf-8")
+    print(f"[OK] appended to {AGG_FILE}")
 
-    # 9) Save to disk as before (if desired):
-    fname = slugify(data["name"] or "page")
-    path  = save_dir / f"{fname}.json"
-    i = 2
-    while path.exists():
-        path = save_dir / f"{fname}_{i}.json"
-        i += 1
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, indent=2, ensure_ascii=False), "utf-8")
-    print(f"[OK] saved → {path}")
-
-    # 10) Navigate back:
-    sb.driver.back()
-    sb.driver.back()
-    pause(1)
-# ───────────────────────── main loop ──────────────────────────────────────
-
+    sb.driver.back(); sb.driver.back(); pause(1)
 def main():
-    pairs: List[Tuple[str,int]] = []
-    if KEYWORDS_FILE.exists():
-        with KEYWORDS_FILE.open(encoding="utf-8") as fh:
-            for kw, depth, *_ in csv.reader(fh):
-                if kw and depth.isdigit():
-                    pairs.append((kw.strip(), int(depth)))
-    else:
-        pairs = [
-            ("coca cola", 2),
-            ("pepsi", 1),
-            ("burger king", 3),
-        ]
+    cookies, proxy_hp, proxy_user, proxy_pass = _select_account()
 
-    with SB(uc=False, headless=HEADLESS) as sb:
+    proxy_string = f"{proxy_user}:{proxy_pass}@{proxy_hp}" if proxy_user and proxy_pass else proxy_hp
+
+    with SB(headless=HEADLESS, proxy=proxy_string) as sb:
         sb.open("https://facebook.com")
-        for ck in load_cookies():
+        for ck in cookies:
             try:
                 sb.driver.add_cookie(ck)
-            except:
-                pass
+            except Exception as e:
+                print(f"[cookie error] {ck.get('name')} → {e}")
         sb.refresh()
         pause(2)
 
-        for kw, depth in pairs:
-            print(f"\n=== {kw!r} → first {depth} page(s) ===")
+        for kw in KEYWORDS:
+            print(f"\n=== {kw!r} ===")
             wait_click(sb, XP["search_box"])
             sb.type(XP["search_box"], kw + "\n", "xpath")
             pause(2)
@@ -1134,24 +1033,26 @@ def main():
             pause(1.5)
 
             if not click_pages_filter(sb):
-                print(f"[ERROR] Failed to click Pages filter for {kw}")
+                print(f"[ERROR] Pages filter failed for {kw}")
                 continue
 
-            pause(2.5)
-            links = get_page_links(sb)
-            if not links:
-                print("[WARN] no pages!")
+            link_elements = get_page_links(sb)
+            if not link_elements:
+                print("[WARN] No valid page links found")
                 continue
 
-            save_dir = Path("scraped_pages") / slugify(kw)
-            for el in links[:depth]:
-                scrape_one_page(sb, el, save_dir)
+            for el in link_elements:
+                avatar = _find_profile_pic(sb) or ""
+                try:
+                    scrape_one_page(sb, el, Path("scraped_pages"), avatar)
+                except Exception as e:
+                    print(f"[ERR] Failed scraping page: {e}")
 
             sb.open("https://facebook.com")
             pause(1)
 
-        print("[DONE] – browser stays open 60s for inspection.")
-        time.sleep(60)
+        print("DONE – browser kept open 30 s")
+        time.sleep(30)
 
 
 if __name__ == "__main__":
