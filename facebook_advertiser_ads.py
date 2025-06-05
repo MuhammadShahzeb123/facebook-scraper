@@ -20,9 +20,10 @@ SCROLLS_SEARCH = 3
 SCROLLS_PAGE   = 3
 COOKIE_FILE    = Path("./saved_cookies/facebook_cookies.txt")
 TARGET_FILE    = Path("targets.csv")           # optional CSV (country,keyword)
-OUTPUT_FILE = Path("combined_ads.json")
+
 OUTPUT_DIR = Path("Results")
 OUTPUT_DIR.mkdir(exist_ok=True)
+OUTPUT_FILE = OUTPUT_DIR / "combined_ads.json"
 
 TARGET_PAIRS: list[tuple[str,str]] = [
     ("Ukraine",       "rental apartments"),
@@ -56,22 +57,6 @@ def load_cookies() -> list[dict]:
         if "sameSite" in c and c["sameSite"].lower() not in {"strict", "lax", "none"}:
             c["sameSite"] = "None"
     return data
-
-
-def get_new_output_file(base: str = "combined_ads", ext: str = "json") -> Path:
-    """
-    Finds the next available numbered file like combined_ads_001.json.
-    """
-    existing = list(OUTPUT_DIR.glob(f"{base}_*.{ext}"))
-
-    nums = [
-        int(re.search(rf"{base}_(\d+)\.{ext}", f.name).group(1))
-        for f in existing
-        if re.search(rf"{base}_(\d+)\.{ext}", f.name)
-    ]
-    next_num = max(nums, default=0) + 1
-    return OUTPUT_DIR / f"{base}_{next_num:03d}.{ext}"
-
 
 def sanitize_filename(name: str) -> str:
     """Sanitize to be safe as a filename on all OSes (esp. Windows)."""
@@ -302,11 +287,9 @@ def main() -> None:
         sb.open(AD_LIBRARY_URL)
         sb.sleep(5)
             # … inside main(), after sb.open(AD_LIBRARY_URL) and sb.sleep(5):
-        global OUTPUT_FILE
-        OUTPUT_FILE = get_new_output_file()
-        OUTPUT_FILE.write_text("[]", encoding="utf-8")
-        print(f"[INFO] Created new output file: {OUTPUT_FILE}")
-
+        if not OUTPUT_FILE.exists():
+            OUTPUT_FILE.write_text("[]", encoding="utf-8")
+            print(f"[INFO] Created new output file: {OUTPUT_FILE}")
 
         for country, keyword in pairs:
             scrape_pair(sb, country, keyword)

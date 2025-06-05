@@ -1005,7 +1005,11 @@ def scrape_one_page(sb: SB,
     except FileNotFoundError:
         blob = []
     blob.append(data)
-    AGG_FILE.write_text(json.dumps(blob, indent=2, ensure_ascii=False), "utf-8")
+    AGG_FILE.write_text(
+    json.dumps(blob, indent=2, ensure_ascii=False),
+    encoding="utf-8"
+)
+
     print(f"[OK] appended to {AGG_FILE}")
 
     sb.driver.back(); sb.driver.back(); pause(1)

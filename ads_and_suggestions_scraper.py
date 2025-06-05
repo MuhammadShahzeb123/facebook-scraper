@@ -82,6 +82,9 @@ def wait_click(sb: SB, selector: str, *, by="css selector", timeout=10):
     sb.wait_for_element_visible(selector, by=by, timeout=timeout)
     sb.click(selector, by=by)
 
+def next_output_path(mode: str) -> Path:
+    """Return a consistent path for persistent appending."""
+    return OUTPUT_DIR / f"{mode}.json"
 
 def safe_type(sb: SB, selector: str, text: str, *,
               by="css selector", press_enter: bool = True, timeout: int = 10):
@@ -116,18 +119,9 @@ def pairs_from_csv() -> list[tuple[str, str]]:
 def get_target_pairs() -> list[tuple[str, str]]:
     return pairs_from_csv() or TARGET_PAIRS
 
-
 def next_output_path(mode: str) -> Path:
-    """Return a file path that does NOT yet exist (base, base_2 …)."""
-    base = OUTPUT_DIR / f"{mode}.json"
-    if not base.exists():
-        return base
-    i = 1
-    while True:
-        cand = OUTPUT_DIR / f"{mode}_{i}.json"
-        if not cand.exists():
-            return cand
-        i += 1
+    """Return a consistent path for persistent appending."""
+    return OUTPUT_DIR / f"{mode}.json"
 
 
 # ══════════════════════ SUGGESTION SCRAPING LOGIC ════════════════════════
@@ -291,10 +285,23 @@ def main():
             # Back to Ad-Library home for next pair
             sb.open(AD_LIBRARY_URL)
             sb.sleep(4)
+    # ── APPEND TO EXISTING OUTPUT FILE ────────────────────────────────────
+    if out_path.exists():
+        try:
+            existing = json.loads(out_path.read_text(encoding="utf-8"))
+            if not isinstance(existing, list):
+                existing = []
+        except Exception:
+            existing = []
+    else:
+        existing = []
 
-    # ── WRITE OUTPUT (nothing overwritten) ────────────────────────────────
+    existing.extend(run_data)
+
     with out_path.open("w", encoding="utf-8") as fh:
-        json.dump(run_data, fh, indent=2, ensure_ascii=False)
+        json.dump(existing, fh, indent=2, ensure_ascii=False)
+
+    print(f"\n[DONE] Appended {len(run_data)} new entries to {out_path}")
 
     print(f"\n[DONE] Saved {len(run_data)} pairs to {out_path}")
 
