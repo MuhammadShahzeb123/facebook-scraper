@@ -139,7 +139,7 @@ def collect_one_lib_per_page(sb: SB) -> dict[str, str]:
 def _txt(el, xp):
     try:
         return el.find_element("xpath", xp).text.strip()
-    except NoSuchElementException:
+    except NoSuchElementException: # type: ignore
         return ""
 
 
@@ -178,9 +178,9 @@ def extract_cards(sb: SB) -> list[dict]:
                     cta=cta_button, external_url=link,
                 )
             )
-        except (NoSuchElementException,
-                StaleElementReferenceException,
-                ElementNotInteractableException):
+        except (NoSuchElementException, # type: ignore
+                StaleElementReferenceException, # type: ignore
+                ElementNotInteractableException): # type: ignore
             continue
     return ads
 def close_popup_if_present(sb):
@@ -190,7 +190,7 @@ def close_popup_if_present(sb):
             '//div[@role="button" and (.="Close" or @aria-label="Close dialog")]')
         btn.click()
         sb.sleep(1)
-    except NoSuchElementException:
+    except NoSuchElementException: # type: ignore
         pass
 
 # ── scrape a single “view_all_page_id=” page ─────────────────────────
