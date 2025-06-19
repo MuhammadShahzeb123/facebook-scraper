@@ -382,7 +382,7 @@ def main() -> None:
 
     done_pairs = load_checkpoint()
 
-    with SB(uc=True, headless=False) as sb:
+    with SB(uc=True, headless=True) as sb:
         print("[INFO] Opening Facebook …")
         sb.open("https://facebook.com")
         print("[INFO] Restoring session cookies …")

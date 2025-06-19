@@ -22,7 +22,7 @@ SCROLLS       = 6        # scrolls before grabbing posts
 POST_LIMIT    = 100      # number of posts to scrape per page
 RETRY_LIMIT   = 2
 MAX_PAGE_LINKS = 40        # hard cap (can tweak later)
-ACCOUNT_NUMBER = 1          # 1 / 2 / 3  ← choose which FB account to use
+ACCOUNT_NUMBER = 2          # 1 / 2 / 3  ← choose which FB account to use
 # ── CONTINUATION / AUTO-RESUME ──────────────────────────────────────────
 CONFIG_FILE = Path("config.json")   # provides cookies-file & proxy per account
 PROGRESS_FILE  = Path("progress.json")          # where we checkpoint progress
