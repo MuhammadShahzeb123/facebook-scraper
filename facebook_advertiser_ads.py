@@ -8,7 +8,7 @@
 #  │    • Comprehensive non-Facebook link collection                  │
 #  ▀───────────────────────────────────────────────────────────────────▀
 
-import json, time, csv, re, os
+import json, time, csv, re, os, argparse
 from pathlib import Path
 from urllib.parse import urlparse
 from collections import defaultdict
@@ -464,6 +464,34 @@ def main() -> None:
 
         print("\n[DONE] All pairs processed – browser stays open for 3 min.")
         sb.sleep(180)
+
+# ── LOAD CONFIG FROM FILE OR COMMAND LINE ──────────────────────────────────
+def load_config():
+    """Load configuration from command line arguments or use defaults"""
+    global ADS_LIMIT, APPEND, TARGET_PAIRS
+
+    parser = argparse.ArgumentParser(description='Facebook Advertiser Ads Scraper')
+    parser.add_argument('--config', type=str, help='Path to JSON config file')
+    args = parser.parse_args()
+
+    if args.config and Path(args.config).exists():
+        try:
+            with open(args.config, 'r') as f:
+                config = json.load(f)
+
+            ADS_LIMIT = config.get('ADS_LIMIT', ADS_LIMIT)
+            APPEND = config.get('APPEND', APPEND)
+            if 'TARGET_PAIRS' in config:
+                TARGET_PAIRS = [tuple(pair) for pair in config['TARGET_PAIRS']]
+        except Exception as e:
+            print(f"[WARNING] Failed to load config file: {e}")
+
+    # Also check environment variables as fallback
+    ADS_LIMIT = int(os.environ.get('ADS_LIMIT', ADS_LIMIT))
+    APPEND = os.environ.get('APPEND', str(APPEND)).lower() == 'true'
+
+# Call load_config to initialize configuration
+load_config()
 
 if __name__ == "__main__":
     main()

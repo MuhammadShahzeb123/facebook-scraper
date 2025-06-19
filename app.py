@@ -1,29 +1,26 @@
 #!/usr/bin/env python3
 """
 Facebook Scraper REST API
-Provides endpoints for scraping Facebook ads, advertisers, pages, and posts
+POST endpoints to start scraping jobs, GET endpoints to retrieve JSON data
 """
 
 import asyncio
 import logging
 import time
 import traceback
+import json
+import subprocess
+import os
 from datetime import datetime, timedelta
 from typing import Optional, List, Dict, Any
-from urllib.parse import urlparse, parse_qs
+from pathlib import Path
 import re
 
-from fastapi import FastAPI, HTTPException, Query, BackgroundTasks
+from fastapi import FastAPI, HTTPException, Query, BackgroundTasks, Body
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, Field
 import uvicorn
-
-# Import our existing scraping modules
-from ads_scraper_api import AdsScraperAPI
-from advertiser_scraper_api import AdvertiserScraperAPI
-from page_scraper_api import PageScraperAPI
-from post_scraper_api import PostScraperAPI
 
 # Configure logging
 logging.basicConfig(
@@ -39,8 +36,8 @@ logger = logging.getLogger(__name__)
 # Initialize FastAPI app
 app = FastAPI(
     title="Facebook Scraper API",
-    description="RESTful API for scraping Facebook ads, advertisers, pages, and posts",
-    version="1.0.0",
+    description="POST endpoints to start scraping jobs, GET endpoints to retrieve JSON data",
+    version="2.0.0",
     docs_url="/docs",
     redoc_url="/redoc"
 )
@@ -54,24 +51,62 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize scraper APIs
-ads_scraper = AdsScraperAPI()
-advertiser_scraper = AdvertiserScraperAPI()
-page_scraper = PageScraperAPI()
-post_scraper = PostScraperAPI()
+# Results directory
+RESULTS_DIR = Path("Results")
+RESULTS_DIR.mkdir(exist_ok=True)
+
+# Pydantic models for request bodies
+class AdsScrapingRequest(BaseModel):
+    mode: str = Field(default="ads", description="ads, suggestions, or ads_and_suggestions")
+    headless: bool = Field(default=True, description="Run browser in headless mode")
+    ads_limit: int = Field(default=1000, description="Maximum number of ads to extract")
+    target_pairs: List[List[str]] = Field(
+        default=[["Ukraine", "rental apartments"], ["United States", "rental properties"]],
+        description="List of [country, keyword] pairs"
+    )
+
+class AdvertiserScrapingRequest(BaseModel):
+    headless: bool = Field(default=True, description="Run browser in headless mode")
+    ads_limit: int = Field(default=1000, description="Maximum number of ads to extract")
+    target_pairs: List[List[str]] = Field(
+        default=[["Ukraine", "rental apartments"], ["United States", "rental properties"]],
+        description="List of [country, keyword] pairs"
+    )
+
+class PageScrapingRequest(BaseModel):
+    search_method: str = Field(default="keyword", description="keyword or url")
+    headless: bool = Field(default=True, description="Run browser in headless mode")
+    post_limit: int = Field(default=100, description="Number of posts to scrape per page")
+    account_number: int = Field(default=2, description="Facebook account number to use (1, 2, or 3)")
+    keywords: List[str] = Field(
+        default=["coca cola", "pepsi", "burger king"],
+        description="Keywords to search for (when search_method=keyword)"
+    )
+    urls: List[str] = Field(
+        default=["https://www.facebook.com/CokePakistan"],
+        description="URLs to scrape (when search_method=url)"
+    )
 
 # Response models
-class APIResponse(BaseModel):
+class ScrapingResponse(BaseModel):
     success: bool
     message: str
-    data: Optional[Dict[str, Any]] = None
+    job_id: str
+    status: str
     timestamp: str
-    processing_time: float
 
-class ErrorResponse(BaseModel):
-    success: bool = False
-    error: str
+class DataResponse(BaseModel):
+    success: bool
+    data: Optional[List[Dict[str, Any]]] = None
+    file_info: Optional[Dict[str, Any]] = None
     timestamp: str
+
+# Job tracking
+active_jobs = {}
+
+def generate_job_id() -> str:
+    """Generate unique job ID"""
+    return f"job_{int(time.time())}_{hash(str(time.time())) % 10000}"
 
 # Request tracking for rate limiting
 request_tracker = {}
@@ -94,29 +129,6 @@ def rate_limit_check(client_ip: str, limit: int = 10, window: int = 60) -> bool:
     request_tracker[client_ip].append(now)
     return True
 
-def validate_facebook_url(url: str) -> bool:
-    """Validate if URL is a Facebook URL"""
-    try:
-        parsed = urlparse(url)
-        return parsed.netloc in ['facebook.com', 'www.facebook.com', 'm.facebook.com']
-    except:
-        return False
-
-def normalize_facebook_url(url: str) -> str:
-    """Normalize Facebook URL to standard format"""
-    if not url.startswith(('http://', 'https://')):
-        url = 'https://' + url
-
-    # Handle different Facebook URL formats
-    parsed = urlparse(url)
-    if 'profile.php' in parsed.path:
-        # Extract ID from profile.php?id=123456
-        query_params = parse_qs(parsed.query)
-        if 'id' in query_params:
-            return f"https://www.facebook.com/profile.php?id={query_params['id'][0]}"
-
-    return url
-
 @app.middleware("http")
 async def log_requests(request, call_next):
     """Log all API requests"""
@@ -127,10 +139,11 @@ async def log_requests(request, call_next):
     if not rate_limit_check(client_ip):
         return JSONResponse(
             status_code=429,
-            content=ErrorResponse(
-                error="Rate limit exceeded. Try again later.",
-                timestamp=datetime.now().isoformat()
-            ).dict()
+            content={
+                "success": False,
+                "error": "Rate limit exceeded. Try again later.",
+                "timestamp": datetime.now().isoformat()
+            }
         )
 
     response = await call_next(request)
@@ -151,11 +164,178 @@ async def global_exception_handler(request, exc):
     logger.error(f"Global exception: {str(exc)}\n{traceback.format_exc()}")
     return JSONResponse(
         status_code=500,
-        content=ErrorResponse(
-            error="Internal server error occurred",
-            timestamp=datetime.now().isoformat()
-        ).dict()
+        content={
+            "success": False,
+            "error": "Internal server error occurred",
+            "timestamp": datetime.now().isoformat()
+        }
     )
+
+# Async functions to run scrapers
+async def run_ads_scraper(job_id: str, request_data: AdsScrapingRequest):
+    """Run ads scraper in background"""
+    try:
+        active_jobs[job_id] = {"status": "running", "type": "ads", "started_at": datetime.now().isoformat()}
+
+        # Create temporary config for this job
+        temp_config = {
+            "MODE": request_data.mode,
+            "HEADLESS": request_data.headless,
+            "ADS_LIMIT": request_data.ads_limit,
+            "TARGET_PAIRS": request_data.target_pairs
+        }
+
+        # Save temporary config
+        temp_config_path = f"temp_ads_config_{job_id}.json"
+        with open(temp_config_path, 'w') as f:
+            json.dump(temp_config, f)
+
+        # Create command arguments
+        cmd = [
+            "python", "ads_and_suggestions_scraper.py",
+            "--config", temp_config_path
+        ]
+
+        # Set environment variables as fallback
+        env = {
+            "MODE": request_data.mode,
+            "HEADLESS": str(request_data.headless),
+            "ADS_LIMIT": str(request_data.ads_limit),
+            **dict(os.environ)
+        }
+
+        # Run scraper
+        process = await asyncio.create_subprocess_exec(
+            *cmd,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+            env=env
+        )
+
+        stdout, stderr = await process.communicate()
+
+        # Clean up temp config
+        try:
+            os.remove(temp_config_path)
+        except:
+            pass
+
+        if process.returncode == 0:
+            active_jobs[job_id]["status"] = "completed"
+            active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
+        else:
+            active_jobs[job_id]["status"] = "failed"
+            active_jobs[job_id]["error"] = stderr.decode()
+    except Exception as e:
+        active_jobs[job_id]["status"] = "failed"
+        active_jobs[job_id]["error"] = str(e)
+
+async def run_advertiser_scraper(job_id: str, request_data: AdvertiserScrapingRequest):
+    """Run advertiser scraper in background"""
+    try:
+        active_jobs[job_id] = {"status": "running", "type": "advertiser", "started_at": datetime.now().isoformat()}
+
+        # Create temporary config for this job
+        temp_config = {
+            "ADS_LIMIT": request_data.ads_limit,
+            "TARGET_PAIRS": request_data.target_pairs,
+            "HEADLESS": request_data.headless
+        }
+
+        # Save temporary config
+        temp_config_path = f"temp_advertiser_config_{job_id}.json"
+        with open(temp_config_path, 'w') as f:
+            json.dump(temp_config, f)
+
+        # Set environment variables
+        env = {
+            "ADS_LIMIT": str(request_data.ads_limit),
+            "HEADLESS": str(request_data.headless),
+            **dict(os.environ)
+        }
+
+        cmd = ["python", "facebook_advertiser_ads.py", "--config", temp_config_path]
+
+        process = await asyncio.create_subprocess_exec(
+            *cmd,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+            env=env
+        )
+
+        stdout, stderr = await process.communicate()
+
+        # Clean up temp config
+        try:
+            os.remove(temp_config_path)
+        except:
+            pass
+
+        if process.returncode == 0:
+            active_jobs[job_id]["status"] = "completed"
+            active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
+        else:
+            active_jobs[job_id]["status"] = "failed"
+            active_jobs[job_id]["error"] = stderr.decode()
+    except Exception as e:
+        active_jobs[job_id]["status"] = "failed"
+        active_jobs[job_id]["error"] = str(e)
+
+async def run_pages_scraper(job_id: str, request_data: PageScrapingRequest):
+    """Run pages scraper in background"""
+    try:
+        active_jobs[job_id] = {"status": "running", "type": "pages", "started_at": datetime.now().isoformat()}
+
+        # Create temporary config for this job
+        temp_config = {
+            "SEARCH_METHOD": request_data.search_method,
+            "HEADLESS": request_data.headless,
+            "POST_LIMIT": request_data.post_limit,
+            "ACCOUNT_NUMBER": request_data.account_number,
+            "KEYWORDS": request_data.keywords,
+            "URLS": request_data.urls
+        }
+
+        # Save temporary config
+        temp_config_path = f"temp_pages_config_{job_id}.json"
+        with open(temp_config_path, 'w') as f:
+            json.dump(temp_config, f)
+
+        # Set environment variables
+        env = {
+            "SEARCH_METHOD": request_data.search_method,
+            "HEADLESS": str(request_data.headless),
+            "POST_LIMIT": str(request_data.post_limit),
+            "ACCOUNT_NUMBER": str(request_data.account_number),
+            **dict(os.environ)
+        }
+
+        cmd = ["python", "facebook_pages_scraper.py", "--config", temp_config_path]
+
+        process = await asyncio.create_subprocess_exec(
+            *cmd,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+            env=env
+        )
+
+        stdout, stderr = await process.communicate()
+
+        # Clean up temp config
+        try:
+            os.remove(temp_config_path)
+        except:
+            pass
+
+        if process.returncode == 0:
+            active_jobs[job_id]["status"] = "completed"
+            active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
+        else:
+            active_jobs[job_id]["status"] = "failed"
+            active_jobs[job_id]["error"] = stderr.decode()
+    except Exception as e:
+        active_jobs[job_id]["status"] = "failed"
+        active_jobs[job_id]["error"] = str(e)
 
 # API Endpoints
 
@@ -164,183 +344,260 @@ async def health_check():
     """Health check endpoint"""
     return {"status": "healthy", "timestamp": datetime.now().isoformat()}
 
-@app.get("/ads_search", response_model=APIResponse)
-async def ads_search(
-    keyword: str = Query(..., description="Search term for filtering ads by keyword"),
-    category: str = Query("all", description="Filter ads by category"),
-    location: str = Query("thailand", description="Filter ads by location"),
-    language: str = Query("thai", description="Filter ads by language"),
-    advertiser: str = Query("all", description="Filter ads by advertiser"),
-    platform: str = Query("all", description="Filter ads by platform"),
-    media_type: str = Query("all", description="Filter ads by media type"),
-    status: str = Query("all", description="Filter ads by status (active/inactive)"),
-    start_date: str = Query("June 18, 2018", description="Start date for ads filtering"),
-    end_date: str = Query("today", description="End date for ads filtering"),
-    limit: int = Query(1000, ge=1, le=1000000, description="Number of results per page")
+# POST endpoints to start scraping jobs
+
+@app.post("/scrape/ads", response_model=ScrapingResponse)
+async def start_ads_scraping(
+    background_tasks: BackgroundTasks,
+    request_data: AdsScrapingRequest = Body(...)
 ):
     """
-    Scrape all pages from Meta Ads library based on given filter conditions
+    Start ads and suggestions scraping job
     """
-    start_time = time.time()
-
     try:
-        logger.info(f"Starting ads search for keyword: {keyword}")
+        job_id = generate_job_id()
 
-        # Convert end_date if "today"
-        if end_date.lower() == "today":
-            end_date = datetime.now().strftime("%B %d, %Y")
+        # Add background task
+        background_tasks.add_task(run_ads_scraper, job_id, request_data)
 
-        # Call the ads scraper
-        result = await ads_scraper.search_ads(
-            keyword=keyword,
-            category=category,
-            location=location,
-            language=language,
-            advertiser=advertiser,
-            platform=platform,
-            media_type=media_type,
-            status=status,
-            start_date=start_date,
-            end_date=end_date,
-            limit=limit
-        )
+        logger.info(f"Started ads scraping job: {job_id}")
 
-        processing_time = time.time() - start_time
-
-        return APIResponse(
+        return ScrapingResponse(
             success=True,
-            message=f"Successfully retrieved {len(result.get('ads', []))} ads",
-            data=result,
-            timestamp=datetime.now().isoformat(),
-            processing_time=processing_time
+            message="Ads scraping job started successfully",
+            job_id=job_id,
+            status="running",
+            timestamp=datetime.now().isoformat()
         )
 
     except Exception as e:
-        logger.error(f"Error in ads_search: {str(e)}")
+        logger.error(f"Error starting ads scraping: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/advertiser_search", response_model=APIResponse)
-async def advertiser_search(
-    keyword: str = Query(..., description="Search term for filtering ads by keyword"),
-    scrape_page: bool = Query(True, description="If True, scrape the advertiser's page data")
+@app.post("/scrape/advertisers", response_model=ScrapingResponse)
+async def start_advertiser_scraping(
+    background_tasks: BackgroundTasks,
+    request_data: AdvertiserScrapingRequest = Body(...)
 ):
     """
-    Get an advertisers list and their page data based on the given keyword
+    Start advertiser scraping job
     """
-    start_time = time.time()
-
     try:
-        logger.info(f"Starting advertiser search for keyword: {keyword}")
+        job_id = generate_job_id()
 
-        result = await advertiser_scraper.search_advertisers(
-            keyword=keyword,
-            scrape_page=scrape_page
-        )
+        # Add background task
+        background_tasks.add_task(run_advertiser_scraper, job_id, request_data)
 
-        processing_time = time.time() - start_time
+        logger.info(f"Started advertiser scraping job: {job_id}")
 
-        return APIResponse(
+        return ScrapingResponse(
             success=True,
-            message=f"Successfully retrieved {len(result.get('advertisers', []))} advertisers",
-            data=result,
-            timestamp=datetime.now().isoformat(),
-            processing_time=processing_time
+            message="Advertiser scraping job started successfully",
+            job_id=job_id,
+            status="running",
+            timestamp=datetime.now().isoformat()
         )
 
     except Exception as e:
-        logger.error(f"Error in advertiser_search: {str(e)}")
+        logger.error(f"Error starting advertiser scraping: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/page_extract", response_model=APIResponse)
-async def page_extract(
-    url: str = Query(..., description="URL of the Facebook page"),
-    extract_post: bool = Query(True, description="If yes, scrape posts from the page"),
-    post_limit: int = Query(100, ge=1, le=1000, description="Number of posts to scrape per page")
+@app.post("/scrape/pages", response_model=ScrapingResponse)
+async def start_pages_scraping(
+    background_tasks: BackgroundTasks,
+    request_data: PageScrapingRequest = Body(...)
 ):
     """
-    Scrape page data based on given page URL
-    Supports hybrid URL types:
-    - https://www.facebook.com/thammasat.uni
-    - https://www.facebook.com/profile.php?id=61571049031016
+    Start Facebook pages scraping job
     """
-    start_time = time.time()
-
     try:
-        # Validate URL
-        if not validate_facebook_url(url):
-            raise HTTPException(status_code=400, detail="Invalid Facebook URL provided")
+        job_id = generate_job_id()
 
-        # Normalize URL
-        normalized_url = normalize_facebook_url(url)
+        # Add background task
+        background_tasks.add_task(run_pages_scraper, job_id, request_data)
 
-        logger.info(f"Starting page extraction for URL: {normalized_url}")
+        logger.info(f"Started pages scraping job: {job_id}")
 
-        result = await page_scraper.extract_page(
-            url=normalized_url,
-            extract_posts=extract_post,
-            post_limit=post_limit
-        )
-
-        processing_time = time.time() - start_time
-
-        return APIResponse(
+        return ScrapingResponse(
             success=True,
-            message=f"Successfully extracted page data with {len(result.get('posts', []))} posts",
-            data=result,
-            timestamp=datetime.now().isoformat(),
-            processing_time=processing_time
+            message="Pages scraping job started successfully",
+            job_id=job_id,
+            status="running",
+            timestamp=datetime.now().isoformat()
         )
 
     except Exception as e:
-        logger.error(f"Error in page_extract: {str(e)}")
+        logger.error(f"Error starting pages scraping: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/post_extract", response_model=APIResponse)
-async def post_extract(
-    url: str = Query(..., description="URL of the Facebook post")
-):
-    """
-    Scrape post data based on given post URL
-    Supports URLs like: https://www.facebook.com/share/p/1CA6tAVYLE/
-    """
-    start_time = time.time()
+# GET endpoints to retrieve data from JSON files
 
+@app.get("/data/ads", response_model=DataResponse)
+async def get_ads_data():
+    """
+    Get ads data from JSON files
+    """
     try:
-        # Validate URL
-        if not validate_facebook_url(url):
-            raise HTTPException(status_code=400, detail="Invalid Facebook URL provided")
+        data_files = []
+        ads_files = list(RESULTS_DIR.glob("ads*.json"))
 
-        logger.info(f"Starting post extraction for URL: {url}")
+        all_data = []
+        for file_path in ads_files:
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    file_data = json.load(f)
+                    if isinstance(file_data, list):
+                        all_data.extend(file_data)
+                    else:
+                        all_data.append(file_data)
+                data_files.append({
+                    "file": file_path.name,
+                    "size": file_path.stat().st_size,
+                    "modified": datetime.fromtimestamp(file_path.stat().st_mtime).isoformat()
+                })
+            except Exception as e:
+                logger.error(f"Error reading {file_path}: {e}")
 
-        result = await post_scraper.extract_post(url=url)
-
-        processing_time = time.time() - start_time
-
-        return APIResponse(
+        return DataResponse(
             success=True,
-            message="Successfully extracted post data",
-            data=result,
-            timestamp=datetime.now().isoformat(),
-            processing_time=processing_time
+            data=all_data,
+            file_info={
+                "total_files": len(data_files),
+                "total_records": len(all_data),
+                "files": data_files
+            },
+            timestamp=datetime.now().isoformat()
         )
 
     except Exception as e:
-        logger.error(f"Error in post_extract: {str(e)}")
+        logger.error(f"Error retrieving ads data: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/data/advertisers", response_model=DataResponse)
+async def get_advertisers_data():
+    """
+    Get advertisers data from JSON files
+    """
+    try:
+        data_files = []
+        advertiser_files = list(RESULTS_DIR.glob("combined_ads*.json"))
+
+        all_data = []
+        for file_path in advertiser_files:
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    file_data = json.load(f)
+                    if isinstance(file_data, list):
+                        all_data.extend(file_data)
+                    else:
+                        all_data.append(file_data)
+                data_files.append({
+                    "file": file_path.name,
+                    "size": file_path.stat().st_size,
+                    "modified": datetime.fromtimestamp(file_path.stat().st_mtime).isoformat()
+                })
+            except Exception as e:
+                logger.error(f"Error reading {file_path}: {e}")
+
+        return DataResponse(
+            success=True,
+            data=all_data,
+            file_info={
+                "total_files": len(data_files),
+                "total_records": len(all_data),
+                "files": data_files
+            },
+            timestamp=datetime.now().isoformat()
+        )
+
+    except Exception as e:
+        logger.error(f"Error retrieving advertisers data: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/data/pages", response_model=DataResponse)
+async def get_pages_data():
+    """
+    Get pages data from JSON files
+    """
+    try:
+        data_files = []
+        pages_files = list(RESULTS_DIR.glob("all_pages*.json"))
+
+        all_data = []
+        for file_path in pages_files:
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    file_data = json.load(f)
+                    if isinstance(file_data, list):
+                        all_data.extend(file_data)
+                    else:
+                        all_data.append(file_data)
+                data_files.append({
+                    "file": file_path.name,
+                    "size": file_path.stat().st_size,
+                    "modified": datetime.fromtimestamp(file_path.stat().st_mtime).isoformat()
+                })
+            except Exception as e:
+                logger.error(f"Error reading {file_path}: {e}")
+
+        return DataResponse(
+            success=True,
+            data=all_data,
+            file_info={
+                "total_files": len(data_files),
+                "total_records": len(all_data),
+                "files": data_files
+            },
+            timestamp=datetime.now().isoformat()
+        )
+
+    except Exception as e:
+        logger.error(f"Error retrieving pages data: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/jobs/{job_id}")
+async def get_job_status(job_id: str):
+    """
+    Get status of a specific job
+    """
+    if job_id not in active_jobs:
+        raise HTTPException(status_code=404, detail="Job not found")
+
+    return {
+        "job_id": job_id,
+        "status": active_jobs[job_id]["status"],
+        "details": active_jobs[job_id],
+        "timestamp": datetime.now().isoformat()
+    }
+
+@app.get("/jobs")
+async def get_all_jobs():
+    """
+    Get status of all jobs
+    """
+    return {
+        "jobs": active_jobs,
+        "total_jobs": len(active_jobs),
+        "timestamp": datetime.now().isoformat()
+    }
 
 @app.get("/status")
 async def get_status():
     """Get API status and statistics"""
     return {
-        "api_version": "1.0.0",
+        "api_version": "2.0.0",
         "status": "operational",
-        "endpoints": [
-            "/ads_search",
-            "/advertiser_search",
-            "/page_extract",
-            "/post_extract"
+        "scraping_endpoints": [
+            "POST /scrape/ads",
+            "POST /scrape/advertisers",
+            "POST /scrape/pages"
         ],
-        "uptime": "Available",
+        "data_endpoints": [
+            "GET /data/ads",
+            "GET /data/advertisers",
+            "GET /data/pages"
+        ],
+        "active_jobs": len(active_jobs),
         "timestamp": datetime.now().isoformat()
     }
 

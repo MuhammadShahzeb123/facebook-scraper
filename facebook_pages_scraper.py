@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # facebook_keyword_scraper.py – v3.6  (2025-06-10)
 
-import csv, json, re, time, unicodedata, sys
+import csv, json, re, time, unicodedata, sys, argparse, os
 from pathlib import Path
 from typing import Dict, List, Tuple
 from urllib.parse import urlparse, parse_qs, unquote
@@ -16,24 +16,71 @@ from seleniumbase import SB #type: ignore
 # ═══════════════════════ USER CONFIG ══════════════════════════════════════
 COOKIE_FILE   = Path("saved_cookies/facebook_cookies.txt")
 KEYWORDS_FILE = Path("keywords.csv")      # keyword , pages_to_visit
-HEADLESS      = False  # True / False
+HEADLESS      = True  # True / False
 WAIT_SECS     = 2.0
 SCROLLS       = 6        # scrolls before grabbing posts
 POST_LIMIT    = 100      # number of posts to scrape per page
 RETRY_LIMIT   = 2
 MAX_PAGE_LINKS = 40        # hard cap (can tweak later)
 ACCOUNT_NUMBER = 2          # 1 / 2 / 3  ← choose which FB account to use
+
+# ── LOAD CONFIG FROM FILE OR COMMAND LINE ──────────────────────────────────
+def load_config():
+    """Load configuration from command line arguments or use defaults"""
+    global SEARCH_METHOD, KEYWORDS, URLS, HEADLESS, POST_LIMIT, ACCOUNT_NUMBER
+
+    parser = argparse.ArgumentParser(description='Facebook Pages Scraper')
+    parser.add_argument('--config', type=str, help='Path to JSON config file')
+    args = parser.parse_args()
+
+    if args.config and Path(args.config).exists():
+        try:
+            with open(args.config, 'r') as f:
+                config = json.load(f)
+
+            SEARCH_METHOD = config.get('SEARCH_METHOD', SEARCH_METHOD)
+            HEADLESS = config.get('HEADLESS', HEADLESS)
+            POST_LIMIT = config.get('POST_LIMIT', POST_LIMIT)
+            ACCOUNT_NUMBER = config.get('ACCOUNT_NUMBER', ACCOUNT_NUMBER)
+            if 'KEYWORDS' in config:
+                KEYWORDS = config['KEYWORDS']
+            if 'URLS' in config:
+                URLS = config['URLS']
+        except Exception as e:
+            print(f"[WARNING] Failed to load config file: {e}")
+
+    # Also check environment variables as fallback
+    SEARCH_METHOD = os.environ.get('SEARCH_METHOD', SEARCH_METHOD)
+    HEADLESS = os.environ.get('HEADLESS', str(HEADLESS)).lower() == 'true'
+    POST_LIMIT = int(os.environ.get('POST_LIMIT', POST_LIMIT))
+    ACCOUNT_NUMBER = int(os.environ.get('ACCOUNT_NUMBER', ACCOUNT_NUMBER))
+
 # ── CONTINUATION / AUTO-RESUME ──────────────────────────────────────────
 CONFIG_FILE = Path("config.json")   # provides cookies-file & proxy per account
 PROGRESS_FILE  = Path("progress.json")          # where we checkpoint progress
 CFG_ROOT       = json.loads(CONFIG_FILE.read_text("utf-8"))
 CONTINUATION = True  # or False, depending on your desired behavior
+POST_RETRIES = 6          # how many times to re-extract one post
 
+# ── SEARCH METHOD SELECTION ──────────────────────────────────────────────
+SEARCH_METHOD = "url"  # "keyword" or "url"
+
+# ── URL INPUT (when SEARCH_METHOD = "url") ─────────────────────────────────
+URLS = [
+    "https://www.facebook.com/CokePakistan",
+    "https://www.facebook.com/pepsi",
+    "https://www.facebook.com/burgerking",
+]
+
+# ── KEYWORD INPUT (when SEARCH_METHOD = "keyword") ──────────────────────────
 KEYWORDS = [
     "coca cola",
     "pepsi",
     "burger king",
 ]
+
+# Call load_config to initialize configuration
+load_config()
 
 # ══════════════════════════════════════════════════════════════════════════
 
@@ -142,14 +189,20 @@ def _sanitise_cookie(c: dict) -> dict:
 def _save_checkpoint(kw_i: int, link_i: int) -> None:
     """Write current indices to disk so we can resume after a crash."""
     if CONTINUATION:
-        PROGRESS_FILE.write_text(json.dumps({"kw": kw_i, "lnk": link_i}))
+        PROGRESS_FILE.write_text(json.dumps({
+            "method": SEARCH_METHOD,
+            "kw": kw_i,
+            "lnk": link_i
+        }))
 
 def _load_checkpoint() -> Tuple[int, int]:
     """(kw_index , link_index) stored from previous run (0,0) if none."""
     if CONTINUATION and PROGRESS_FILE.exists():
         try:
             obj = json.loads(PROGRESS_FILE.read_text())
-            return int(obj.get("kw", 0)), int(obj.get("lnk", 0))
+            # Only resume if same search method
+            if obj.get("method") == SEARCH_METHOD:
+                return int(obj.get("kw", 0)), int(obj.get("lnk", 0))
         except Exception:
             pass
     return 0, 0
@@ -225,88 +278,34 @@ def click_pages_filter(sb: SB):
 # ─────────────────────────────────────────────────────────────────────────
 #  avatar-finder  –  replace the old _find_profile_pic()
 # ─────────────────────────────────────────────────────────────────────────
-def _dim_from_url(url: str) -> int:
-    """e.g. …s200x200… → 200   (returns 0 if no size hint)."""
-    m = re.search(r'[sp](\d{2,4})x\1', url)          # same w×h pattern
-    return int(m.group(1)) if m else 0
-
-
-def _find_profile_pic(sb: SB) -> str:
+# ───────────────── profile-picture extractor ──────────────────────────
+def _extract_profile_pic(sb: SB) -> str:
     """
-    Return the PAGE’s profile-picture URL.
+    Return the page’s profile-picture URL.
 
-    Approach
-    --------
-    1.  Collect every URL that appears in the *header* (`role="banner"`)
-        •  <img>/<image>  → src / xlink:href / href
-        •  elements whose *style* contains background-image:url(…)
-    2.  Add `<meta property="og:image">` (often the avatar) if present.
-    3.  Deduplicate, then pick the candidate with the largest embedded
-        size hint (s200x200 ≫ s40x40 – nav avatars are tiny).
-    4.  Last-chance fallback: grep the whole HTML for the largest
-        scontent…s###x###.(jpg|png|webp).
-
-    Returns empty string if nothing plausible is found.
+    Logic (requested):
+      • grab every <image> element
+      • take its xlink:href
+      • keep only URLs that contain 's200x200'
+        and DO NOT contain '_nc_cat=107'
+      • if several remain, use the *last* one
     """
-    cand: list[str] = []
-
-    # ---- header <img> / <image> ----------------------------------------
+    js = """
+    const ns = "http://www.w3.org/1999/xlink";
+    const urls = Array.from(document.querySelectorAll("image"))
+      .map(img => img.getAttributeNS(ns, "href"))
+      .filter(u => u && u.includes("s200x200") && !u.includes("_nc_cat=107"));
+    return urls;               // SeleniumBase gives this back to Python
+    """
     try:
-        nodes = sb.find_elements(
-            '//div[@role="banner"]//*[local-name()="img" or local-name()="image"]',
-            "xpath"
-        )
-        for n in nodes:
-            for attr in ("src", "xlink:href", "href"):
-                u = n.get_attribute(attr) or ""
-                if "scontent" in u:
-                    cand.append(u)
-    except: pass
+        urls = sb.execute_script(js)
+        if urls and isinstance(urls, list):
+            return urls[-1]     # ← choose the last candidate
+    except Exception as e:
+        print(f"[WARN] profile-pic JS failed: {e}")
 
-    # ---- header background-image URLs ----------------------------------
-    try:
-        bg_nodes = sb.find_elements(
-            '//div[@role="banner"]//*[contains(@style,"background-image")]',
-            "xpath"
-        )
-        for n in bg_nodes:
-            style = n.get_attribute("style") or ""
-            m = re.search(
-                r'url\([\'"]?(https://[^)"\']*scontent[^)"\']+)[\'"]?\)', style)
-            if m: cand.append(m.group(1))
-    except: pass
+    return ""                   # nothing found / error
 
-    # ---- og:image meta -------------------------------------------------
-    try:
-        metas = sb.find_elements('//head//meta[@property="og:image"]', "xpath")
-        for m in metas:
-            u = m.get_attribute("content") or ""
-            if "scontent" in u:
-                cand.append(u)
-    except: pass
-
-    # ---- choose the best candidate -------------------------------------
-    uniq = []
-    seen = set()
-    for u in cand:
-        if u not in seen:
-            uniq.append(u); seen.add(u)
-
-    if uniq:
-        uniq.sort(key=_dim_from_url, reverse=True)   # biggest avatar first
-        return uniq[0]
-
-    # ---- final fallback: biggest scontent avatar in full HTML ----------
-    src = sb.get_page_source()
-    all_urls = re.findall(
-        r'https://scontent[^"]+?s\d{2,4}x\d{2,4}[^"]+\.(?:jpg|png|webp)',
-        src, re.I
-    )
-    if all_urls:
-        all_urls.sort(key=_dim_from_url, reverse=True)
-        return all_urls[0]
-
-    return ""
 def extract_contact_block(sb: SB, data: dict):
     """
     Parses the About-page contact chunk and fills:
@@ -321,7 +320,7 @@ def extract_contact_block(sb: SB, data: dict):
             "xpath", timeout=4
         )
         raw = box.text.strip()
-        data["about_raw"] = raw
+        # data["about_raw"] = raw
 
         lines = [ln.strip() for ln in raw.splitlines() if ln.strip()]
         lbls = {"address": "Address", "mobile": "Mobile", "email": "Email"}
@@ -581,7 +580,7 @@ def extract_post(container: WebElement) -> dict:
     caption   = extract_with_retry(container, extract_caption) or ""
     url       = extract_with_retry(container, extract_url) or ""
     images    = extract_with_retry(container, extract_images) or []
-    video_url = extract_with_retry(container, extract_video_url) or ""
+    # video_url = extract_with_retry(container, extract_video_url) or ""
 
     likes, comments, shares = _extract_likes_shares_from_text(container)
     # likes  = min(likes, 10_000_000)         # safety caps
@@ -591,7 +590,7 @@ def extract_post(container: WebElement) -> dict:
         "text":       caption[:500],
         "url":        url,
         "images":     images,
-        "video_url":  video_url,
+        # "video_url":  video_url,
         "likes":      likes,
         "comments":   comments,
         "shares":     shares,
@@ -613,27 +612,28 @@ def extract_posts(sb: SB, data: dict):
         '//div[contains(@class,"x1yztbdb") and .//div[contains(@data-ad-preview,"message")]]'
     )
     print(f"🔍 Found {len(containers)} post containers")
-
     posts = []
-    for i, c in enumerate(containers):
-        if len(posts) >= POST_LIMIT: break
+    for idx, c in enumerate(containers):
+        if len(posts) >= POST_LIMIT:
+            break
 
-        # ---------- NEW DEBUG: raw container text -------------------------
-        # print("\n──────── RAW POST CONTAINER ────────")
-        # print(c.text)
-        # print("────────────────────────────────────\n")
+        sb.execute_script("arguments[0].scrollIntoView({block:'center'});", c)
+        pause(0.5)
 
-        try:
-            sb.execute_script("arguments[0].scrollIntoView({block:'center'});", c)
-            pause(0.5)
+        post = {}
+        for _ in range(POST_RETRIES):
             post = extract_post(c)
-            if post.get("text") or post.get("url"):
-                posts.append(post)
-        except Exception as e:
-            print(f"[post {i+1}] {e}")
+            if post.get("url") or post.get("likes") or post.get("images") or post.get("video_url"):
+                break          # got something useful
+            pause(0.4)         # short pause then try again
+        if idx == 0 and not any(post.get(k) for k in ("likes", "comments", "shares")):
+            print("[INFO] Skipping pinned/featured post (no engagement shown yet)")
+            continue
+        if post.get("text") or post.get("url"):
+            posts.append(post)
+
 
     data["recent_posts"] = posts
-
     for _ in range(SCROLLS):
         sb.execute_script("window.scrollBy(0, -document.body.scrollHeight*0.7)")
         pause(1.2)
@@ -643,7 +643,7 @@ def extract_home(sb: SB) -> Dict:
     out = {
         "name": "", "profile_pic": "", "verified": False,
         "followers": "", "likes": "", "category": "",
-        "website": "",
+
         "description": ""
     }
 
@@ -656,7 +656,8 @@ def extract_home(sb: SB) -> Dict:
     except: pass
 
     # Profile-picture  (single helper covers all cases)
-    out["profile_pic"] = _find_profile_pic(sb)
+    out["profile_pic"] = _extract_profile_pic(sb)
+
 
     # Followers / Likes   (regex over page-source)
     src = sb.get_page_source()
@@ -691,28 +692,38 @@ def extract_home(sb: SB) -> Dict:
 
     return out
 # ── NEW ────────────────────────────────────────────────────────────────────
-def _extract_likes_shares_from_text(container: WebElement) -> tuple[int, int]:
+def _extract_likes_shares_from_text(container: WebElement) -> tuple[str,str,str]:
     """
-    Capture engagement numbers exactly as Facebook shows them
-    (e.g.  '192K', '5', '3.4M').  Returns **strings**:
-        →  (likes , comments , shares)
+    Robustly pull “likes / comments / shares” from *any* post, including
+    pinned/featured ones where Facebook inserts a newline between every char.
+    Returns the raw strings exactly as they appear on the UI.
     """
-    txt = container.text
-    likes = comments = shares = ""
+    # 1️⃣ Get the raw text and squash weird spacing
+    raw = container.text.replace("\n", " ").replace("  ", " ")
 
-    m_like = re.search(r'All reactions:\s*([0-9.,KkMm]+)', txt)
-    if m_like:
-        likes = m_like.group(1)
+    # 2️⃣ Do a fast bailout – if the keywords aren’t there, try forcing
+    #     the toolbar to load by scrolling the element into view once.
+    if "Like" not in raw and "Comment" not in raw and "Share" not in raw:
+        container.parent.execute_script(
+            "arguments[0].scrollIntoView({block:'center'});", container)
+        time.sleep(0.4)
+        raw = container.text.replace("\n", " ").replace("  ", " ")
 
-    m_com = re.search(r'([0-9.,KkMm]+)\s+comment', txt, re.I)
-    if m_com:
-        comments = m_com.group(1)
+    # 3️⃣ Regexes that survive most language variants
+    like_pat     = r'All reactions:\s*([0-9.,KkMm]+)|([0-9.,KkMm]+)\s+Like'
+    comment_pat  = r'([0-9.,KkMm]+)\s+Comment'
+    share_pat    = r'([0-9.,KkMm]+)\s+Share'
 
-    m_share = re.search(r'([0-9.,KkMm]+)\s+share', txt, re.I)
-    if m_share:
-        shares = m_share.group(1)
+    likes    = next((g for g in re.findall(like_pat, raw) if any(g)), ('',''))[0] or ''
+    comments = _first_group(raw, comment_pat)
+    shares   = _first_group(raw, share_pat)
 
     return likes, comments, shares
+
+
+def _first_group(text, pat):
+    m = re.search(pat, text, re.I)
+    return m.group(1) if m else ''
 
 def extract_intro(sb: SB, data: Dict):
     """
@@ -810,6 +821,9 @@ def extract_transparency(sb: SB, data: Dict):
             print("[OK] Clicked See All")
         except Exception as e:
             print(f"[WARN] ‘See All’ button not found or clickable: {e}")
+        for _ in range(2):                      # click/parse up to 2 times
+            transparency_text = ""              # reset each round
+
         # 5) Now parse the raw admin info in the modal for dates, countries, name changes, ads, etc.
         try:
             admin_texts = sb.find_elements(
@@ -817,7 +831,7 @@ def extract_transparency(sb: SB, data: Dict):
                 "xpath"
             )
             transparency_text = "\n".join([t.text for t in admin_texts if t.text])
-            data["transparency_raw"] = transparency_text
+            # data["transparency_raw"] = transparency_text
             # modal = sb.find_element('//div[@role="dialog"]', "xpath", timeout=5)
             # raw   = modal.text
             # Page ID (again, just in case)
@@ -854,12 +868,19 @@ def extract_transparency(sb: SB, data: Dict):
                     # ignore if empty OR looks like a date
                     if new_name and not re.match(r'\d{1,2}\s+\w+\s+\d{4}', new_name):
                         changes.append(new_name)
-            data["name_changes"] = len(changes)
+            data["name_changes"]      = len(changes)
+            data["name_change_lines"] = changes        # ← new field
 
             # Ads flag & Verified fallback
             data["is_running_ads"] = ("currently running ads" in transparency_text.lower())
             if "verified" in transparency_text:
                 data["verified"] = True
+            # ------ likes / followers (override home-page regex if present) ------
+            likes_str, foll_str = _parse_likes_followers_from_transparency(transparency_text)
+            if likes_str:
+                data["likes"] = likes_str
+            if foll_str:
+                data["followers"] = foll_str
 
         except Exception as e:
             print(f"[WARN] Transparency modal parsing failed: {str(e)}")
@@ -903,6 +924,21 @@ def get_texts_by_xpath(sb: SB, xpath: str) -> list:
         except Exception:
             continue
     return results
+
+def _parse_likes_followers_from_transparency(raw: str) -> tuple[str, str]:
+    """
+    Extract the first “### likes” and “### followers” tokens from the
+    raw transparency text. Returns (likes_str, followers_str) – either
+    may be empty if not found.
+    """
+    likes = followers = ""
+    m = re.search(r'([0-9.,KkMm]+)\s+likes?', raw)
+    if m:
+        likes = m.group(1)
+    m = re.search(r'([0-9.,KkMm]+)\s+followers?', raw)
+    if m:
+        followers = m.group(1)
+    return likes, followers
 # ── NEW ────────────────────────────────────────────────────────────────────
 def _parse_intro_and_website(text_blobs: list[str]) -> tuple[str, str]:
     """
@@ -1034,13 +1070,122 @@ def scrape_one_page(sb: SB, link_el: WebElement, save_dir: Path, kw_i: int, link
 )
 
     print(f"[OK] appended to {AGG_FILE}")
-    _save_checkpoint(kw_i, link_i + 1)   # mark the next link as pending
+    _save_checkpoint(kw_i, link_i + 1)   # mark the next link as pending    sb.driver.back(); sb.driver.back(); pause(1)
 
-    sb.driver.back(); sb.driver.back(); pause(1)
+def scrape_from_urls(sb: SB, urls: List[str], url_start: int = 0):
+    """
+    Scrape Facebook pages directly from a list of URLs.
+
+    Args:
+        sb: SeleniumBase instance
+        urls: List of Facebook page URLs to scrape
+        url_start: Starting index for resuming (from checkpoint)
+    """
+    print(f"\n=== SCRAPING {len(urls)} PAGES FROM URLs ===")
+
+    for url_i, url in enumerate(urls):
+        if url_i < url_start:  # Skip already processed URLs
+            continue
+
+        print(f"\n--- Processing URL {url_i + 1}/{len(urls)}: {url} ---")
+
+        try:
+            # Save checkpoint before processing each URL
+            _save_checkpoint(url_i, 0)
+
+            # Navigate directly to the page
+            sb.open(url)
+            pause(3)
+
+            # Check if page loaded successfully
+            if "facebook.com" not in sb.get_current_url().lower():
+                print(f"[ERROR] Failed to load page: {url}")
+                continue
+
+            # Check for page not found or access denied
+            if any(text in sb.get_page_source().lower() for text in [
+                "this content isn't available",
+                "page not found",
+                "content not found",
+                "sorry, this page isn't available"
+            ]):
+                print(f"[ERROR] Page not accessible: {url}")
+                continue
+
+            # Extract data from the page
+            class_texts = get_texts_by_class(sb, 'x193iq5w')
+            desc_fallback = get_texts_by_xpath(sb, '//div[@data-pagelet="ProfileTilesFeed"]//span[@dir="auto"]')
+            description = ""
+            for t in class_texts + desc_fallback:
+                if t.startswith("Intro"):
+                    parts = t.split("\n", 1)
+                    if len(parts) == 2:
+                        desc_line = parts[1].split("\n")[0].strip()
+                        description = desc_line
+                        break
+
+            # Extract home page data
+            data = extract_home(sb)
+            if description:
+                data["description"] = description
+
+            # Add source URL to data
+            data["source_url"] = url
+            data["scrape_method"] = "url"
+
+            # Extract posts
+            extract_posts(sb, data)
+
+            # Try to get About page info
+            try:
+                wait_click(sb, XP["about_tab"])
+                pause(1)
+                extract_contact_block(sb, data)
+            except:
+                pass
+
+            # Extract transparency info
+            extract_transparency(sb, data)
+
+            # Save to aggregated file
+            AGG_FILE.parent.mkdir(parents=True, exist_ok=True)
+            try:
+                blob = json.loads(AGG_FILE.read_text("utf-8"))
+                if not isinstance(blob, list):
+                    blob = []
+            except FileNotFoundError:
+                blob = []
+
+            blob.append(data)
+            AGG_FILE.write_text(
+                json.dumps(blob, indent=2, ensure_ascii=False),
+                encoding="utf-8"
+            )
+
+            print(f"[OK] Successfully scraped and saved: {data.get('name', 'Unknown Page')}")
+
+        except Exception as e:
+            print(f"[ERROR] Failed to scrape {url}: {str(e)}")
+            continue
+
+    print("\n=== URL SCRAPING COMPLETED ===")
+
 def main():
     global ACCOUNT_NUMBER
 
     kw_start, link_start = _load_checkpoint()   # ← where we left off
+
+    print(f"=== FACEBOOK SCRAPER STARTING ===")
+    print(f"Search Method: {SEARCH_METHOD.upper()}")
+
+    if SEARCH_METHOD.lower() == "url":
+        print(f"URLs to scrape: {len(URLS)}")
+        if kw_start > 0:
+            print(f"Resuming from URL index: {kw_start}")
+    else:
+        print(f"Keywords to search: {len(KEYWORDS)}")
+        if kw_start > 0:
+            print(f"Resuming from keyword index: {kw_start}, link index: {link_start}")
 
     while True:                                 # keeps trying new accounts
         try:
@@ -1059,43 +1204,53 @@ def main():
                         print(f"[cookie error] {ck.get('name')} → {e}")
                 sb.refresh(); pause(2)
 
-                for kw_i, kw in enumerate(KEYWORDS):
-                    if kw_i < kw_start:                 # skip done keywords
-                        continue
+                # Choose scraping method based on SEARCH_METHOD
+                if SEARCH_METHOD.lower() == "url":
+                    # Direct URL scraping
+                    scrape_from_urls(sb, URLS, kw_start)
 
-                    print(f"\n=== {kw!r} ===")
-                    wait_click(sb, XP["search_box"])
-                    sb.type(XP["search_box"], kw + "\n", "xpath")
-                    pause(2)
-                    wait_click(sb, XP["pages_chip"]); pause(1.5)
-
-                    if not click_pages_filter(sb):
-                        print(f"[ERROR] Pages filter failed for {kw}")
-                        continue
-
-                    link_elements = get_page_links(sb)
-                    if not link_elements:
-                        print("[WARN] No valid page links found")
-                        continue
-
-                    for link_i, el in enumerate(link_elements):
-                        # resume inside the keyword if needed
-                        if kw_i == kw_start and link_i < link_start:
+                else:
+                    # Keyword-based search scraping (existing logic)
+                    for kw_i, kw in enumerate(KEYWORDS):
+                        if kw_i < kw_start:                 # skip done keywords
                             continue
 
-                        _save_checkpoint(kw_i, link_i)       # 🔑 save
-                        avatar = _find_profile_pic(sb) or ""
-                        scrape_one_page(sb, el, Path("scraped_pages"), kw_i, link_i, avatar)
+                        print(f"\n=== {kw!r} ===")
+                        wait_click(sb, XP["search_box"])
+                        sb.type(XP["search_box"], kw + "\n", "xpath")
+                        pause(2)
+                        wait_click(sb, XP["pages_chip"]); pause(1.5)
+
+                        if not click_pages_filter(sb):
+                            print(f"[ERROR] Pages filter failed for {kw}")
+                            continue
+
+                        link_elements = get_page_links(sb)
+                        if not link_elements:
+                            print("[WARN] No valid page links found")
+                            continue
+
+                        for link_i, el in enumerate(link_elements):
+                            # resume inside the keyword if needed
+                            if kw_i == kw_start and link_i < link_start:
+                                continue
+
+                            _save_checkpoint(kw_i, link_i)       # 🔑 save
+                            avatar = _extract_profile_pic(sb) or ""
+                            print(f"\n--- Processing link {link_i + 1}/{len(link_elements)}: {el.text} ---")
+
+                            scrape_one_page(sb, el, Path("scraped_pages"), kw_i, link_i, avatar)
 
 
-                    # finished this keyword – next restart should begin fresh
-                    _save_checkpoint(kw_i + 1, 0)
+                        # finished this keyword – next restart should begin fresh
+                        _save_checkpoint(kw_i + 1, 0)
 
-                    sb.open("https://facebook.com"); pause(1)
+                        sb.open("https://facebook.com"); pause(1)
 
                 # 🎉 success – wipe checkpoint & exit outer while
                 if CONTINUATION and PROGRESS_FILE.exists():
                     PROGRESS_FILE.unlink()
+                print("\n=== SCRAPING COMPLETED SUCCESSFULLY ===")
                 break
 
         except Exception as e:

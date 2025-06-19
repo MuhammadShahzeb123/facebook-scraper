@@ -47,7 +47,7 @@ TARGET_PAIRS: list[tuple[str, str]] = [
 
 ############################################################################
 
-import json, csv, time, re, sys
+import json, csv, time, re, sys, argparse, os
 from pathlib import Path
 from datetime import datetime
 from typing   import List, Dict, Tuple, Any
@@ -56,6 +56,36 @@ from selenium.common.exceptions import ( # type: ignore
     NoSuchElementException, StaleElementReferenceException,
     ElementNotInteractableException,
 )#type: ignore
+
+# ── LOAD CONFIG FROM FILE OR COMMAND LINE ──────────────────────────────────
+def load_config():
+    """Load configuration from command line arguments or use defaults"""
+    global MODE, HEADLESS, ADS_LIMIT, TARGET_PAIRS
+
+    parser = argparse.ArgumentParser(description='Facebook Ads Scraper')
+    parser.add_argument('--config', type=str, help='Path to JSON config file')
+    args = parser.parse_args()
+
+    if args.config and Path(args.config).exists():
+        try:
+            with open(args.config, 'r') as f:
+                config = json.load(f)
+
+            MODE = config.get('MODE', MODE)
+            HEADLESS = config.get('HEADLESS', HEADLESS)
+            ADS_LIMIT = config.get('ADS_LIMIT', ADS_LIMIT)
+            if 'TARGET_PAIRS' in config:
+                TARGET_PAIRS = [tuple(pair) for pair in config['TARGET_PAIRS']]
+        except Exception as e:
+            print(f"[WARNING] Failed to load config file: {e}")
+
+    # Also check environment variables as fallback
+    MODE = os.environ.get('MODE', MODE)
+    HEADLESS = os.environ.get('HEADLESS', str(HEADLESS)).lower() == 'true'
+    ADS_LIMIT = int(os.environ.get('ADS_LIMIT', ADS_LIMIT))
+
+# Call load_config to initialize configuration
+load_config()
 
 # ── CONSTANTS ─────────────────────────────────────────────────────────────
 AD_LIBRARY_URL = (
@@ -351,7 +381,7 @@ def extract_ads(sb: SB, limit: int = None) -> List[Dict[str, Any]]:
         if limit and len(ads) >= limit:
             print(f"[INFO] Reached ads limit: {limit}")
             break
-            
+
         xpath = f"{prefix}/div[{n}]/div"
         try:
             card_ele = sb.driver.find_element("xpath", xpath)
@@ -444,10 +474,10 @@ def main():
                 **({"suggestions": suggestions} if MODE != "ads" else {}),
                 **({"ads": ads}             if MODE != "suggestions" else {}),
             }
-            
+
             # Save data immediately
             save_data_immediately(pair_object, MODE)
-            print(f"[INFO] Saved data for {country} | {keyword} - Suggestions: {len(suggestions)}, Ads: {len(ads)}")            
+            print(f"[INFO] Saved data for {country} | {keyword} - Suggestions: {len(suggestions)}, Ads: {len(ads)}")
             done_pairs.add((country, keyword))
             save_checkpoint(done_pairs)
 
