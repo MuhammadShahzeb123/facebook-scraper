@@ -31,8 +31,12 @@
 
 ############################################################################
 # ── USER-EDITABLE SETTINGS ────────────────────────────────────────────────
-MODE = "suggestions"        #  "ads" | "suggestions" | "ads_and_suggestions"
-HEADLESS = False                     #  set False for visual debugging
+MODE = "ads"        #  "ads" | "suggestions" | "ads_and_suggestions"
+HEADLESS = True            #  set False for visual debugging
+
+# ── NEW CONFIGURATION OPTIONS ─────────────────────────────────────────────
+ADS_LIMIT = 1000            #  Maximum number of ads to extract per (country, keyword) pair
+APPEND = True               #  True: append to existing file, False: create numbered files
 
 # Hard-coded fallback pairs (overridden if targets.csv present)  ───────────
 TARGET_PAIRS: list[tuple[str, str]] = [
@@ -91,8 +95,38 @@ def wait_click(sb: SB, selector: str, *, by="css selector", timeout=10):
     sb.click(selector, by=by)
 
 def next_output_path(mode: str) -> Path:
-    """Return a consistent path for persistent appending."""
-    return OUTPUT_DIR / f"{mode}.json"
+    """Return output file path based on APPEND setting"""
+    if APPEND:
+        return OUTPUT_DIR / f"{mode}.json"
+    else:
+        # Find next available numbered file
+        counter = 1
+        while True:
+            numbered_file = OUTPUT_DIR / f"{mode}{counter:03d}.json"
+            if not numbered_file.exists():
+                return numbered_file
+            counter += 1
+
+def save_data_immediately(pair_object: dict, mode: str) -> None:
+    """Save data immediately to prevent data loss if script stops"""
+    try:
+        output_file = next_output_path(mode)
+        if output_file.exists() and APPEND:
+            existing_array = json.loads(output_file.read_text(encoding="utf-8"))
+            if not isinstance(existing_array, list):
+                existing_array = []
+        else:
+            existing_array = []
+
+        existing_array.append(pair_object)
+
+        output_file.write_text(
+            json.dumps(existing_array, indent=2, ensure_ascii=False),
+            encoding="utf-8"
+        )
+        print(f"[INFO] Data saved immediately to {output_file}")
+    except Exception as e:
+        print(f"[ERROR] Failed to save data: {e}")
 
 def safe_type(sb: SB, selector: str, text: str, *,
               by="css selector", press_enter: bool = True, timeout: int = 10):
@@ -138,10 +172,6 @@ def pairs_from_csv() -> list[tuple[str, str]]:
 
 def get_target_pairs() -> list[tuple[str, str]]:
     return pairs_from_csv() or TARGET_PAIRS
-
-def next_output_path(mode: str) -> Path:
-    """Return a consistent path for persistent appending."""
-    return OUTPUT_DIR / f"{mode}.json"
 
 
 # ══════════════════════ SUGGESTION SCRAPING LOGIC ════════════════════════
@@ -300,7 +330,7 @@ def _detect_card_prefix(sb: SB) -> str | None:
             continue
     return None                                            # nothing matched
 # ──────────────────────────────────────────────────────────────────────
-def extract_ads(sb: SB) -> List[Dict[str, Any]]:
+def extract_ads(sb: SB, limit: int = None) -> List[Dict[str, Any]]:
     """Find the right prefix, scroll once, then walk /div[n]/div and parse."""
     ads: List[Dict[str, Any]] = []
 
@@ -317,6 +347,11 @@ def extract_ads(sb: SB) -> List[Dict[str, Any]]:
 
     n = 1
     while True:
+        # Check if we've reached the limit
+        if limit and len(ads) >= limit:
+            print(f"[INFO] Reached ads limit: {limit}")
+            break
+            
         xpath = f"{prefix}/div[{n}]/div"
         try:
             card_ele = sb.driver.find_element("xpath", xpath)
@@ -327,7 +362,7 @@ def extract_ads(sb: SB) -> List[Dict[str, Any]]:
         except Exception:
             pass                                           # malformed card
         n += 1
-    print(f"[INFO] Found {n-1} ads on this page.")
+    print(f"[INFO] Found {len(ads)} ads on this page.")
     return ads
 
 
@@ -341,7 +376,6 @@ def main():
         sys.exit("[ERR] No (country, keyword) pairs found.")
 
     out_path   = next_output_path(MODE)
-    run_data: List[Dict[str, Any]] = []
 
     with SB(uc=True, headless=HEADLESS) as sb:
         # ── Login bootstrap ────────────────────────────────────────────────
@@ -391,7 +425,7 @@ def main():
                 # scroll to load more
                 for i in range(SCROLLS):
                     human_scroll(sb); sb.sleep(2+i*0.5)
-                ads = extract_ads(sb)
+                ads = extract_ads(sb, limit=ADS_LIMIT)
 
             elif MODE == "ads_and_suggestions":
                 # 3a) suggestions first (no enter)
@@ -401,41 +435,27 @@ def main():
                 sb.sleep(4)
                 for i in range(SCROLLS):
                     human_scroll(sb); sb.sleep(2+i*0.5)
-                ads = extract_ads(sb)
+                ads = extract_ads(sb, limit=ADS_LIMIT)
 
-            # store run-unit
-            run_data.append({
+            # Build and save data immediately
+            pair_object = {
                 "country":     country,
                 "keyword":     keyword,
                 **({"suggestions": suggestions} if MODE != "ads" else {}),
                 **({"ads": ads}             if MODE != "suggestions" else {}),
-            })
+            }
+            
+            # Save data immediately
+            save_data_immediately(pair_object, MODE)
+            print(f"[INFO] Saved data for {country} | {keyword} - Suggestions: {len(suggestions)}, Ads: {len(ads)}")            
             done_pairs.add((country, keyword))
             save_checkpoint(done_pairs)
-            print(f"  > {len(suggestions):>3} suggestions   |   {len(ads):>3} ads")
 
             # Back to Ad-Library home for next pair
             sb.open(AD_LIBRARY_URL)
             sb.sleep(4)
-    # ── APPEND TO EXISTING OUTPUT FILE ────────────────────────────────────
-    if out_path.exists():
-        try:
-            existing = json.loads(out_path.read_text(encoding="utf-8"))
-            if not isinstance(existing, list):
-                existing = []
-        except Exception:
-            existing = []
-    else:
-        existing = []
 
-    existing.extend(run_data)
-
-    with out_path.open("w", encoding="utf-8") as fh:
-        json.dump(existing, fh, indent=2, ensure_ascii=False)
-
-    print(f"\n[DONE] Appended {len(run_data)} new entries to {out_path}")
-
-    print(f"\n[DONE] Saved {len(run_data)} pairs to {out_path}")
+    print(f"\n[DONE] All pairs processed with immediate saving.")
 
 # ──────────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":

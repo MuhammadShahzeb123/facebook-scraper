@@ -14,7 +14,7 @@ from urllib.parse import urlparse
 from collections import defaultdict
 from seleniumbase import SB #type: ignore
 from selenium.common.exceptions import * #type: ignore
-from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException #type: ignore
 from selenium.webdriver.common.by import By #type: ignore
 from selenium.webdriver.common.keys import Keys #type: ignore
 import string
@@ -23,12 +23,32 @@ from typing import Dict, Any, List
 # ── CONFIG ───────────────────────────────────────────────────────────
 SCROLLS_SEARCH = 3
 SCROLLS_PAGE   = 3
+
+# ── NEW CONFIGURATION OPTIONS ─────────────────────────────────────────
+ADS_LIMIT = 1000    # Maximum number of ads to extract per (country, keyword) pair
+APPEND = True       # True: append to existing file, False: create numbered files like combined_ads001.json
+
 COOKIE_FILE    = Path("./saved_cookies/facebook_cookies.txt")
 TARGET_FILE    = Path("targets.csv")           # optional CSV (country,keyword)
 
 OUTPUT_DIR = Path("Results")
 OUTPUT_DIR.mkdir(exist_ok=True)
-OUTPUT_FILE = OUTPUT_DIR / "combined_ads.json"
+BASE_FILE_NAME = "combined_ads"
+
+def get_output_file() -> Path:
+    """Get the output file path based on APPEND setting"""
+    if APPEND:
+        return OUTPUT_DIR / f"{BASE_FILE_NAME}.json"
+    else:
+        # Find next available numbered file
+        counter = 1
+        while True:
+            numbered_file = OUTPUT_DIR / f"{BASE_FILE_NAME}{counter:03d}.json"
+            if not numbered_file.exists():
+                return numbered_file
+            counter += 1
+
+OUTPUT_FILE = get_output_file()
 CONTINUATION = False  # set to False to always start from scratch
 CHECKPOINT_FILE = Path("ads_checkpoint.json")
 
@@ -120,6 +140,26 @@ def pairs_from_csv() -> list[tuple[str, str]]:
 
 def get_target_pairs() -> list[tuple[str, str]]:
     return pairs_from_csv() or TARGET_PAIRS
+
+def save_data_immediately(pair_object: dict) -> None:
+    """Save data immediately to prevent data loss if script stops"""
+    try:
+        if OUTPUT_FILE.exists() and APPEND:
+            existing_array = json.loads(OUTPUT_FILE.read_text(encoding="utf-8"))
+            if not isinstance(existing_array, list):
+                existing_array = []
+        else:
+            existing_array = []
+
+        existing_array.append(pair_object)
+
+        OUTPUT_FILE.write_text(
+            json.dumps(existing_array, indent=2, ensure_ascii=False),
+            encoding="utf-8"
+        )
+        print(f"[INFO] Data saved immediately to {OUTPUT_FILE}")
+    except Exception as e:
+        print(f"[ERROR] Failed to save data: {e}")
 
 # ── extraction primitives ────────────────────────────────────────────
 def _parse_card(card) -> Dict[str, Any]:
@@ -244,7 +284,7 @@ def _detect_card_prefix(sb: SB) -> str | None:
             continue
     return None
 
-def extract_cards(sb: SB) -> List[Dict[str, Any]]:
+def extract_cards(sb: SB, limit: int = None) -> List[Dict[str, Any]]:
     """Find the right prefix, scroll once, then walk /div[n]/div and parse."""
     ads: List[Dict[str, Any]] = []
 
@@ -261,6 +301,11 @@ def extract_cards(sb: SB) -> List[Dict[str, Any]]:
 
     n = 1
     while True:
+        # Check if we've reached the limit
+        if limit and len(ads) >= limit:
+            print(f"[INFO] Reached ads limit: {limit}")
+            break
+
         xpath = f"{prefix}/div[{n}]/div"
         try:
             card_ele = sb.driver.find_element("xpath", xpath)
@@ -271,7 +316,7 @@ def extract_cards(sb: SB) -> List[Dict[str, Any]]:
         except Exception:
             pass
         n += 1
-    print(f"[INFO] Found {n-1} ads on this page.")
+    print(f"[INFO] Found {len(ads)} ads on this page.")
     return ads
 
 def close_popup_if_present(sb):
@@ -286,7 +331,7 @@ def close_popup_if_present(sb):
         pass
 
 # ── scrape a single "view_all_page_id=" page ─────────────────────────
-def scrape_lib_page(sb: SB, iso: str, page_name: str, lib_id: str) -> dict:
+def scrape_lib_page(sb: SB, iso: str, page_name: str, lib_id: str, remaining_limit: int = None) -> dict:
     sb.open(AD_BY_ID_URL.format(iso=iso, lib_id=lib_id))
     sb.sleep(4)
     close_popup_if_present(sb)
@@ -295,7 +340,7 @@ def scrape_lib_page(sb: SB, iso: str, page_name: str, lib_id: str) -> dict:
         human_scroll(sb)
         sb.sleep(2 + i * 0.5)
 
-    ads = extract_cards(sb)
+    ads = extract_cards(sb, limit=remaining_limit)
     print(f"    ↳ {len(ads):3d} ads  •  {page_name}  •  lib_id={lib_id}")
 
     return {
@@ -344,34 +389,37 @@ def scrape_pair(sb: SB, country: str, keyword: str) -> None:
     iso_match = re.search(r"country=([A-Z]{2})", sb.get_current_url())
     iso = iso_match.group(1) if iso_match else "ALL"
 
-    # 7) Accumulate all pages/ads under this (country,keyword):
+    # 7) Accumulate all pages/ads under this (country,keyword) with limit:
     pages_list = []
+    total_ads_extracted = 0
+    remaining_limit = ADS_LIMIT
+
     for page_name, lib_id in libs.items():
-        result = scrape_lib_page(sb, iso, page_name, lib_id)
+        if total_ads_extracted >= ADS_LIMIT:
+            print(f"[INFO] Reached total ads limit: {ADS_LIMIT}")
+            break
+
+        result = scrape_lib_page(sb, iso, page_name, lib_id, remaining_limit)
         pages_list.append(result)
 
-    # 8) Build the object to append:
+        # Update counters
+        ads_count = len(result.get('ads', []))
+        total_ads_extracted += ads_count
+        remaining_limit = max(0, ADS_LIMIT - total_ads_extracted)
+
+        print(f"[INFO] Total ads extracted so far: {total_ads_extracted}/{ADS_LIMIT}")
+
+    # 8) Build the object to save immediately:
     pair_object = {
         "country": country,
         "keyword": keyword,
+        "total_ads_extracted": total_ads_extracted,
         "pages": pages_list
     }
 
-    # 9) Load existing array from combined_ads.json, append, and overwrite
-    try:
-        existing_array = json.loads(OUTPUT_FILE.read_text(encoding="utf-8"))
-        if not isinstance(existing_array, list):
-            existing_array = []
-    except Exception:
-        existing_array = []
-
-    existing_array.append(pair_object)
-
-    OUTPUT_FILE.write_text(
-        json.dumps(existing_array, indent=2, ensure_ascii=False),
-        encoding="utf-8"
-    )
-    print(f"[INFO] Appended branch → combined_ads.json")
+    # 9) Save data immediately
+    save_data_immediately(pair_object)
+    print(f"[INFO] Saved data for {country} | {keyword} with {total_ads_extracted} ads")
 
 # ── main ──────────────────────────────────────────────────────────────
 def main() -> None:
