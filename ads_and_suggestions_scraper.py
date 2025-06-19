@@ -31,8 +31,8 @@
 
 ############################################################################
 # ── USER-EDITABLE SETTINGS ────────────────────────────────────────────────
-MODE = "ads"        #  "ads" | "suggestions" | "ads_and_suggestions"
-HEADLESS = True                     #  set False for visual debugging
+MODE = "suggestions"        #  "ads" | "suggestions" | "ads_and_suggestions"
+HEADLESS = False                     #  set False for visual debugging
 
 # Hard-coded fallback pairs (overridden if targets.csv present)  ───────────
 TARGET_PAIRS: list[tuple[str, str]] = [
@@ -50,8 +50,8 @@ from typing   import List, Dict, Tuple, Any
 from seleniumbase import SB # type: ignore
 from selenium.common.exceptions import ( # type: ignore
     NoSuchElementException, StaleElementReferenceException,
-    ElementNotInteractableException, 
-)#type: ignore 
+    ElementNotInteractableException,
+)#type: ignore
 
 # ── CONSTANTS ─────────────────────────────────────────────────────────────
 AD_LIBRARY_URL = (
@@ -62,12 +62,17 @@ AD_LIBRARY_URL = (
 COOKIE_FILE  = Path("./saved_cookies/facebook_cookies.txt")
 TARGET_FILE  = Path("targets.csv")
 SCROLLS      = 3                           # page-downs for ad loading
-OUTPUT_DIR = Path("Results")
+OUTPUT_DIR   = Path("Results")
 
 OUTPUT_DIR.mkdir(exist_ok=True)
 ############################################################################
 CONTINUATION = True  # set False to start fresh
 CHECKPOINT_FILE = OUTPUT_DIR / f"{MODE}_checkpoint.json"
+# Absolute-XPath prefix for one block of ad cards (we’ll append /div[n]/div)
+ABS_CARD_PREFIX = (
+    "/html/body/div[1]/div/div/div/div/div/div/div[1]/div/div/div"
+    "/div[5]/div[2]/div[2]/div[4]/div[1]"
+)
 
 
 # ═════════════════════════════════ HELPERS ════════════════════════════════
@@ -166,60 +171,165 @@ def extract_suggestions(sb: SB, keyword: str) -> list[Dict[str, Any]]:
     # Clear search box for next keyword (if MODE=="suggestions" only)
     sb.find_element(KEYWORD_INPUT, by="xpath").clear()
     return suggestions
+def _parse_card(card) -> Dict[str, Any]:
+    """
+    Parse a single Ad-Library card with enhanced link extraction.
+    """
+    import re
+    from urllib.parse import urlparse
 
-
-# ════════════════════════ ADS SCRAPING LOGIC ═════════════════════════════
-def extract_ads(sb: SB) -> list[Dict[str, Any]]:
-    ads: list[dict] = []
-    cards = sb.find_elements("div.xh8yej3")
-    def _txt(el, xp):
+    def _maybe_click(xp: str):
         try:
-            return el.find_element("xpath", xp).text.strip()
+            card.find_element("xpath", xp).click()
         except NoSuchElementException:
-            return ""
-    for card in cards:
+            pass
+
+    def _t(xp: str) -> str | None:
         try:
-            meta = card.find_element(
-                "css selector",
-                "div.x1plvlek.xryxfnj.x1gzqxud.x178xt8z.x1lun4ml.xso031l.xpilrb4.xb9moi8.xe76qn7.x21b0me.x142aazg.xhk9q7s.x1otrzb0.x1i1ezom.x1o6z2jb.x1kmqopl.x13fuv20.x18b5jzi.x1q0q8m5.x1t7ytsu.x9f619"
+            return card.find_element("xpath", xp).text.strip()
+        except NoSuchElementException:
+            return None
 
-            )
-            status      = _txt(meta, './/span[contains(text(),"Active") or contains(text(),"Inactive")]')
-            library_id  = _txt(meta, './/span[contains(text(),"Library ID")]').split(":")[-1].strip()
-            started_raw = _txt(meta, './/span[contains(text(),"Started running")]')
+    # ── 1. Expand (headless-safe) ───────────────────────────────────────
+    _maybe_click('.//div[@role="button" and .="Open Drop-down"]')
 
-            creative = card.find_element("css selector", "div._7jyg")
-            page_name     = _txt(creative, ".//a[1]")
-            primary_text  = _txt(creative, './/div[@role="button"][1]')
-            cta_button    = _txt(
-                creative,
-                './/span[text()="Learn More" or text()="Contact us" or '
-                'text()="Book Now" or text()="Send message"]',
-            )
+    # ── 2. Meta fields ─────────────────────────────────────────────────
+    status       = _t('.//span[contains(text(),"Active") or contains(text(),"Inactive")]')
+    lib_raw      = _t('.//span[contains(text(),"Library ID")]')
+    library_id   = lib_raw.split(":",1)[-1].strip() if lib_raw else None
+    started_raw  = _t('.//span[contains(text(),"Started running")]')
+    page_name    = _t('.//a[starts-with(@href,"https://www.facebook.com/")][1]')
 
-            link = ""
-            for a in creative.find_elements("tag name", "a"):
-                href = a.get_attribute("href") or ""
-                if "facebook.com" not in href.lower():
-                    link = href
-                    break
+    # ── 3. Raw creative block text ────────────────────────────────────
+    raw_block = card.text.strip()
 
-            ads.append(
-                {
-                    "status":       status,
-                    "library_id":   library_id,
-                    "started":      started_raw,
-                    "page":         page_name,
-                    "primary_text": primary_text,
-                    "cta":          cta_button,
-                    "external_url": link,
-                }
-            )
-        except (NoSuchElementException,
-                StaleElementReferenceException,
-                ElementNotInteractableException): #type: ignore
+    #   PRIMARY TEXT extraction
+    primary_text = ""
+    if "Sponsored" in raw_block:
+        after = raw_block.split("Sponsored", 1)[1].lstrip()
+        lines = []
+        for ln in after.splitlines():
+            if re.match(r"https?://|^[A-Z0-9._%+-]+\.[A-Z]{2,}$", ln, flags=re.I):
+                break
+            if re.match(r"^\w.*\b(Shop|Learn|Contact|Apply|Sign)\b", ln) and len(ln) < 40:
+                break
+            lines.append(ln.rstrip())
+        primary_text = "\n".join(lines).strip()
+
+    # ── 4. CTA detection ───────────────────────────────────────────────
+    CTA_PHRASES = (
+        "\nLearn More", "\nLearn more", "\nShop Now", "\nShop now", "\nBook Now",
+        "\nBook now", "\nDonate", "\nDonate now", "\nApply Now", "\nApply now",
+        "\nGet offer", "\nGet Offer", "\nGet quote", "\nSign Up", "\nSign up",
+        "\nContact us", "\nSend message", "\nSend Message", "\nSubscribe", "\nRead more","\nSend WhatsApp message",
+        "\nSend WhatsApp Message", "\nWatch video", "\nWatch Video",
+    )
+
+    # (a) DOM: any footer button/span whose text is in CTA_WORDS
+    cta = None
+    for phrase in CTA_PHRASES:
+        label = _t(f'.//div[@role="button" and normalize-space(text())="{phrase}"]'
+                   f' | .//span[normalize-space(text())="{phrase}"]')
+        if label:
+            cta = phrase
+            break
+
+    # (b) fallback: look for the first CTA_PHRASE inside raw_block
+    if not cta:
+        m = re.search(r"\b(" + "|".join(map(re.escape, CTA_PHRASES)) + r")\b", raw_block)
+        cta = m.group(1) if m else None
+
+    # ── 5. Enhanced Link Extraction ───────────────────────────────────
+    facebook_domains = {"facebook.com", "fb.com", "facebookw.com", "fb.me", "fb.watch"}
+    all_links = []
+    image_urls = []
+
+    # Extract all <a> tags and <img> tags
+    for element in card.find_elements("xpath", ".//*[self::a or self::img]"):
+        try:
+            if element.tag_name == "a":
+                href = element.get_attribute("href")
+                if href:
+                    parsed = urlparse(href)
+                    if parsed.netloc.replace("www.", "") not in facebook_domains:
+                        all_links.append({
+                            "type": "link",
+                            "url": href,
+                            "text": element.text.strip() if element.text else ""
+                        })
+
+            elif element.tag_name == "img":
+                for attr in ["src", "data-src", "xlink:href"]:
+                    src = element.get_attribute(attr)
+                    if src and src.startswith(("http:", "https:")):
+                        image_urls.append(src)
+                        break
+        except StaleElementReferenceException:
             continue
+
+    # ── 6. Build record ───────────────────────────────────────────────
+    return {
+        "status": status,
+        "library_id": library_id,
+        "started": started_raw,
+        "page": page_name,
+        "primary_text": primary_text,
+        "cta": cta,
+        "links": all_links,          # All non-Facebook links
+        "image_urls": image_urls,     # All image URLs
+        "raw_text": raw_block,
+    }
+
+# ── shared path head --------------------------------------------------
+COMMON_HEAD = (
+    "/html/body/div[1]/div/div/div/div/div/div/div[1]/div/div/div"
+)
+# ──────────────────────────────────────────────────────────────────────
+def _detect_card_prefix(sb: SB) -> str | None:
+    """
+    Return the correct ABS_CARD_PREFIX for the current page:
+      …/div[5]/… if present, otherwise …/div[4]/…
+    Uses *presence* (find_element) so the card doesn’t have to be in view.
+    """
+    for row in (5, 4):                                     # try logged-in layout first
+        prefix = f"{COMMON_HEAD}/div[{row}]/div[2]/div[2]/div[4]/div[1]"
+        try:
+            sb.driver.find_element("xpath", f"{prefix}/div[1]/div")
+            return prefix                                  # found!
+        except NoSuchElementException:
+            continue
+    return None                                            # nothing matched
+# ──────────────────────────────────────────────────────────────────────
+def extract_ads(sb: SB) -> List[Dict[str, Any]]:
+    """Find the right prefix, scroll once, then walk /div[n]/div and parse."""
+    ads: List[Dict[str, Any]] = []
+
+    # make sure Facebook injected the grid: a tiny scroll usually does it
+    sb.execute_script("window.scrollBy(0, 800);")
+    time.sleep(1)
+
+    prefix = _detect_card_prefix(sb)
+    if not prefix:
+        return ads                                         # 0 ads found
+
+    # guarantee first card is present before iterating
+    sb.wait_for_element_visible(f"{prefix}/div[1]/div", by="xpath", timeout=15)
+
+    n = 1
+    while True:
+        xpath = f"{prefix}/div[{n}]/div"
+        try:
+            card_ele = sb.driver.find_element("xpath", xpath)
+        except NoSuchElementException:
+            break                                          # end of list
+        try:
+            ads.append(_parse_card(card_ele))
+        except Exception:
+            pass                                           # malformed card
+        n += 1
+    print(f"[INFO] Found {n-1} ads on this page.")
     return ads
+
 
 
 # ═════════════════════════════════ MAIN ══════════════════════════════════

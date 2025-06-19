@@ -16,7 +16,7 @@ from seleniumbase import SB #type: ignore
 # ═══════════════════════ USER CONFIG ══════════════════════════════════════
 COOKIE_FILE   = Path("saved_cookies/facebook_cookies.txt")
 KEYWORDS_FILE = Path("keywords.csv")      # keyword , pages_to_visit
-HEADLESS      = True
+HEADLESS      = False  # True / False
 WAIT_SECS     = 2.0
 SCROLLS       = 6        # scrolls before grabbing posts
 POST_LIMIT    = 100      # number of posts to scrape per page
@@ -51,10 +51,10 @@ XP = {
 
     "profile_g":   '//div[@role="banner"]//a[contains(@href, "facebook.com")]//svg[.//image]',
     "profile_img": '//div[@role="banner"]//a[contains(@href, "facebook.com")]//image',
-    "profile_a":   '//div[@role="banner"]//a[contains(@href, "facebook.com")]', 
+    "profile_a":   '//div[@role="banner"]//a[contains(@href, "facebook.com")]',
 
     "intro":       [
-        '//div[@data-pagelet="ProfileTilesFeed"]//span[@dir="auto"]',                       
+        '//div[@data-pagelet="ProfileTilesFeed"]//span[@dir="auto"]',
         '//div[contains(text(), "We create") or contains(text(), "私たちは")]'
     ],
 
@@ -380,7 +380,7 @@ def get_page_links(sb: SB) -> List[WebElement]:
             continue
 
     print(f"Total valid page links found: {len(valid)}")
-    
+
     return valid[:MAX_PAGE_LINKS]          # ← cap here
 
 
@@ -783,7 +783,7 @@ def extract_transparency(sb: SB, data: Dict):
                 try:
                     modal = sb.find_element('//div[@role="dialog"]', "xpath", timeout=5)
                     transparency_text = modal.text
-                    
+
                     # Look for long digit string near "Page ID"
                     pid_match = re.search(r'Page ID\D*(\d{10,})', transparency_text)
                     if pid_match:
@@ -795,7 +795,7 @@ def extract_transparency(sb: SB, data: Dict):
                             data["page_id"] = numbers[0]
                 except:
                     pass
-                        
+
 
         see_all_xpath = (
             '//span[contains(translate(normalize-space(.), "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"), "see all")]/ancestor::*[@role="button"][1]'
@@ -1014,7 +1014,7 @@ def scrape_one_page(sb: SB, link_el: WebElement, save_dir: Path, kw_i: int, link
     try:
         wait_click(sb, XP["about_tab"]); pause(1)
         extract_contact_block(sb, data)
-    except: 
+    except:
         pass
 
     extract_transparency(sb, data)

@@ -1,20 +1,25 @@
 #!/usr/bin/env python3
-# facebook_ads_scraper.py  –  v2.2  (2025-06-04)
+# facebook_ads_scraper.py  –  v2.3  (2025-06-18)
 
 #  ▄───────────────────────────────────────────────────────────────────▄
-#  │  NEW IN 2.2                                                      │
-#  │    • robust page-id collection via page-source regex             │
-#  │    • for every id → open “view_all_page_id” url and scrape ads   │
+#  │  NEW IN 2.3                                                      │
+#  │    • Enhanced card parsing with link/image extraction            │
+#  │    • Robust ad detection using XPath prefixes                    │
+#  │    • Comprehensive non-Facebook link collection                  │
 #  ▀───────────────────────────────────────────────────────────────────▀
 
 import json, time, csv, re, os
 from pathlib import Path
+from urllib.parse import urlparse
 from collections import defaultdict
 from seleniumbase import SB #type: ignore
-from selenium.common.exceptions import * #type: ignore 
+from selenium.common.exceptions import * #type: ignore
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 from selenium.webdriver.common.by import By #type: ignore
 from selenium.webdriver.common.keys import Keys #type: ignore
 import string
+from typing import Dict, Any, List
+
 # ── CONFIG ───────────────────────────────────────────────────────────
 SCROLLS_SEARCH = 3
 SCROLLS_PAGE   = 3
@@ -24,7 +29,7 @@ TARGET_FILE    = Path("targets.csv")           # optional CSV (country,keyword)
 OUTPUT_DIR = Path("Results")
 OUTPUT_DIR.mkdir(exist_ok=True)
 OUTPUT_FILE = OUTPUT_DIR / "combined_ads.json"
-CONTINUATION = True  # set to False to always start from scratch
+CONTINUATION = False  # set to False to always start from scratch
 CHECKPOINT_FILE = Path("ads_checkpoint.json")
 
 TARGET_PAIRS: list[tuple[str,str]] = [
@@ -50,6 +55,12 @@ POPUP_XPATH_CLOSE = (
     '//div[@role="button" and .//div[contains(@data-sscoverage-ignore,"true")]'
     ' and .//*[text()="Close"]]'
 )
+
+# ── XPath constants ──────────────────────────────────────────────────
+COMMON_HEAD = (
+    "/html/body/div[1]/div/div/div/div/div/div/div[1]/div/div/div"
+)
+
 # ── helpers ──────────────────────────────────────────────────────────
 def load_cookies() -> list[dict]:
     if not COOKIE_FILE.exists():
@@ -69,7 +80,6 @@ def wait_click(sb: SB, selector: str, *, by="css selector", timeout=10):
     sb.wait_for_element_visible(selector, by=by, timeout=timeout)
     sb.click(selector, by=by)
 
-
 def safe_type(sb: SB, selector: str, text: str, *, by="css selector",
               press_enter=True, timeout=10):
     sb.wait_for_element_visible(selector, by=by, timeout=timeout)
@@ -77,14 +87,13 @@ def safe_type(sb: SB, selector: str, text: str, *, by="css selector",
     elm.clear()
     elm.send_keys(text)
     time.sleep(1.0)
-    if press_enter: 
-        from selenium.webdriver.common.keys import Keys #type: ignore
+    if press_enter:
         elm.send_keys(Keys.RETURN)
         time.sleep(2.0)
 
-
 def human_scroll(sb: SB, px: int = 1800):
     sb.execute_script(f"window.scrollBy(0,{px});")
+
 def load_checkpoint() -> set[tuple[str, str]]:
     if not CONTINUATION or not CHECKPOINT_FILE.exists():
         return set()
@@ -98,7 +107,6 @@ def save_checkpoint(done_pairs: set[tuple[str, str]]) -> None:
     with CHECKPOINT_FILE.open("w", encoding="utf-8") as fh:
         json.dump([list(p) for p in done_pairs], fh, indent=2)
 
-
 def pairs_from_csv() -> list[tuple[str, str]]:
     if not TARGET_FILE.exists():
         return []
@@ -110,99 +118,178 @@ def pairs_from_csv() -> list[tuple[str, str]]:
             pairs.append((row[0].strip(), row[1].strip()))
     return pairs
 
-
 def get_target_pairs() -> list[tuple[str, str]]:
     return pairs_from_csv() or TARGET_PAIRS
 
-# from utils_collect import collect_page_ids_current_query   # ← new import
-
 # ── extraction primitives ────────────────────────────────────────────
-LIB_ID_RE   = re.compile(r'"ad_archive_id":"(\d{5,})"')
-PAGE_NAME_RE= re.compile(r'"page_name":"([^"]+)"')
-def collect_one_lib_per_page(sb: SB) -> dict[str, str]:
+def _parse_card(card) -> Dict[str, Any]:
     """
-    Returns a mapping  {page_name -> ONE library_id}  taken from the *current*
-    search-results grid (whatever is already loaded after the keyword query
-    and a couple of scrolls).
-
-    We simply reuse `extract_cards()` and keep the first lib-id seen for
-    every distinct page name.
+    Parse a single Ad-Library card with enhanced link extraction.
     """
-    unique: dict[str, str] = {}         # {page → lib_id}
+    import re
+    from urllib.parse import urlparse
 
-    for ad in extract_cards(sb):        # ← unchanged helper
-        pn = (ad.get("page") or "").strip()
-        lid = (ad.get("library_id") or "").strip()
-        if pn and lid and pn not in unique:
-            unique[pn] = lid            # keep the very first one we met
-    return unique
-def _txt(el, xp):
-    try:
-        return el.find_element("xpath", xp).text.strip()
-    except NoSuchElementException: # type: ignore
-        return ""
-
-
-def extract_cards(sb: SB) -> list[dict]:
-    ads, cards = [], sb.find_elements("div.xh8yej3")
-    for card in cards:
+    def _maybe_click(xp: str):
         try:
-            meta = card.find_element(
-                "css selector", "div.x1plvlek.xryxfnj.x1gzqxud.x178xt8z.x1lun4ml.xso031l.xpilrb4.xb9moi8.xe76qn7.x21b0me.x142aazg.xhk9q7s.x1otrzb0.x1i1ezom.x1o6z2jb.x1kmqopl.x13fuv20.x18b5jzi.x1q0q8m5.x1t7ytsu.x9f619"
+            card.find_element("xpath", xp).click()
+        except NoSuchElementException:
+            pass
 
-            )
-            status      = _txt(meta, './/span[contains(text(),"Active") or contains(text(),"Inactive")]')
-            library_id  = _txt(meta, './/span[contains(text(),"Library ID")]').split(":")[-1].strip()
-            started_raw = _txt(meta, './/span[contains(text(),"Started running")]')
+    def _t(xp: str) -> str | None:
+        try:
+            return card.find_element("xpath", xp).text.strip()
+        except NoSuchElementException:
+            return None
 
-            creative = card.find_element("css selector", "div._7jyg")
-            page_name    = _txt(creative, ".//a[1]")
-            primary_text = _txt(creative, './/div[@role="button"][1]')
-            cta_button   = _txt(
-                creative,
-                './/span[text()="Learn More" or text()="Contact us" or '
-                'text()="Book Now" or text()="Send message"]',
-            )
+    # ── 1. Expand (headless-safe) ───────────────────────────────────────
+    _maybe_click('.//div[@role="button" and .="Open Drop-down"]')
 
-            link = ""
-            for a in creative.find_elements("tag name", "a"):
-                href = a.get_attribute("href") or ""
-                if "facebook.com" not in href.lower():
-                    link = href
-                    break
+    # ── 2. Meta fields ─────────────────────────────────────────────────
+    status       = _t('.//span[contains(text(),"Active") or contains(text(),"Inactive")]')
+    lib_raw      = _t('.//span[contains(text(),"Library ID")]')
+    library_id   = lib_raw.split(":",1)[-1].strip() if lib_raw else None
+    started_raw  = _t('.//span[contains(text(),"Started running")]')
+    page_name    = _t('.//a[starts-with(@href,"https://www.facebook.com/")][1]')
 
-            ads.append(
-                dict(
-                    status=status, library_id=library_id, started=started_raw,
-                    page=page_name, primary_text=primary_text,
-                    cta=cta_button, external_url=link,
-                )
-            )
-        except (NoSuchElementException, # type: ignore
-                StaleElementReferenceException, # type: ignore
-                ElementNotInteractableException): # type: ignore
+    # ── 3. Raw creative block text ────────────────────────────────────
+    raw_block = card.text.strip()
+
+    #   PRIMARY TEXT extraction
+    primary_text = ""
+    if "Sponsored" in raw_block:
+        after = raw_block.split("Sponsored", 1)[1].lstrip()
+        lines = []
+        for ln in after.splitlines():
+            if re.match(r"https?://|^[A-Z0-9._%+-]+\.[A-Z]{2,}$", ln, flags=re.I):
+                break
+            if re.match(r"^\w.*\b(Shop|Learn|Contact|Apply|Sign)\b", ln) and len(ln) < 40:
+                break
+            lines.append(ln.rstrip())
+        primary_text = "\n".join(lines).strip()
+
+    # ── 4. CTA detection ───────────────────────────────────────────────
+    CTA_PHRASES = (
+        "\nLearn More", "\nLearn more", "\nShop Now", "\nShop now", "\nBook Now",
+        "\nBook now", "\nDonate", "\nDonate now", "\nApply Now", "\nApply now",
+        "\nGet offer", "\nGet Offer", "\nGet quote", "\nSign Up", "\nSign up",
+        "\nContact us", "\nSend message", "\nSend Message", "\nSubscribe", "\nRead more",
+        "\nSend WhatsApp message", "\nSend WhatsApp Message", "\nWatch video", "\nWatch Video",
+    )
+
+    # (a) DOM: any footer button/span whose text is in CTA_WORDS
+    cta = None
+    for phrase in CTA_PHRASES:
+        label = _t(f'.//div[@role="button" and normalize-space(text())="{phrase}"]'
+                   f' | .//span[normalize-space(text())="{phrase}"]')
+        if label:
+            cta = phrase
+            break
+
+    # (b) fallback: look for the first CTA_PHRASE inside raw_block
+    if not cta:
+        m = re.search(r"\b(" + "|".join(map(re.escape, CTA_PHRASES)) + r")\b", raw_block)
+        cta = m.group(1) if m else None
+
+    # ── 5. Enhanced Link Extraction ───────────────────────────────────
+    facebook_domains = {"facebook.com", "fb.com", "facebookw.com", "fb.me", "fb.watch"}
+    all_links = []
+    image_urls = []
+
+    # Extract all <a> tags and <img> tags
+    for element in card.find_elements("xpath", ".//*[self::a or self::img]"):
+        try:
+            if element.tag_name == "a":
+                href = element.get_attribute("href")
+                if href:
+                    parsed = urlparse(href)
+                    if parsed.netloc.replace("www.", "") not in facebook_domains:
+                        all_links.append({
+                            "type": "link",
+                            "url": href,
+                            "text": element.text.strip() if element.text else ""
+                        })
+
+            elif element.tag_name == "img":
+                for attr in ["src", "data-src", "xlink:href"]:
+                    src = element.get_attribute(attr)
+                    if src and src.startswith(("http:", "https:")):
+                        image_urls.append(src)
+                        break
+        except StaleElementReferenceException:
             continue
+
+    # ── 6. Build record ───────────────────────────────────────────────
+    return {
+        "status": status,
+        "library_id": library_id,
+        "started": started_raw,
+        "page": page_name,
+        "primary_text": primary_text,
+        "cta": cta,
+        "links": all_links,          # All non-Facebook links
+        "image_urls": image_urls,     # All image URLs
+        "raw_text": raw_block,
+    }
+
+def _detect_card_prefix(sb: SB) -> str | None:
+    """
+    Return the correct ABS_CARD_PREFIX for the current page
+    """
+    for row in (5, 4):  # try logged-in layout first
+        prefix = f"{COMMON_HEAD}/div[{row}]/div[2]/div[2]/div[4]/div[1]"
+        try:
+            sb.driver.find_element("xpath", f"{prefix}/div[1]/div")
+            return prefix
+        except NoSuchElementException:
+            continue
+    return None
+
+def extract_cards(sb: SB) -> List[Dict[str, Any]]:
+    """Find the right prefix, scroll once, then walk /div[n]/div and parse."""
+    ads: List[Dict[str, Any]] = []
+
+    # Make sure Facebook injected the grid
+    sb.execute_script("window.scrollBy(0, 800);")
+    time.sleep(1)
+
+    prefix = _detect_card_prefix(sb)
+    if not prefix:
+        return ads
+
+    # Guarantee first card is present
+    sb.wait_for_element_visible(f"{prefix}/div[1]/div", by="xpath", timeout=15)
+
+    n = 1
+    while True:
+        xpath = f"{prefix}/div[{n}]/div"
+        try:
+            card_ele = sb.driver.find_element("xpath", xpath)
+        except NoSuchElementException:
+            break
+        try:
+            ads.append(_parse_card(card_ele))
+        except Exception:
+            pass
+        n += 1
+    print(f"[INFO] Found {n-1} ads on this page.")
     return ads
+
 def close_popup_if_present(sb):
     try:
-        btn=sb.driver.find_element(
+        btn = sb.driver.find_element(
             By.XPATH,
-            '//div[@role="button" and (.="Close" or @aria-label="Close dialog")]')
+            '//div[@role="button" and (.="Close" or @aria-label="Close dialog")]'
+        )
         btn.click()
         sb.sleep(1)
-    except NoSuchElementException: # type: ignore
+    except NoSuchElementException:
         pass
 
-# ── scrape a single “view_all_page_id=” page ─────────────────────────
-def scrape_lib_page(sb: SB, iso: str, page_name: str, lib_id: str) -> None:
+# ── scrape a single "view_all_page_id=" page ─────────────────────────
+def scrape_lib_page(sb: SB, iso: str, page_name: str, lib_id: str) -> dict:
     sb.open(AD_BY_ID_URL.format(iso=iso, lib_id=lib_id))
     sb.sleep(4)
-
-    try:
-        sb.click(POPUP_XPATH_CLOSE, by="xpath")
-        sb.sleep(1)
-    except Exception:
-        pass
+    close_popup_if_present(sb)
 
     for i in range(SCROLLS_PAGE):
         human_scroll(sb)
@@ -216,6 +303,7 @@ def scrape_lib_page(sb: SB, iso: str, page_name: str, lib_id: str) -> None:
         "lib_id": lib_id,
         "ads": ads
     }
+
 # ── scrape one (country, keyword) search ──────────────────────────────
 def scrape_pair(sb: SB, country: str, keyword: str) -> None:
     print(f"\n=== {country}  |  {keyword} ===")
@@ -243,7 +331,13 @@ def scrape_pair(sb: SB, country: str, keyword: str) -> None:
         sb.sleep(2 + i * 0.5)
 
     # 5) Collect one lib‐ID per distinct page name
-    libs = collect_one_lib_per_page(sb)
+    ads_grid = extract_cards(sb)
+    libs = {}
+    for ad in ads_grid:
+        page = ad.get('page')
+        lib_id = ad.get('library_id')
+        if page and lib_id and page not in libs:
+            libs[page] = lib_id
     print(f"[INFO] collected {len(libs)} distinct pages (1 lib-id each)")
 
     # 6) Derive current ISO code from the URL
@@ -254,7 +348,6 @@ def scrape_pair(sb: SB, country: str, keyword: str) -> None:
     pages_list = []
     for page_name, lib_id in libs.items():
         result = scrape_lib_page(sb, iso, page_name, lib_id)
-        # result already is { "page_name": ..., "lib_id": ..., "ads": [...] }
         pages_list.append(result)
 
     # 8) Build the object to append:
@@ -280,7 +373,6 @@ def scrape_pair(sb: SB, country: str, keyword: str) -> None:
     )
     print(f"[INFO] Appended branch → combined_ads.json")
 
-
 # ── main ──────────────────────────────────────────────────────────────
 def main() -> None:
     pairs = get_target_pairs()
@@ -290,7 +382,7 @@ def main() -> None:
 
     done_pairs = load_checkpoint()
 
-    with SB(uc=True, headless=True) as sb:
+    with SB(uc=True, headless=False) as sb:
         print("[INFO] Opening Facebook …")
         sb.open("https://facebook.com")
         print("[INFO] Restoring session cookies …")
