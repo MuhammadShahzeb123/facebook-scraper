@@ -12,14 +12,16 @@ import json
 import subprocess
 import os
 from datetime import datetime, timedelta
-from typing import Optional, List, Dict, Any
+from pydantic import BaseModel, Field, validator
+from typing import Optional, List, Dict, Any, Literal
 from pathlib import Path
 import re
 
-from fastapi import FastAPI, HTTPException, Query, BackgroundTasks, Body
+from fastapi import FastAPI, HTTPException, Query, BackgroundTasks, Body, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field
+from fastapi.exceptions import RequestValidationError
+from pydantic import BaseModel, Field, validator, ValidationError
 import uvicorn
 
 # Configure logging
@@ -57,35 +59,75 @@ RESULTS_DIR.mkdir(exist_ok=True)
 
 # Pydantic models for request bodies
 class AdsScrapingRequest(BaseModel):
-    mode: str = Field(default="ads", description="ads, suggestions, or ads_and_suggestions")
+    mode: Literal["ads", "suggestions", "ads_and_suggestions"] = Field(default="ads", description="Scraping mode")
     headless: bool = Field(default=True, description="Run browser in headless mode")
-    ads_limit: int = Field(default=1000, description="Maximum number of ads to extract")
+    ads_limit: int = Field(default=1000, description="Maximum number of ads to extract", gt=0, le=5000)
     target_pairs: List[List[str]] = Field(
         default=[["Ukraine", "rental apartments"], ["United States", "rental properties"]],
         description="List of [country, keyword] pairs"
     )
+
+    @validator('target_pairs')
+    def validate_target_pairs(cls, v):
+        if not v or len(v) == 0:
+            raise ValueError("At least one target pair is required")
+        if len(v) > 20:
+            raise ValueError("Maximum 20 target pairs allowed")
+        for pair in v:
+            if not isinstance(pair, list) or len(pair) != 2:
+                raise ValueError("Each target pair must be a list with exactly 2 elements [country, keyword]")
+            if not all(isinstance(item, str) and item.strip() for item in pair):
+                raise ValueError("Both country and keyword must be non-empty strings")
+        return v
+
+    class Config:
+        extra = "forbid"
 
 class AdvertiserScrapingRequest(BaseModel):
     headless: bool = Field(default=True, description="Run browser in headless mode")
-    ads_limit: int = Field(default=1000, description="Maximum number of ads to extract")
+    ads_limit: int = Field(default=1000, description="Maximum number of ads to extract", gt=0, le=5000)
     target_pairs: List[List[str]] = Field(
         default=[["Ukraine", "rental apartments"], ["United States", "rental properties"]],
         description="List of [country, keyword] pairs"
     )
 
+    @validator('target_pairs')
+    def validate_target_pairs(cls, v):
+        if not v or len(v) == 0:
+            raise ValueError("At least one target pair is required")
+        if len(v) > 20:
+            raise ValueError("Maximum 20 target pairs allowed")
+        for pair in v:
+            if not isinstance(pair, list) or len(pair) != 2:
+                raise ValueError("Each target pair must be a list with exactly 2 elements [country, keyword]")
+            if not all(isinstance(item, str) and item.strip() for item in pair):
+                raise ValueError("Both country and keyword must be non-empty strings")
+        return v
+
+    class Config:
+        extra = "forbid"
+
 class PageScrapingRequest(BaseModel):
-    search_method: str = Field(default="keyword", description="keyword or url")
     headless: bool = Field(default=True, description="Run browser in headless mode")
-    post_limit: int = Field(default=100, description="Number of posts to scrape per page")
-    account_number: int = Field(default=2, description="Facebook account number to use (1, 2, or 3)")
+    post_limit: int = Field(default=100, description="Number of posts to scrape per page", gt=0, le=500)
+    account_number: int = Field(default=2, description="Facebook account number to use (1, 2, or 3)", ge=1, le=3)
     keywords: List[str] = Field(
-        default=["coca cola", "pepsi", "burger king"],
-        description="Keywords to search for (when search_method=keyword)"
+        description="Keywords to search for Facebook pages"
     )
-    urls: List[str] = Field(
-        default=["https://www.facebook.com/CokePakistan"],
-        description="URLs to scrape (when search_method=url)"
-    )
+
+    @validator('keywords')
+    def validate_keywords(cls, v):
+        if not v or len(v) == 0:
+            raise ValueError("At least one keyword is required")
+        if len(v) > 10:
+            raise ValueError("Maximum 10 keywords allowed")
+        for keyword in v:
+            if not isinstance(keyword, str) or not keyword.strip():
+                raise ValueError("All keywords must be non-empty strings")
+        return v
+
+    class Config:
+        extra = "forbid"  # Reject unknown fields
 
 # Response models
 class ScrapingResponse(BaseModel):
@@ -171,6 +213,45 @@ async def global_exception_handler(request, exc):
         }
     )
 
+# Exception handlers
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    """Handle validation errors with proper 400 status codes"""
+    error_details = []
+    for error in exc.errors():
+        field = " -> ".join(str(loc) for loc in error["loc"])
+        error_details.append(f"{field}: {error['msg']}")
+
+    return JSONResponse(
+        status_code=400,
+        content={
+            "success": False,
+            "message": "Validation Error",
+            "errors": error_details,
+            "timestamp": datetime.now().isoformat()
+        }
+    )
+
+@app.middleware("http")
+async def rate_limit_middleware(request: Request, call_next):
+    """Apply rate limiting to all requests"""
+    client_ip = request.client.host
+      # Skip rate limiting for health checks
+    if request.url.path in ["/health", "/docs", "/openapi.json"]:
+        return await call_next(request)
+
+    if not rate_limit_check(client_ip):
+        return JSONResponse(
+            status_code=429,
+            content={
+                "success": False,
+                "message": "Rate limit exceeded. Maximum 10 requests per minute.",
+                "timestamp": datetime.now().isoformat()
+            }
+        )
+
+    return await call_next(request)
+
 # Async functions to run scrapers
 async def run_ads_scraper(job_id: str, request_data: AdsScrapingRequest):
     """Run ads scraper in background"""
@@ -220,12 +301,19 @@ async def run_ads_scraper(job_id: str, request_data: AdsScrapingRequest):
         except:
             pass
 
-        if process.returncode == 0:
+        # Check for partial success - if output file exists, consider it successful
+        output_files = list(RESULTS_DIR.glob("ads*.json"))
+        if output_files and any(f.stat().st_size > 100 for f in output_files):
+            active_jobs[job_id]["status"] = "completed"
+            active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
+            active_jobs[job_id]["output_files"] = [str(f) for f in output_files]
+        elif process.returncode == 0:
             active_jobs[job_id]["status"] = "completed"
             active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
         else:
             active_jobs[job_id]["status"] = "failed"
-            active_jobs[job_id]["error"] = stderr.decode()
+            active_jobs[job_id]["error"] = stderr.decode() if stderr else "Process failed with no error output"
+            active_jobs[job_id]["stdout"] = stdout.decode() if stdout else ""
     except Exception as e:
         active_jobs[job_id]["status"] = "failed"
         active_jobs[job_id]["error"] = str(e)
@@ -271,12 +359,19 @@ async def run_advertiser_scraper(job_id: str, request_data: AdvertiserScrapingRe
         except:
             pass
 
-        if process.returncode == 0:
+        # Check for partial success
+        output_file = RESULTS_DIR / "combined_ads.json"
+        if output_file.exists() and output_file.stat().st_size > 100:
+            active_jobs[job_id]["status"] = "completed"
+            active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
+            active_jobs[job_id]["output_file"] = str(output_file)
+        elif process.returncode == 0:
             active_jobs[job_id]["status"] = "completed"
             active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
         else:
             active_jobs[job_id]["status"] = "failed"
-            active_jobs[job_id]["error"] = stderr.decode()
+            active_jobs[job_id]["error"] = stderr.decode() if stderr else "Process failed with no error output"
+            active_jobs[job_id]["stdout"] = stdout.decode() if stdout else ""
     except Exception as e:
         active_jobs[job_id]["status"] = "failed"
         active_jobs[job_id]["error"] = str(e)
@@ -286,14 +381,20 @@ async def run_pages_scraper(job_id: str, request_data: PageScrapingRequest):
     try:
         active_jobs[job_id] = {"status": "running", "type": "pages", "started_at": datetime.now().isoformat()}
 
-        # Create temporary config for this job
+        # Validate keywords
+        if not request_data.keywords or len(request_data.keywords) == 0:
+            raise ValueError("At least one keyword is required")
+
+        if len(request_data.keywords) > 10:
+            raise ValueError("Maximum 10 keywords allowed")
+
+        # Create temporary config for this job - always use keyword search
         temp_config = {
-            "SEARCH_METHOD": request_data.search_method,
+            "SEARCH_METHOD": "keyword",
             "HEADLESS": request_data.headless,
             "POST_LIMIT": request_data.post_limit,
             "ACCOUNT_NUMBER": request_data.account_number,
-            "KEYWORDS": request_data.keywords,
-            "URLS": request_data.urls
+            "KEYWORDS": request_data.keywords
         }
 
         # Save temporary config
@@ -303,7 +404,7 @@ async def run_pages_scraper(job_id: str, request_data: PageScrapingRequest):
 
         # Set environment variables
         env = {
-            "SEARCH_METHOD": request_data.search_method,
+            "SEARCH_METHOD": "keyword",
             "HEADLESS": str(request_data.headless),
             "POST_LIMIT": str(request_data.post_limit),
             "ACCOUNT_NUMBER": str(request_data.account_number),
@@ -327,12 +428,22 @@ async def run_pages_scraper(job_id: str, request_data: PageScrapingRequest):
         except:
             pass
 
-        if process.returncode == 0:
+        # Check for partial success - if output file exists, consider it successful
+        output_file = RESULTS_DIR / "all_pages.json"
+        if output_file.exists() and output_file.stat().st_size > 100:  # File exists and has content
+            active_jobs[job_id]["status"] = "completed"
+            active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
+            active_jobs[job_id]["output_file"] = str(output_file)
+        elif process.returncode == 0:
             active_jobs[job_id]["status"] = "completed"
             active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
         else:
             active_jobs[job_id]["status"] = "failed"
-            active_jobs[job_id]["error"] = stderr.decode()
+            active_jobs[job_id]["error"] = stderr.decode() if stderr else "Process failed with no error output"
+            active_jobs[job_id]["stdout"] = stdout.decode() if stdout else ""
+    except ValueError as e:
+        active_jobs[job_id]["status"] = "failed"
+        active_jobs[job_id]["error"] = str(e)
     except Exception as e:
         active_jobs[job_id]["status"] = "failed"
         active_jobs[job_id]["error"] = str(e)

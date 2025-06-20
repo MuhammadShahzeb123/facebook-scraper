@@ -142,13 +142,12 @@ curl -X POST "http://localhost:8000/scrape/ads" \
 
 **Endpoint**: `POST /scrape/pages`
 
-**Purpose**: Scrapes Facebook pages and their posts using keywords or direct URLs.
+**Purpose**: Searches Facebook for pages based on keywords and scrapes their posts.
 
 **Request Body**:
 
 ```json
 {
-  "search_method": "keyword",
   "headless": true,
   "post_limit": 100,
   "account_number": 2,
@@ -156,12 +155,15 @@ curl -X POST "http://localhost:8000/scrape/ads" \
     "coca cola",
     "pepsi",
     "burger king"
-  ],
-  "urls": [
-    "https://www.facebook.com/CokePakistan"
   ]
 }
 ```
+
+**Parameters**:
+- `headless` (bool): Run browser in headless mode (default: true)
+- `post_limit` (int): Number of posts to scrape per page (1-500, default: 100)
+- `account_number` (int): Facebook account to use (1-3, default: 2)
+- `keywords` (array): Keywords to search for (required, 1-10 keywords)
 
 #### 3. Advertiser Ads Scraper
 
