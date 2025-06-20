@@ -11,6 +11,7 @@ import traceback
 import json
 import subprocess
 import os
+import sys
 from datetime import datetime, timedelta
 from pydantic import BaseModel, Field, validator
 from typing import Optional, List, Dict, Any, Literal
@@ -111,19 +112,62 @@ class PageScrapingRequest(BaseModel):
     headless: bool = Field(default=True, description="Run browser in headless mode")
     post_limit: int = Field(default=100, description="Number of posts to scrape per page", gt=0, le=500)
     account_number: int = Field(default=2, description="Facebook account number to use (1, 2, or 3)", ge=1, le=3)
-    keywords: List[str] = Field(
-        description="Keywords to search for Facebook pages"
+    search_method: Literal["keyword", "url"] = Field(default="keyword", description="Search method: 'keyword' to search for pages, 'url' to scrape specific page URLs")
+    keywords: Optional[List[str]] = Field(
+        default=None,
+        description="Keywords to search for Facebook pages (required when search_method='keyword')"
     )
+    urls: Optional[List[str]] = Field(
+        default=None,
+        description="Direct Facebook page URLs to scrape (required when search_method='url')"
+    )
+
+    def __init__(self, **data):
+        super().__init__(**data)
+        # Custom validation after object creation
+        if self.search_method == 'keyword':
+            if not self.keywords or len(self.keywords) == 0:
+                raise ValueError("At least one keyword is required when search_method='keyword'")
+            if len(self.keywords) > 10:
+                raise ValueError("Maximum 10 keywords allowed")
+            for keyword in self.keywords:
+                if not isinstance(keyword, str) or not keyword.strip():
+                    raise ValueError("All keywords must be non-empty strings")
+        elif self.search_method == 'url':
+            if not self.urls or len(self.urls) == 0:
+                raise ValueError("At least one URL is required when search_method='url'")
+            if len(self.urls) > 20:
+                raise ValueError("Maximum 20 URLs allowed")
+            for url in self.urls:
+                if not isinstance(url, str) or not url.strip():
+                    raise ValueError("All URLs must be non-empty strings")
+                if not (url.startswith('http://') or url.startswith('https://')):
+                    raise ValueError("All URLs must start with http:// or https://")
+                if 'facebook.com' not in url.lower():
+                    raise ValueError("All URLs must be Facebook page URLs")
 
     @validator('keywords')
     def validate_keywords(cls, v):
-        if not v or len(v) == 0:
-            raise ValueError("At least one keyword is required")
-        if len(v) > 10:
-            raise ValueError("Maximum 10 keywords allowed")
-        for keyword in v:
-            if not isinstance(keyword, str) or not keyword.strip():
-                raise ValueError("All keywords must be non-empty strings")
+        if v is not None:
+            if len(v) > 10:
+                raise ValueError("Maximum 10 keywords allowed")
+            for keyword in v:
+                if not isinstance(keyword, str) or not keyword.strip():
+                    raise ValueError("All keywords must be non-empty strings")
+        return v
+
+    @validator('urls')
+    def validate_urls(cls, v):
+        if v is not None:
+            if len(v) > 20:
+                raise ValueError("Maximum 20 URLs allowed")
+            for url in v:
+                if not isinstance(url, str) or not url.strip():
+                    raise ValueError("All URLs must be non-empty strings")
+                if not (url.startswith('http://') or url.startswith('https://')):
+                    raise ValueError("All URLs must start with http:// or https://")
+                if 'facebook.com' not in url.lower():
+                    raise ValueError("All URLs must be Facebook page URLs")
         return v
 
     class Config:
@@ -175,7 +219,7 @@ def rate_limit_check(client_ip: str, limit: int = 10, window: int = 60) -> bool:
 async def log_requests(request, call_next):
     """Log all API requests"""
     start_time = time.time()
-    client_ip = request.client.host
+    client_ip = request.client.host if request.client else "unknown"
 
     # Rate limiting check
     if not rate_limit_check(client_ip):
@@ -235,7 +279,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 @app.middleware("http")
 async def rate_limit_middleware(request: Request, call_next):
     """Apply rate limiting to all requests"""
-    client_ip = request.client.host
+    client_ip = request.client.host if request.client else "unknown"
       # Skip rate limiting for health checks
     if request.url.path in ["/health", "/docs", "/openapi.json"]:
         return await call_next(request)
@@ -253,7 +297,7 @@ async def rate_limit_middleware(request: Request, call_next):
     return await call_next(request)
 
 # Async functions to run scrapers
-async def run_ads_scraper(job_id: str, request_data: AdsScrapingRequest):
+def run_ads_scraper(job_id: str, request_data: AdsScrapingRequest):
     """Run ads scraper in background"""
     try:
         active_jobs[job_id] = {"status": "running", "type": "ads", "started_at": datetime.now().isoformat()}
@@ -264,18 +308,15 @@ async def run_ads_scraper(job_id: str, request_data: AdsScrapingRequest):
             "HEADLESS": request_data.headless,
             "ADS_LIMIT": request_data.ads_limit,
             "TARGET_PAIRS": request_data.target_pairs
-        }
-
-        # Save temporary config
+        }        # Save temporary config
         temp_config_path = f"temp_ads_config_{job_id}.json"
-        with open(temp_config_path, 'w') as f:
-            json.dump(temp_config, f)
+        with open(temp_config_path, 'w', encoding='utf-8') as f:
+            json.dump(temp_config, f, ensure_ascii=False, indent=2)
 
-        # Create command arguments
+        # Create command arguments with proper Python executable
         cmd = [
-            "python", "ads_and_suggestions_scraper.py",
-            "--config", temp_config_path
-        ]
+            sys.executable, "ads_and_suggestions_scraper.py",
+            "--config", temp_config_path        ]
 
         # Set environment variables as fallback
         env = {
@@ -285,15 +326,25 @@ async def run_ads_scraper(job_id: str, request_data: AdsScrapingRequest):
             **dict(os.environ)
         }
 
-        # Run scraper
-        process = await asyncio.create_subprocess_exec(
-            *cmd,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
-            env=env
+        # Use regular subprocess instead of asyncio subprocess (Windows compatibility)
+        process = subprocess.run(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            env=env,
+            text=True,  # Automatically decode output as text
+            cwd=os.getcwd()  # Ensure correct working directory
         )
 
-        stdout, stderr = await process.communicate()
+        stdout_text = process.stdout if process.stdout else ""
+        stderr_text = process.stderr if process.stderr else ""
+
+        # Log the output for debugging
+        logger.info(f"Job {job_id} - Process return code: {process.returncode}")
+        if stdout_text:
+            logger.info(f"Job {job_id} - STDOUT: {stdout_text[:500]}...")
+        if stderr_text:
+            logger.error(f"Job {job_id} - STDERR: {stderr_text[:500]}...")
 
         # Clean up temp config
         try:
@@ -301,24 +352,33 @@ async def run_ads_scraper(job_id: str, request_data: AdsScrapingRequest):
         except:
             pass
 
-        # Check for partial success - if output file exists, consider it successful
-        output_files = list(RESULTS_DIR.glob("ads*.json"))
-        if output_files and any(f.stat().st_size > 100 for f in output_files):
+        # Check process result - return code takes priority
+        if process.returncode == 0:
             active_jobs[job_id]["status"] = "completed"
             active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
-            active_jobs[job_id]["output_files"] = [str(f) for f in output_files]
-        elif process.returncode == 0:
-            active_jobs[job_id]["status"] = "completed"
-            active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
+            # Store stdout for successful jobs
+            if stdout_text:
+                active_jobs[job_id]["output"] = stdout_text
+            # Also check if output files exist
+            output_files = list(RESULTS_DIR.glob("ads*.json"))
+            if output_files:
+                active_jobs[job_id]["output_files"] = [str(f) for f in output_files]
         else:
             active_jobs[job_id]["status"] = "failed"
-            active_jobs[job_id]["error"] = stderr.decode() if stderr else "Process failed with no error output"
-            active_jobs[job_id]["stdout"] = stdout.decode() if stdout else ""
+            active_jobs[job_id]["error"] = stderr_text if stderr_text else "Process failed with no error output"
+            active_jobs[job_id]["stdout"] = stdout_text
+            active_jobs[job_id]["return_code"] = process.returncode
+    except ValueError as e:
+        logger.error(f"Job {job_id} - ValueError: {str(e)}")
+        active_jobs[job_id]["status"] = "failed"
+        active_jobs[job_id]["error"] = str(e)
     except Exception as e:
+        logger.error(f"Job {job_id} - Exception: {str(e)}")
+        logger.error(f"Job {job_id} - Traceback: {traceback.format_exc()}")
         active_jobs[job_id]["status"] = "failed"
         active_jobs[job_id]["error"] = str(e)
 
-async def run_advertiser_scraper(job_id: str, request_data: AdvertiserScrapingRequest):
+def run_advertiser_scraper(job_id: str, request_data: AdvertiserScrapingRequest):
     """Run advertiser scraper in background"""
     try:
         active_jobs[job_id] = {"status": "running", "type": "advertiser", "started_at": datetime.now().isoformat()}
@@ -328,12 +388,10 @@ async def run_advertiser_scraper(job_id: str, request_data: AdvertiserScrapingRe
             "ADS_LIMIT": request_data.ads_limit,
             "TARGET_PAIRS": request_data.target_pairs,
             "HEADLESS": request_data.headless
-        }
-
-        # Save temporary config
+        }        # Save temporary config
         temp_config_path = f"temp_advertiser_config_{job_id}.json"
-        with open(temp_config_path, 'w') as f:
-            json.dump(temp_config, f)
+        with open(temp_config_path, 'w', encoding='utf-8') as f:
+            json.dump(temp_config, f, ensure_ascii=False, indent=2)
 
         # Set environment variables
         env = {
@@ -342,16 +400,25 @@ async def run_advertiser_scraper(job_id: str, request_data: AdvertiserScrapingRe
             **dict(os.environ)
         }
 
-        cmd = ["python", "facebook_advertiser_ads.py", "--config", temp_config_path]
-
-        process = await asyncio.create_subprocess_exec(
-            *cmd,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
-            env=env
+        cmd = [sys.executable, "facebook_advertiser_ads.py", "--config", temp_config_path]        # Use regular subprocess instead of asyncio subprocess (Windows compatibility)
+        process = subprocess.run(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            env=env,
+            text=True,  # Automatically decode output as text
+            cwd=os.getcwd()  # Ensure correct working directory
         )
 
-        stdout, stderr = await process.communicate()
+        stdout_text = process.stdout if process.stdout else ""
+        stderr_text = process.stderr if process.stderr else ""
+
+        # Log the output for debugging
+        logger.info(f"Job {job_id} - Process return code: {process.returncode}")
+        if stdout_text:
+            logger.info(f"Job {job_id} - STDOUT: {stdout_text[:500]}...")
+        if stderr_text:
+            logger.error(f"Job {job_id} - STDERR: {stderr_text[:500]}...")
 
         # Clean up temp config
         try:
@@ -359,92 +426,126 @@ async def run_advertiser_scraper(job_id: str, request_data: AdvertiserScrapingRe
         except:
             pass
 
-        # Check for partial success
-        output_file = RESULTS_DIR / "combined_ads.json"
-        if output_file.exists() and output_file.stat().st_size > 100:
+        # Check process result - return code takes priority
+        if process.returncode == 0:
             active_jobs[job_id]["status"] = "completed"
             active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
-            active_jobs[job_id]["output_file"] = str(output_file)
-        elif process.returncode == 0:
-            active_jobs[job_id]["status"] = "completed"
-            active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
+            # Store stdout for successful jobs
+            if stdout_text:
+                active_jobs[job_id]["output"] = stdout_text
+            # Also check if output file exists
+            output_file = RESULTS_DIR / "combined_ads.json"
+            if output_file.exists():
+                active_jobs[job_id]["output_file"] = str(output_file)
         else:
             active_jobs[job_id]["status"] = "failed"
-            active_jobs[job_id]["error"] = stderr.decode() if stderr else "Process failed with no error output"
-            active_jobs[job_id]["stdout"] = stdout.decode() if stdout else ""
-    except Exception as e:
+            active_jobs[job_id]["error"] = stderr_text if stderr_text else "Process failed with no error output"
+            active_jobs[job_id]["stdout"] = stdout_text
+            active_jobs[job_id]["return_code"] = process.returncode
+    except ValueError as e:
+        logger.error(f"Job {job_id} - ValueError: {str(e)}")
         active_jobs[job_id]["status"] = "failed"
         active_jobs[job_id]["error"] = str(e)
+    except Exception as e:
+        logger.error(f"Job {job_id} - Exception: {str(e)}")
+        logger.error(f"Job {job_id} - Traceback: {traceback.format_exc()}")
+        active_jobs[job_id]["status"] = "failed"
+        active_jobs[job_id]["error"] = str(e)
+        active_jobs[job_id]["error"] = str(e)
 
-async def run_pages_scraper(job_id: str, request_data: PageScrapingRequest):
+def run_pages_scraper(job_id: str, request_data: PageScrapingRequest):
     """Run pages scraper in background"""
     try:
         active_jobs[job_id] = {"status": "running", "type": "pages", "started_at": datetime.now().isoformat()}
 
-        # Validate keywords
-        if not request_data.keywords or len(request_data.keywords) == 0:
-            raise ValueError("At least one keyword is required")
+        # Validate inputs based on search method
+        if request_data.search_method == "keyword":
+            if not request_data.keywords or len(request_data.keywords) == 0:
+                raise ValueError("At least one keyword is required when search_method='keyword'")
+            if len(request_data.keywords) > 10:
+                raise ValueError("Maximum 10 keywords allowed")
+        elif request_data.search_method == "url":
+            if not request_data.urls or len(request_data.urls) == 0:
+                raise ValueError("At least one URL is required when search_method='url'")
+            if len(request_data.urls) > 20:
+                raise ValueError("Maximum 20 URLs allowed")
 
-        if len(request_data.keywords) > 10:
-            raise ValueError("Maximum 10 keywords allowed")
-
-        # Create temporary config for this job - always use keyword search
+        # Create temporary config for this job
         temp_config = {
-            "SEARCH_METHOD": "keyword",
+            "SEARCH_METHOD": request_data.search_method,
             "HEADLESS": request_data.headless,
             "POST_LIMIT": request_data.post_limit,
             "ACCOUNT_NUMBER": request_data.account_number,
-            "KEYWORDS": request_data.keywords
         }
 
-        # Save temporary config
+        # Add method-specific configuration
+        if request_data.search_method == "keyword":
+            temp_config["KEYWORDS"] = request_data.keywords
+        elif request_data.search_method == "url":
+            temp_config["URLS"] = request_data.urls        # Save temporary config
         temp_config_path = f"temp_pages_config_{job_id}.json"
-        with open(temp_config_path, 'w') as f:
-            json.dump(temp_config, f)
+        with open(temp_config_path, 'w', encoding='utf-8') as f:
+            json.dump(temp_config, f, ensure_ascii=False, indent=2)
 
         # Set environment variables
         env = {
-            "SEARCH_METHOD": "keyword",
+            "SEARCH_METHOD": request_data.search_method,
             "HEADLESS": str(request_data.headless),
             "POST_LIMIT": str(request_data.post_limit),
             "ACCOUNT_NUMBER": str(request_data.account_number),
             **dict(os.environ)
-        }
+        }        # Get the current Python executable (from the virtual environment)
+        python_executable = sys.executable
 
-        cmd = ["python", "facebook_pages_scraper.py", "--config", temp_config_path]
+        cmd = [python_executable, "facebook_pages_scraper.py", "--config", temp_config_path]
 
-        process = await asyncio.create_subprocess_exec(
-            *cmd,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
-            env=env
+        # Use regular subprocess instead of asyncio subprocess (Windows compatibility)
+        process = subprocess.run(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            env=env,
+            text=True,  # Automatically decode output as text
+            cwd=os.getcwd()  # Ensure correct working directory
         )
 
-        stdout, stderr = await process.communicate()
+        stdout_text = process.stdout if process.stdout else ""
+        stderr_text = process.stderr if process.stderr else ""
 
-        # Clean up temp config
+        # Log the output for debugging
+        logger.info(f"Job {job_id} - Process return code: {process.returncode}")
+        if stdout_text:
+            logger.info(f"Job {job_id} - STDOUT: {stdout_text[:500]}...")
+        if stderr_text:
+            logger.error(f"Job {job_id} - STDERR: {stderr_text[:500]}...")        # Clean up temp config
         try:
             os.remove(temp_config_path)
         except:
             pass
 
-        # Check for partial success - if output file exists, consider it successful
-        output_file = RESULTS_DIR / "all_pages.json"
-        if output_file.exists() and output_file.stat().st_size > 100:  # File exists and has content
+        # Check process result - return code takes priority
+        if process.returncode == 0:
             active_jobs[job_id]["status"] = "completed"
             active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
-            active_jobs[job_id]["output_file"] = str(output_file)
-        elif process.returncode == 0:
-            active_jobs[job_id]["status"] = "completed"
-            active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
+            # Store stdout for successful jobs
+            if stdout_text:
+                active_jobs[job_id]["output"] = stdout_text
+            # Also check if output file exists
+            output_file = RESULTS_DIR / "all_pages.json"
+            if output_file.exists():
+                active_jobs[job_id]["output_file"] = str(output_file)
         else:
             active_jobs[job_id]["status"] = "failed"
-            active_jobs[job_id]["error"] = stderr.decode() if stderr else "Process failed with no error output"
-            active_jobs[job_id]["stdout"] = stdout.decode() if stdout else ""
+            active_jobs[job_id]["error"] = stderr_text if stderr_text else "Process failed with no error output"
+            active_jobs[job_id]["stdout"] = stdout_text
+            active_jobs[job_id]["return_code"] = process.returncode
     except ValueError as e:
+        logger.error(f"Job {job_id} - ValueError: {str(e)}")
         active_jobs[job_id]["status"] = "failed"
         active_jobs[job_id]["error"] = str(e)
     except Exception as e:
+        logger.error(f"Job {job_id} - Exception: {str(e)}")
+        logger.error(f"Job {job_id} - Traceback: {traceback.format_exc()}")
         active_jobs[job_id]["status"] = "failed"
         active_jobs[job_id]["error"] = str(e)
 

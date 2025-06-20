@@ -1199,7 +1199,11 @@ def main():
             with SB(headless=HEADLESS, proxy=proxy_string) as sb:
                 sb.open("https://facebook.com")
                 for ck in cookies:
-                    try: sb.driver.add_cookie(ck)
+                    try:
+                        # Fix sameSite attribute if it's invalid
+                        if 'sameSite' in ck and ck['sameSite'] not in ["Strict", "Lax", "None"]:
+                            ck['sameSite'] = "Lax"  # Default to Lax if invalid
+                        sb.driver.add_cookie(ck)
                     except Exception as e:
                         print(f"[cookie error] {ck.get('name')} → {e}")
                 sb.refresh(); pause(2)

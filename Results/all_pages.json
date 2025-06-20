@@ -160,5 +160,484 @@
       "http://www.coca-cola.com.pk/"
     ],
     "page_id": "1527753387475028"
+  },
+  {
+    "name": "Coca-Cola",
+    "profile_pic": "https://scontent-lhr8-1.xx.fbcdn.net/v/t39.30808-1/347256670_197250269510933_105036682896674779_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=1&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=cXQiPSy_hs0Q7kNvwH24PUZ&_nc_oc=AdlsmXgj5a9Tn_AzFmlBzdx5poft4CLDmE0Garh8o35ilGIM3J1MybyJzy856mzdIXM&_nc_zt=24&_nc_ht=scontent-lhr8-1.xx&_nc_gid=bKdf3lYsEp3BMq7Sq4EcMg&oh=00_AfOkZMEogpHHkhzn_PhgLenB56tnt12u_nLASQbvLn35sQ&oe=685AF78D",
+    "verified": true,
+    "followers": "108M",
+    "likes": "108M",
+    "category": "Food and drink",
+    "description": "The Coca-Cola Facebook Page is a collection of your stories showing how people from around the world have helped make Coke into what it is today.",
+    "website_label": "coca-cola.com.pk",
+    "source_url": "https://www.facebook.com/CokePakistan",
+    "scrape_method": "url",
+    "recent_posts": [
+      {
+        "text": "Thandi Coke, aur squad ke jokes. Life Sorted! … See more",
+        "url": "https://www.facebook.com/CokePakistan/videos/582679257858054/?__cft__[0]=AZW8dwM272fxF_hI1fgs3L3C02svVJPwoi1AkRuvP1w5fzKZ8NQWjjViSky9ltrOpYhKYAE0KcGeiWv00ZV4930T0w7hT8TQ3MT5kw-LnzhskQS5rMG6-Iz12kEOhtcNbsU-2iPy43ENusbuIMRNB-POb76BFuDKPBTavd9VATvtYkRoG9SKwaU-frIHsK2pIdCxKYRttaDyDh7At6p_2fQS&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "20",
+        "comments": "",
+        "shares": "",
+        "scraped_at": "2025-06-20T15:09:04.163930"
+      },
+      {
+        "text": "Scan it, send it, win it! … See more",
+        "url": "https://www.facebook.com/CokePakistan/videos/3004693883049730/?__cft__[0]=AZW4hZg-giL8wxXgIk5vXEwKUOjW9BamvH6Y_VM4FRMudDz5v251bp7uNTXEEGA7fJA2RJQ0vPZoaitWzbdTDSRoNV21PO82RvBE7cDoswcS6Xt_dc035CO-EVgAqklLcp1WW-YLc6sxAiowkvUWHzA1vovYa7YeaNjoYq6kpkLsorkGIFI2m3pcTLlRHBoQiSiHNKsvOV0nERcIaMHYrnIW&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "45",
+        "comments": "",
+        "shares": "2",
+        "scraped_at": "2025-06-20T15:09:05.129771"
+      },
+      {
+        "text": "Coke chahye tou naam bol, cuz ab tou yehi hain Squad Goals! … See more",
+        "url": "https://www.facebook.com/CokePakistan/videos/731531132887679/?__cft__[0]=AZU8KbU7lCouUNAIyVUTES0BiO7E-_z1YE1QZmIc3AnR_zlkE6qREeaeZ3ZJbWz5bGebiylk7dMT0MWzSotZTB7CH0xUL350FbvwmNR7n1u7uwV5pxew3nsyzcqxKQGg3rpxzImeylrvD_0TN8YSJhovv-pmvX_4hbxw_QB4RIp6ID-39BX2-TWYHl3Q3vaCbNQoWKKZE0z8PnaID1L_z77r&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "49",
+        "comments": "",
+        "shares": "2",
+        "scraped_at": "2025-06-20T15:09:06.153158"
+      },
+      {
+        "text": "Eyerolls, hair flips, and a whole lot of sass. Which Drama Queen will you share a Coke with? \n#… See more",
+        "url": "https://www.facebook.com/CokePakistan/videos/1256776719205157/?__cft__[0]=AZW3pKzR_EdbygWG-lOt2v7u0CxfEvG9w8UMOtXlSoRWS9NhtmXBOz64Bh8hMpOpo8vr_IxKRhmACsUZ9y8miWJy3Y4z3YRDVbKXk7x2VvLvrUSmcTIsJcsmiJexDt4xCsKDEFAUgTGAYAnTmIunXg4lDUOGUURQg1VSNunq5F1shKLVIyGxH1objyCrIsJaWloaQWG8IXY53AG04vhEQRMk&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "52",
+        "comments": "",
+        "shares": "2",
+        "scraped_at": "2025-06-20T15:09:07.127429"
+      },
+      {
+        "text": "Food crumbs, cravings and dessert craze! \n Fo… See more",
+        "url": "https://www.facebook.com/CokePakistan/videos/1046931796765856/?__cft__[0]=AZVYpbViVeESpc27iDgh8ENT7fmcOkvjlE0JEpU4y0pW79LfnMQ-s3lNkWigYEvvZjphywoB-7udrsLWirAJJA3g0soBfFdIc1GaxkRILdcE_3IHjCO_r6zcHkfSzcoy_nC0ffTGGRWXZn2x9cC-b_gMJ6leFXJyrtNxmyO182w_rALOLFVaJezHF5J0mulNyyyOrg_4Ll3hHR1RhmylhYKC&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "59",
+        "comments": "",
+        "shares": "2",
+        "scraped_at": "2025-06-20T15:09:08.138550"
+      },
+      {
+        "text": "When you think of Girl Boss, who comes to mind? Let them know by sharing a Coke with them. … See more",
+        "url": "https://www.facebook.com/CokePakistan/videos/1459185635259751/?__cft__[0]=AZVg0RtOhniDFopEdrPfVnaMa6f5u4JPHRfKzP_G1t0k-lZnjawCxLCfoJAD2KlDjcvdATc5Ye0fgBJfCBkU9GRlhWwCV3m5zpjLHaeusZrF-8cetJ_REQfxlH4cGyXrAdzm6AqSP2fYAqDzSjlgwFA6CkiLEucFoXyPDLZV0zPaNmvSJnskQoMu94NpCgOoQ_puhP1jyc89sMLwvkJJstrt&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "50",
+        "comments": "",
+        "shares": "2",
+        "scraped_at": "2025-06-20T15:09:09.090210"
+      },
+      {
+        "text": "Hamesha limelight mein, sunglasses on and just pure vibes! Share a coke with the main character of your group. \n … See more",
+        "url": "https://www.facebook.com/CokePakistan/videos/737151225308303/?__cft__[0]=AZWrjOYPV6eTDVKgzJnsVW39v5aNOWosfDigjzGomvS51OxlG5NYoS2oat8j96qpJbm1gyLWAXndlO_n02E6WwI0e57O-ncFBqpH0Nmy7kR0v8Z5R3QCmILRXOTjp7QnV1jvu8p0A0ckP7ZcrHwJ9Lysc3tgHt5FuniU7L4jr2PvwYxlsRTNi2H-6yxMGq04baj5OO3f1ApkHtC7QRZGsxOo&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "43",
+        "comments": "",
+        "shares": "3",
+        "scraped_at": "2025-06-20T15:09:10.045578"
+      },
+      {
+        "text": "Coke aur squad, moments ka perfect combo!… See more",
+        "url": "https://www.facebook.com/CokePakistan/videos/1235940237889587/?__cft__[0]=AZXoFLAwcHix0war-cQ2-giBD-6BVV7ilcMhQh7apZoJlABlTaCRpZkg6Je-GpMTa-M8D-P0sOQcCwhvBJBst33iJUAJQuZspISOLG-j8iNTpANr_O60IhpsWn3TrGJa6Fpx7iOm5JivSDIelCGU0VXZnFtPYpFF9tspfu2sLCDXqLg13ivKdFVy0Eczl4c79fSmrBp81SR5HnxDIIu0kxpX&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "40",
+        "comments": "",
+        "shares": "2",
+        "scraped_at": "2025-06-20T15:09:10.992682"
+      },
+      {
+        "text": "Abhi Coca-Cola ya Sprite mangwao aur ICC Champions Trophy match tickets ya dheron prizes jeetnay ka mauka pao!… See more",
+        "url": "https://www.facebook.com/CokePakistan/videos/1765882047288658/?__cft__[0]=AZX1rfvno8qbn27uee1QPWDruE1AV2dDssvFLP74ABlsDg_PZGgn6e_LGW8VbgwndoU-prnfEIGxfsOx025miW4exO-6m4v9hGxm71DYidqFyPW2575yyNGWpHMaIPSHlq-16CRK6MrfuRF46KJHx_YEM4rVAzHPalAj-98eKMGfS0kFy8pSwQoxyzbvf5jQHJ1fFTUqCDetNSfbhF-GsUQG&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "16",
+        "comments": "",
+        "shares": "204",
+        "scraped_at": "2025-06-20T15:09:11.990667"
+      },
+      {
+        "text": "Magic sirf tab ho, jab sath sab hon! \n#Y… See more",
+        "url": "https://www.facebook.com/CokePakistan/videos/1856013961599913/?__cft__[0]=AZXghsr_g0gxOwOt7ev8qE89BjUJ0YxaQ_5BiY9UKiSj1PTZzH7xAAJUZtQnngISQ7ZRlqF6QkdHtx1QwTERftcQGxwvhmZiWsjRz1TvJyjqt4jtVRC1--eLsUMsTPeAaIbXi4EFPlJVM43KLdw2JQMbCorJFA3PRpvqlvK6rKOAjrCAFXqLhnsFRtwg07VzfW99sHORrCfsyRppYDoIKEEk&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "14",
+        "comments": "",
+        "shares": "88",
+        "scraped_at": "2025-06-20T15:09:13.032844"
+      },
+      {
+        "text": "Kya hamara yaqeen sab badal sakta hai?… See more",
+        "url": "https://www.facebook.com/CokePakistan/videos/2874625866050457/?__cft__[0]=AZV35IsqaT6ry7UaiNRCiovmGhmybQzsemMOIq6OJkF40aLWqIUJAwdrCLyO_fh496Xi4LBGXrTyK7YckjEPN9Yq8LBT9oaaSNjxj-iuO6SEl0YVKOUGQJYFuJwvRHnOAPeVaf5poNLyNaLdtMt4R15Yq1iUrLhbzAGAnWY_3lxjH7cK7flI2ZwIuxVYZQnnPkN_RsMVo6TFZIuForqpJGim&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "11",
+        "comments": "",
+        "shares": "384",
+        "scraped_at": "2025-06-20T15:09:14.047590"
+      },
+      {
+        "text": "Grab a bottle of Coke and scan the QR Code on the bottle.\nWhatsapp the code under the bottle cap along with your details to 03226222652 and win a trip to Dubai ya dhero… See more",
+        "url": "https://www.facebook.com/CokePakistan/videos/843279344103831/?__cft__[0]=AZVYrfwDknTLy9oWBlGPE9HMbOV7U1N8QwdqKpmhjE6qOPQ07q3vD1wBEU4udgBewgiasPnCOswE_dJ1ReiZGPCJljL-dUcoL28OlHy0mCpEKPcWUrXsKT_LppGaucozIN2xGAK759Sm7y9QITHcGTa7RK01RAdgKEbs1tkila9n4gg5PY0iPrCIhhyo9INIVyU8uoAziY3mN4Yf8gvvotH2&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "14",
+        "comments": "",
+        "shares": "181",
+        "scraped_at": "2025-06-20T15:09:14.998289"
+      },
+      {
+        "text": "Midnight cravings ka one and only solution, Paratha Roll saath ek Thandi Coke. Name a better midnight Recipe for Magic than this!\n#RecipeForMagic #CokeAndMeals",
+        "url": "https://www.facebook.com/CokePakistan/videos/1399271070956605/?__cft__[0]=AZVed4KS4nfzH1lWAVDhyLSibjlzmsmVl4hpWHMHFhFNFO6hn9WTZ3yTIhAQtdQ78BvTGhfvUZEjJ-A2tigVofRf9eaCioauXR5UwNFiV5cQFNsyjtUZdtGoQjYmPfDqVtlYiQL3EYsH8KscFPRSKMV5IS7DcaYUcwPI5VQpakpr3sI8_H18_y2yeSBPuPS2jr7yZ2jSdH4W7kMyN-1SoAJK&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "102",
+        "comments": "",
+        "shares": "22",
+        "scraped_at": "2025-06-20T15:09:15.945948"
+      },
+      {
+        "text": "Weekend ki Tayyari - Gher ki Karahi aur Nihari with Thandi Coke \n#RecipeForMagic #CokeAndMeals",
+        "url": "https://www.facebook.com/CokePakistan/videos/775234054637993/?__cft__[0]=AZVTbkP5lSQ78bMupcPHKsRDHOxAd3TV8o1xXJDErk3LiUaS716CKnfOeZabYXhrv2t0RXRlxN6cC_ZI_EcGvKBkYsSizsD9_z9crIiVai-wqFbYSUUcvYq7pR8KXhxLeDqQo8VGfx7Vh1bCRiEnGQE4VTIjRtXGBgGMknqnHLccb-h7riL3wXL1aQ3k3IG2MSv4IDJmHEPpAnnr-eFq86rf3JX381P7Q6tk4PSNpOimrg&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "70",
+        "comments": "",
+        "shares": "18",
+        "scraped_at": "2025-06-20T15:09:16.951746"
+      },
+      {
+        "text": "Congratulations to our last Open to Win winner, Muhammad Imran Shafique on winning an 1800cc car! … See more",
+        "url": "https://www.facebook.com/CokePakistan/posts/pfbid0QZFm1wmbT1ogcJJaq6bDxQyaeoBKFgVcesJi1vrpzBDQu4T5cUHYcAgqUmQXAHeil?comment_id=843302734106209&__cft__[0]=AZU5ZdoS3Cd58E-sJ-SH4lrxYJQZY4z3oJJMGh-U3YNZoWXROAT7DgEbqVdMiAV9OpZznkJNPA_jvxj8sUO0mX33kAWaCkO6cZH4mh_ERXVBLdN9nsHGBnTfZmV8bqXLccqp7qJlL20rarcZZi7jOJ0tS-EVOVUBO1dOleoeF-wqHQT-DRtOZWfFUOZa7d6TSwg&__tn__=R-R",
+        "images": [
+          "https://scontent-lhr6-1.xx.fbcdn.net/v/t39.30808-6/481047191_978152747657356_1373498926193294014_n.jpg?stp=dst-jpg_p526x296_tt6&_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=B_SGUp9UoigQ7kNvwFmc_dy&_nc_oc=AdlSX0GUhJB6Q_HXCOfrindm0uX21DMUBplgRYG3l5XWEbk_WMA3L4cownOVcuM-D78&_nc_zt=23&_nc_ht=scontent-lhr6-1.xx&_nc_gid=2dOtiy7UKVjTWak3gYCAGg&oh=00_AfPVNkWQs4-WnwTCNj7ii-8rE4WLzCKyJpLkf-KbCBmwZQ&oe=685B1B08"
+        ],
+        "likes": "1K",
+        "comments": "665",
+        "shares": "28",
+        "scraped_at": "2025-06-20T15:09:17.926174"
+      },
+      {
+        "text": "Witness how luck presented itself in Adnan's life as he was planning his next move for a better future. Experience the Real Magic as he sets his eyes on his brand-new 1… See more",
+        "url": "https://www.facebook.com/CokePakistan/videos/849639763387277/?__cft__[0]=AZUCcYW5CL1y06_HUsJEy9hbFNVxu7UHfJzfChiwFH8McWPywkJ6ToVBiekVWVKEmRRewBNvHFpJy2yn-05gIUq9mpNC9y3ium0vjEWaNupNtw6TfB1Pc3ZFlsCAUY2TObZ4ZNjrsxtc7mTSLb5q2vprzTVBJBYpEhxSqQ_D7wTSe7kYnN1_isVWg-gnhTbnhput2k75Nm6cnth7v-j6vjAAF1xrYFCsAtiPI17xIichGQ&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "2.2K",
+        "comments": "932",
+        "shares": "112",
+        "scraped_at": "2025-06-20T15:09:19.021079"
+      },
+      {
+        "text": "Ghaza Anbreen, a hardworking teacher was able to pave her way to become this week's 'Open to Win' Winner! Experience the Real Magic as she sets her eyes on her brand-ne… See more",
+        "url": "https://www.facebook.com/CokePakistan/videos/1531095127700189/?__cft__[0]=AZV0h5dM--2PUK5M8taUiH8q3SKN_ofMxTLjf4eS9xM4malnUEJQN7LQR2hmhKOLdLBK6QfMyLliF3tWfNNC1E0uafb4vPh9JFYSR4HqcyZ7zHwTtXvq3fKBYhZp12TI8GrOIiw7bpNXbJkjYspln84NOUlkajaTAIDoVU0C0reFvmJLr2SISH5BGgFZoquJ8sxqWHNN8527y7YNqd1NR3vOubL1zO_24Ohg4r2wSjVt3g&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "1.7K",
+        "comments": "619",
+        "shares": "93",
+        "scraped_at": "2025-06-20T15:09:20.075180"
+      }
+    ],
+    "social_links": [
+      "http://www.coca-cola.com.pk/"
+    ],
+    "created_date": "30 December 2014",
+    "admin_countries": [
+      "Pakistan (10)",
+      "Bulgaria (1)",
+      "Spain (1)"
+    ],
+    "name_changes": 1,
+    "name_change_lines": [
+      "Coca-Cola"
+    ],
+    "is_running_ads": true
+  },
+  {
+    "name": "Pepsi",
+    "profile_pic": "https://scontent-lhr6-1.xx.fbcdn.net/v/t39.30808-1/361089957_581441730824961_3030594987995381919_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=102&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=gPFSztqud44Q7kNvwEjijB6&_nc_oc=Adl3gtsUhIKy2Ya_uItQiNboVGMU4njFWvR3HYbQ6TckVCVQ4qaTeUplh0L8gKrOIYI&_nc_zt=24&_nc_ht=scontent-lhr6-1.xx&_nc_gid=ONZeR3ybFDc5gU07eUdjmA&oh=00_AfMzNd7UWL7UZi9uRTZc8pMKjG1rvUOph4kaTqU0bESwjA&oe=685AFB5C",
+    "verified": true,
+    "followers": "36M",
+    "likes": "36M",
+    "category": "Product/service",
+    "description": "Welcome To Pepsi Global!",
+    "website_label": "pepsi.com",
+    "source_url": "https://www.facebook.com/pepsi",
+    "scrape_method": "url",
+    "recent_posts": [
+      {
+        "text": "Who will win when Leo Messi & Mohamed Salah compete for the Last Can Standing? #FORTHELOVEOFIT",
+        "url": "https://www.facebook.com/pepsi/videos/304265853563957/?comment_id=1695967161173468&__cft__[0]=AZXTfhat_qQRVYiWDquN8xlmCap8_9NdGqi8EIFsGZnYyC-9E5NwMVIaydzIhTo6M0tkOanJGocz5WhZLtRVknGVQ9Wk672U9qQSxUt8qmHW1X8fiIK42KUvvbYG2zW5nywGWt5gbFTxwuK1ohD1eRYWttWcP1X8ixfy67FPFfDZCvuEYzzLQ1ql-DUW8beqPaMzZ0y_tNpbpl7aJ6M8btlB&__tn__=R-R",
+        "images": [
+          "https://scontent-lhr8-1.xx.fbcdn.net/v/t15.5256-10/51925105_304266400230569_9061676319275745280_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=111&ccb=1-7&_nc_sid=282d23&_nc_ohc=usDAX16S7J4Q7kNvwEfAs-x&_nc_oc=Adnp15Y-ws1WMUXpVoUQ22uoH9XOCRFdSxwQpIl2_HR8TgNHVHOWVIwzGmRLZHjUV_E&_nc_zt=23&_nc_ht=scontent-lhr8-1.xx&_nc_gid=2k8sqf2AHEUZ9H5wYjuN3w&oh=00_AfNOfyqNy0bkgTtl_37OLIU9PstvMUKzlDRirmr_4LA6Xw&oe=685AFE16",
+          "https://scontent-lhr6-2.xx.fbcdn.net/v/t15.5256-10/42010053_317975255425477_2530361733122359296_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=104&ccb=1-7&_nc_sid=282d23&_nc_ohc=veSXirm2IGsQ7kNvwH0bu_V&_nc_oc=AdnSI5p1CM-ZtKg9AuXldIzihJKAi2GGtUNj8hsSOQxt8RryHFwbx1Aqkx9DHelj--w&_nc_zt=23&_nc_ht=scontent-lhr6-2.xx&_nc_gid=oGLSi08QjXEaE28kc3nVsg&oh=00_AfOXl2Imh9zIpt7vKOZv46hT_3i5WHQpa283aGI2jOHULg&oe=685B1EDB",
+          "https://scontent-lhr8-2.xx.fbcdn.net/v/t15.13418-10/27417924_1835643903154545_3860435374375436288_n.jpg?stp=dst-jpg_p370x247_tt6&_nc_cat=103&ccb=1-7&_nc_sid=ace027&_nc_ohc=T1o23Ce_jkkQ7kNvwGuFsrv&_nc_oc=AdnqVrnp14_ObshwZO7RE4uNC2zRakfInwdzhsU37o29UveUE6_S1ffWYVn5YXqRk04&_nc_zt=23&_nc_ht=scontent-lhr8-2.xx&_nc_gid=oGLSi08QjXEaE28kc3nVsg&oh=00_AfPFahi8HukWKdWAQLYrVAhQawTpyXteizbJMC1XMzDvYg&oe=685B06BB",
+          "https://scontent-lhr8-2.xx.fbcdn.net/v/t15.5256-10/13700305_1050141145023526_1349852766_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=103&ccb=1-7&_nc_sid=282d23&_nc_ohc=Cxek5hAXdS0Q7kNvwFrcv0Z&_nc_oc=AdlRvTBmCU4lYsB11mxh6VWb3kRHWUmbKW24-FeEBdF-UF9QjKxKFsq4v863R0ZvJ9s&_nc_zt=23&_nc_ht=scontent-lhr8-2.xx&_nc_gid=oGLSi08QjXEaE28kc3nVsg&oh=00_AfNr39TEzN42YO621k2jlD35Wa18BW1TSk0zjzrZiSXQXA&oe=685AFBDE"
+        ],
+        "likes": "5.9K",
+        "comments": "1.6K",
+        "shares": "1.4K",
+        "scraped_at": "2025-06-20T15:10:52.056727"
+      },
+      {
+        "text": "Legacies never go out of style. A walk down a city street reveals that the PUMA x Pepsi collection shines, pops, and flexes in every era. @Pepsi @Puma #pumaxpepsi Capsu… See more",
+        "url": "https://www.facebook.com/pepsi/videos/317971252092544/?__cft__[0]=AZW4UWPtvScbWQCGxVHq0swddTUCWVfThRRD_sK2US5IzgGk-53XotnJ6HkIRLfXEUpeo56AI25bCPHDv3qjsx09vxDbAMpOdE2Yze8nljMhMDRrU9-AoGnSk-7vbFM-I_aWmRaiW6KHfENOgtB4VYciy0vRmgVtlSSwehmD3yRlupqt4NAoybT8yQYg13DviqTW9R3QuL9uGCrIh-3F-UrP&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "63",
+        "comments": "843",
+        "shares": "356",
+        "scraped_at": "2025-06-20T15:10:53.268624"
+      },
+      {
+        "text": "LOVE IT LIVE IT! Painting the world blue with Messi, Marcelo, Kroos, Lloyd & Dele #LoveitLiveit",
+        "url": "https://www.facebook.com/pepsi/videos/1614593151911653/?__cft__[0]=AZXOvhN5qViHODAwqDw5zQXqLZNjXCvQDqAgzzsrAjcPIE3SCHg7gZjkdT2S4qQMUrQHp6aMH7gfxcazMlO1bVDVJQ8F9VnZkHM1UKu-eSxX7t72Jegt3HUb3b9rSoKmfKahFgTCvS6r8ogT7DLgbrWEaBfwOiZtiJ74iHxxWsHySaTez22znu_iSDEydLhco3iVgYVUmWu5lMN7JpTHcm1x&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "6.9K",
+        "comments": "828",
+        "shares": "818",
+        "scraped_at": "2025-06-20T15:10:54.410360"
+      },
+      {
+        "text": "Sun, rest and an ice cold Pepsi. #SayItWithPepsi #PepsiMoji",
+        "url": "https://www.facebook.com/pepsi/videos/1050127138358260/?__cft__[0]=AZXLK334jdSJ_KrbDEvyCdewsV0R51rKbD3ieF3oUqD9LSnOM9mlns_nsHxGX31DgWYVlkgXOO4uP2nTK-r4y5s4VQfO1QbiHSHM4A_bb8AtaFQiaJvO0mqLu5w2ya4dwc4K-4weVsI_YPOxVKKpf4_-dHLFu9qBT8IMYDhhdk8RghTgsM3Y0np1lh3OvJlawas4up22_pwt2a0ZDeikuSTT&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "3.7K",
+        "comments": "1.1K",
+        "shares": "330",
+        "scraped_at": "2025-06-20T15:10:55.681872"
+      },
+      {
+        "text": "There's always a few treasures hidden in the waves. #PepsiMoji",
+        "url": "https://www.facebook.com/pepsi/videos/1050159001688407/?__cft__[0]=AZUgVGlCyQofiOj1YvS-tiii0N4P61FxOSgr3wp3eSLsAXM1zu19qeAQ46Sx9odya6rv2tMnnGfBxk3w-ja3TyCVgIgIlbw15ZiuLPxJus1qp-AFgwt2E5D17230JZuKNWAbnH-S_ksGKRcTvCFkvuXh9PJUVlYPJAEWuTWVvWoWCQn0RM4hDxTwQfZ87l9raLiLSfYeKbIlqMcrtCUkGxbL&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "2.8K",
+        "comments": "391",
+        "shares": "213",
+        "scraped_at": "2025-06-20T15:10:56.765435"
+      },
+      {
+        "text": "Sometimes, all you need is love. #SayItWithPepsi #PepsiMoji",
+        "url": "https://www.facebook.com/pepsi/videos/1047849361919371/?__cft__[0]=AZWVDLXav04lRbJrigPLs78yYhbsSjmlmNpHyDyin8c_PLWVQz1rw6PUBb5nycgNTKAk28o32RdiglnnVtnM8XvVtZC_VhtURDhjz31p9pGTSxLOAOJSOeDwg-y7FA0zx5Ty4R4LbcZX7aAG3HFPtMOXMS9pmz3IJkrMo8uD-j9smyP1RnFuXN7JJkbWUw12I0t8fOhLKO-eaBh6Tp7nWhwr&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "2.3K",
+        "comments": "270",
+        "shares": "127",
+        "scraped_at": "2025-06-20T15:10:57.989020"
+      },
+      {
+        "text": "Nothing but net. #PepsiMoji #SayItWithPepsi",
+        "url": "https://www.facebook.com/pepsi/videos/1050218111682496/?__cft__[0]=AZU81XKEFzRG12jOZF0FN3-_E7IWR5n3M2e1Ch9OxSzt3XupZjPyIPpZrdiraxBfo3AoRxPsE4Sop6OPmeQyBOt606NTAohukVXBd5fmjVEe94gmQ-Z6AVnlJesxIJhOTf6MYkfEFqVX6WWccZCiXx7XX4Cz4SdnS4oLDaf5vOiRFzKtXplHcNn4FEvJYEf3IRFIW9Wydr63btfdGwgcv9P9&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "2.1K",
+        "comments": "295",
+        "shares": "150",
+        "scraped_at": "2025-06-20T15:10:59.086879"
+      },
+      {
+        "text": "Ready, set...go! #SayItWithPepsi #PepsiMoji",
+        "url": "https://www.facebook.com/pepsi/videos/1050230088347965/?__cft__[0]=AZUis2LnPQiARSfvXtBVxKkfqFZVHhZb8-x56O6brmBV0f9nBdcGdtapN8HmUGJJgnGpGelhQOtaM17tClSXEUZCFdnAnLziXQ7kCDe3N5s2uwdENFXSlx2YS61aIWq61EVfU9PGUVbnlJ3CmH_00d8HLpauyMok3XGv1lxF9pLekQE8EGxdQ5NYN8YBnBizz0GRpJf5gt_9MNL9e-ZavbSg&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "1.4K",
+        "comments": "139",
+        "shares": "61",
+        "scraped_at": "2025-06-20T15:11:00.240656"
+      },
+      {
+        "text": "Bounce to your own beat. #SayItWithPepsi #PepsiMoji",
+        "url": "https://www.facebook.com/pepsi/videos/1050227178348256/?__cft__[0]=AZUM-k2mRIbnV7ohtePjXPZ8ibPaybM7lLFboqg4kA6Kn1VUQ6yKUPYzSb3tu8GecZfrg7k5Ennh37NeaIXo-ZHxLgklLAvmMEyS1CjTE8ki5xGVP_OaSGLANhddOT2si-fpvTgDkObK3T2uJ0_WUKQgN1aucenUCPbfechts4aYB1S_BkOoWuIxphXqn1vZnU2rHF8SjhwCaJ97z56JJHAo&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "1.2K",
+        "comments": "136",
+        "shares": "64",
+        "scraped_at": "2025-06-20T15:11:01.300204"
+      },
+      {
+        "text": "What are you waiting for? Adventure still awaits. #PepsiMoji #SayItWithPepsi",
+        "url": "https://www.facebook.com/pepsi/videos/1050128765024764/?__cft__[0]=AZXw6oIp6Iripuk1Vyeei9N_9BdFcUOJ6UJZYZTxDRI2HF0heJJC6PZFJicrSzchFVczLut_QHE3exBQde4dhZqk1iGbQqR865287A4pUcduXPCqz38ptKJ8UMC5Vg-WdxA8GtcwsA2VdNUdEyRy1EHTfX-FJhJZfd2t5fe8tToDpJKUQd6UaUWzHhgmNtkd7Xm3oYmY4FoTt_ubelh0_Q74&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "1.5K",
+        "comments": "162",
+        "shares": "158",
+        "scraped_at": "2025-06-20T15:11:02.343284"
+      },
+      {
+        "text": "Always more inside. #SayItWithPepsi #PepsiMoji",
+        "url": "https://www.facebook.com/pepsi/videos/1050127351691572/?__cft__[0]=AZXvDqPCeobqAiB4NwNg54ojYODpq024ZV3IGKwebfYTiWtA_kNkblmIck03TOCPK2HsgKbHP2xUoA-cg-HMP5lJr8Rq_cCNIDQRWSmskUfFQO_SIQJSsV7p3zQ0Si3Dur2_y7Y2ISUhk1kP4A7tzukkRptKoc8kKTUoXcLSVRgDK1f8KZnyyIGfmrX4iFPOXB8bqudlBnLEg2bVSPKWP7wU&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "966",
+        "comments": "105",
+        "shares": "39",
+        "scraped_at": "2025-06-20T15:11:03.564640"
+      },
+      {
+        "text": "Ready to get back in the ring? #SayItWithPepsi #PepsiMoji",
+        "url": "https://www.facebook.com/pepsi/videos/1050217215015919/?__cft__[0]=AZWsl7wdxkVJ6oaI_z0CuCEOQgQxxcmVn6HCTZ8DZ5fWw_xBKr7iDt84-fGfTcqlrR3nspUfEQFNtADSFl-xKx1IgGgmboBGOyAPtyLsmjnrVNmYQ5J3qb78ZUl0D4OB8Mdew6eI010E5EsqQnlSk3vSE-IEvUaH1a3z7hsJsYH66ESa5V46WIqPRNOmPLNKqK7R3rrGgoCg3IOEMGAsaMQy&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "954",
+        "comments": "110",
+        "shares": "31",
+        "scraped_at": "2025-06-20T15:11:04.701882"
+      },
+      {
+        "text": "Say it without words. Get the #PepsiMoji keyboard here: https://makesnaps.com/get/pepsi",
+        "url": "https://www.facebook.com/pepsi/posts/1054999001204407?comment_id=1060996550604652&__cft__[0]=AZX3P-NcFHX_J70tWy-mRFE1PSwvBM2Q8cvcA9bYLk7eEPHZqtgJB06tc41plEz4z704qbR09r-7TFk-_qzMLWPaEksdhGeofqgIvm7pDi8UNeU3KE4utM5cbcUOWI6uDIjrKcl4QBOpHHmcGvMA8jOi9EyBg1SuFW-WwUGeaxWgpSZvg8dNx7xW6dJs194kRI1vgfImD-DEgv3chh5_2BwK&__tn__=R-R",
+        "images": [],
+        "likes": "830",
+        "comments": "272",
+        "shares": "24",
+        "scraped_at": "2025-06-20T15:11:05.873325"
+      },
+      {
+        "text": "Get there with a little help from your friends #PepsiMoji #SayItWithPepsi",
+        "url": "https://www.facebook.com/pepsi/videos/1050125471691760/?__cft__[0]=AZU1pIinmS1aOdCMudcxDoCA3Cw2WvvdqXVmfhXggBlVjTJvTjZna6cv1t8r2yR7ToPJnPeEOWILSEpAhUiibkSEtx-O_OfMcTXUCBTeEJIiDwp_S3O63NavM0yzWDJnncnUUa5Ha4MwpLZ0A7gwjFuTXjodMBqtlCnn5AthGl2AgLZWITsQNjBzP2rSieiGT-f6p_a8pyGT2bfRH-Ye8Eg4&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "859",
+        "comments": "143",
+        "shares": "41",
+        "scraped_at": "2025-06-20T15:11:07.002677"
+      },
+      {
+        "text": "All love, all the time. #LoveHasNoLabels #SayItWithPepsi #PepsiMoji",
+        "url": "https://www.facebook.com/pepsi/videos/1050141898356784/?__cft__[0]=AZVcsGEdOhL4kYokFyHb4Y50lY3w1GyYQ9BpXciUecCdp8xOAVpK6bzJ6L6aTgrNsA45y6gFjAmk7c5E_i716899mTLSSoBjonSzklIcj-YKBs0oI5j5vzJruZ2Gke2555w_A5lzGDfwMk1aimnu6rZ0LZoHZc7gFeJWvgeNmHM1bbZC3n4UnJMNUpcKXhD-idXWQb-CRxNUcSoKUFVmCInd&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "791",
+        "comments": "107",
+        "shares": "40",
+        "scraped_at": "2025-06-20T15:11:08.156483"
+      },
+      {
+        "text": "A perfect pair for every occasion. #PepsiMoji",
+        "url": "https://www.facebook.com/pepsi/videos/1047834011920906/?__cft__[0]=AZXZvJX4Z_FxMEmQOeEjQhzfasQwmihxXVmaVJ2txckptsaYEn7PmwjSGNg_vJndzp5gd1FZ4MCQe_GDy-ivUY_yGusjfd5QSb1gopTvYP5cM4fkukTiyWxtpUWlaqZVb-YdvzH6zi2retN2pcp_qxD2_DQj9TIt46P_7KM90KOTBsZD8NOXCZ5HwFPtQ2_-2S9WRYGB03km-HhDFq8nuYJ7&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "725",
+        "comments": "88",
+        "shares": "29",
+        "scraped_at": "2025-06-20T15:11:09.462240"
+      },
+      {
+        "text": "Share your feelings with the world. #SayItWithPepsi #WorldEmojiDay #PepsiMoji",
+        "url": "https://www.facebook.com/pepsi/videos/1047828658588108/?__cft__[0]=AZUr4QlRP7sFGuC7MzUd7XrtF_nnVYwnMGfLZJwUrsAVVfz7X9NP97urDjWDFkH-WzbYunWCnV9FYRaffyEK3j7y4nP4aLXF0LQHspPAiMUqOb5jrxvcfhvRNVIVU5Zp33l8Hqpma4iyC0Nf5S389GV3uKQ0ueJk-cEHuonzHCeE_vJhfDLI4SDGJ19mHoOKiqH9O9JRsvh-KkAIz_eMHj7t&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "714",
+        "comments": "108",
+        "shares": "64",
+        "scraped_at": "2025-06-20T15:11:11.461962"
+      }
+    ],
+    "social_links": [
+      "http://www.pepsi.com/"
+    ],
+    "created_date": "13 March 2012",
+    "admin_countries": [
+      "United States (7)",
+      "United Kingdom (4)",
+      "Greece (2)"
+    ],
+    "name_changes": 1,
+    "name_change_lines": [
+      "Pepsi"
+    ],
+    "is_running_ads": true
+  },
+  {
+    "name": "Burger King",
+    "profile_pic": "https://scontent-lhr8-1.xx.fbcdn.net/v/t39.30808-1/311206872_6164128010267150_5586319141894536165_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=1&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=OlMxXgYJrDoQ7kNvwGw6Oxl&_nc_oc=Adlipj4FK-zZ2eM76Hredhc1BWKR9aufYfIhAItuolnk3vhOmweXkpFYSj_PJ2Z4Yhk&_nc_zt=24&_nc_ht=scontent-lhr8-1.xx&_nc_gid=osVFbdrwx6YzgErvqT76hw&oh=00_AfMYedzg0kcVIqTUF5U3PqcSgT1zJ5VcSv2-xXfEZfcyBA&oe=685B10ED",
+    "verified": true,
+    "followers": "8.4M",
+    "likes": "8.5M",
+    "category": "Food and drink company",
+    "description": "with every order, you can reign. you rule.",
+    "website_label": "bkpromo.myshopify.com",
+    "source_url": "https://www.facebook.com/burgerking",
+    "scrape_method": "url",
+    "recent_posts": [
+      {
+        "text": "Spoiler Alert: We’re the Icon",
+        "url": "https://www.facebook.com/burgerking/posts/pfbid0DWX66tjrhqFqEQghywxoWuXPrnH9Ktku81D88RW3qqWUEpiUVVTFXm4MA8t8LxTSl?comment_id=1205897921014251&__cft__[0]=AZVYnGaaRJ0gQnueDqo9ADyDfZn6LfwHiHMY4LSgXWKaK9zf56NU0FY8YfW93rqmY_c1QI6hYkq7Gy0e3nLDdv4fE-3zJ9YXcmrNSI40vo3ysV4Z46awk57FtbcVPn2E58N8yIQieojcIrnV07Lz5E7vqFXZSxldaVo4g98s0gKnvTnoabwa6kjwMBMaXFPjk6HYZ1wLMpBPk_7TNkzaSREg&__tn__=R-R",
+        "images": [
+          "https://scontent-lhr6-2.xx.fbcdn.net/v/t39.30808-6/503360924_1157807756389898_568476045111255450_n.jpg?stp=dst-jpg_p526x296_tt6&_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=NWcNGciPoe4Q7kNvwHYK5pa&_nc_oc=Adns1aS_gLgMIT8JNBQ3PQXBn7p2_FjTJRAlfjB3FGU5_TgQ1H3ObhbjP8ZaLdYaWig&_nc_zt=23&_nc_ht=scontent-lhr6-2.xx&_nc_gid=SXi2OS5hf9EFPJqy0RG9bA&oh=00_AfPThtjLJOiUl5akgtwOlkCh-sXcLQQat8k6FpwJoJ7N4w&oe=685B17CB"
+        ],
+        "likes": "1.5K",
+        "comments": "327",
+        "shares": "226",
+        "scraped_at": "2025-06-20T15:12:21.510595"
+      },
+      {
+        "text": "Flame-grilled goodness, from our \nHow to Train Your Dragon\n family to yours. Only in theaters June 13.",
+        "url": "",
+        "images": [
+          "https://scontent-lhr8-1.xx.fbcdn.net/v/t39.30808-6/500107908_1153486103488730_9027237937276698860_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=wIcxmyy_ULAQ7kNvwEttwjY&_nc_oc=Adl-2HH6YWvpdKc69e2gg5pDvg2qy4kN80IWlwIlU1U0LF00IG_4iPO9PQq_l71VLRA&_nc_zt=23&_nc_ht=scontent-lhr8-1.xx&_nc_gid=kR7zQypXqSsxOG1UQpxvsQ&oh=00_AfN1ACyCx1r1R-CUikM0-i3pbU3-YB-pGn_7sNV-GTAnJQ&oe=685B0359"
+        ],
+        "likes": "9.9K",
+        "comments": "872",
+        "shares": "1.5K",
+        "scraped_at": "2025-06-20T15:12:22.469897"
+      }
+    ],
+    "social_links": [
+      "https://bkpromo.myshopify.com/"
+    ],
+    "created_date": "9 June 2010",
+    "admin_countries": [
+      "United States (39)",
+      "Colombia (9)",
+      "India (5)"
+    ],
+    "name_changes": 0,
+    "name_change_lines": [],
+    "is_running_ads": true
+  },
+  {
+    "name": "Tesla Industries",
+    "profile_pic": "https://scontent-lhr8-2.xx.fbcdn.net/v/t39.30808-1/310454401_478218137682821_932065010610365887_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=103&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=NV1rRAvdDgQQ7kNvwGPO5Ls&_nc_oc=AdmD_ZAVSpetjbcgZIciPtWnd9FWLvzuOBLNndPIc1na16zRBDWFdd9eik12X8gv6Us&_nc_zt=24&_nc_ht=scontent-lhr8-2.xx&_nc_gid=FOdb67LN5RRTxiTD45PQog&oh=00_AfO3y60LRjK3Mkheor8rTHYcbB_ZSZJBGadxiGRW1cL31Q&oe=685AF3D6",
+    "verified": false,
+    "followers": "129K",
+    "likes": "96K",
+    "category": "Engineering service",
+    "description": "Official account of Tesla Industries (pvt) Ltd. We are the largest manufacturer of Solar Panels, Inverters, CNG equipment’s, control devices and regulation equipment.",
+    "website_label": "info@tesla-pv.com",
+    "recent_posts": [
+      {
+        "text": "Pakistan's Most Advanced and Smart Solar Inverter HSE Series..... Buy Now \n2025 #SolarPakistan2025",
+        "url": "https://www.facebook.com/tesla.solar/videos/681566801237307/?__cft__[0]=AZVAewZESovCI5Gg_-yEPT2isNJJ3zBiM8awc3AQQp6WowJhlmLabeBRz4oAWR8I8OkHIV8MBATgn3fC7vhUeNsUmS7MvI7ME9K36VV46bSWx8q0Rj-WTEIj3ZPkvKpSym9mD16riIp4LIBot-6Evsq9BfLgdCCqaIux1pwDPBPwo6JVDBQ50JV0USmuQuDiuW28vbFTX2CUUZ-axhIok8cb&__tn__=%2B%3FFH-R",
+        "images": [],
+        "likes": "496",
+        "comments": "290",
+        "shares": "37",
+        "scraped_at": "2025-06-20T15:33:59.372191"
+      },
+      {
+        "text": "Tesla Smart Geyser – Smarter Than Ever! Experience the future of intelligent heating with cutting-edge technology and seamless efficiency. … See more",
+        "url": "https://www.facebook.com/tesla.solar/posts/pfbid0nJ5wVkBfUXHVyp5JA1CDkFLjTHid8B25Tubmk4dYyWE42s6UndHrTAurRMREHZeol?comment_id=1281593952933111&__cft__[0]=AZU1qMAA4OxuFcuY9OwaofOHwbNKUbyipwvYz9l7oKz8mqARqV8WVZwPvxdkfNBZo0KcJjnxjgPp4WdiUsQ7A6QNRcnfciMS4Kw4qooJuejzJ2WeW2BFGOvWJNVJxTjzPwwfgUndIgIYZKkD_XTwUNyOGkuxCT5jgSQiannhSiXJbwLKCfgQLJ_xHumQYyQf9_ialbIsqCY3V7BQSnSlWhlt&__tn__=R-R",
+        "images": [
+          "https://scontent-lhr6-2.xx.fbcdn.net/v/t39.30808-6/487533510_1086120083559287_2658042876658717483_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=f6Jsq_rN1McQ7kNvwERfbFr&_nc_oc=AdkA8wZb9UX2ZLOjgMWZaseZzsWOyysJVSH4qCkVth8ROAWS5-0VsUi2OSM7hRmbLFk&_nc_zt=23&_nc_ht=scontent-lhr6-2.xx&_nc_gid=XlIlpmet_5z4WjXsaKrVvg&oh=00_AfMEGxjSoKDU5wTIBouWdq6LvK0g-D9aPDVDaz5Re2w2dQ&oe=685B079F"
+        ],
+        "likes": "90",
+        "comments": "35",
+        "shares": "39",
+        "scraped_at": "2025-06-20T15:34:00.536339"
+      },
+      {
+        "text": "Safety, efficiency, and sleek design – all in one perfect heater.… See more",
+        "url": "https://www.facebook.com/tesla.solar/posts/pfbid0Su7VE4fELdGZwycuadVG5NNtxJX9W7Q3frxDQaEuaKeVGybeT32vyMzZSecmsqU9l?comment_id=1417790569247053&__cft__[0]=AZX88D1wjz8tecibtoFEdarHjr0ULLjuzQ192Jobw3fLX7Ee7TEDpY8Q9z3cDRJvbtMUXQSErSnjQg2TORvhQ4fITCjrpX1AQUOVPoA_AWZyg8cm-7BREzqaev5QgrMx0QaxIgmw1Ac-6lZEGR9GnGElSB_TBnaohfXt-p_lk7CXo8kZ_f0aDDkWvoHn7Mpg8a3SnTkqap3PPJG6QtKjQAut&__tn__=R-R",
+        "images": [
+          "https://scontent-lhr6-1.xx.fbcdn.net/v/t39.30808-6/486602278_1081762607328368_4766674653963009955_n.jpg?stp=dst-jpg_p526x296_tt6&_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_ohc=d8piZ-zCsq8Q7kNvwFiFC9H&_nc_oc=AdkAYlq2-5ZfWCpGE_QoEhAILaPzeuMQIgXq6cVWsdc-mzeUG_C-NRpxW59i1yHzsHg&_nc_zt=23&_nc_ht=scontent-lhr6-1.xx&_nc_gid=QLgIttCjm3ETQwfaMwQevQ&oh=00_AfNx5IyI0rO9t03fmV6QY0-IIocnyyEZxIogK84woy8aLw&oe=685B2444"
+        ],
+        "likes": "158",
+        "comments": "86",
+        "shares": "50",
+        "scraped_at": "2025-06-20T15:34:01.629134"
+      }
+    ],
+    "address": "PLOT.81 G St.6 I-10/3, Islamabad, Pakistan, 44000",
+    "mobile": "+92 321 8375278",
+    "email": "info@tesla-pv.com",
+    "social_links": [
+      "https://tesla-pv.com/"
+    ],
+    "page_id": "401076609946253",
+    "created_date": "25 August 2012",
+    "admin_countries": [
+      "Pakistan (9)",
+      "United Kingdom (1)",
+      "Vietnam (1)"
+    ],
+    "name_changes": 2,
+    "name_change_lines": [
+      "Tesla Industries",
+      "Tesla PV"
+    ],
+    "is_running_ads": true
   }
 ]
