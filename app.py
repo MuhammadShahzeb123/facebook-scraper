@@ -24,6 +24,12 @@ from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from pydantic import BaseModel, Field, validator, ValidationError
 import uvicorn
+import sys
+
+
+if os.name == "nt":
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
 
 # Configure logging
 logging.basicConfig(

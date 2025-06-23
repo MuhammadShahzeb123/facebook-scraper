@@ -665,7 +665,8 @@ def extract_home(sb: SB) -> Dict:
     if m: out["likes"] = m.group(1).replace(" ", "")
     m = re.search(r'([0-9.,]+[A-Za-z万億]*)\s+(followers?|フォロワー)', src, re.I)
     if m: out["followers"] = m.group(1).replace(" ", "")
-
+    # Please add another key in this data for pageurl ... you can get it using
+    out["pageurl"] = sb.get_current_url()
     # Category
     try:
         cat = sb.find_element(
@@ -932,10 +933,10 @@ def _parse_likes_followers_from_transparency(raw: str) -> tuple[str, str]:
     may be empty if not found.
     """
     likes = followers = ""
-    m = re.search(r'([0-9.,KkMm]+)\s+likes?', raw)
+    m = re.search(r'([0-9][0-9.,]*[KkMm]?)\s+likes?', raw)
     if m:
         likes = m.group(1)
-    m = re.search(r'([0-9.,KkMm]+)\s+followers?', raw)
+    m = re.search(r'([0-9][0-9.,]*[KkMm]?)\s+followers?', raw)
     if m:
         followers = m.group(1)
     return likes, followers
