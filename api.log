@@ -262,3 +262,39 @@ data.1
 2025-06-23 12:55:21,540 - watchfiles.main - INFO - 1 change detected
 2025-06-23 12:55:21,947 - watchfiles.main - INFO - 1 change detected
 2025-06-23 12:55:22,352 - watchfiles.main - INFO - 1 change detected
+2025-06-23 15:12:54,327 - app - INFO - GET /docs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 15:12:56,821 - app - INFO - GET /openapi.json - Status: 200 - Time: 0.03s - IP: 127.0.0.1
+2025-06-23 15:13:06,275 - app - INFO - Started ads scraping job: job_1750673586_6642
+2025-06-23 15:13:06,277 - app - INFO - POST /scrape/ads - Status: 200 - Time: 0.04s - IP: 127.0.0.1
+2025-06-23 15:13:06,361 - watchfiles.main - INFO - 1 change detected
+2025-06-23 15:13:16,893 - app - INFO - GET /jobs/job_1750673586_6642 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 15:13:41,578 - app - INFO - GET /jobs/job_1750673586_6642 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 15:14:22,724 - app - INFO - GET /jobs/job_1750673586_6642 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 15:14:36,294 - watchfiles.main - INFO - 1 change detected
+2025-06-23 15:14:40,727 - watchfiles.main - INFO - 3 changes detected
+2025-06-23 15:14:41,081 - watchfiles.main - INFO - 3 changes detected
+2025-06-23 15:14:41,440 - watchfiles.main - INFO - 1 change detected
+2025-06-23 15:15:02,778 - app - INFO - GET /jobs/job_1750673586_6642 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 15:16:32,262 - app - INFO - GET /jobs/job_1750673586_6642 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 15:16:32,944 - watchfiles.main - INFO - 2 changes detected
+2025-06-23 15:16:43,803 - app - INFO - Job job_1750673586_6642 - Process return code: 0
+2025-06-23 15:16:43,804 - app - INFO - Job job_1750673586_6642 - STDOUT: [INFO] Opening Facebook …
+[INFO] Restoring session cookies …
+[SKIP] Already processed: Ukraine | rental apartments
+
+=== United States | rental properties ===
+[INFO] Found 104 ads on this page.
+[INFO] Data saved immediately to Results\ads.json
+[INFO] Saved data for United States | rental properties - Suggestions: 0, Ads: 104
+
+[DONE] All pairs processed with immediate saving.
+...
+2025-06-23 15:16:43,898 - watchfiles.main - INFO - 1 change detected
+2025-06-23 15:16:45,904 - app - INFO - GET /jobs/job_1750673586_6642 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 15:16:59,194 - watchfiles.main - INFO - 1 change detected
+2025-06-23 15:18:07,422 - watchfiles.main - INFO - 1 change detected
+2025-06-23 15:18:10,652 - watchfiles.main - INFO - 5 changes detected
+2025-06-23 15:18:11,019 - watchfiles.main - INFO - 2 changes detected
+2025-06-23 15:24:50,028 - watchfiles.main - INFO - 1 change detected
+2025-06-23 15:24:52,850 - watchfiles.main - INFO - 3 changes detected
+2025-06-23 15:24:53,216 - watchfiles.main - INFO - 4 changes detected
