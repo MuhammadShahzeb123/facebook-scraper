@@ -1,189 +1,130 @@
-2025-06-20 14:32:15,008 - app - INFO - Started pages scraping job: job_1750411935_7272
-2025-06-20 14:32:15,009 - app - INFO - POST /scrape/pages - Status: 200 - Time: 0.01s - IP: 127.0.0.1
-2025-06-20 14:32:22,548 - app - INFO - GET /jobs/job_1750411935_7272 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 14:32:35,371 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 14:35:38,603 - app - INFO - Started pages scraping job: job_1750412138_14
-2025-06-20 14:35:38,605 - app - INFO - POST /scrape/pages - Status: 200 - Time: 0.01s - IP: 127.0.0.1
-2025-06-20 14:35:38,611 - app - ERROR - Job job_1750412138_14 - Exception: 
-2025-06-20 14:35:38,618 - app - ERROR - Job job_1750412138_14 - Traceback: Traceback (most recent call last):
-  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\app.py", line 471, in run_pages_scraper
-    process = await asyncio.create_subprocess_exec(
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ...<4 lines>...
-    )
-    ^
-  File "C:\Users\Shahzeb\AppData\Local\Programs\Python\Python313\Lib\asyncio\subprocess.py", line 224, in create_subprocess_exec
-    transport, protocol = await loop.subprocess_exec(
-                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ...<3 lines>...
-        stderr=stderr, **kwds)
-        ^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Shahzeb\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1794, in subprocess_exec
-    transport = await self._make_subprocess_transport(
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        protocol, popen_args, False, stdin, stdout, stderr,
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        bufsize, **kwargs)
-        ^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Shahzeb\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 539, in _make_subprocess_transport
-    raise NotImplementedError
-NotImplementedError
-
-2025-06-20 14:36:27,835 - app - INFO - GET /jobs/job_1750412138_14 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 14:38:25,223 - app - INFO - Started pages scraping job: job_1750412305_8133
-2025-06-20 14:38:25,225 - app - INFO - POST /scrape/pages - Status: 200 - Time: 0.01s - IP: 127.0.0.1
-2025-06-20 14:38:36,589 - app - INFO - Job job_1750412305_8133 - Process return code: 1
-2025-06-20 14:38:36,590 - app - INFO - Job job_1750412305_8133 - STDOUT: === FACEBOOK SCRAPER STARTING ===
+2025-06-23 12:22:37,279 - watchfiles.main - INFO - 5 changes detected
+2025-06-23 12:22:48,447 - app - INFO - Started pages scraping job: job_1750663368_1747
+2025-06-23 12:22:48,450 - app - INFO - POST /scrape/pages - Status: 200 - Time: 0.01s - IP: 127.0.0.1
+2025-06-23 12:22:48,543 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:22:50,969 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:22:59,170 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 12:23:45,675 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:24:31,970 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:24:49,181 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 12:24:50,210 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 12:26:19,366 - watchfiles.main - INFO - 2 changes detected
+2025-06-23 12:26:48,019 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 12:26:51,648 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:26:52,004 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:26:52,923 - watchfiles.main - INFO - 6 changes detected
+2025-06-23 12:26:53,289 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:27:44,666 - watchfiles.main - INFO - 2 changes detected
+2025-06-23 12:27:52,205 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:28:32,542 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:29:11,711 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:29:53,312 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:29:54,651 - watchfiles.main - INFO - 7 changes detected
+2025-06-23 12:31:25,452 - watchfiles.main - INFO - 2 changes detected
+2025-06-23 12:32:50,980 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:32:51,478 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 12:32:55,086 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:32:56,600 - watchfiles.main - INFO - 5 changes detected
+2025-06-23 12:32:56,955 - watchfiles.main - INFO - 2 changes detected
+2025-06-23 12:33:31,404 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:34:14,628 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:35:56,937 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:35:59,768 - watchfiles.main - INFO - 5 changes detected
+2025-06-23 12:36:00,121 - watchfiles.main - INFO - 2 changes detected
+2025-06-23 12:36:17,155 - watchfiles.main - INFO - 2 changes detected
+2025-06-23 12:44:23,629 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:45:04,577 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:45:37,693 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:45:39,314 - watchfiles.main - INFO - 5 changes detected
+2025-06-23 12:45:39,706 - watchfiles.main - INFO - 2 changes detected
+2025-06-23 12:45:43,912 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 12:45:47,951 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:20,874 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:21,238 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:21,601 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:21,956 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:22,318 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:22,674 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:23,031 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:23,388 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:23,747 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:24,105 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:24,462 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:24,820 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:25,213 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:25,569 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:25,926 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:26,285 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:26,643 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:27,003 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:27,363 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:27,725 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:28,082 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:28,441 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:28,799 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:29,155 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:29,513 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:29,919 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:30,323 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:30,730 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:31,134 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:31,541 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:31,952 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:32,355 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:32,759 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:33,162 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:33,567 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:33,931 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:34,338 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:34,748 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:35,152 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:35,557 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:35,963 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:36,367 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:36,775 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:37,181 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:37,587 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:38,004 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:38,408 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:38,835 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:39,238 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:39,645 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:40,050 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:40,455 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:40,861 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:41,264 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:41,672 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:42,075 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:42,480 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:42,884 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:43,289 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:43,698 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:44,056 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:44,466 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:44,873 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:45,276 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:45,680 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:46:48,366 - app - INFO - Job job_1750663368_1747 - Process return code: 3221225786
+2025-06-23 12:46:48,366 - app - INFO - Job job_1750663368_1747 - STDOUT: === FACEBOOK SCRAPER STARTING ===
 Search Method: KEYWORD
 Keywords to search: 1
-...
-2025-06-20 14:38:36,590 - app - ERROR - Job job_1750412305_8133 - STDERR: Traceback (most recent call last):
-  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\facebook_pages_scraper.py", line 1202, in main
-    try: sb.driver.add_cookie(ck)
-         ~~~~~~~~~~~~~~~~~~~~^^^^
-  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 790, in add_cookie
-    assert cookie_dict["sameSite"] in ["Strict", "Lax", "None"]
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError
 
-Duri...
-2025-06-20 14:39:53,731 - app - INFO - GET /jobs/job_1750412305_8133 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 14:40:31,277 - app - INFO - Started pages scraping job: job_1750412431_4503
-2025-06-20 14:40:31,279 - app - INFO - POST /scrape/pages - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 14:40:42,410 - app - INFO - Job job_1750412431_4503 - Process return code: 1
-2025-06-20 14:40:42,411 - app - INFO - Job job_1750412431_4503 - STDOUT: === FACEBOOK SCRAPER STARTING ===
-Search Method: URL
-URLs to scrape: 1
-...
-2025-06-20 14:40:42,411 - app - ERROR - Job job_1750412431_4503 - STDERR: Traceback (most recent call last):
-  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\facebook_pages_scraper.py", line 1202, in main
-    try: sb.driver.add_cookie(ck)
-         ~~~~~~~~~~~~~~~~~~~~^^^^
-  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 790, in add_cookie
-    assert cookie_dict["sameSite"] in ["Strict", "Lax", "None"]
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError
+=== 'string' ===
+[CRASH] Account 1 died -> Message: 
+ Element {//input[@placeholder="Search Facebook" and @type="search"]} was not present after 15 seconds!
 
-Duri...
-2025-06-20 14:47:36,702 - app - INFO - GET /jobs/job_1750412431_4503 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 14:50:08,363 - app - INFO - Started pages scraping job: job_1750413008_7279
-2025-06-20 14:50:08,366 - app - INFO - POST /scrape/pages - Status: 200 - Time: 0.01s - IP: 127.0.0.1
-2025-06-20 14:50:08,656 - app - INFO - Job job_1750413008_7279 - Process return code: 1
-2025-06-20 14:50:08,657 - app - ERROR - Job job_1750413008_7279 - STDERR:   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\facebook_pages_scraper.py", line 1200
-    for ck in cookies:
-IndentationError: unexpected indent
-...
-2025-06-20 14:50:53,363 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 14:51:53,299 - app - INFO - Started pages scraping job: job_1750413113_9275
-2025-06-20 14:51:53,301 - app - INFO - POST /scrape/pages - Status: 200 - Time: 0.01s - IP: 127.0.0.1
-2025-06-20 14:52:01,865 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 14:52:08,821 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 14:52:13,302 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 14:52:13,878 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 14:53:58,491 - app - INFO - Job job_1750413113_9275 - Process return code: 1
-2025-06-20 14:53:58,492 - app - INFO - Job job_1750413113_9275 - STDOUT: === FACEBOOK SCRAPER STARTING ===
-Search Method: KEYWORD
-Keywords to search: 1
+[INFO] Switching to account 2 & resuming kw=0 link=0
 
-=== 'technology' ===
+=== 'string' ===
 Clicking Pages filter...
 Detected result articles
 Searching for page links…
-Total valid page links found: 31
+Total valid page links found: 7
 
---- Processing link 1/31: Technology ---
-...
-2025-06-20 14:53:58,492 - app - ERROR - Job job_1750413113_9275 - STDERR: Traceback (most recent call last):
-  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\facebook_pages_scraper.py", line 1246, in main
-    scrape_one_page(sb, el, Path("scraped_pages"), kw_i, link_i, avatar)
-    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\facebook_pages_scraper.py", line 1048, in scrape_one_page
-    extract_posts(sb, data)
-    ~~~~~~~~~~~~~^^^^^^^^^^
-  File "C:\Users\Shahzeb\Desktop\Python\face...
-2025-06-20 15:04:44,158 - app - INFO - GET /jobs/job_1750413113_9275 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 15:20:46,580 - app - INFO - Started ads scraping job: job_1750414846_822
-2025-06-20 15:20:46,581 - app - INFO - POST /scrape/ads - Status: 200 - Time: 0.01s - IP: 127.0.0.1
-2025-06-20 15:20:58,077 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 15:21:27,805 - app - INFO - GET /jobs/job_1750414846_822 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 15:21:43,517 - app - INFO - Started advertiser scraping job: job_1750414903_2802
-2025-06-20 15:21:43,518 - app - INFO - POST /scrape/advertisers - Status: 200 - Time: 0.01s - IP: 127.0.0.1
-2025-06-20 15:21:54,346 - app - INFO - Started pages scraping job: job_1750414914_1400
-2025-06-20 15:21:54,347 - app - INFO - POST /scrape/pages - Status: 200 - Time: 0.01s - IP: 127.0.0.1
-2025-06-20 15:21:58,881 - app - INFO - Job job_1750414846_822 - Process return code: 0
-2025-06-20 15:21:58,882 - app - INFO - Job job_1750414846_822 - STDOUT: [INFO] Opening Facebook …
-[INFO] Restoring session cookies …
-[SKIP] Already processed: Ukraine | rental apartments
-
-=== United States | real estate ===
-[INFO] Reached ads limit: 10
-[INFO] Found 10 ads on this page.
-[INFO] Data saved immediately to Results\ads.json
-[INFO] Saved data for United States | real estate - Suggestions: 0, Ads: 10
-
-[DONE] All pairs processed with immediate saving.
-...
-2025-06-20 15:22:01,900 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 15:23:37,675 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 15:23:42,653 - app - INFO - Job job_1750414914_1400 - Process return code: 1
-2025-06-20 15:23:42,654 - app - INFO - Job job_1750414914_1400 - STDOUT: === FACEBOOK SCRAPER STARTING ===
-Search Method: KEYWORD
-Keywords to search: 1
-
-=== 'tesla' ===
-Clicking Pages filter...
-Detected result articles
-Searching for page links…
-Total valid page links found: 5
-
---- Processing link 1/5: Tesla Industries ---
-...
-2025-06-20 15:23:42,655 - app - ERROR - Job job_1750414914_1400 - STDERR: Traceback (most recent call last):
-  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\facebook_pages_scraper.py", line 1246, in main
-    scrape_one_page(sb, el, Path("scraped_pages"), kw_i, link_i, avatar)
-    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\facebook_pages_scraper.py", line 1048, in scrape_one_page
-    extract_posts(sb, data)
-    ~~~~~~~~~~~~~^^^^^^^^^^
-  File "C:\Users\Shahzeb\Desktop\Python\face...
-2025-06-20 15:23:47,265 - app - INFO - GET /jobs/job_1750414846_822 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 15:23:56,644 - app - INFO - GET /jobs/job_1750414903_2802 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 15:24:03,956 - app - INFO - GET /jobs/job_1750414914_1400 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 15:24:30,691 - app - INFO - Job job_1750414903_2802 - Process return code: 3221225786
-2025-06-20 15:24:30,692 - app - INFO - Job job_1750414903_2802 - STDOUT: [INFO] Opening Facebook …
-[INFO] Restoring session cookies …
-
-=== Ukraine  |  rental ===
-...
-2025-06-20 15:24:30,692 - app - ERROR - Job job_1750414903_2802 - STDERR: Traceback (most recent call last):
-  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\facebook_advertiser_ads.py", line 497, in <module>
-    main()
-    ~~~~^^
-  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\facebook_advertiser_ads.py", line 456, in main
-    scrape_pair(sb, country, keyword)
-    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\facebook_advertiser_ads.py", line 379, in scrape_pair
-    ads_grid = extract_cards(sb)
-  File "C:\...
-2025-06-20 15:25:15,713 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 15:37:59,843 - app - INFO - Started pages scraping job: job_1750415879_2698
-2025-06-20 15:37:59,845 - app - INFO - POST /scrape/pages - Status: 200 - Time: 0.01s - IP: 127.0.0.1
-2025-06-20 15:38:50,279 - app - INFO - GET /jobs/job_1750415879_2698 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 15:39:06,649 - app - INFO - GET /jobs/job_1750415879_2698 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-20 15:39:47,109 - app - INFO - Job job_1750415879_2698 - Process return code: 3221225786
-2025-06-20 15:39:47,109 - app - INFO - Job job_1750415879_2698 - STDOUT: === FACEBOOK SCRAPER STARTING ===
-Search Method: KEYWORD
-Keywords to search: 1
-
-=== 'tesla' ===
-Clicking Pages filter...
-Detected result articles
-Searching for page links…
-Total valid page links found: 5
-
---- Processing link 2/5: Tesla the Band ---
-...
-2025-06-20 15:39:47,110 - app - ERROR - Job job_1750415879_2698 - STDERR: Traceback (most recent call last):
+--- Processing link 1/7: Sultans of String ---
+[SEARCH] Found 8 post containers
+[I...
+2025-06-23 12:46:48,367 - app - ERROR - Job job_1750663368_1747 - STDERR: Traceback (most recent call last):
   File "C:\Users\Shahzeb\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1430, in getresponse
     response.begin()
   File "C:\Users\Shahzeb\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 331, in begin
@@ -191,3 +132,133 @@ Total valid page links found: 5
   File "C:\Users\Shahzeb\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 292, in _read_status
     line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
   Fi...
+2025-06-23 12:49:04,346 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 12:49:17,482 - app - INFO - GET /data/pages - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 12:50:14,190 - app - INFO - GET /data/pages - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 12:50:49,837 - app - INFO - Started ads scraping job: job_1750665049_7359
+2025-06-23 12:50:49,838 - app - INFO - POST /scrape/ads - Status: 200 - Time: 0.01s - IP: 127.0.0.1
+2025-06-23 12:50:49,930 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:51:01,233 - app - INFO - GET /jobs/job_1750665049_7359 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 12:51:27,761 - app - INFO - GET /jobs/job_1750665049_7359 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 12:51:41,317 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:51:42,749 - watchfiles.main - INFO - 3 changes detected
+2025-06-23 12:51:43,115 - watchfiles.main - INFO - 4 changes detected
+2025-06-23 12:52:18,671 - watchfiles.main - INFO - 3 changes detected
+2025-06-23 12:52:32,148 - app - INFO - Job job_1750665049_7359 - Process return code: 0
+2025-06-23 12:52:32,148 - app - INFO - Job job_1750665049_7359 - STDOUT: [INFO] Opening Facebook …
+[INFO] Restoring session cookies …
+
+=== Ukraine | rental apartments ===
+[INFO] Found 30 ads on this page.
+[INFO] Data saved immediately to Results\ads.json
+[INFO] Saved data for Ukraine | rental apartments - Suggestions: 0, Ads: 30
+
+[DONE] All pairs processed with immediate saving.
+...
+2025-06-23 12:52:32,211 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:53:12,693 - app - INFO - GET /jobs/job_1750665049_7359 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 12:53:21,984 - app - ERROR - Error retrieving ads data: 1 validation error for DataResponse
+data.1
+  Input should be a valid dictionary [type=dict_type, input_value=['Ukraine', 'rental apartments'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.11/v/dict_type
+2025-06-23 12:53:21,985 - app - INFO - GET /data/ads - Status: 500 - Time: 0.13s - IP: 127.0.0.1
+2025-06-23 12:53:30,037 - app - ERROR - Error retrieving ads data: 1 validation error for DataResponse
+data.1
+  Input should be a valid dictionary [type=dict_type, input_value=['Ukraine', 'rental apartments'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.11/v/dict_type
+2025-06-23 12:53:30,039 - app - INFO - GET /data/ads - Status: 500 - Time: 0.01s - IP: 127.0.0.1
+2025-06-23 12:54:43,359 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:45,300 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:46,040 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:46,397 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:46,903 - watchfiles.main - INFO - 8 changes detected
+2025-06-23 12:54:47,266 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:47,625 - watchfiles.main - INFO - 6 changes detected
+2025-06-23 12:54:47,990 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:48,344 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:48,700 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:49,056 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:49,417 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:49,823 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:50,227 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:50,633 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:51,022 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:51,428 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:51,837 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:52,241 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:52,646 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:53,053 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:53,458 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:53,864 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:54,270 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:54,686 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:55,094 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:55,499 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:55,902 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:56,310 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:56,714 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:57,118 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:57,573 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:57,977 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:58,381 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:58,786 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:59,192 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:54:59,623 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:00,036 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:00,392 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:00,800 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:01,202 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:01,658 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:02,060 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:02,466 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:02,870 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:03,280 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:03,430 - app - INFO - GET /data/ads - Status: 200 - Time: 0.01s - IP: 127.0.0.1
+2025-06-23 12:55:03,687 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:04,092 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:04,495 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:04,899 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:05,317 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:05,721 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:06,127 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:06,531 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:06,941 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:07,344 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:07,750 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:08,154 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:08,558 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:08,970 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:09,384 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:09,841 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:10,259 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:10,626 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:11,036 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:11,441 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:11,845 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:12,266 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:12,621 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:13,032 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:13,145 - app - INFO - GET /data/pages - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-23 12:55:13,437 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:13,840 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:14,248 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:14,656 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:15,060 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:15,467 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:15,884 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:16,288 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:16,695 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:17,100 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:17,504 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:17,914 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:18,298 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:18,707 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:19,113 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:19,515 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:19,920 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:20,327 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:20,732 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:21,137 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:21,540 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:21,947 - watchfiles.main - INFO - 1 change detected
+2025-06-23 12:55:22,352 - watchfiles.main - INFO - 1 change detected

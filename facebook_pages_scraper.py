@@ -611,7 +611,7 @@ def extract_posts(sb: SB, data: dict):
         By.XPATH,
         '//div[contains(@class,"x1yztbdb") and .//div[contains(@data-ad-preview,"message")]]'
     )
-    print(f"🔍 Found {len(containers)} post containers")
+    print(f"[SEARCH] Found {len(containers)} post containers")
     posts = []
     for idx, c in enumerate(containers):
         if len(posts) >= POST_LIMIT:
@@ -1026,6 +1026,8 @@ def get_all_attribute_values(sb: SB, xpath: str, attribute: str) -> list:
 AGG_FILE = Path("Results/all_pages.json")
 # ───────────────────────── main loop ──────────────────────────────────────
 def scrape_one_page(sb: SB, link_el: WebElement, save_dir: Path, kw_i: int, link_i: int, serp_avatar: str = ""):
+    # Get the page URL from the link element
+    page_url = link_el.get_attribute("href")
 
     safe_click(sb, link_el); pause(5)
     class_texts = get_texts_by_class(sb, 'x193iq5w')
@@ -1041,6 +1043,7 @@ def scrape_one_page(sb: SB, link_el: WebElement, save_dir: Path, kw_i: int, link
                 description = desc_line
                 break
     data = extract_home(sb)
+    data["page_url"] = page_url  # Add the page URL to results
     if not data.get("profile_pic") and serp_avatar:
         data["profile_pic"] = serp_avatar
     if description:
@@ -1126,6 +1129,7 @@ def scrape_from_urls(sb: SB, urls: List[str], url_start: int = 0):
 
             # Extract home page data
             data = extract_home(sb)
+            data["page_url"] = url  # Add the page URL to results
             if description:
                 data["description"] = description
 
@@ -1258,7 +1262,7 @@ def main():
                 break
 
         except Exception as e:
-            print(f"[CRASH] Account {ACCOUNT_NUMBER} died → {e}")
+            print(f"[CRASH] Account {ACCOUNT_NUMBER} died -> {e}")
             ACCOUNT_NUMBER = _next_account(ACCOUNT_NUMBER)
             kw_start, link_start = _load_checkpoint()
             print(f"[INFO] Switching to account {ACCOUNT_NUMBER} "

@@ -659,9 +659,9 @@ async def get_ads_data():
                 with open(file_path, 'r', encoding='utf-8') as f:
                     file_data = json.load(f)
                     if isinstance(file_data, list):
-                        all_data.extend(file_data)
+                        all_data.extend([item if isinstance(item, dict) else {"data": item} for item in file_data])
                     else:
-                        all_data.append(file_data)
+                        all_data.append(file_data if isinstance(file_data, dict) else {"data": file_data})
                 data_files.append({
                     "file": file_path.name,
                     "size": file_path.stat().st_size,
