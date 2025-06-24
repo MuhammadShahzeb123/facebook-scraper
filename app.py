@@ -12,6 +12,7 @@ import json
 import subprocess
 import os
 import sys
+import re
 from datetime import datetime, timedelta
 from pydantic import BaseModel, Field, validator
 from typing import Optional, List, Dict, Any, Literal
@@ -70,8 +71,40 @@ class AdsScrapingRequest(BaseModel):
     headless: bool = Field(default=True, description="Run browser in headless mode")
     ads_limit: int = Field(default=1000, description="Maximum number of ads to extract", gt=0, le=5000)
     target_pairs: List[List[str]] = Field(
-        default=[["Ukraine", "rental apartments"], ["United States", "rental properties"]],
+        default=[["Thailand", "properties"]],
         description="List of [country, keyword] pairs"
+    )
+
+    # New advanced filtering parameters
+    ad_category: Literal["all", "issues", "properties", "employment", "financial"] = Field(
+        default="all", description="Ad category filter"
+    )
+    status: Literal["active", "inactive", "all"] = Field(
+        default="active", description="Ad status filter"
+    )
+    languages: List[str] = Field(
+        default=[], description="List of language names or ISO-639-1 codes (e.g. ['English', 'fr', 'thai'])"
+    )
+    platforms: List[Literal["facebook", "instagram", "audience_network", "messenger", "threads"]] = Field(
+        default=[], description="List of platforms to filter by"
+    )
+    media_type: Literal["all", "image", "video", "meme", "image_and_meme", "none"] = Field(
+        default="all", description="Media type filter"
+    )
+    start_date: Optional[str] = Field(
+        default=None, description="Start date in YYYY-MM-DD format"
+    )
+    end_date: Optional[str] = Field(
+        default=None, description="End date in YYYY-MM-DD format"
+    )
+    append_mode: bool = Field(
+        default=True, description="True to append to existing file, False to create numbered files"
+    )
+    advertisers: List[str] = Field(
+        default=[], description="List of specific advertiser names to filter by (leave empty to disable)"
+    )
+    continuation: bool = Field(
+        default=True, description="Continue from previous checkpoint if available"
     )
 
     @validator('target_pairs')
@@ -80,12 +113,43 @@ class AdsScrapingRequest(BaseModel):
             raise ValueError("At least one target pair is required")
         if len(v) > 20:
             raise ValueError("Maximum 20 target pairs allowed")
-        for pair in v:
+        for i, pair in enumerate(v):
             if not isinstance(pair, list) or len(pair) != 2:
-                raise ValueError("Each target pair must be a list with exactly 2 elements [country, keyword]")
-            if not all(isinstance(item, str) and item.strip() for item in pair):
-                raise ValueError("Both country and keyword must be non-empty strings")
+                raise ValueError(f"Target pair {i+1} must be a list with exactly 2 elements [country, keyword], e.g., ['Thailand', 'properties']")
+            if not all(isinstance(item, str) and item.strip() and item.lower() != "string" for item in pair):
+                raise ValueError(f"Target pair {i+1}: Both country and keyword must be non-empty strings (not 'string'), e.g., ['Thailand', 'properties']")
         return v
+
+    @validator('languages')
+    def validate_languages(cls, v):
+        if len(v) > 10:
+            raise ValueError("Maximum 10 languages allowed")
+        return v
+
+    @validator('platforms')
+    def validate_platforms(cls, v):
+        if len(v) > 5:
+            raise ValueError("Maximum 5 platforms allowed")
+        return v
+
+    @validator('advertisers')
+    def validate_advertisers(cls, v):
+        if len(v) > 20:
+            raise ValueError("Maximum 20 advertisers allowed")
+        return v
+
+    @validator('start_date', 'end_date')
+    def validate_dates(cls, v):
+        if v is not None and v.strip() and v.lower() != "string":
+            # Validate date format
+            if not re.match(r'^\d{4}-\d{2}-\d{2}$', v):
+                raise ValueError("Date must be in YYYY-MM-DD format (e.g., 2024-01-15)")
+            try:
+                datetime.strptime(v, '%Y-%m-%d')
+            except ValueError:
+                raise ValueError("Invalid date - please use YYYY-MM-DD format")
+        # Return None for empty/invalid strings to make them optional
+        return v if v and v.strip() and v.lower() != "string" else None
 
     class Config:
         extra = "forbid"
@@ -308,29 +372,27 @@ def run_ads_scraper(job_id: str, request_data: AdsScrapingRequest):
     try:
         active_jobs[job_id] = {"status": "running", "type": "ads", "started_at": datetime.now().isoformat()}
 
-        # Create temporary config for this job
-        temp_config = {
-            "MODE": request_data.mode,
-            "HEADLESS": request_data.headless,
-            "ADS_LIMIT": request_data.ads_limit,
-            "TARGET_PAIRS": request_data.target_pairs
-        }        # Save temporary config
-        temp_config_path = f"temp_ads_config_{job_id}.json"
-        with open(temp_config_path, 'w', encoding='utf-8') as f:
-            json.dump(temp_config, f, ensure_ascii=False, indent=2)
-
-        # Create command arguments with proper Python executable
-        cmd = [
-            sys.executable, "ads_and_suggestions_scraper.py",
-            "--config", temp_config_path        ]
-
-        # Set environment variables as fallback
-        env = {
+        # Create environment variables for all parameters
+        env = dict(os.environ)
+        env.update({
             "MODE": request_data.mode,
             "HEADLESS": str(request_data.headless),
             "ADS_LIMIT": str(request_data.ads_limit),
-            **dict(os.environ)
-        }
+            "TARGET_PAIRS": json.dumps(request_data.target_pairs),
+            "AD_CATEGORY": request_data.ad_category,
+            "STATUS": request_data.status,
+            "LANGUAGES": json.dumps(request_data.languages),
+            "PLATFORMS": json.dumps(request_data.platforms),
+            "MEDIA_TYPE": request_data.media_type,
+            "START_DATE": request_data.start_date or "",
+            "END_DATE": request_data.end_date or "",
+            "APPEND": str(request_data.append_mode),
+            "ADVERTISERS": json.dumps(request_data.advertisers),
+            "CONTINUATION": str(request_data.continuation)
+        })
+
+        # Create command to run the scraper
+        cmd = [sys.executable, "ads_and_suggestions_scraper.py"]
 
         # Use regular subprocess instead of asyncio subprocess (Windows compatibility)
         process = subprocess.run(
@@ -352,11 +414,25 @@ def run_ads_scraper(job_id: str, request_data: AdsScrapingRequest):
         if stderr_text:
             logger.error(f"Job {job_id} - STDERR: {stderr_text[:500]}...")
 
-        # Clean up temp config
-        try:
-            os.remove(temp_config_path)
-        except:
-            pass
+        # Update job status based on process result
+        if process.returncode == 0:
+            active_jobs[job_id]["status"] = "completed"
+            active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
+            logger.info(f"Job {job_id} completed successfully")
+        else:
+            active_jobs[job_id]["status"] = "failed"
+            active_jobs[job_id]["error"] = stderr_text
+            logger.error(f"Job {job_id} failed with return code {process.returncode}")
+
+    except Exception as e:
+        error_msg = f"Job {job_id} failed with exception: {str(e)}"
+        logger.error(error_msg)
+        logger.error(traceback.format_exc())
+        active_jobs[job_id] = {
+            "status": "failed",
+            "error": error_msg,
+            "started_at": active_jobs.get(job_id, {}).get("started_at", datetime.now().isoformat())
+        }
 
         # Check process result - return code takes priority
         if process.returncode == 0:
@@ -827,5 +903,5 @@ if __name__ == "__main__":
         reload=True,
         log_level="info",
         timeout_keep_alive=300,
-        limit_concurrency=10
+        limit_concurrency=1000
     )

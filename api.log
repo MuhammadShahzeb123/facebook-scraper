@@ -1,300 +1,749 @@
-2025-06-23 12:22:37,279 - watchfiles.main - INFO - 5 changes detected
-2025-06-23 12:22:48,447 - app - INFO - Started pages scraping job: job_1750663368_1747
-2025-06-23 12:22:48,450 - app - INFO - POST /scrape/pages - Status: 200 - Time: 0.01s - IP: 127.0.0.1
-2025-06-23 12:22:48,543 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:22:50,969 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:22:59,170 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 12:23:45,675 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:24:31,970 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:24:49,181 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 12:24:50,210 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 12:26:19,366 - watchfiles.main - INFO - 2 changes detected
-2025-06-23 12:26:48,019 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 12:26:51,648 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:26:52,004 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:26:52,923 - watchfiles.main - INFO - 6 changes detected
-2025-06-23 12:26:53,289 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:27:44,666 - watchfiles.main - INFO - 2 changes detected
-2025-06-23 12:27:52,205 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:28:32,542 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:29:11,711 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:29:53,312 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:29:54,651 - watchfiles.main - INFO - 7 changes detected
-2025-06-23 12:31:25,452 - watchfiles.main - INFO - 2 changes detected
-2025-06-23 12:32:50,980 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:32:51,478 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 12:32:55,086 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:32:56,600 - watchfiles.main - INFO - 5 changes detected
-2025-06-23 12:32:56,955 - watchfiles.main - INFO - 2 changes detected
-2025-06-23 12:33:31,404 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:34:14,628 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:35:56,937 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:35:59,768 - watchfiles.main - INFO - 5 changes detected
-2025-06-23 12:36:00,121 - watchfiles.main - INFO - 2 changes detected
-2025-06-23 12:36:17,155 - watchfiles.main - INFO - 2 changes detected
-2025-06-23 12:44:23,629 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:45:04,577 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:45:37,693 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:45:39,314 - watchfiles.main - INFO - 5 changes detected
-2025-06-23 12:45:39,706 - watchfiles.main - INFO - 2 changes detected
-2025-06-23 12:45:43,912 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 12:45:47,951 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:20,874 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:21,238 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:21,601 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:21,956 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:22,318 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:22,674 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:23,031 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:23,388 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:23,747 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:24,105 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:24,462 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:24,820 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:25,213 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:25,569 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:25,926 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:26,285 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:26,643 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:27,003 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:27,363 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:27,725 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:28,082 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:28,441 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:28,799 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:29,155 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:29,513 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:29,919 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:30,323 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:30,730 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:31,134 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:31,541 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:31,952 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:32,355 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:32,759 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:33,162 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:33,567 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:33,931 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:34,338 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:34,748 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:35,152 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:35,557 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:35,963 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:36,367 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:36,775 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:37,181 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:37,587 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:38,004 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:38,408 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:38,835 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:39,238 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:39,645 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:40,050 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:40,455 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:40,861 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:41,264 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:41,672 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:42,075 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:42,480 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:42,884 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:43,289 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:43,698 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:44,056 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:44,466 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:44,873 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:45,276 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:45,680 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:46:48,366 - app - INFO - Job job_1750663368_1747 - Process return code: 3221225786
-2025-06-23 12:46:48,366 - app - INFO - Job job_1750663368_1747 - STDOUT: === FACEBOOK SCRAPER STARTING ===
-Search Method: KEYWORD
-Keywords to search: 1
+2025-06-24 08:33:12,217 - app - ERROR - Global exception: unsupported operand type(s) for @: 'list' and 'function'
+  + Exception Group Traceback (most recent call last):
+  |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\_utils.py", line 76, in collapse_excgroups
+  |     yield
+  |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\base.py", line 177, in __call__
+  |     async with anyio.create_task_group() as task_group:
+  |                ~~~~~~~~~~~~~~~~~~~~~~~^^
+  |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  |         "unhandled errors in a TaskGroup", self._exceptions
+  |     ) from None
+  | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\errors.py", line 165, in __call__
+    |     await self.app(scope, receive, _send)
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\base.py", line 176, in __call__
+    |     with recv_stream, send_stream, collapse_excgroups():
+    |                                    ~~~~~~~~~~~~~~~~~~^^
+    |   File "C:\Users\Shahzeb\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    |     self.gen.throw(value)
+    |     ~~~~~~~~~~~~~~^^^^^^^
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\_utils.py", line 82, in collapse_excgroups
+    |     raise exc
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\base.py", line 178, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\app.py", line 365, in rate_limit_middleware
+    |     return await call_next(request)
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\base.py", line 156, in call_next
+    |     raise app_exc
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\base.py", line 141, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\base.py", line 176, in __call__
+    |     with recv_stream, send_stream, collapse_excgroups():
+    |                                    ~~~~~~~~~~~~~~~~~~^^
+    |   File "C:\Users\Shahzeb\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    |     self.gen.throw(value)
+    |     ~~~~~~~~~~~~~~^^^^^^^
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\_utils.py", line 82, in collapse_excgroups
+    |     raise exc
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\base.py", line 178, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\app.py", line 303, in log_requests
+    |     response = await call_next(request)
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\base.py", line 156, in call_next
+    |     raise app_exc
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\base.py", line 141, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\cors.py", line 93, in __call__
+    |     await self.simple_response(scope, receive, send, request_headers=headers)
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\cors.py", line 144, in simple_response
+    |     await self.app(scope, receive, send)
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 62, in __call__
+    |     await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    |     raise exc
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    |     await app(scope, receive, sender)
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\routing.py", line 714, in __call__
+    |     await self.middleware_stack(scope, receive, send)
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\routing.py", line 734, in app
+    |     await route.handle(scope, receive, send)
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\routing.py", line 288, in handle
+    |     await self.app(scope, receive, send)
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\routing.py", line 76, in app
+    |     await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    |     raise exc
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    |     await app(scope, receive, sender)
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\routing.py", line 73, in app
+    |     response = await f(request)
+    |                ^^^^^^^^^^^^^^^^
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\fastapi\routing.py", line 291, in app
+    |     solved_result = await solve_dependencies(
+    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+    |     ...<6 lines>...
+    |     )
+    |     ^
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 666, in solve_dependencies
+    |     ) = await request_body_to_args(  # body_params checked above
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |     ...<3 lines>...
+    |     )
+    |     ^
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 906, in request_body_to_args
+    |     v_, errors_ = _validate_value_with_model_field(
+    |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+    |         field=first_field, value=body_to_process, values=values, loc=loc
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |     )
+    |     ^
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 706, in _validate_value_with_model_field
+    |     v_, errors_ = field.validate(value, values, loc=loc)
+    |                   ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\fastapi\_compat.py", line 130, in validate
+    |     self._type_adapter.validate_python(value, from_attributes=True),
+    |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\pydantic\type_adapter.py", line 421, in validate_python
+    |     return self.validator.validate_python(
+    |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+    |         object,
+    |         ^^^^^^^
+    |     ...<5 lines>...
+    |         by_name=by_name,
+    |         ^^^^^^^^^^^^^^^^
+    |     )
+    |     ^
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\pydantic\_internal\_decorators_v1.py", line 103, in wrapper2
+    |     return val2(value)
+    |   File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\app.py", line 133, in validate_platforms
+    |     return v    @validator('advertisers')
+    |            ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+    | TypeError: unsupported operand type(s) for @: 'list' and 'function'
+    +------------------------------------
 
-=== 'string' ===
-[CRASH] Account 1 died -> Message: 
- Element {//input[@placeholder="Search Facebook" and @type="search"]} was not present after 15 seconds!
+During handling of the above exception, another exception occurred:
 
-[INFO] Switching to account 2 & resuming kw=0 link=0
-
-=== 'string' ===
-Clicking Pages filter...
-Detected result articles
-Searching for page links…
-Total valid page links found: 7
-
---- Processing link 1/7: Sultans of String ---
-[SEARCH] Found 8 post containers
-[I...
-2025-06-23 12:46:48,367 - app - ERROR - Job job_1750663368_1747 - STDERR: Traceback (most recent call last):
-  File "C:\Users\Shahzeb\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1430, in getresponse
-    response.begin()
-  File "C:\Users\Shahzeb\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 331, in begin
-    version, status, reason = self._read_status()
-  File "C:\Users\Shahzeb\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 292, in _read_status
-    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
-  Fi...
-2025-06-23 12:49:04,346 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 12:49:17,482 - app - INFO - GET /data/pages - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 12:50:14,190 - app - INFO - GET /data/pages - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 12:50:49,837 - app - INFO - Started ads scraping job: job_1750665049_7359
-2025-06-23 12:50:49,838 - app - INFO - POST /scrape/ads - Status: 200 - Time: 0.01s - IP: 127.0.0.1
-2025-06-23 12:50:49,930 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:51:01,233 - app - INFO - GET /jobs/job_1750665049_7359 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 12:51:27,761 - app - INFO - GET /jobs/job_1750665049_7359 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 12:51:41,317 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:51:42,749 - watchfiles.main - INFO - 3 changes detected
-2025-06-23 12:51:43,115 - watchfiles.main - INFO - 4 changes detected
-2025-06-23 12:52:18,671 - watchfiles.main - INFO - 3 changes detected
-2025-06-23 12:52:32,148 - app - INFO - Job job_1750665049_7359 - Process return code: 0
-2025-06-23 12:52:32,148 - app - INFO - Job job_1750665049_7359 - STDOUT: [INFO] Opening Facebook …
+Traceback (most recent call last):
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\errors.py", line 165, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\base.py", line 176, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+                                   ~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Shahzeb\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\_utils.py", line 82, in collapse_excgroups
+    raise exc
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\base.py", line 178, in __call__
+    response = await self.dispatch_func(request, call_next)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\app.py", line 365, in rate_limit_middleware
+    return await call_next(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\base.py", line 156, in call_next
+    raise app_exc
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\base.py", line 141, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\base.py", line 176, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+                                   ~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Shahzeb\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\_utils.py", line 82, in collapse_excgroups
+    raise exc
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\base.py", line 178, in __call__
+    response = await self.dispatch_func(request, call_next)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\app.py", line 303, in log_requests
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\base.py", line 156, in call_next
+    raise app_exc
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\base.py", line 141, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\routing.py", line 714, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\routing.py", line 734, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\routing.py", line 288, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\routing.py", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\starlette\routing.py", line 73, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\fastapi\routing.py", line 291, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 666, in solve_dependencies
+    ) = await request_body_to_args(  # body_params checked above
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 906, in request_body_to_args
+    v_, errors_ = _validate_value_with_model_field(
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        field=first_field, value=body_to_process, values=values, loc=loc
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 706, in _validate_value_with_model_field
+    v_, errors_ = field.validate(value, values, loc=loc)
+                  ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\fastapi\_compat.py", line 130, in validate
+    self._type_adapter.validate_python(value, from_attributes=True),
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\pydantic\type_adapter.py", line 421, in validate_python
+    return self.validator.validate_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        object,
+        ^^^^^^^
+    ...<5 lines>...
+        by_name=by_name,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\pydantic\_internal\_decorators_v1.py", line 103, in wrapper2
+    return val2(value)
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\app.py", line 133, in validate_platforms
+    return v    @validator('advertisers')
+           ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+TypeError: unsupported operand type(s) for @: 'list' and 'function'
+2025-06-24 08:36:19,489 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:20,256 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:20,716 - watchfiles.main - INFO - 8 changes detected
+2025-06-24 08:36:21,083 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:21,442 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:21,800 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:22,163 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:22,521 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:22,705 - app - INFO - POST /scrape/ads - Status: 400 - Time: 0.01s - IP: 127.0.0.1
+2025-06-24 08:36:22,880 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:23,236 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:23,595 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:23,953 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:24,311 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:24,670 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:25,031 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:25,391 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:25,753 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:26,111 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:26,471 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:26,831 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:27,188 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:27,548 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:27,905 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:28,265 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:28,637 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:28,999 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:29,360 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:29,716 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:30,074 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:30,432 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:30,792 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:31,152 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:31,509 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:31,916 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:32,272 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:32,635 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:32,993 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:33,353 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:33,712 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:34,069 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:34,425 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:34,784 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:35,142 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:35,505 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:35,868 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:36,230 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:36,587 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:36,945 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:37,357 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:37,718 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:38,077 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:38,438 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:38,792 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:39,150 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:39,512 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:39,869 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:40,236 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:40,589 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:40,945 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:41,308 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:41,671 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:42,027 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:42,385 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:42,742 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:43,100 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:43,458 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:43,819 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:44,180 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:44,583 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:44,947 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:45,307 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:45,668 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:46,026 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:46,383 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:46,740 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:47,098 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:47,456 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:47,816 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:48,176 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:48,535 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:48,896 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:49,257 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:49,632 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:49,988 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:50,347 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:50,703 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:51,061 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:51,423 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:51,782 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:51,975 - app - INFO - Started ads scraping job: job_1750779411_3682
+2025-06-24 08:36:51,984 - app - INFO - POST /scrape/ads - Status: 200 - Time: 0.01s - IP: 127.0.0.1
+2025-06-24 08:36:52,140 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:52,499 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:52,859 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:53,219 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:53,579 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:53,939 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:54,299 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:54,656 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:55,016 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:55,373 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:55,731 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:56,092 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:56,467 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:56,841 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:57,201 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:57,557 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:57,917 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:58,278 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:58,637 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:58,997 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:59,357 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:36:59,715 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:00,076 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:00,431 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:00,783 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:01,147 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:01,369 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-24 08:37:01,505 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:01,880 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:02,238 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:02,591 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:02,950 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:03,310 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:03,667 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:04,028 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:04,395 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:04,749 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:05,110 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:05,468 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:05,824 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:06,183 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:06,543 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:06,903 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:07,259 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:07,614 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:07,974 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:08,332 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:08,689 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:09,049 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:09,411 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:09,767 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:10,127 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:10,488 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:10,854 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:11,214 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:11,573 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:11,932 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:12,292 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:12,648 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:13,007 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:13,373 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:13,738 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:14,098 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:14,457 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:14,815 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:15,176 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:15,536 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:15,893 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:16,259 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:16,611 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:16,969 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:17,329 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:17,686 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:18,046 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:18,403 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:18,764 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:19,123 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:19,481 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:19,840 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:20,198 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:20,556 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:20,916 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:21,274 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:21,631 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:21,991 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:22,349 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:22,707 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:23,067 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:23,425 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:23,784 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:24,140 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:24,501 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:24,859 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:25,217 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:25,584 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:25,944 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:26,299 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:26,660 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:27,018 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:27,380 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:27,737 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:28,099 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:28,454 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:28,814 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:29,171 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:29,529 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:29,890 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:30,246 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:30,602 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:30,963 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:31,319 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:31,680 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:32,039 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:32,401 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:32,760 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:33,121 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:33,480 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:33,840 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:34,200 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:34,295 - app - INFO - Job job_1750779411_3682 - Process return code: 1
+2025-06-24 08:37:34,296 - app - INFO - Job job_1750779411_3682 - STDOUT: [INFO] Opening Facebook …
 [INFO] Restoring session cookies …
 
-=== Ukraine | rental apartments ===
-[INFO] Found 30 ads on this page.
-[INFO] Data saved immediately to Results\ads.json
-[INFO] Saved data for Ukraine | rental apartments - Suggestions: 0, Ads: 30
-
-[DONE] All pairs processed with immediate saving.
+=== Thiland | properties  ===
 ...
-2025-06-23 12:52:32,211 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:53:12,693 - app - INFO - GET /jobs/job_1750665049_7359 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 12:53:21,984 - app - ERROR - Error retrieving ads data: 1 validation error for DataResponse
-data.1
-  Input should be a valid dictionary [type=dict_type, input_value=['Ukraine', 'rental apartments'], input_type=list]
-    For further information visit https://errors.pydantic.dev/2.11/v/dict_type
-2025-06-23 12:53:21,985 - app - INFO - GET /data/ads - Status: 500 - Time: 0.13s - IP: 127.0.0.1
-2025-06-23 12:53:30,037 - app - ERROR - Error retrieving ads data: 1 validation error for DataResponse
-data.1
-  Input should be a valid dictionary [type=dict_type, input_value=['Ukraine', 'rental apartments'], input_type=list]
-    For further information visit https://errors.pydantic.dev/2.11/v/dict_type
-2025-06-23 12:53:30,039 - app - INFO - GET /data/ads - Status: 500 - Time: 0.01s - IP: 127.0.0.1
-2025-06-23 12:54:43,359 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:45,300 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:46,040 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:46,397 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:46,903 - watchfiles.main - INFO - 8 changes detected
-2025-06-23 12:54:47,266 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:47,625 - watchfiles.main - INFO - 6 changes detected
-2025-06-23 12:54:47,990 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:48,344 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:48,700 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:49,056 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:49,417 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:49,823 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:50,227 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:50,633 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:51,022 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:51,428 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:51,837 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:52,241 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:52,646 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:53,053 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:53,458 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:53,864 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:54,270 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:54,686 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:55,094 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:55,499 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:55,902 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:56,310 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:56,714 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:57,118 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:57,573 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:57,977 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:58,381 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:58,786 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:59,192 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:54:59,623 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:00,036 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:00,392 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:00,800 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:01,202 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:01,658 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:02,060 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:02,466 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:02,870 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:03,280 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:03,430 - app - INFO - GET /data/ads - Status: 200 - Time: 0.01s - IP: 127.0.0.1
-2025-06-23 12:55:03,687 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:04,092 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:04,495 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:04,899 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:05,317 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:05,721 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:06,127 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:06,531 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:06,941 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:07,344 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:07,750 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:08,154 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:08,558 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:08,970 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:09,384 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:09,841 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:10,259 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:10,626 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:11,036 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:11,441 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:11,845 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:12,266 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:12,621 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:13,032 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:13,145 - app - INFO - GET /data/pages - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 12:55:13,437 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:13,840 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:14,248 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:14,656 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:15,060 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:15,467 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:15,884 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:16,288 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:16,695 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:17,100 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:17,504 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:17,914 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:18,298 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:18,707 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:19,113 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:19,515 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:19,920 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:20,327 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:20,732 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:21,137 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:21,540 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:21,947 - watchfiles.main - INFO - 1 change detected
-2025-06-23 12:55:22,352 - watchfiles.main - INFO - 1 change detected
-2025-06-23 15:12:54,327 - app - INFO - GET /docs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 15:12:56,821 - app - INFO - GET /openapi.json - Status: 200 - Time: 0.03s - IP: 127.0.0.1
-2025-06-23 15:13:06,275 - app - INFO - Started ads scraping job: job_1750673586_6642
-2025-06-23 15:13:06,277 - app - INFO - POST /scrape/ads - Status: 200 - Time: 0.04s - IP: 127.0.0.1
-2025-06-23 15:13:06,361 - watchfiles.main - INFO - 1 change detected
-2025-06-23 15:13:16,893 - app - INFO - GET /jobs/job_1750673586_6642 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 15:13:41,578 - app - INFO - GET /jobs/job_1750673586_6642 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 15:14:22,724 - app - INFO - GET /jobs/job_1750673586_6642 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 15:14:36,294 - watchfiles.main - INFO - 1 change detected
-2025-06-23 15:14:40,727 - watchfiles.main - INFO - 3 changes detected
-2025-06-23 15:14:41,081 - watchfiles.main - INFO - 3 changes detected
-2025-06-23 15:14:41,440 - watchfiles.main - INFO - 1 change detected
-2025-06-23 15:15:02,778 - app - INFO - GET /jobs/job_1750673586_6642 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 15:16:32,262 - app - INFO - GET /jobs/job_1750673586_6642 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 15:16:32,944 - watchfiles.main - INFO - 2 changes detected
-2025-06-23 15:16:43,803 - app - INFO - Job job_1750673586_6642 - Process return code: 0
-2025-06-23 15:16:43,804 - app - INFO - Job job_1750673586_6642 - STDOUT: [INFO] Opening Facebook …
+2025-06-24 08:37:34,296 - app - ERROR - Job job_1750779411_3682 - STDERR: Traceback (most recent call last):
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\ads_and_suggestions_scraper.py", line 663, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\ads_and_suggestions_scraper.py", line 571, in main
+    wait_click(sb, f'//div[contains(@id,"js_") and text()="{country}"]', by="xpath")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scra...
+2025-06-24 08:37:34,297 - app - ERROR - Job job_1750779411_3682 failed with return code 1
+2025-06-24 08:37:34,561 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:34,921 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:35,281 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:35,642 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:35,998 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:36,358 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:36,713 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:37,071 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:37,432 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:37,790 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:38,152 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:38,507 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:38,869 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:39,231 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:37:39,592 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:44:52,800 - watchfiles.main - INFO - 5 changes detected
+2025-06-24 08:44:59,512 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:44:59,864 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:00,223 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:00,580 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:00,943 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:01,449 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:01,815 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:02,172 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:02,531 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:02,888 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:03,248 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:03,609 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:03,965 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:04,327 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:04,681 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:05,044 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:05,404 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:05,824 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:06,184 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:06,544 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:06,905 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:07,262 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:07,620 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:07,979 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:08,339 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:08,698 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:09,059 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:09,421 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:09,781 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:10,137 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:10,494 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:10,854 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:11,276 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:11,635 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:11,993 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:12,353 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:12,714 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:13,074 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:13,433 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:13,794 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:14,153 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:14,513 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:14,873 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:15,232 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:15,590 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:15,950 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:16,307 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:16,663 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:17,025 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:17,387 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:17,748 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:18,105 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:18,464 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:18,821 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:19,180 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:19,539 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:19,897 - watchfiles.main - INFO - 2 changes detected
+2025-06-24 08:45:20,580 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:21,346 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:21,703 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:22,061 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:22,421 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:45:22,780 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:47:44,319 - app - INFO - Started ads scraping job: job_1750780064_6536
+2025-06-24 08:47:44,321 - app - INFO - POST /scrape/ads - Status: 200 - Time: 0.01s - IP: 127.0.0.1
+2025-06-24 08:48:31,043 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:48:32,619 - watchfiles.main - INFO - 5 changes detected
+2025-06-24 08:48:32,985 - watchfiles.main - INFO - 3 changes detected
+2025-06-24 08:48:33,342 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:48:33,702 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:48:34,064 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:48:34,427 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:48:35,871 - app - INFO - Job job_1750780064_6536 - Process return code: 3221225786
+2025-06-24 08:48:35,871 - app - INFO - Job job_1750780064_6536 - STDOUT: [INFO] Opening Facebook …
 [INFO] Restoring session cookies …
-[SKIP] Already processed: Ukraine | rental apartments
 
-=== United States | rental properties ===
-[INFO] Found 104 ads on this page.
-[INFO] Data saved immediately to Results\ads.json
-[INFO] Saved data for United States | rental properties - Suggestions: 0, Ads: 104
+=== Thiland | properties  ===
+[SUCCESS] Clicked element: //div[div/div/text()="All" or div/div/text()="Country"]/..
+[SUCCESS] Typed 'Thiland' into element: //input[@placeholder="Search for country"]
+[DEBUG] Country selector failed: //div[contains(@id,"js_") and text()="Thiland"] - Message: 
+ Element {//div[contains(@id,"js_") and text()="Thiland"]} was not present after 5 seconds!
 
-[DONE] All pairs processed with immediate saving.
 ...
-2025-06-23 15:16:43,898 - watchfiles.main - INFO - 1 change detected
-2025-06-23 15:16:45,904 - app - INFO - GET /jobs/job_1750673586_6642 - Status: 200 - Time: 0.00s - IP: 127.0.0.1
-2025-06-23 15:16:59,194 - watchfiles.main - INFO - 1 change detected
-2025-06-23 15:18:07,422 - watchfiles.main - INFO - 1 change detected
-2025-06-23 15:18:10,652 - watchfiles.main - INFO - 5 changes detected
-2025-06-23 15:18:11,019 - watchfiles.main - INFO - 2 changes detected
-2025-06-23 15:24:50,028 - watchfiles.main - INFO - 1 change detected
-2025-06-23 15:24:52,850 - watchfiles.main - INFO - 3 changes detected
-2025-06-23 15:24:53,216 - watchfiles.main - INFO - 4 changes detected
+2025-06-24 08:48:35,872 - app - ERROR - Job job_1750780064_6536 - STDERR: Traceback (most recent call last):
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\seleniumbase\fixtures\page_actions.py", line 485, in wait_for_element_visible
+    element = driver.find_element(by=by, value=selector)
+  File "C:\Users\Shahzeb\Desktop\Python\facebook-scraper\venv\Lib\site-packages\seleniumbase\core\sb_driver.py", line 28, in find_element
+    return self.driver.default_find_element(by=by, value=value)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^...
+2025-06-24 08:48:35,872 - app - ERROR - Job job_1750780064_6536 failed with return code 3221225786
+2025-06-24 08:56:02,726 - watchfiles.main - INFO - 5 changes detected
+2025-06-24 08:56:06,229 - app - INFO - Started ads scraping job: job_1750780566_8842
+2025-06-24 08:56:06,231 - app - INFO - POST /scrape/ads - Status: 200 - Time: 0.01s - IP: 127.0.0.1
+2025-06-24 08:58:49,669 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-24 08:58:55,755 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:58:56,108 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:58:56,469 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:58:56,828 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:58:57,185 - watchfiles.main - INFO - 6 changes detected
+2025-06-24 08:58:57,546 - watchfiles.main - INFO - 3 changes detected
+2025-06-24 08:58:57,903 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:58:58,260 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:58:58,621 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:58:58,981 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:58:59,340 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:58:59,699 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:00,061 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:00,420 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:00,778 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:01,140 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:01,504 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:01,866 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:02,230 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:02,591 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:02,950 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:03,308 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:03,667 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:04,026 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:04,386 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:04,744 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:05,104 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:05,464 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:05,828 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:06,180 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:06,539 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:06,899 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:07,260 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:07,619 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:07,980 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:08,340 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:08,697 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:09,056 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:09,414 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:09,773 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:10,136 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:10,494 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:10,856 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:11,218 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:11,578 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:11,941 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:12,300 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:12,660 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:13,016 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:13,375 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:13,733 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:14,090 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:14,450 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:14,812 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:15,170 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:15,530 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:15,892 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:16,248 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:16,610 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:16,971 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:17,328 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:17,688 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:18,047 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:18,407 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:18,766 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:19,123 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:19,483 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:19,843 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:20,203 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:20,563 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:20,919 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:21,279 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:21,641 - watchfiles.main - INFO - 3 changes detected
+2025-06-24 08:59:21,998 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:22,357 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:22,713 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:23,071 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:23,430 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:23,791 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:24,149 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:24,509 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:24,874 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:25,235 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:25,599 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:25,990 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:26,352 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:26,709 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:27,072 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:27,432 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:27,790 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:28,149 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:28,509 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:28,868 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:29,226 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:29,586 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:29,946 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:30,305 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:30,664 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:31,020 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:31,378 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:31,738 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:32,099 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:32,462 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:32,820 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:33,179 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:33,537 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:33,897 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:34,256 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:34,305 - app - INFO - Job job_1750780566_8842 - Process return code: 0
+2025-06-24 08:59:34,306 - app - INFO - Job job_1750780566_8842 - STDOUT: [INFO] Opening Facebook …
+[INFO] Restoring session cookies …
+
+=== Thailand | properties  ===
+[SUCCESS] Clicked element: //div[div/div/text()="All" or div/div/text()="Country"]/..
+[SUCCESS] Typed 'Thailand' into element: //input[@placeholder="Search for country"]
+[SUCCESS] Selected country using selector: //div[contains(@id,"js_") and text()="Thailand"]
+[SUCCESS] Clicked element: //div[div/div/text()="Ad category"]/..
+[SUCCESS] Clicked element: //span[text()="All ads"]/../../..
+[SUCCESS] Typed 'p...
+2025-06-24 08:59:34,307 - app - INFO - Job job_1750780566_8842 completed successfully
+2025-06-24 08:59:34,616 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:34,974 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:35,332 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:35,691 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:36,053 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:36,126 - app - INFO - GET /jobs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-06-24 08:59:36,413 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:36,769 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:37,128 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:37,487 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:37,848 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:38,209 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:38,567 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:38,927 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:39,286 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:39,645 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:40,006 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:40,365 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:40,723 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:41,082 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:41,441 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:41,799 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:42,157 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:42,514 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:42,874 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:43,229 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:43,590 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:43,946 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:44,304 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:44,659 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:45,084 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:45,445 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:45,802 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:46,161 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:46,518 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:46,877 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:47,238 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:47,594 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:47,953 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:48,277 - app - INFO - GET /data/ads - Status: 200 - Time: 0.06s - IP: 127.0.0.1
+2025-06-24 08:59:48,309 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:48,668 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:49,025 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:49,387 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:49,742 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:50,100 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:50,461 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:50,821 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:51,180 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:51,543 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:51,901 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:52,260 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:52,619 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:52,979 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:53,339 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:53,695 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:54,055 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:54,415 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:54,775 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:55,139 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:55,498 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:55,858 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:56,216 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:56,576 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:56,936 - watchfiles.main - INFO - 1 change detected
+2025-06-24 08:59:57,342 - watchfiles.main - INFO - 1 change detected
