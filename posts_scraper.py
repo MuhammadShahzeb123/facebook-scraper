@@ -1,5 +1,15 @@
 """post_scraper_and_parser.py
-================================
+====================APPEND_RESULTS: bool = False  # True → append to UNIVERSAL_JSON, False → new numbered file
+OUTPUT_DIR: str = "Results"
+UNIVERSAL_JSON: str = "all_posts.json"  # used only when APPEND_RESULTS is True
+
+# HTTP  behaviour ----------------------------------------------------------
+PROXY_ENDPOINT: str | None = (
+    "http://250621Ev04e-resi_region-US_California:"  # type: ignore[assignment]
+    "5PjDM1IoS0JSr2c@ca.proxy-jet.io:1010"
+)
+USE_PROXY: bool = True  # Always use proxy by default
+TIMEOUT: int = 15  # seconds=
 
 Self‑contained script that **fetches** a list of Facebook post URLs, **parses**
 all Open Graph + Twitter‑card metadata (and any `<table>` elements), then
@@ -69,6 +79,40 @@ HEADERS_POOL: List[str] = [
     "insomnia/11.2.0",
 ]
 
+MAX_RETRIES: int = 3  # Maximum number of retries per URL
+
+# ---------------------------------------------------------------------------
+# Environment variable loading (for API integration) -----------------------
+# ---------------------------------------------------------------------------
+
+# Load configuration from environment variables (used when called from app.py)
+if os.environ.get("LINKS"):
+    try:
+        LINKS = json.loads(os.environ["LINKS"])
+    except (json.JSONDecodeError, KeyError):
+        pass
+
+if os.environ.get("APPEND_RESULTS"):
+    APPEND_RESULTS = os.environ["APPEND_RESULTS"].lower() == "true"
+
+if os.environ.get("USE_PROXY"):
+    USE_PROXY = os.environ["USE_PROXY"].lower() == "true"
+
+if os.environ.get("PROXY_ENDPOINT"):
+    PROXY_ENDPOINT = os.environ["PROXY_ENDPOINT"] if os.environ["PROXY_ENDPOINT"] else None
+
+if os.environ.get("TIMEOUT"):
+    try:
+        TIMEOUT = int(os.environ["TIMEOUT"])
+    except ValueError:
+        pass
+
+if os.environ.get("MAX_RETRIES"):
+    try:
+        MAX_RETRIES = int(os.environ["MAX_RETRIES"])
+    except ValueError:
+        pass
+
 # ---------------------------------------------------------------------------
 # Parsing engine (from previous PostParser) --------------------------------
 # ---------------------------------------------------------------------------
@@ -97,7 +141,7 @@ class PostParser:
     def __init__(self, html: str):
         self.soup = BeautifulSoup(html, "html.parser")
         self.meta: Dict[str, str] = {}
-        self.tables: List["pd.DataFrame" | List[Dict[str, Any]]] = []
+        self.tables: List[Any] = []
         self.post_type: str = "unknown"
         self.media: List[str] = []
 
@@ -179,11 +223,15 @@ import urllib.parse as _ulib
 _SESSION = requests.Session()
 _SESSION.headers.update({"Accept-Language": "en-US,en;q=0.9"})
 
+# Set up proxy after environment variables are loaded
 if USE_PROXY and PROXY_ENDPOINT:
     _SESSION.proxies.update({
         "http": PROXY_ENDPOINT,
         "https": PROXY_ENDPOINT,
     })
+    print(f"Using proxy: {PROXY_ENDPOINT}")
+else:
+    print("No proxy configured")
 
 
 def _fallback_mbasic(url: str) -> str | None:
@@ -194,7 +242,7 @@ def _fallback_mbasic(url: str) -> str | None:
     return None
 
 
-def fetch_html(url: str, max_retries: int = 3) -> str:
+def fetch_html(url: str, max_retries: int = None) -> str:
     """Fetch raw HTML for *url*.
 
     * random User-Agent (to reduce blocks); if that fails with 4xx we retry
@@ -202,6 +250,9 @@ def fetch_html(url: str, max_retries: int = 3) -> str:
       variant.
     * Retry mechanism: will retry up to max_retries times for each URL variant.
     """
+    if max_retries is None:
+        max_retries = MAX_RETRIES
+        
     attempt_urls = [url]
     alt = _fallback_mbasic(url)
     if alt:
@@ -211,11 +262,11 @@ def fetch_html(url: str, max_retries: int = 3) -> str:
         for retry in range(max_retries):
             headers = {"User-Agent": random.choice(HEADERS_POOL)}
             retry_suffix = f" (retry {retry + 1}/{max_retries})" if retry > 0 else ""
-            print(f"→ GET {target}{retry_suffix}…", end=" ")
+            print(f"-> GET {target}{retry_suffix}...", end=" ")
             try:
                 r = _SESSION.get(target, headers=headers, timeout=TIMEOUT, allow_redirects=True)
                 r.raise_for_status()
-                print("✔︎")
+                print("OK")
                 # Some feeds return x-frame wrappers – strip if present
                 if "<iframe" in r.text[:1000] and "facebook.com/plugins/" in r.text:
                     # crude but works: follow first iframe src
@@ -225,13 +276,13 @@ def fetch_html(url: str, max_retries: int = 3) -> str:
                 return r.text
             except requests.HTTPError as exc:
                 code = exc.response.status_code if exc.response else "?"
-                print(f"✘ HTTP {code}")
+                print(f"ERROR HTTP {code}")
                 if retry < max_retries - 1:
                     time.sleep(random.uniform(2, 5))  # Wait before retry
                 elif idx == len(attempt_urls):
                     return ""
             except Exception as exc:
-                print(f"✘ ({exc.__class__.__name__})")
+                print(f"ERROR ({exc.__class__.__name__})")
                 if retry < max_retries - 1:
                     time.sleep(random.uniform(2, 5))  # Wait before retry
                 elif idx == len(attempt_urls):
@@ -370,7 +421,7 @@ def main() -> None:
         results = load_existing_json(out_path)
 
     for url in LINKS:
-        max_extraction_retries = 3
+        max_extraction_retries = MAX_RETRIES
         successful_extraction = False
         
         for attempt in range(max_extraction_retries):
@@ -386,15 +437,15 @@ def main() -> None:
             if is_valid_extraction(post_dict):
                 results.append(post_dict)
                 successful_extraction = True
-                print(f"✓ Successfully extracted valid data for {url}")
+                print(f"SUCCESS: Successfully extracted valid data for {url}")
                 break
             else:
-                print(f"✗ Poor quality data extracted for {url} (attempt {attempt + 1}/{max_extraction_retries})")
+                print(f"WARNING: Poor quality data extracted for {url} (attempt {attempt + 1}/{max_extraction_retries})")
                 if attempt < max_extraction_retries - 1:
                     time.sleep(random.uniform(3, 6))  # Longer delay between extraction retries
         
         if not successful_extraction:
-            print(f"⚠ Failed to extract valid data for {url} after {max_extraction_retries} attempts")
+            print(f"FAILED: Failed to extract valid data for {url} after {max_extraction_retries} attempts")
             
         # polite delay before next URL
         time.sleep(random.uniform(1.5, 3.0))
@@ -403,7 +454,7 @@ def main() -> None:
     valid_results = [r for r in results if is_valid_extraction(r)]
 
     save_json(out_path, valid_results)
-    # print(f"Saved {len(valid_results)} valid post(s) → {out_path.relative_to(Path.cwd())}")
+    print(f"Saved {len(valid_results)} valid post(s) → {out_path.relative_to(Path.cwd())}")
 
 
 if __name__ == "__main__":

@@ -6020,3 +6020,273 @@ TypeError: SuggestionsScraperAPI.scrape_suggestions() got an unexpected keyword 
 2025-07-07 14:33:39,559 - watchfiles.main - INFO - 1 change detected
 2025-07-07 14:33:39,964 - watchfiles.main - INFO - 1 change detected
 2025-07-07 14:33:40,331 - watchfiles.main - INFO - 1 change detected
+2025-07-07 20:15:49,459 - app - INFO - GET /docs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-07-07 20:15:49,860 - app - INFO - GET /openapi.json - Status: 200 - Time: 0.02s - IP: 127.0.0.1
+2025-07-07 20:33:12,020 - app - INFO - GET /docs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-07-07 20:33:12,359 - app - INFO - GET /openapi.json - Status: 200 - Time: 0.02s - IP: 127.0.0.1
+2025-07-07 20:36:52,923 - app - INFO - POST /scrape/posts - Status: 400 - Time: 0.00s - IP: 127.0.0.1
+2025-07-07 20:38:43,154 - app - INFO - Started posts scraping job: job_1751902723_946
+2025-07-07 20:38:43,156 - app - INFO - POST /scrape/posts - Status: 200 - Time: 0.01s - IP: 127.0.0.1
+2025-07-07 20:38:46,457 - app - INFO - Job job_1751902723_946 - Process return code: 1
+2025-07-07 20:38:46,457 - app - ERROR - Job job_1751902723_946 - STDERR: Traceback (most recent call last):
+  File "C:\Users\MULTI 88 G\Desktop\Python\facebook_scraper\facebook-scraper\posts_scraper.py", line 447, in <module>
+    main()
+  File "C:\Users\MULTI 88 G\Desktop\Python\facebook_scraper\facebook-scraper\posts_scraper.py", line 414, in main
+    html = fetch_html(url)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\MULTI 88 G\Desktop\Python\facebook_scraper\facebook-scraper\posts_scraper.py", line 251, in fetch_html
+    print(f"\u2192 GET {target}{retry_suffix}…",...
+2025-07-07 20:38:46,464 - app - ERROR - Job job_1751902723_946 failed with return code 1
+2025-07-07 20:40:44,553 - app - INFO - POST /scrape/posts - Status: 400 - Time: 0.03s - IP: 127.0.0.1
+2025-07-07 20:44:02,164 - app - INFO - GET /docs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-07-07 20:44:02,582 - app - INFO - GET /openapi.json - Status: 200 - Time: 0.03s - IP: 127.0.0.1
+2025-07-07 20:44:15,503 - app - INFO - Started posts scraping job: job_1751903055_1713
+2025-07-07 20:44:15,508 - app - INFO - POST /scrape/posts - Status: 200 - Time: 0.01s - IP: 127.0.0.1
+2025-07-07 20:44:18,267 - app - INFO - Job job_1751903055_1713 - Process return code: 1
+2025-07-07 20:44:18,267 - app - ERROR - Job job_1751903055_1713 - STDERR: Traceback (most recent call last):
+  File "C:\Users\MULTI 88 G\Desktop\Python\facebook_scraper\facebook-scraper\posts_scraper.py", line 457, in <module>
+    main()
+  File "C:\Users\MULTI 88 G\Desktop\Python\facebook_scraper\facebook-scraper\posts_scraper.py", line 424, in main
+    html = fetch_html(url)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\MULTI 88 G\Desktop\Python\facebook_scraper\facebook-scraper\posts_scraper.py", line 261, in fetch_html
+    print(f"\u2192 GET {target}{retry_suffix}…",...
+2025-07-07 20:44:18,267 - app - ERROR - Job job_1751903055_1713 failed with return code 1
+2025-07-07 20:46:00,921 - app - INFO - GET /data/posts - Status: 200 - Time: 0.01s - IP: 127.0.0.1
+2025-07-07 20:46:39,221 - app - INFO - GET /docs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-07-07 20:46:39,617 - app - INFO - GET /openapi.json - Status: 200 - Time: 0.02s - IP: 127.0.0.1
+2025-07-07 20:46:56,906 - app - INFO - Started posts scraping job: job_1751903216_1231
+2025-07-07 20:46:56,910 - app - INFO - POST /scrape/posts - Status: 200 - Time: 0.01s - IP: 127.0.0.1
+2025-07-07 20:47:14,713 - app - INFO - Job job_1751903216_1231 - Process return code: 1
+2025-07-07 20:47:14,714 - app - INFO - Job job_1751903216_1231 - STDOUT: Using proxy: http://250621Ev04e-resi_region-US_California:5PjDM1IoS0JSr2c@ca.proxy-jet.io:1010
+-> GET https://www.facebook.com/share/p/1CA6tAVYLE... ERROR HTTP ?
+-> GET https://www.facebook.com/share/p/1CA6tAVYLE (retry 2/3)... ERROR HTTP ?
+-> GET https://www.facebook.com/share/p/1CA6tAVYLE (retry 3/3)... OK
+SUCCESS: Successfully extracted valid data for https://www.facebook.com/share/p/1CA6tAVYLE
+...
+2025-07-07 20:47:14,716 - app - ERROR - Job job_1751903216_1231 - STDERR: Traceback (most recent call last):
+  File "C:\Users\MULTI 88 G\Desktop\Python\facebook_scraper\facebook-scraper\posts_scraper.py", line 461, in <module>
+    main()
+  File "C:\Users\MULTI 88 G\Desktop\Python\facebook_scraper\facebook-scraper\posts_scraper.py", line 457, in main
+    print(f"Saved {len(valid_results)} valid post(s) \u2192 {out_path.relative_to(Path.cwd())}")
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MULTI 88 G\AppData\...
+2025-07-07 20:47:14,719 - app - ERROR - Job job_1751903216_1231 failed with return code 1
+2025-07-07 20:47:16,280 - app - INFO - GET /data/posts - Status: 200 - Time: 0.01s - IP: 127.0.0.1
+2025-07-07 20:58:59,571 - app - INFO - GET /docs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-07-07 20:59:00,041 - app - INFO - GET /openapi.json - Status: 200 - Time: 0.04s - IP: 127.0.0.1
+2025-07-07 21:02:32,226 - app - INFO - POST /scrape/suggestions - Status: 400 - Time: 0.00s - IP: 127.0.0.1
+2025-07-07 21:02:35,294 - app - INFO - POST /scrape/suggestions - Status: 400 - Time: 0.00s - IP: 127.0.0.1
+2025-07-07 21:02:36,013 - app - INFO - POST /scrape/suggestions - Status: 400 - Time: 0.00s - IP: 127.0.0.1
+2025-07-07 21:02:51,364 - app - INFO - POST /scrape/suggestions - Status: 400 - Time: 0.00s - IP: 127.0.0.1
+2025-07-07 21:04:05,962 - app - INFO - GET /docs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-07-07 21:04:06,465 - app - INFO - GET /openapi.json - Status: 200 - Time: 0.03s - IP: 127.0.0.1
+2025-07-07 21:04:33,729 - app - INFO - Started suggestions scraping job: job_1751904273_4300
+2025-07-07 21:04:33,731 - app - INFO - POST /scrape/suggestions - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-07-07 21:05:54,614 - app - INFO - Suggestions job job_1751904273_4300 completed successfully
+2025-07-07 21:09:55,116 - app - INFO - GET /docs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-07-07 21:09:55,462 - app - INFO - GET /openapi.json - Status: 200 - Time: 0.03s - IP: 127.0.0.1
+2025-07-07 21:10:14,960 - app - INFO - Started suggestions scraping job: job_1751904614_6946
+2025-07-07 21:10:14,984 - app - INFO - POST /scrape/suggestions - Status: 200 - Time: 0.03s - IP: 127.0.0.1
+2025-07-07 21:10:45,421 - app - ERROR - Suggestions job job_1751904614_6946 failed with exception: Message: element click intercepted: Element <div class="x6s0dn4 x78zum5 x1q0g3np x1a02dak x2lwn1j xeuugli x1iyjqo2 x8va1my">...</div> is not clickable at point (273, 192). Other element would receive the click: <div class="x1qjc9v5 x9f619 x78zum5 xdt5ytf x1nhvcw1 xg6iff7 xmzvs34 xf159sx x1l90r2v" data-visualcompletion="ignore" style="padding-top: 563px;">...</div>
+  (Session info: chrome=138.0.7204.97); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#elementclickinterceptedexception
+Stacktrace:
+	GetHandleVerifier [0x0x7ff609c86f95+76917]
+	GetHandleVerifier [0x0x7ff609c86ff0+77008]
+	(No symbol) [0x0x7ff609a39dea]
+	(No symbol) [0x0x7ff609a98269]
+	(No symbol) [0x0x7ff609a95c02]
+	(No symbol) [0x0x7ff609a92c41]
+	(No symbol) [0x0x7ff609a91b31]
+	(No symbol) [0x0x7ff609a83368]
+	(No symbol) [0x0x7ff609ab846a]
+	(No symbol) [0x0x7ff609a82c16]
+	(No symbol) [0x0x7ff609ab8680]
+	(No symbol) [0x0x7ff609ae065c]
+	(No symbol) [0x0x7ff609ab8243]
+	(No symbol) [0x0x7ff609a81431]
+	(No symbol) [0x0x7ff609a821c3]
+	GetHandleVerifier [0x0x7ff609f5d2cd+3051437]
+	GetHandleVerifier [0x0x7ff609f57923+3028483]
+	GetHandleVerifier [0x0x7ff609f758bd+3151261]
+	GetHandleVerifier [0x0x7ff609ca185e+185662]
+	GetHandleVerifier [0x0x7ff609ca971f+218111]
+	GetHandleVerifier [0x0x7ff609c8fb14+112628]
+	GetHandleVerifier [0x0x7ff609c8fcc9+113065]
+	GetHandleVerifier [0x0x7ff609c76c98+10616]
+	BaseThreadInitThunk [0x0x7ffc40647374+20]
+	RtlUserThreadStart [0x0x7ffc423bcc91+33]
+
+2025-07-07 21:10:45,436 - app - ERROR - Traceback (most recent call last):
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\seleniumbase\fixtures\base_case.py", line 464, in click
+    self.__element_click(element)
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\seleniumbase\fixtures\base_case.py", line 3016, in __element_click
+    element.click()
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\selenium\webdriver\remote\webelement.py", line 120, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\selenium\webdriver\remote\webelement.py", line 573, in _execute
+    return self._parent.execute(command, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 454, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 232, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.ElementClickInterceptedException: Message: element click intercepted: Element <div class="x6s0dn4 x78zum5 x1q0g3np x1a02dak x2lwn1j xeuugli x1iyjqo2 x8va1my">...</div> is not clickable at point (273, 192). Other element would receive the click: <div class="x1qjc9v5 x9f619 x78zum5 xdt5ytf x1nhvcw1 xg6iff7 xmzvs34 xf159sx x1l90r2v" data-visualcompletion="ignore" style="padding-top: 563px;">...</div>
+  (Session info: chrome=138.0.7204.97); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#elementclickinterceptedexception
+Stacktrace:
+	GetHandleVerifier [0x0x7ff609c86f95+76917]
+	GetHandleVerifier [0x0x7ff609c86ff0+77008]
+	(No symbol) [0x0x7ff609a39dea]
+	(No symbol) [0x0x7ff609a98269]
+	(No symbol) [0x0x7ff609a95c02]
+	(No symbol) [0x0x7ff609a92c41]
+	(No symbol) [0x0x7ff609a91b31]
+	(No symbol) [0x0x7ff609a83368]
+	(No symbol) [0x0x7ff609ab846a]
+	(No symbol) [0x0x7ff609a82c16]
+	(No symbol) [0x0x7ff609ab8680]
+	(No symbol) [0x0x7ff609ae065c]
+	(No symbol) [0x0x7ff609ab8243]
+	(No symbol) [0x0x7ff609a81431]
+	(No symbol) [0x0x7ff609a821c3]
+	GetHandleVerifier [0x0x7ff609f5d2cd+3051437]
+	GetHandleVerifier [0x0x7ff609f57923+3028483]
+	GetHandleVerifier [0x0x7ff609f758bd+3151261]
+	GetHandleVerifier [0x0x7ff609ca185e+185662]
+	GetHandleVerifier [0x0x7ff609ca971f+218111]
+	GetHandleVerifier [0x0x7ff609c8fb14+112628]
+	GetHandleVerifier [0x0x7ff609c8fcc9+113065]
+	GetHandleVerifier [0x0x7ff609c76c98+10616]
+	BaseThreadInitThunk [0x0x7ffc40647374+20]
+	RtlUserThreadStart [0x0x7ffc423bcc91+33]
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\seleniumbase\fixtures\base_case.py", line 586, in click
+    self.__js_click(selector, by=by)
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\seleniumbase\fixtures\base_case.py", line 13671, in __js_click
+    css_selector = self.convert_to_css_selector(selector, by=by)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\seleniumbase\fixtures\base_case.py", line 8428, in convert_to_css_selector
+    return js_utils.convert_to_css_selector(selector, by)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\seleniumbase\fixtures\js_utils.py", line 121, in convert_to_css_selector
+    return xpath_to_css.convert_xpath_to_css(selector)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\seleniumbase\fixtures\xpath_to_css.py", line 228, in convert_xpath_to_css
+    css = _get_raw_css_from_xpath(xpath, original)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\seleniumbase\fixtures\xpath_to_css.py", line 89, in _get_raw_css_from_xpath
+    raise XpathException(
+seleniumbase.fixtures.xpath_to_css.XpathException: 
+Invalid or unsupported XPath:
+//div[div/div/text()="All" or div/div/text()="Country"]/..
+(Unable to convert XPath Selector to CSS Selector)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\seleniumbase\fixtures\base_case.py", line 589, in click
+    self.__jquery_click(selector, by=by)
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\seleniumbase\fixtures\base_case.py", line 13938, in __jquery_click
+    selector = self.convert_to_css_selector(selector, by=by)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\seleniumbase\fixtures\base_case.py", line 8428, in convert_to_css_selector
+    return js_utils.convert_to_css_selector(selector, by)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\seleniumbase\fixtures\js_utils.py", line 121, in convert_to_css_selector
+    return xpath_to_css.convert_xpath_to_css(selector)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\seleniumbase\fixtures\xpath_to_css.py", line 228, in convert_xpath_to_css
+    css = _get_raw_css_from_xpath(xpath, original)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\seleniumbase\fixtures\xpath_to_css.py", line 89, in _get_raw_css_from_xpath
+    raise XpathException(
+seleniumbase.fixtures.xpath_to_css.XpathException: 
+Invalid or unsupported XPath:
+//div[div/div/text()="All" or div/div/text()="Country"]/..
+(Unable to convert XPath Selector to CSS Selector)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\MULTI 88 G\Desktop\Python\facebook_scraper\facebook-scraper\app.py", line 690, in run_suggestions_scraper
+    result = asyncio.run(scraper.scrape_suggestions(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py", line 664, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\MULTI 88 G\Desktop\Python\facebook_scraper\facebook-scraper\suggestions_scraper_api.py", line 506, in scrape_suggestions
+    result = await loop.run_in_executor(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MULTI 88 G\Desktop\Python\facebook_scraper\facebook-scraper\suggestions_scraper_api.py", line 363, in scrape_suggestions_sync
+    wait_click(sb, '//div[div/div/text()="All" or div/div/text()="Country"]/..', by="xpath")
+  File "C:\Users\MULTI 88 G\Desktop\Python\facebook_scraper\facebook-scraper\suggestions_scraper_api.py", line 88, in wait_click
+    raise e
+  File "C:\Users\MULTI 88 G\Desktop\Python\facebook_scraper\facebook-scraper\suggestions_scraper_api.py", line 68, in wait_click
+    sb.click(selector, by=by)
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\seleniumbase\fixtures\base_case.py", line 599, in click
+    self.__element_click(element)
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\seleniumbase\fixtures\base_case.py", line 3016, in __element_click
+    element.click()
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\selenium\webdriver\remote\webelement.py", line 120, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\selenium\webdriver\remote\webelement.py", line 573, in _execute
+    return self._parent.execute(command, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 454, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\MULTI 88 G\AppData\Local\Programs\Python\Python312\Lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 232, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.ElementClickInterceptedException: Message: element click intercepted: Element <div class="x6s0dn4 x78zum5 x1q0g3np x1a02dak x2lwn1j xeuugli x1iyjqo2 x8va1my">...</div> is not clickable at point (273, 192). Other element would receive the click: <div class="x1qjc9v5 x9f619 x78zum5 xdt5ytf x1nhvcw1 xg6iff7 xmzvs34 xf159sx x1l90r2v" data-visualcompletion="ignore" style="padding-top: 563px;">...</div>
+  (Session info: chrome=138.0.7204.97); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#elementclickinterceptedexception
+Stacktrace:
+	GetHandleVerifier [0x0x7ff609c86f95+76917]
+	GetHandleVerifier [0x0x7ff609c86ff0+77008]
+	(No symbol) [0x0x7ff609a39dea]
+	(No symbol) [0x0x7ff609a98269]
+	(No symbol) [0x0x7ff609a95c02]
+	(No symbol) [0x0x7ff609a92c41]
+	(No symbol) [0x0x7ff609a91b31]
+	(No symbol) [0x0x7ff609a83368]
+	(No symbol) [0x0x7ff609ab846a]
+	(No symbol) [0x0x7ff609a82c16]
+	(No symbol) [0x0x7ff609ab8680]
+	(No symbol) [0x0x7ff609ae065c]
+	(No symbol) [0x0x7ff609ab8243]
+	(No symbol) [0x0x7ff609a81431]
+	(No symbol) [0x0x7ff609a821c3]
+	GetHandleVerifier [0x0x7ff609f5d2cd+3051437]
+	GetHandleVerifier [0x0x7ff609f57923+3028483]
+	GetHandleVerifier [0x0x7ff609f758bd+3151261]
+	GetHandleVerifier [0x0x7ff609ca185e+185662]
+	GetHandleVerifier [0x0x7ff609ca971f+218111]
+	GetHandleVerifier [0x0x7ff609c8fb14+112628]
+	GetHandleVerifier [0x0x7ff609c8fcc9+113065]
+	GetHandleVerifier [0x0x7ff609c76c98+10616]
+	BaseThreadInitThunk [0x0x7ffc40647374+20]
+	RtlUserThreadStart [0x0x7ffc423bcc91+33]
+
+
+2025-07-07 21:11:24,026 - app - INFO - Started suggestions scraping job: job_1751904684_6550
+2025-07-07 21:11:24,027 - app - INFO - POST /scrape/suggestions - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-07-07 21:15:11,600 - app - INFO - Suggestions job job_1751904684_6550 completed successfully
+2025-07-07 21:20:58,293 - app - INFO - GET /docs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-07-07 21:20:58,599 - app - INFO - GET /openapi.json - Status: 200 - Time: 0.02s - IP: 127.0.0.1
+2025-07-07 21:21:11,433 - app - INFO - Started suggestions scraping job: job_1751905271_5793
+2025-07-07 21:21:11,462 - app - INFO - POST /scrape/suggestions - Status: 200 - Time: 0.03s - IP: 127.0.0.1
+2025-07-07 21:30:13,447 - app - INFO - Suggestions job job_1751905271_5793 completed successfully
+2025-07-07 21:31:13,679 - app - INFO - GET /data/suggestions - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-07-07 21:31:46,213 - app - INFO - GET /data/suggestions - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-07-07 21:32:24,658 - app - INFO - GET /jobs/job_1751905271_5793 - Status: 200 - Time: 0.06s - IP: 127.0.0.1

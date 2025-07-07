@@ -37,6 +37,13 @@ AD_LIBRARY_URL = (
     "&is_targeted_country=false&media_type=all"
 )
 
+# ── Constants for month-aware ad extraction ─────────────────────────────────
+COMMON_HEAD = (
+    "/html/body/div[1]/div/div/div/div/div/div/div[1]/div/div/div"
+)
+MONTH_BASE = f"{COMMON_HEAD}/div[5]/div[2]"   # COMMON_HEAD defined earlier
+GAP_LIMIT  = 5                                # stop after 5 empty slots
+
 def load_cookies() -> list[dict]:
     """Load cookies from file with proper error handling."""
     if not COOKIE_FILE.exists():
@@ -134,10 +141,115 @@ def extract_suggestions(sb, keyword: str) -> list[Dict[str, Any]]:
 def _extract_page_id_from_suggestion(suggestion: Dict[str, Any]) -> str | None:
     """Extract page_id from suggestion, handling both direct pageID and quoted formats."""
     page_id = suggestion.get("page_id", "")
-
+    
     # Handle pageID:123456 format
     if page_id.startswith("pageID:"):
         return page_id.split(":", 1)[1]
+    
+    # Handle quoted format like "properties" - skip this as it's not a real page
+    if page_id.startswith('"') and page_id.endswith('"'):
+        return None
+    
+    # If it's already a numeric ID, return it
+    if page_id.isdigit():
+        return page_id
+    
+    return None
+
+
+def _build_advertiser_url(country: str, page_id: str) -> str:
+    """Build URL for advertiser's ads page."""
+    # Map country names to country codes (add more as needed)
+    country_code_map = {
+        "Thailand": "TH",
+        "United States": "US",
+        "United Kingdom": "GB",
+        "Canada": "CA",
+        "Australia": "AU",
+        "Germany": "DE",
+        "France": "FR",
+        "Italy": "IT",
+        "Spain": "ES",
+        "Netherlands": "NL",
+        "Belgium": "BE",
+        "Sweden": "SE",
+        "Norway": "NO",
+        "Denmark": "DK",
+        "Finland": "FI",
+        "Poland": "PL",
+        "Czech Republic": "CZ",
+        "Hungary": "HU",
+        "Austria": "AT",
+        "Switzerland": "CH",
+        "Ireland": "IE",
+        "Portugal": "PT",
+        "Greece": "GR",
+        "Turkey": "TR",
+        "India": "IN",
+        "Japan": "JP",
+        "South Korea": "KR",
+        "Singapore": "SG",
+        "Malaysia": "MY",
+        "Indonesia": "ID",
+        "Philippines": "PH",
+        "Vietnam": "VN",
+        "Brazil": "BR",
+        "Mexico": "MX",
+        "Argentina": "AR",
+        "Chile": "CL",
+        "Colombia": "CO",
+        "South Africa": "ZA",
+        "Egypt": "EG",
+        "Nigeria": "NG",
+        "Kenya": "KE",
+        "Morocco": "MA",
+        "Israel": "IL",
+        "United Arab Emirates": "AE",
+        "Saudi Arabia": "SA",
+        "Russia": "RU",
+        "Ukraine": "UA",
+        "China": "CN",
+        "Taiwan": "TW",
+        "Hong Kong": "HK",
+        "New Zealand": "NZ",
+    }
+    
+    # Get country code, fallback to country name if not found
+    country_code = country_code_map.get(country, country)
+    
+    # Build the URL
+    return (
+        f"https://www.facebook.com/ads/library/"
+        f"?active_status=active&ad_type=all&country=ALL"
+        f"&is_targeted_country=false&media_type=all"
+        f"&search_type=page&view_all_page_id={page_id}"
+    )
+
+
+def extract_advertiser_ads(sb, country: str, page_id: str, advertiser_name: str, limit: int = None):
+    """Extract ads from a specific advertiser's page."""
+    print(f"[INFO] Scraping ads from advertiser: {advertiser_name} (Page ID: {page_id})")
+    
+    # Build and navigate to advertiser URL
+    advertiser_url = _build_advertiser_url(country, page_id)
+    
+    # Apply filters to the URL (if available)
+    filtered_url = advertiser_url  # Basic implementation, can be enhanced with filters
+    
+    print(f"[INFO] Navigating to: {filtered_url}")
+    sb.open(filtered_url)
+    sb.sleep(5)
+    
+    # Extract ads using the existing logic (with infinite scroll)
+    ads = extract_ads(sb, limit=limit)
+    
+    # Add advertiser info to each ad
+    for ad in ads:
+        ad["scraped_from_advertiser"] = advertiser_name
+        ad["advertiser_page_id"] = page_id
+    
+    print(f"[INFO] Found {len(ads)} ads from advertiser: {advertiser_name}")
+    return ads
 
     # Handle quoted format like "properties" - skip this as it's not a real page
     if page_id.startswith('"') and page_id.endswith('"'):
@@ -218,7 +330,7 @@ def _build_advertiser_url(country: str, page_id: str) -> str:
     )
 
 def scrape_suggestions_sync(country: str, keyword: str, scrape_ads: bool = False,
-                           max_scrolls: int = 10, headless: bool = True) -> dict:
+                           advertiser_ads_limit: int = 100, headless: bool = True) -> dict:
     """
     Main suggestions scraping function - exact v2 logic.
 
@@ -226,7 +338,7 @@ def scrape_suggestions_sync(country: str, keyword: str, scrape_ads: bool = False
         country: Country to scrape from
         keyword: Keyword to search for
         scrape_ads: Whether to also scrape ads from each advertiser found
-        max_scrolls: Maximum number of scrolls when scraping advertiser ads
+        advertiser_ads_limit: Maximum number of ads to extract per advertiser page
         headless: Whether to run in headless mode
 
     Returns:
@@ -299,93 +411,72 @@ def scrape_suggestions_sync(country: str, keyword: str, scrape_ads: bool = False
         suggestions = extract_suggestions(sb, keyword)
         print(f"[INFO] Found {len(suggestions)} suggestions for keyword: {keyword}")
 
-    # Browser session is now closed, safe to run subprocess
-    
-    # ── Scrape Advertiser Ads (if requested) ──────────────────────────
+    # ── Scrape Advertiser Ads (if requested) ─────────────────────────
     ads = []
     if scrape_ads:
         print(f"[INFO] Starting advertiser ads scraping for {len(suggestions)} suggestions...")
-        print(f"[INFO] Browser session closed, starting subprocess...")
-
-        # Use the main scraper with suggestions_with_ads mode
-        import subprocess
-        import os
-        import glob
-
-        # Set environment variables for the main scraper
-        env = os.environ.copy()
-        env.update({
-            "MODE": "suggestions_with_ads",
-            "HEADLESS": "true",
-            "MAX_SCROLLS": str(max_scrolls),
-            "TARGET_PAIRS": json.dumps([[country, keyword]]),
-            "APPEND": "false"
-        })
-
-        try:
-            # Run the main scraper
-            print(f"[INFO] Running: python ads_and_suggestions_scraper.py")
-            result = subprocess.run(
-                ["python", "ads_and_suggestions_scraper.py"],
-                env=env,
-                capture_output=True,
-                text=True,
-                timeout=1800  # 30 minutes timeout
-            )
-
-            print(f"[INFO] Subprocess completed with return code: {result.returncode}")
+        
+        # Start a new browser session for advertiser ads scraping
+        with SB(uc=True, headless=headless) as sb:
+            # Login bootstrap again
+            print("[INFO] Opening Facebook for advertiser ads scraping...")
+            sb.open("https://facebook.com")
+            print("[INFO] Restoring session cookies...")
+            for ck in load_cookies():
+                try:
+                    if hasattr(sb, 'driver') and sb.driver:
+                        sb.driver.add_cookie(ck)
+                except Exception:
+                    pass
+            sb.open(AD_LIBRARY_URL)
+            sb.sleep(5)
             
-            if result.returncode == 0:
-                print(f"[INFO] Successfully ran main scraper for suggestions_with_ads mode")
-                print(f"[INFO] Subprocess stdout: {result.stdout[-500:]}")  # Last 500 chars
-
-                # Read the results from the output file
-                result_files = glob.glob("Results/suggestions_with_ads*.json")
-                print(f"[INFO] Found result files: {result_files}")
-                
-                if result_files:
-                    # Get the most recent file
-                    latest_file = max(result_files, key=os.path.getctime)
-                    print(f"[INFO] Reading results from: {latest_file}")
-                    
-                    with open(latest_file, 'r', encoding='utf-8') as f:
-                        scraper_results = json.load(f)
-
-                    if scraper_results and len(scraper_results) > 0:
-                        # Extract the nested structure from the latest result
-                        latest_result = scraper_results[-1]
-                        if "suggestions" in latest_result:
-                            print(f"[INFO] Returning structured result with {len(latest_result['suggestions'])} suggestions")
-                            return latest_result  # Return the properly structured result
+            # Iterate through suggestions and scrape ads from each advertiser
+            for idx, suggestion in enumerate(suggestions, 1):
+                page_id = _extract_page_id_from_suggestion(suggestion)
+                if page_id:
+                    try:
+                        advertiser_name = suggestion.get("name", "Unknown")
+                        print(f"[INFO] ({idx}/{len(suggestions)}) Scraping ads from advertiser: {advertiser_name}")
+                        
+                        # Extract ads from this advertiser with specific limit
+                        ads_from_advertiser = extract_advertiser_ads(
+                            sb, country, page_id, advertiser_name, limit=advertiser_ads_limit
+                        )
+                        
+                        # Add advertiser ads to the main ads list
+                        ads.extend(ads_from_advertiser)
+                        
+                        print(f"[INFO] Collected {len(ads_from_advertiser)} ads from {advertiser_name}. Total: {len(ads)}")
+                        
+                        # Small delay between advertiser pages
+                        sb.sleep(2)
+                        
+                    except Exception as e:
+                        print(f"[ERROR] Failed to scrape ads from advertiser {suggestion.get('name', 'Unknown')}: {e}")
+                        continue
                 else:
-                    print(f"[WARNING] No result files found in Results/ directory")
-            else:
-                print(f"[ERROR] Main scraper failed with return code: {result.returncode}")
-                print(f"[ERROR] Stderr: {result.stderr}")
-                print(f"[ERROR] Stdout: {result.stdout}")
+                    print(f"[INFO] Skipping suggestion '{suggestion.get('name', 'Unknown')}' - no valid page ID")
+            
+            print(f"[INFO] Completed advertiser ads scraping. Total ads collected: {len(ads)}")
 
-        except subprocess.TimeoutExpired:
-            print(f"[ERROR] Main scraper timed out after 30 minutes")
-        except Exception as e:
-            print(f"[ERROR] Failed to run main scraper: {e}")
+    # ── Build result object ───────────────────────────────────────────
+    result = {
+        "country": country,
+        "keyword": keyword,
+        "suggestions": suggestions,
+        "ads": ads if scrape_ads else [],
+        "timestamp": datetime.now().isoformat(),
+        "scrape_advertiser_ads": scrape_ads,
+        "total_suggestions": len(suggestions),
+        "total_ads": len(ads)
+    }
 
-        # ── Build Result (fallback for suggestions only) ──────────────────────────────────────────────
-        result = {
-            "country": country,
-            "keyword": keyword,
-            "suggestions": suggestions,
-            "scrape_ads": scrape_ads,
-            "max_scrolls": max_scrolls,
-            "timestamp": datetime.now().isoformat(),
-        }
+    print(f"[INFO] Completed scraping for {country} | {keyword}")
+    print(f"[INFO] Results: {len(suggestions)} suggestions, {len(ads)} ads")
+    
+    return result
 
-        if scrape_ads:
-            result["ads"] = ads
-
-        print(f"[INFO] Completed scraping for {country} | {keyword}")
-        print(f"[INFO] Results: {len(suggestions)} suggestions, {len(ads)} ads")
-
-        return result
 
 class SuggestionsScraperAPI:
     """API wrapper class for suggestions scraping functionality."""
@@ -396,7 +487,7 @@ class SuggestionsScraperAPI:
     async def scrape_suggestions(self, target_pairs: List[List[str]],
                                scrape_advertiser_ads: bool = False,
                                headless: bool = True,
-                               max_scrolls: int = 10) -> Dict[str, Any]:
+                               advertiser_ads_limit: int = 100) -> Dict[str, Any]:
         """
         Async wrapper for suggestions scraping.
 
@@ -404,7 +495,7 @@ class SuggestionsScraperAPI:
             target_pairs: List of [country, keyword] pairs
             scrape_advertiser_ads: Whether to also scrape ads from each advertiser found
             headless: Whether to run in headless mode
-            max_scrolls: Maximum number of scrolls when scraping advertiser ads
+            advertiser_ads_limit: Maximum number of ads to extract per advertiser page
 
         Returns:
             Dictionary with suggestions and optionally ads data
@@ -422,7 +513,7 @@ class SuggestionsScraperAPI:
                 country,
                 keyword,
                 scrape_advertiser_ads,
-                max_scrolls,
+                advertiser_ads_limit,
                 headless
             )
             all_results.append(result)
@@ -687,105 +778,218 @@ def human_scroll(sb: SB, px: int = 1800):
     """Human-like scrolling"""
     sb.execute_script(f"window.scrollBy(0,{px});")
 
-def extract_ads(sb: SB, limit: int = 1000) -> list[dict]:
-    """Extract ads from the current page - simplified version"""
-    ads = []
+def extract_ads(sb, limit: int | None = None) -> list[dict[str, Any]]:
+    """
+    Month-aware scrolling scraper.
+    • Scrolls page-bottom-wards until no new cards appear (or `limit` reached).
+    • After each scroll it *immediately* parses only the newly discovered cards,
+      so you never re-parse what you already have.
+    """
+    ads: list[dict[str, Any]] = []
+    seen_cards = 0            # how many cards we have already parsed
+    dead_scrolls = 0          # consecutive scrolls that yielded 0 new cards
+    MAX_DEAD = 2              # stop after this many idle scrolls
 
-    # Make sure page is loaded
-    sb.execute_script("window.scrollBy(0, 800);")
+    # nudge page so FB injects first batch
+    sb.execute_script("window.scrollBy(0,600);")
     time.sleep(1)
 
-    # Try to find ad cards
-    common_head = "/html/body/div[1]/div/div/div/div/div/div/div[1]/div/div/div"
+    print("[INFO] Month-aware scraping starts…")
 
-    # Try different possible prefixes
-    for row in (5, 4):
-        prefix = f"{common_head}/div[{row}]/div[2]/div[2]/div[4]/div[1]"
-        try:
-            sb.driver.find_element("xpath", f"{prefix}/div[1]/div")
-            break
-        except:
-            continue
-    else:
-        print("[WARNING] Could not find ad cards prefix")
-        return ads
-
-    # Extract ads
-    try:
-        sb.wait_for_element_visible(f"{prefix}/div[1]/div", by="xpath", timeout=15)
-    except:
-        print("[WARNING] No ads found on page")
-        return ads
-
-    n = 1
     while True:
-        if limit and len(ads) >= limit:
-            break
+        # ── 1. find every month strip currently present
+        prefixes = _discover_month_prefixes(sb)
 
-        xpath = f"{prefix}/div[{n}]/div"
-        try:
-            card_ele = sb.driver.find_element("xpath", xpath)
+        # ── 2. compute *total* cards now in DOM
+        total_now = sum(_count_cards_in_prefix(p, sb) for p in prefixes)
 
-            # Parse the card - simplified version
+        if total_now > seen_cards:
+            # Parse only the *new* tail in each strip
+            print(f"[INFO] New cards detected: {total_now-seen_cards} (total {total_now})")
+            parsed_this_round = 0
+            cumulative = 0    # running count across prefixes (newest → oldest)
+
+            for prefix in prefixes:
+                n_cards = _count_cards_in_prefix(prefix, sb)
+                # how many of those have we already parsed inside this strip?
+                already = max(0, seen_cards - cumulative)
+                cumulative += n_cards
+
+                for idx in range(already + 1, n_cards + 1):
+                    if limit and len(ads) >= limit:
+                        print(f"[INFO] Hit ads limit {limit}.")
+                        return ads
+                    try:
+                        card = sb.driver.find_element("xpath", f"{prefix}/div[{idx}]/div")
+                        ads.append(_parse_card(card))
+                        # print(f" ads data {ads[-1]}")
+                        parsed_this_round += 1
+                    except Exception as e:
+                        print(f"[WARN] failed to parse card {idx} in {prefix}: {e}")
+
+            seen_cards = total_now
+            dead_scrolls = 0
+            print(f"[INFO] Parsed {parsed_this_round} new ads (running total {len(ads)}).")
+
+        else:
+            dead_scrolls += 1
+            if dead_scrolls >= MAX_DEAD:
+                print("[INFO] No new cards after several scrolls – finishing.")
+                return ads
+
+        # ── 3. scroll one viewport further
+        sb.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(1.2)
+
+def _discover_month_prefixes(sb) -> list[str]:
+    """
+    Return *all* month-strip prefixes currently in the DOM.
+    Order: newest first, then older and older…  (Good for parsing tail-first.)
+    """
+    prefixes: list[str] = []
+    m = 2                                      # first month = div[2]
+    while True:
+        month_base = f"{MONTH_BASE}/div[{m}]"
+        found = None
+
+        # latest month => /div[4]/div[1]   |   older months => /div[3]/div[1]
+        for inner in (4, 3):
+            prefix = f"{month_base}/div[{inner}]/div[1]"
             try:
-                ad_data = {
-                    "library_id": "",
-                    "page": "",
-                    "primary_text": "",
-                    "status": "active",
-                    "started": "",
-                    "raw_text": card_ele.text.strip()
-                }
+                sb.driver.find_element("xpath", f"{prefix}/div[1]/div")
+                found = prefix
+                break
+            except NoSuchElementException:
+                continue
 
-                # Try to extract basic info
-                try:
-                    page_element = card_ele.find_element("xpath", './/a[starts-with(@href,"https://www.facebook.com/")]')
-                    ad_data["page"] = page_element.text.strip()
-                except:
-                    pass
-
-                # Try to extract library ID
-                try:
-                    lib_element = card_ele.find_element("xpath", './/span[contains(text(),"Library ID")]')
-                    lib_text = lib_element.text.strip()
-                    if ":" in lib_text:
-                        ad_data["library_id"] = lib_text.split(":", 1)[1].strip()
-                except:
-                    pass
-
-                # Try to extract primary text
-                try:
-                    text_elements = card_ele.find_elements("xpath", './/div[contains(@class,"")]')
-                    for elem in text_elements:
-                        text = elem.text.strip()
-                        if len(text) > 20 and not text.startswith("Library ID"):
-                            ad_data["primary_text"] = text[:200] + "..." if len(text) > 200 else text
-                            break
-                except:
-                    pass
-
-                ads.append(ad_data)
-
-            except Exception as e:
-                print(f"[DEBUG] Failed to parse ad card: {str(e)}")
-                pass
-
-        except:
+        if not found:                         # no more month sections
             break
 
-        n += 1
+        prefixes.append(found)
+        m += 1
 
-    print(f"[INFO] Extracted {len(ads)} ads from current page")
-    return ads
+    return prefixes
 
-# Example usage
-if __name__ == "__main__":
-    # Test the scraper
-    result = scrape_suggestions_sync(
-        country="Thailand",
-        keyword="properties",
-        scrape_ads=False,
-        headless=False
+
+def _count_cards_in_prefix(prefix: str, sb, gap: int = GAP_LIMIT) -> int:
+    """Count cards in one strip, tolerant of ≤ gap missing indices."""
+    total = misses = idx = 0
+    while misses < gap:
+        idx += 1
+        try:
+            sb.driver.find_element("xpath", f"{prefix}/div[{idx}]/div")
+            total += 1
+            misses = 0
+        except NoSuchElementException:
+            misses += 1
+    return total
+
+
+def _parse_card(card) -> Dict[str, Any]:
+    """
+    Parse a single Ad-Library card with enhanced link extraction.
+    """
+    import re
+    from urllib.parse import urlparse
+
+    def _maybe_click(xp: str):
+        try:
+            card.find_element("xpath", xp).click()
+        except NoSuchElementException:
+            pass
+
+    def _t(xp: str) -> str | None:
+        try:
+            return card.find_element("xpath", xp).text.strip()
+        except NoSuchElementException:
+            return None
+
+    # ── 1. Expand (headless-safe) ───────────────────────────────────────
+    _maybe_click('.//div[@role="button" and .="Open Drop-down"]')
+
+    # ── 2. Meta fields ─────────────────────────────────────────────────
+    status       = _t('.//span[contains(text(),"Active") or contains(text(),"Inactive")]')
+    lib_raw      = _t('.//span[contains(text(),"Library ID")]')
+    library_id   = lib_raw.split(":",1)[-1].strip() if lib_raw else None
+    started_raw  = _t('.//span[contains(text(),"Started running")]')
+    page_name    = _t('.//a[starts-with(@href,"https://www.facebook.com/")][1]')
+
+    # ── 3. Raw creative block text ────────────────────────────────────
+    raw_block = card.text.strip()
+    # print(f"[DEBUG] Raw block text: {raw_block}")
+    #   PRIMARY TEXT extraction
+    primary_text = ""
+    if "Sponsored" in raw_block:
+        after = raw_block.split("Sponsored", 1)[1].lstrip()
+        lines = []
+        for ln in after.splitlines():
+            if re.match(r"https?://|^[A-Z0-9._%+-]+\.[A-Z]{2,}$", ln, flags=re.I):
+                break
+            if re.match(r"^\w.*\b(Shop|Learn|Contact|Apply|Sign)\b", ln) and len(ln) < 40:
+                break
+            lines.append(ln.rstrip())
+        primary_text = "\n".join(lines).strip()
+
+    # ── 4. CTA detection ───────────────────────────────────────────────
+    CTA_PHRASES = (
+        "\nLearn More", "\nLearn more", "\nShop Now", "\nShop now", "\nBook Now",
+        "\nBook now", "\nDonate", "\nDonate now", "\nApply Now", "\nApply now",
+        "\nGet offer", "\nGet Offer", "\nGet quote", "\nSign Up", "\nSign up",
+        "\nContact us", "\nSend message", "\nSend Message", "\nSubscribe", "\nRead more","\nSend WhatsApp message",
+        "\nSend WhatsApp Message", "\nWatch video", "\nWatch Video",
     )
 
-    print(f"Results: {len(result['suggestions'])} suggestions")
+    # (a) DOM: any footer button/span whose text is in CTA_WORDS
+    cta = None
+    for phrase in CTA_PHRASES:
+        label = _t(f'.//div[@role="button" and normalize-space(text())="{phrase}"]'
+                   f' | .//span[normalize-space(text())="{phrase}"]')
+        if label:
+            cta = phrase
+            break
+
+    # (b) fallback: look for the first CTA_PHRASE inside raw_block
+    if not cta:
+        m = re.search(r"\b(" + "|".join(map(re.escape, CTA_PHRASES)) + r")\b", raw_block)
+        cta = m.group(1) if m else None
+
+    # ── 5. Enhanced Link Extraction ───────────────────────────────────
+    facebook_domains = {"facebook.com", "fb.com", "facebookw.com", "fb.me", "fb.watch"}
+    all_links = []
+    image_urls = []
+
+    # Extract all <a> tags and <img> tags
+    for element in card.find_elements("xpath", ".//*[self::a or self::img]"):
+        try:
+            if element.tag_name == "a":
+                href = element.get_attribute("href")
+                if href:
+                    parsed = urlparse(href)
+                    if parsed.netloc.replace("www.", "") not in facebook_domains:
+                        all_links.append({
+                            "type": "link",
+                            "url": href,
+                            "text": element.text.strip() if element.text else ""
+                        })
+
+            elif element.tag_name == "img":
+                for attr in ["src", "data-src", "xlink:href"]:
+                    src = element.get_attribute(attr)
+                    if src and src.startswith(("http:", "https:")):
+                        image_urls.append(src)
+                        break
+        except StaleElementReferenceException:
+            continue
+
+    # ── 6. Build record ───────────────────────────────────────────────
+    return {
+        "status": status,
+        "library_id": library_id,
+        "started": started_raw,
+        "page": page_name,
+        "primary_text": primary_text,
+        "cta": cta,
+        "links": all_links,          # All non-Facebook links
+        "image_urls": image_urls,     # All image URLs
+        # "raw_text": raw_block,
+    }

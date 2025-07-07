@@ -162,8 +162,8 @@ class SuggestionsScrapingRequest(BaseModel):
     scrape_advertiser_ads: bool = Field(
         default=False, description="Also scrape ads from each advertiser found in suggestions"
     )
-    max_scrolls: int = Field(
-        default=10, description="Maximum number of scrolls when scraping advertiser ads", gt=0, le=50
+    advertiser_ads_limit: int = Field(
+        default=100, description="Maximum number of ads to extract per advertiser page", gt=0, le=1000
     )
 
     @validator('target_pairs')
@@ -270,6 +270,29 @@ class PageScrapingRequest(BaseModel):
 
     class Config:
         extra = "forbid"  # Reject unknown fields
+
+class PostsScrapingRequest(BaseModel):
+    links: List[str] = Field(
+        description="List of Facebook post URLs to scrape"
+    )
+
+    @validator('links')
+    def validate_links(cls, v):
+        if not v or len(v) == 0:
+            raise ValueError("At least one post URL is required")
+        if len(v) > 50:
+            raise ValueError("Maximum 50 post URLs allowed")
+        for url in v:
+            if not isinstance(url, str) or not url.strip():
+                raise ValueError("All URLs must be non-empty strings")
+            if not (url.startswith('http://') or url.startswith('https://')):
+                raise ValueError("All URLs must start with http:// or https://")
+            if 'facebook.com' not in url.lower():
+                raise ValueError("All URLs must be Facebook post URLs")
+        return v
+
+    class Config:
+        extra = "forbid"
 
 # Response models
 class ScrapingResponse(BaseModel):
@@ -668,7 +691,7 @@ def run_suggestions_scraper(job_id: str, request_data: SuggestionsScrapingReques
             target_pairs=request_data.target_pairs,
             scrape_advertiser_ads=request_data.scrape_advertiser_ads,
             headless=request_data.headless,
-            max_scrolls=request_data.max_scrolls
+            advertiser_ads_limit=request_data.advertiser_ads_limit
         ))
 
         # Update job status
@@ -686,6 +709,84 @@ def run_suggestions_scraper(job_id: str, request_data: SuggestionsScrapingReques
             "error": error_msg,
             "started_at": active_jobs.get(job_id, {}).get("started_at", datetime.now().isoformat())
         }
+
+def run_posts_scraper(job_id: str, request_data: PostsScrapingRequest):
+    """Run posts scraper in background"""
+    process = None
+    stdout_text = ""
+    stderr_text = ""
+
+    try:
+        active_jobs[job_id] = {"status": "running", "type": "posts", "started_at": datetime.now().isoformat()}
+
+        # Create environment variables with default settings and always use proxy
+        env = dict(os.environ)
+        env.update({
+            "LINKS": json.dumps(request_data.links),
+            "APPEND_RESULTS": "false",  # Always create new numbered files
+            "USE_PROXY": "true",        # Always use proxy
+            "PROXY_ENDPOINT": "http://250621Ev04e-resi_region-US_California:5PjDM1IoS0JSr2c@ca.proxy-jet.io:1010",
+            "TIMEOUT": "15",            # Default timeout
+            "MAX_RETRIES": "3"          # Default retries
+        })
+
+        # Create command to run the scraper
+        cmd = [sys.executable, "posts_scraper.py"]
+
+        # Use regular subprocess instead of asyncio subprocess (Windows compatibility)
+        process = subprocess.run(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            env=env,
+            text=True,  # Automatically decode output as text
+            cwd=os.getcwd()  # Ensure correct working directory
+        )
+
+        stdout_text = process.stdout if process.stdout else ""
+        stderr_text = process.stderr if process.stderr else ""
+
+        # Log the output for debugging
+        logger.info(f"Job {job_id} - Process return code: {process.returncode}")
+        if stdout_text:
+            logger.info(f"Job {job_id} - STDOUT: {stdout_text[:500]}...")
+        if stderr_text:
+            logger.error(f"Job {job_id} - STDERR: {stderr_text[:500]}...")
+
+        # Update job status based on process result
+        if process.returncode == 0:
+            active_jobs[job_id]["status"] = "completed"
+            active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
+            logger.info(f"Job {job_id} completed successfully")
+        else:
+            active_jobs[job_id]["status"] = "failed"
+            active_jobs[job_id]["error"] = stderr_text
+            logger.error(f"Job {job_id} failed with return code {process.returncode}")
+
+    except Exception as e:
+        error_msg = f"Job {job_id} failed with exception: {str(e)}"
+        logger.error(error_msg)
+        logger.error(traceback.format_exc())
+        active_jobs[job_id] = {
+            "status": "failed",
+            "error": error_msg,
+            "started_at": active_jobs.get(job_id, {}).get("started_at", datetime.now().isoformat())
+        }
+
+    # Final status check
+    if process and process.returncode == 0:
+        active_jobs[job_id]["status"] = "completed"
+        active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
+        if stdout_text:
+            active_jobs[job_id]["output"] = stdout_text
+        output_files = list(RESULTS_DIR.glob("*posts*.json")) + list(RESULTS_DIR.glob("results_*.json"))
+        if output_files:
+            active_jobs[job_id]["output_files"] = [str(f) for f in output_files]
+    elif process:
+        active_jobs[job_id]["status"] = "failed"
+        active_jobs[job_id]["error"] = stderr_text if stderr_text else "Process failed with no error output"
+        active_jobs[job_id]["stdout"] = stdout_text
+        active_jobs[job_id]["return_code"] = process.returncode
 
 # API Endpoints
 
@@ -806,6 +907,34 @@ async def start_suggestions_scraping(
 
     except Exception as e:
         logger.error(f"Error starting suggestions scraping: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/scrape/posts", response_model=ScrapingResponse)
+async def start_posts_scraping(
+    background_tasks: BackgroundTasks,
+    request_data: PostsScrapingRequest = Body(...)
+):
+    """
+    Start Facebook posts scraping job
+    """
+    try:
+        job_id = generate_job_id()
+
+        # Add background task
+        background_tasks.add_task(run_posts_scraper, job_id, request_data)
+
+        logger.info(f"Started posts scraping job: {job_id}")
+
+        return ScrapingResponse(
+            success=True,
+            message="Posts scraping job started successfully",
+            job_id=job_id,
+            status="running",
+            timestamp=datetime.now().isoformat()
+        )
+
+    except Exception as e:
+        logger.error(f"Error starting posts scraping: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 # GET endpoints to retrieve data from JSON files
@@ -1015,6 +1144,48 @@ async def get_advertiser_ads_data():
         logger.error(f"Error retrieving advertiser ads data: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/data/posts", response_model=DataResponse)
+async def get_posts_data():
+    """
+    Get posts data from JSON files
+    """
+    try:
+        data_files = []
+        # Look for posts files and general results files
+        posts_files = list(RESULTS_DIR.glob("*posts*.json")) + list(RESULTS_DIR.glob("results_*.json"))
+
+        all_data = []
+        for file_path in posts_files:
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    file_data = json.load(f)
+                    if isinstance(file_data, list):
+                        all_data.extend([item if isinstance(item, dict) else {"data": item} for item in file_data])
+                    else:
+                        all_data.append(file_data if isinstance(file_data, dict) else {"data": file_data})
+                data_files.append({
+                    "file": file_path.name,
+                    "size": file_path.stat().st_size,
+                    "modified": datetime.fromtimestamp(file_path.stat().st_mtime).isoformat()
+                })
+            except Exception as e:
+                logger.error(f"Error reading {file_path}: {e}")
+
+        return DataResponse(
+            success=True,
+            data=all_data,
+            file_info={
+                "total_files": len(data_files),
+                "total_records": len(all_data),
+                "files": data_files
+            },
+            timestamp=datetime.now().isoformat()
+        )
+
+    except Exception as e:
+        logger.error(f"Error retrieving posts data: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/jobs/{job_id}")
 async def get_job_status(job_id: str):
     """
@@ -1050,12 +1221,17 @@ async def get_status():
         "scraping_endpoints": [
             "POST /scrape/ads",
             "POST /scrape/advertisers",
-            "POST /scrape/pages"
+            "POST /scrape/pages",
+            "POST /scrape/suggestions",
+            "POST /scrape/posts"
         ],
         "data_endpoints": [
             "GET /data/ads",
             "GET /data/advertisers",
-            "GET /data/pages"
+            "GET /data/pages",
+            "GET /data/suggestions",
+            "GET /data/advertiser-ads",
+            "GET /data/posts"
         ],
         "active_jobs": len(active_jobs),
         "timestamp": datetime.now().isoformat()
