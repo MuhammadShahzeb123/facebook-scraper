@@ -67,15 +67,14 @@ RESULTS_DIR.mkdir(exist_ok=True)
 
 # Pydantic models for request bodies
 class AdsScrapingRequest(BaseModel):
-    mode: Literal["ads", "suggestions", "ads_and_suggestions"] = Field(default="ads", description="Scraping mode")
     headless: bool = Field(default=True, description="Run browser in headless mode")
-    ads_limit: int = Field(default=1000, description="Maximum number of ads to extract", gt=0, le=5000)
+    max_scrolls: int = Field(default=10, description="Maximum number of scrolls to prevent infinite scrolling", gt=0, le=50)
     target_pairs: List[List[str]] = Field(
         default=[["Thailand", "properties"]],
         description="List of [country, keyword] pairs"
     )
 
-    # New advanced filtering parameters
+    # Advanced filtering parameters
     ad_category: Literal["all", "issues", "properties", "employment", "financial"] = Field(
         default="all", description="Ad category filter"
     )
@@ -150,6 +149,35 @@ class AdsScrapingRequest(BaseModel):
                 raise ValueError("Invalid date - please use YYYY-MM-DD format")
         # Return None for empty/invalid strings to make them optional
         return v if v and v.strip() and v.lower() != "string" else None
+
+    class Config:
+        extra = "forbid"
+
+class SuggestionsScrapingRequest(BaseModel):
+    headless: bool = Field(default=True, description="Run browser in headless mode")
+    target_pairs: List[List[str]] = Field(
+        default=[["Thailand", "properties"]],
+        description="List of [country, keyword] pairs"
+    )
+    scrape_advertiser_ads: bool = Field(
+        default=False, description="Also scrape ads from each advertiser found in suggestions"
+    )
+    max_scrolls: int = Field(
+        default=10, description="Maximum number of scrolls when scraping advertiser ads", gt=0, le=50
+    )
+
+    @validator('target_pairs')
+    def validate_target_pairs(cls, v):
+        if not v or len(v) == 0:
+            raise ValueError("At least one target pair is required")
+        if len(v) > 20:
+            raise ValueError("Maximum 20 target pairs allowed")
+        for i, pair in enumerate(v):
+            if not isinstance(pair, list) or len(pair) != 2:
+                raise ValueError(f"Target pair {i+1} must be a list with exactly 2 elements [country, keyword], e.g., ['Thailand', 'properties']")
+            if not all(isinstance(item, str) and item.strip() and item.lower() != "string" for item in pair):
+                raise ValueError(f"Target pair {i+1}: Both country and keyword must be non-empty strings (not 'string'), e.g., ['Thailand', 'properties']")
+        return v
 
     class Config:
         extra = "forbid"
@@ -369,13 +397,17 @@ async def rate_limit_middleware(request: Request, call_next):
 # Async functions to run scrapers
 def run_ads_scraper(job_id: str, request_data: AdsScrapingRequest):
     """Run ads scraper in background"""
+    process = None
+    stdout_text = ""
+    stderr_text = ""
+
     try:
         active_jobs[job_id] = {"status": "running", "type": "ads", "started_at": datetime.now().isoformat()}
 
         # Create environment variables for all parameters
         env = dict(os.environ)
         env.update({
-            "MODE": request_data.mode,
+            "MODE": "ads",  # Always set to ads mode
             "HEADLESS": str(request_data.headless),
             "ADS_LIMIT": str(request_data.ads_limit),
             "TARGET_PAIRS": json.dumps(request_data.target_pairs),
@@ -434,31 +466,20 @@ def run_ads_scraper(job_id: str, request_data: AdsScrapingRequest):
             "started_at": active_jobs.get(job_id, {}).get("started_at", datetime.now().isoformat())
         }
 
-        # Check process result - return code takes priority
-        if process.returncode == 0:
-            active_jobs[job_id]["status"] = "completed"
-            active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
-            # Store stdout for successful jobs
-            if stdout_text:
-                active_jobs[job_id]["output"] = stdout_text
-            # Also check if output files exist
-            output_files = list(RESULTS_DIR.glob("ads*.json"))
-            if output_files:
-                active_jobs[job_id]["output_files"] = [str(f) for f in output_files]
-        else:
-            active_jobs[job_id]["status"] = "failed"
-            active_jobs[job_id]["error"] = stderr_text if stderr_text else "Process failed with no error output"
-            active_jobs[job_id]["stdout"] = stdout_text
-            active_jobs[job_id]["return_code"] = process.returncode
-    except ValueError as e:
-        logger.error(f"Job {job_id} - ValueError: {str(e)}")
+    # Final status check
+    if process and process.returncode == 0:
+        active_jobs[job_id]["status"] = "completed"
+        active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
+        if stdout_text:
+            active_jobs[job_id]["output"] = stdout_text
+        output_files = list(RESULTS_DIR.glob("ads*.json"))
+        if output_files:
+            active_jobs[job_id]["output_files"] = [str(f) for f in output_files]
+    elif process:
         active_jobs[job_id]["status"] = "failed"
-        active_jobs[job_id]["error"] = str(e)
-    except Exception as e:
-        logger.error(f"Job {job_id} - Exception: {str(e)}")
-        logger.error(f"Job {job_id} - Traceback: {traceback.format_exc()}")
-        active_jobs[job_id]["status"] = "failed"
-        active_jobs[job_id]["error"] = str(e)
+        active_jobs[job_id]["error"] = stderr_text if stderr_text else "Process failed with no error output"
+        active_jobs[job_id]["stdout"] = stdout_text
+        active_jobs[job_id]["return_code"] = process.returncode
 
 def run_advertiser_scraper(job_id: str, request_data: AdvertiserScrapingRequest):
     """Run advertiser scraper in background"""
@@ -631,6 +652,41 @@ def run_pages_scraper(job_id: str, request_data: PageScrapingRequest):
         active_jobs[job_id]["status"] = "failed"
         active_jobs[job_id]["error"] = str(e)
 
+def run_suggestions_scraper(job_id: str, request_data: SuggestionsScrapingRequest):
+    """Run suggestions scraper in background"""
+    try:
+        active_jobs[job_id] = {"status": "running", "type": "suggestions", "started_at": datetime.now().isoformat()}
+
+        # Import and use the suggestions scraper directly
+        from suggestions_scraper_api import SuggestionsScraperAPI
+
+        scraper = SuggestionsScraperAPI()
+
+        # Use asyncio.run to handle the async function
+        import asyncio
+        result = asyncio.run(scraper.scrape_suggestions(
+            target_pairs=request_data.target_pairs,
+            scrape_advertiser_ads=request_data.scrape_advertiser_ads,
+            headless=request_data.headless,
+            max_scrolls=request_data.max_scrolls
+        ))
+
+        # Update job status
+        active_jobs[job_id]["status"] = "completed"
+        active_jobs[job_id]["completed_at"] = datetime.now().isoformat()
+        active_jobs[job_id]["results"] = result
+        logger.info(f"Suggestions job {job_id} completed successfully")
+
+    except Exception as e:
+        error_msg = f"Suggestions job {job_id} failed with exception: {str(e)}"
+        logger.error(error_msg)
+        logger.error(traceback.format_exc())
+        active_jobs[job_id] = {
+            "status": "failed",
+            "error": error_msg,
+            "started_at": active_jobs.get(job_id, {}).get("started_at", datetime.now().isoformat())
+        }
+
 # API Endpoints
 
 @app.get("/health")
@@ -646,7 +702,7 @@ async def start_ads_scraping(
     request_data: AdsScrapingRequest = Body(...)
 ):
     """
-    Start ads and suggestions scraping job
+    Start ads scraping job
     """
     try:
         job_id = generate_job_id()
@@ -722,6 +778,34 @@ async def start_pages_scraping(
 
     except Exception as e:
         logger.error(f"Error starting pages scraping: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/scrape/suggestions", response_model=ScrapingResponse)
+async def start_suggestions_scraping(
+    background_tasks: BackgroundTasks,
+    request_data: SuggestionsScrapingRequest = Body(...)
+):
+    """
+    Start suggestions scraping job
+    """
+    try:
+        job_id = generate_job_id()
+
+        # Add background task
+        background_tasks.add_task(run_suggestions_scraper, job_id, request_data)
+
+        logger.info(f"Started suggestions scraping job: {job_id}")
+
+        return ScrapingResponse(
+            success=True,
+            message="Suggestions scraping job started successfully",
+            job_id=job_id,
+            status="running",
+            timestamp=datetime.now().isoformat()
+        )
+
+    except Exception as e:
+        logger.error(f"Error starting suggestions scraping: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 # GET endpoints to retrieve data from JSON files
@@ -808,6 +892,47 @@ async def get_advertisers_data():
         logger.error(f"Error retrieving advertisers data: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/data/suggestions", response_model=DataResponse)
+async def get_suggestions_data():
+    """
+    Get suggestions data from JSON files
+    """
+    try:
+        data_files = []
+        suggestions_files = list(RESULTS_DIR.glob("suggestions*.json"))
+
+        all_data = []
+        for file_path in suggestions_files:
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    file_data = json.load(f)
+                    if isinstance(file_data, list):
+                        all_data.extend([item if isinstance(item, dict) else {"data": item} for item in file_data])
+                    else:
+                        all_data.append(file_data if isinstance(file_data, dict) else {"data": file_data})
+                data_files.append({
+                    "file": file_path.name,
+                    "size": file_path.stat().st_size,
+                    "modified": datetime.fromtimestamp(file_path.stat().st_mtime).isoformat()
+                })
+            except Exception as e:
+                logger.error(f"Error reading {file_path}: {e}")
+
+        return DataResponse(
+            success=True,
+            data=all_data,
+            file_info={
+                "total_files": len(data_files),
+                "total_records": len(all_data),
+                "files": data_files
+            },
+            timestamp=datetime.now().isoformat()
+        )
+
+    except Exception as e:
+        logger.error(f"Error retrieving suggestions data: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/data/pages", response_model=DataResponse)
 async def get_pages_data():
     """
@@ -815,7 +940,7 @@ async def get_pages_data():
     """
     try:
         data_files = []
-        pages_files = list(RESULTS_DIR.glob("all_pages*.json"))
+        pages_files = list(RESULTS_DIR.glob("pages*.json"))
 
         all_data = []
         for file_path in pages_files:
@@ -823,9 +948,9 @@ async def get_pages_data():
                 with open(file_path, 'r', encoding='utf-8') as f:
                     file_data = json.load(f)
                     if isinstance(file_data, list):
-                        all_data.extend(file_data)
+                        all_data.extend([item if isinstance(item, dict) else {"data": item} for item in file_data])
                     else:
-                        all_data.append(file_data)
+                        all_data.append(file_data if isinstance(file_data, dict) else {"data": file_data})
                 data_files.append({
                     "file": file_path.name,
                     "size": file_path.stat().st_size,
@@ -847,6 +972,47 @@ async def get_pages_data():
 
     except Exception as e:
         logger.error(f"Error retrieving pages data: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/data/advertiser-ads", response_model=DataResponse)
+async def get_advertiser_ads_data():
+    """
+    Get advertiser ads data from JSON files
+    """
+    try:
+        data_files = []
+        advertiser_ads_files = list(RESULTS_DIR.glob("advertiser_ads*.json"))
+
+        all_data = []
+        for file_path in advertiser_ads_files:
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    file_data = json.load(f)
+                    if isinstance(file_data, list):
+                        all_data.extend([item if isinstance(item, dict) else {"data": item} for item in file_data])
+                    else:
+                        all_data.append(file_data if isinstance(file_data, dict) else {"data": file_data})
+                data_files.append({
+                    "file": file_path.name,
+                    "size": file_path.stat().st_size,
+                    "modified": datetime.fromtimestamp(file_path.stat().st_mtime).isoformat()
+                })
+            except Exception as e:
+                logger.error(f"Error reading {file_path}: {e}")
+
+        return DataResponse(
+            success=True,
+            data=all_data,
+            file_info={
+                "total_files": len(data_files),
+                "total_records": len(all_data),
+                "files": data_files
+            },
+            timestamp=datetime.now().isoformat()
+        )
+
+    except Exception as e:
+        logger.error(f"Error retrieving advertiser ads data: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/jobs/{job_id}")

@@ -10,6 +10,11 @@
 #                           → collect suggestions first, THEN press <Enter>
 #                             and scrape ads – all in one pass per pair.
 #
+# • Set SCRAPE_ADVERTISER_ADS to True to additionally scrape ads from each
+#   advertiser page found in suggestions (only works with MODE="suggestions").
+#   This will visit each advertiser's page and scrape their ads using the
+#   same filters and limits as the main scraping.
+#
 # • All (country, keyword) pairs live in TARGET_PAIRS (or targets.csv).
 #
 # • Each run writes a *single* JSON file whose name is derived from MODE:
@@ -22,7 +27,7 @@
 #         "country":      "...",
 #         "keyword":      "...",
 #         "suggestions": [ … ],     # absent if MODE=="ads"
-#         "ads":          [ … ]      # absent if MODE=="suggestions"
+#         "ads":          [ … ]      # absent if MODE=="suggestions" (unless SCRAPE_ADVERTISER_ADS=True)
 #       }
 #
 # ── NEW IN 1.1 ────────────────────────────────────────────────────────────
@@ -71,8 +76,8 @@ from selenium.common.exceptions import (   # type: ignore
 
 # ── USER‑EDITABLE SETTINGS ────────────────────────────────────────────────
 # These can be overridden by environment variables or command line args
-MODE = os.getenv("MODE", "ads")        #  "ads" | "suggestions" | "ads_and_suggestions" | "suggestions_with_ads"
-HEADLESS = os.getenv("HEADLESS", "False").lower() == "true"      #  set False for visual debugging
+MODE = os.getenv("MODE", "suggestions")        #  "ads" | "suggestions" | "ads_and_suggestions"
+HEADLESS = os.getenv("HEADLESS", "True").lower() == "true"      #  set False for visual debugging
 
 # ── NEW CONFIGURATION OPTIONS (all optional) ─────────────────────────────
 AD_CATEGORY = os.getenv("AD_CATEGORY", "all")           # Please check for Ad Categories and then put them here
@@ -83,7 +88,11 @@ MEDIA_TYPE  = os.getenv("MEDIA_TYPE", "all")           # "all", "image", "video"
 START_DATE  = os.getenv("START_DATE") or None            # "YYYY‑MM‑DD"  – no minimum if None
 END_DATE    = os.getenv("END_DATE") or None            # "YYYY‑MM‑DD"  – no maximum if None
 
-MAX_SCROLLS = int(os.getenv("MAX_SCROLLS", "10"))             #  Maximum number of scrolls to prevent infinite scrolling
+ADS_LIMIT   = int(os.getenv("ADS_LIMIT", "1000"))            #  Maximum number of ads to extract per pair
+
+# ── ADVERTISER ADS SCRAPING OPTION ───────────────────────────────────────
+SCRAPE_ADVERTISER_ADS = os.getenv("SCRAPE_ADVERTISER_ADS", "True").lower() == "true"  # True → scrape ads from each advertiser page found in suggestions
+ADVERTISER_ADS_LIMIT = int(os.getenv("ADVERTISER_ADS_LIMIT", "100"))    # Maximum number of ads to extract per advertiser page
 
 ####### ============================ IMPORTANT ========================= ####### !!!!!
 APPEND      = os.getenv("APPEND", "True").lower() == "true"            #  True → append to existing file, False → numbered files
@@ -151,6 +160,120 @@ ABS_CARD_PREFIX = (
     "/html/body/div[1]/div/div/div/div/div/div/div[1]/div/div/div"
     "/div[5]/div[2]/div[2]/div[4]/div[1]"
 )
+
+def _extract_page_id_from_suggestion(suggestion: Dict[str, Any]) -> str | None:
+    """Extract page_id from suggestion, handling both direct pageID and quoted formats."""
+    page_id = suggestion.get("page_id", "")
+    
+    # Handle pageID:123456 format
+    if page_id.startswith("pageID:"):
+        return page_id.split(":", 1)[1]
+    
+    # Handle quoted format like "properties" - skip this as it's not a real page
+    if page_id.startswith('"') and page_id.endswith('"'):
+        return None
+    
+    # If it's already a numeric ID, return it
+    if page_id.isdigit():
+        return page_id
+    
+    return None
+
+
+def _build_advertiser_url(country: str, page_id: str) -> str:
+    """Build URL for advertiser's ads page."""
+    # Map country names to country codes (add more as needed)
+    country_code_map = {
+        "Thailand": "TH",
+        "United States": "US",
+        "United Kingdom": "GB",
+        "Canada": "CA",
+        "Australia": "AU",
+        "Germany": "DE",
+        "France": "FR",
+        "Italy": "IT",
+        "Spain": "ES",
+        "Netherlands": "NL",
+        "Belgium": "BE",
+        "Sweden": "SE",
+        "Norway": "NO",
+        "Denmark": "DK",
+        "Finland": "FI",
+        "Poland": "PL",
+        "Czech Republic": "CZ",
+        "Hungary": "HU",
+        "Austria": "AT",
+        "Switzerland": "CH",
+        "Ireland": "IE",
+        "Portugal": "PT",
+        "Greece": "GR",
+        "Turkey": "TR",
+        "India": "IN",
+        "Japan": "JP",
+        "South Korea": "KR",
+        "Singapore": "SG",
+        "Malaysia": "MY",
+        "Indonesia": "ID",
+        "Philippines": "PH",
+        "Vietnam": "VN",
+        "Brazil": "BR",
+        "Mexico": "MX",
+        "Argentina": "AR",
+        "Chile": "CL",
+        "Colombia": "CO",
+        "South Africa": "ZA",
+        "Egypt": "EG",
+        "Nigeria": "NG",
+        "Kenya": "KE",
+        "Morocco": "MA",
+        "Israel": "IL",
+        "United Arab Emirates": "AE",
+        "Saudi Arabia": "SA",
+        "Russia": "RU",
+        "Ukraine": "UA",
+        "China": "CN",
+        "Taiwan": "TW",
+        "Hong Kong": "HK",
+        "New Zealand": "NZ",
+    }
+    
+    # Get country code, fallback to country name if not found
+    country_code = country_code_map.get(country, country)
+    
+    # Build the URL
+    return (
+        f"https://www.facebook.com/ads/library/"
+        f"?active_status=active&ad_type=all&country=ALL"
+        f"&is_targeted_country=false&media_type=all"
+        f"&search_type=page&view_all_page_id={page_id}"
+    )
+
+
+def extract_advertiser_ads(sb: SB, country: str, page_id: str, advertiser_name: str, limit: int = None) -> List[Dict[str, Any]]:
+    """Extract ads from a specific advertiser's page."""
+    print(f"[INFO] Scraping ads from advertiser: {advertiser_name} (Page ID: {page_id})")
+    
+    # Build and navigate to advertiser URL
+    advertiser_url = _build_advertiser_url(country, page_id)
+    
+    # Apply filters to the URL
+    filtered_url = _apply_filters_to_url(advertiser_url)
+    
+    print(f"[INFO] Navigating to: {filtered_url}")
+    sb.open(filtered_url)
+    sb.sleep(5)
+    
+    # Extract ads using the existing logic (with infinite scroll)
+    ads = extract_ads(sb, limit=limit)
+    
+    # Add advertiser info to each ad
+    for ad in ads:
+        ad["scraped_from_advertiser"] = advertiser_name
+        ad["advertiser_page_id"] = page_id
+    
+    print(f"[INFO] Found {len(ads)} ads from advertiser: {advertiser_name}")
+    return ads
+
 
 # ═════════════════════════════════ HELPERS ════════════════════════════════
 
@@ -602,7 +725,7 @@ def _detect_card_prefix(sb: SB) -> str | None:
     return None                                            # nothing matched
 # ──────────────────────────────────────────────────────────────────────
 def extract_ads(sb: SB, limit: int = None) -> List[Dict[str, Any]]:
-    """Find the right prefix, scroll once, then walk /div[n]/div and parse."""
+    """Find the right prefix, scroll until no new ads are discovered, then parse all ads."""
     ads: List[Dict[str, Any]] = []
 
     # make sure Facebook injected the grid: a tiny scroll usually does it
@@ -616,6 +739,52 @@ def extract_ads(sb: SB, limit: int = None) -> List[Dict[str, Any]]:
     # guarantee first card is present before iterating
     sb.wait_for_element_visible(f"{prefix}/div[1]/div", by="xpath", timeout=15)
 
+    # Keep scrolling until no new ads are discovered
+    previous_count = 0
+    no_new_ads_count = 0
+    max_attempts = 5  # Stop after 5 attempts with no new ads
+    
+    print("[INFO] Starting infinite scroll to discover all ads...")
+    
+    while True:
+        # Count current ads
+        current_count = 0
+        n = 1
+        while True:
+            xpath = f"{prefix}/div[{n}]/div"
+            try:
+                sb.driver.find_element("xpath", xpath)
+                current_count += 1
+                n += 1
+            except NoSuchElementException:
+                break
+        
+        print(f"[INFO] Found {current_count} ads after scroll (was {previous_count})")
+        
+        # Check if we found new ads
+        if current_count > previous_count:
+            previous_count = current_count
+            no_new_ads_count = 0
+            
+            # Check if we've reached the limit
+            if limit and current_count >= limit:
+                print(f"[INFO] Reached ads limit: {limit}")
+                break
+        else:
+            no_new_ads_count += 1
+            print(f"[INFO] No new ads found (attempt {no_new_ads_count}/{max_attempts})")
+            
+            if no_new_ads_count >= max_attempts:
+                print("[INFO] No new ads discovered after multiple attempts. Stopping scroll.")
+                break
+        
+        # Scroll down to load more ads
+        human_scroll(sb, px=2000)
+        sb.sleep(3)
+    
+    print(f"[INFO] Scrolling complete. Now parsing {current_count} ads...")
+    
+    # Now parse all the ads we found
     n = 1
     while True:
         # Check if we've reached the limit
@@ -630,291 +799,21 @@ def extract_ads(sb: SB, limit: int = None) -> List[Dict[str, Any]]:
             break                                          # end of list
         try:
             ads.append(_parse_card(card_ele))
-        except Exception:
+        except Exception as e:
+            print(f"[WARNING] Failed to parse card {n}: {e}")
             pass                                           # malformed card
         n += 1
-    print(f"[INFO] Found {len(ads)} ads on this page.")
+    
+    print(f"[INFO] Successfully parsed {len(ads)} ads from this page.")
     return ads
-
-############################################################################
-# ─────────────────────────────────────────────────────────────────────────
-# SUPERIOR ADVERTISER SCRAPING FUNCTIONS (from version 2)
-# ─────────────────────────────────────────────────────────────────────────
-
-def _extract_page_id_from_suggestion(suggestion: Dict[str, Any]) -> str | None:
-    """Extract page_id from suggestion, handling both direct pageID and quoted formats."""
-    page_id = suggestion.get("page_id", "")
-
-    # Handle pageID:123456 format
-    if page_id.startswith("pageID:"):
-        return page_id.split(":", 1)[1]
-
-    # Handle quoted format like "properties" - skip this as it's not a real page
-    if page_id.startswith('"') and page_id.endswith('"'):
-        return None
-
-    # If it's already a numeric ID, return it
-    if page_id.isdigit():
-        return page_id
-
-    return None
-
-
-def _build_advertiser_url(country: str, page_id: str) -> str:
-    """Build URL for advertiser's ads page."""
-    # Map country names to country codes (add more as needed)
-    country_code_map = {
-        "Thailand": "TH",
-        "United States": "US",
-        "United Kingdom": "GB",
-        "Canada": "CA",
-        "Australia": "AU",
-        "Germany": "DE",
-        "France": "FR",
-        "Italy": "IT",
-        "Spain": "ES",
-        "Netherlands": "NL",
-        "Belgium": "BE",
-        "Sweden": "SE",
-        "Norway": "NO",
-        "Denmark": "DK",
-        "Finland": "FI",
-        "Poland": "PL",
-        "Czech Republic": "CZ",
-        "Hungary": "HU",
-        "Austria": "AT",
-        "Switzerland": "CH",
-        "Ireland": "IE",
-        "Portugal": "PT",
-        "Greece": "GR",
-        "Turkey": "TR",
-        "India": "IN",
-        "Japan": "JP",
-        "South Korea": "KR",
-        "Singapore": "SG",
-        "Malaysia": "MY",
-        "Indonesia": "ID",
-        "Philippines": "PH",
-        "Vietnam": "VN",
-        "Brazil": "BR",
-        "Mexico": "MX",
-        "Argentina": "AR",
-        "Chile": "CL",
-        "Colombia": "CO",
-        "South Africa": "ZA",
-        "Egypt": "EG",
-        "Nigeria": "NG",
-        "Kenya": "KE",
-        "Morocco": "MA",
-        "Israel": "IL",
-        "United Arab Emirates": "AE",
-        "Saudi Arabia": "SA",
-        "Russia": "RU",
-        "Ukraine": "UA",
-        "China": "CN",
-        "Taiwan": "TW",
-        "Hong Kong": "HK",
-        "New Zealand": "NZ",
-    }
-
-    # Get country code, fallback to country name if not found
-    country_code = country_code_map.get(country, country)
-
-    # Build the URL
-    return (
-        f"https://www.facebook.com/ads/library/"
-        f"?active_status=active&ad_type=all&country=ALL"
-        f"&is_targeted_country=false&media_type=all"
-        f"&search_type=page&view_all_page_id={page_id}"
-    )
-
-
-def extract_advertiser_ads(sb: SB, country: str, page_id: str, advertiser_name: str) -> List[Dict[str, Any]]:
-    """Extract ads from a specific advertiser's page using superior method."""
-    print(f"[INFO] Scraping ads from advertiser: {advertiser_name} (Page ID: {page_id})")
-
-    try:
-        # Build and navigate to advertiser URL
-        advertiser_url = _build_advertiser_url(country, page_id)
-
-        # Apply filters to the URL
-        filtered_url = _apply_filters_to_url(advertiser_url)
-
-        print(f"[INFO] Navigating to: {filtered_url}")
-        sb.open(filtered_url)
-        sb.sleep(5)
-
-        # Extract ads using the existing logic (with improved scrolling)
-        ads = extract_ads_with_infinite_scroll(sb)
-
-        # Add advertiser info to each ad for better tracking
-        for ad in ads:
-            ad["scraped_from_advertiser"] = advertiser_name
-            ad["advertiser_page_id"] = page_id
-
-        print(f"[INFO] Found {len(ads)} ads from advertiser: {advertiser_name}")
-        return ads
-
-    except Exception as e:
-        print(f"[ERROR] Failed to scrape ads for advertiser '{advertiser_name}': {str(e)}")
-        return []
-
-
-def extract_ads_with_infinite_scroll(sb: SB) -> List[Dict[str, Any]]:
-    """Enhanced ad extraction with controlled scroll capability."""
-    ads: List[Dict[str, Any]] = []
-
-    # Initial scroll to trigger ad loading
-    sb.execute_script("window.scrollBy(0, 800);")
-    time.sleep(2)
-
-    prefix = _detect_card_prefix(sb)
-    if not prefix:
-        print("[WARNING] Could not detect ad card prefix")
-        return ads
-
-    try:
-        # Wait for first card to load
-        sb.wait_for_element_visible(f"{prefix}/div[1]/div", by="xpath", timeout=15)
-    except:
-        print("[WARNING] No ads found on page")
-        return ads
-
-    # Keep scrolling and collecting ads until max scrolls reached
-    last_count = 0
-    no_change_iterations = 0
-    max_no_change = 3  # Stop if no new ads found after 3 scroll attempts
-    max_scrolls = MAX_SCROLLS  # Use configurable maximum scrolls to prevent infinite scrolling
-    scroll_count = 0
-
-    while True:
-        # Check if we've reached the scroll limit
-        if scroll_count >= max_scrolls:
-            print(f"[INFO] Reached maximum scroll limit: {max_scrolls}")
-            break
-
-        # Extract current ads
-        current_ads = extract_current_ads(sb, prefix)
-
-        # Add new ads (avoid duplicates by checking library_id)
-        existing_ids = {ad.get("library_id") for ad in ads}
-        new_ads = [ad for ad in current_ads if ad.get("library_id") not in existing_ids]
-        ads.extend(new_ads)
-
-        print(f"[INFO] Scroll {scroll_count + 1}/{max_scrolls}: Found {len(new_ads)} new ads (Total: {len(ads)})")
-
-        # Check if we got new ads
-        if len(ads) == last_count:
-            no_change_iterations += 1
-            if no_change_iterations >= max_no_change:
-                print("[INFO] No more ads found after scrolling")
-                break
-        else:
-            no_change_iterations = 0
-            last_count = len(ads)
-
-        # Scroll down to load more ads
-        sb.execute_script("window.scrollBy(0, 1200);")
-        time.sleep(2)
-        scroll_count += 1
-
-        # Check if we've reached the bottom of the page
-        try:
-            current_scroll = sb.execute_script("return window.pageYOffset;")
-            total_height = sb.execute_script("return document.body.scrollHeight;")
-            window_height = sb.execute_script("return window.innerHeight;")
-
-            if current_scroll + window_height >= total_height - 100:
-                print("[INFO] Reached bottom of page")
-                break
-        except:
-            pass
-
-    print(f"[INFO] Total ads extracted with controlled scroll: {len(ads)} (after {scroll_count} scrolls)")
-    return ads
-
-
-def extract_current_ads(sb: SB, prefix: str) -> List[Dict[str, Any]]:
-    """Extract all currently visible ads from the page."""
-    ads = []
-    n = 1
-
-    while True:
-        xpath = f"{prefix}/div[{n}]/div"
-        try:
-            card_ele = sb.driver.find_element("xpath", xpath)
-            try:
-                ad_data = _parse_card(card_ele)
-                if ad_data:  # Only add if parsing was successful
-                    ads.append(ad_data)
-            except Exception as e:
-                print(f"[DEBUG] Failed to parse card {n}: {str(e)}")
-                pass
-        except NoSuchElementException:
-            # No more cards found
-            break
-
-        n += 1
-
-    return ads
-
-
-def scrape_ads_for_advertiser(sb: SB, advertiser_name: str) -> List[Dict[str, Any]]:
-    """
-    Improved function to scrape ads for a specific advertiser using page_id method.
-    This replaces the old method that was having issues.
-    """
-    print(f"[INFO] Preparing to scrape ads for advertiser: {advertiser_name}")
-
-    # For now, we'll use the search method as a fallback
-    # In the future, this should be enhanced to use page_id extraction
-    try:
-        # Go to ad library home
-        sb.open(AD_LIBRARY_URL)
-        sb.sleep(3)
-
-        # Search for the advertiser
-        KEY_BOX = ('//input[@type="search" and contains(@placeholder,"keyword") '
-                   'and not(@aria-disabled="true")]')
-
-        # Clear any existing search
-        try:
-            search_box = sb.find_element(KEY_BOX, by="xpath")
-            search_box.clear()
-            sb.sleep(1)
-        except:
-            pass
-
-        # Type advertiser name and search
-        safe_type(sb, KEY_BOX, advertiser_name, by="xpath", press_enter=True)
-        sb.sleep(4)
-
-        # Apply filters via URL if needed
-        filtered_url = _apply_filters_to_url(sb.driver.current_url)
-        if filtered_url != sb.driver.current_url:
-            sb.open(filtered_url)
-            sb.sleep(5)
-
-        # Use enhanced extraction with infinite scroll
-        ads = extract_ads_with_infinite_scroll(sb)
-
-        # Filter ads to only include those from the specific advertiser
-        filtered_ads = [ad for ad in ads if _match_page(ad.get("page"), advertiser_name)]
-
-        print(f"[INFO] Found {len(filtered_ads)} ads for advertiser '{advertiser_name}' (from {len(ads)} total)")
-        return filtered_ads
-
-    except Exception as e:
-        print(f"[ERROR] Failed to scrape ads for advertiser '{advertiser_name}': {str(e)}")
-        return []
 
 ############################################################################
 # ═════════════════════════════════ MAIN ══════════════════════════════════
 
 def main():
     pairs = get_target_pairs()
-    if MODE not in {"ads", "suggestions", "ads_and_suggestions", "suggestions_with_ads"}:
-        sys.exit(f"[ERR] MODE must be 'ads', 'suggestions', 'ads_and_suggestions', or 'suggestions_with_ads' (got {MODE!r})")
+    if MODE not in {"ads", "suggestions", "ads_and_suggestions"}:
+        sys.exit(f"[ERR] MODE must be 'ads', 'suggestions' or 'ads_and_suggestions' (got {MODE!r})")
     if not pairs:
         sys.exit("[ERR] No (country, keyword) pairs found.")
 
@@ -997,6 +896,42 @@ def main():
 
             if MODE == "suggestions":
                 suggestions = extract_suggestions(sb, search_term)
+                
+                # If SCRAPE_ADVERTISER_ADS is True, scrape ads from each advertiser page
+                if SCRAPE_ADVERTISER_ADS:
+                    print(f"[INFO] Found {len(suggestions)} suggestions. Starting advertiser ads scraping...")
+                    
+                    for idx, suggestion in enumerate(suggestions, 1):
+                        page_id = _extract_page_id_from_suggestion(suggestion)
+                        if page_id:
+                            try:
+                                advertiser_name = suggestion.get("name", "Unknown")
+                                print(f"[INFO] ({idx}/{len(suggestions)}) Scraping ads from advertiser: {advertiser_name}")
+                                
+                                # Extract ads from this advertiser with specific limit
+                                ads_from_advertiser = extract_advertiser_ads(
+                                    sb, country, page_id, advertiser_name, limit=ADVERTISER_ADS_LIMIT
+                                )
+                                
+                                # Add advertiser ads to the main ads list
+                                ads.extend(ads_from_advertiser)
+                                
+                                print(f"[INFO] Collected {len(ads_from_advertiser)} ads from {advertiser_name}. Total: {len(ads)}")
+                                
+                                # Small delay between advertiser pages
+                                sb.sleep(2)
+                                
+                            except Exception as e:
+                                print(f"[ERROR] Failed to scrape ads from advertiser {suggestion.get('name', 'Unknown')}: {e}")
+                                continue
+                        else:
+                            print(f"[INFO] Skipping suggestion '{suggestion.get('name', 'Unknown')}' - no valid page ID")
+                    
+                    print(f"[INFO] Completed advertiser ads scraping. Total ads collected: {len(ads)}")
+                    
+                    # Go back to main Ad Library page for next pair
+                    sb.open(AD_LIBRARY_URL)
+                    sb.sleep(3)
 
             elif MODE == "ads":
                 safe_type(sb, KEY_BOX, search_term, by="xpath", press_enter=True)
@@ -1008,9 +943,8 @@ def main():
                     sb.open(filtered_url)
                     sb.sleep(5)
 
-                for i in range(SCROLLS):
-                    human_scroll(sb); sb.sleep(2+i*0.5)
-                ads = extract_ads_with_infinite_scroll(sb)
+                # Extract ads with infinite scroll
+                ads = extract_ads(sb, limit=ADS_LIMIT)
 
                 # Filter scraped cards by advertiser
                 if advertiser:
@@ -1030,103 +964,39 @@ def main():
                     sb.open(filtered_url)
                     sb.sleep(5)
 
-                for i in range(SCROLLS):
-                    human_scroll(sb); sb.sleep(2+i*0.5)
-                ads = extract_ads_with_infinite_scroll(sb)                # Filter scraped cards by advertiser
+                # Extract ads with infinite scroll
+                ads = extract_ads(sb, limit=ADS_LIMIT)
+
+                # Filter scraped cards by advertiser
                 if advertiser:
                     before = len(ads)
                     ads = [ad for ad in ads if _match_page(ad.get("page"), advertiser)]
-                    print(f"[INFO] Kept {len(ads)}/{before} ads that belong to \"{advertiser}\".")
-
-            elif MODE == "suggestions_with_ads":
-                # Get suggestions first
-                suggestions = extract_suggestions(sb, search_term)
-                print(f"[INFO] Found {len(suggestions)} suggestions, now scraping ads for each advertiser...")
-
-                # Build the nested structure as specified in context.md
-                nested_suggestions = []
-
-                for idx, suggestion in enumerate(suggestions, 1):
-                    advertiser_name = suggestion.get("name", "").strip()
-                    if not advertiser_name:
-                        continue
-
-                    print(f"[INFO] ({idx}/{len(suggestions)}) Scraping ads for: {advertiser_name}")
-
-                    # Extract page_id from suggestion for better URL building
-                    page_id = _extract_page_id_from_suggestion(suggestion)
-
-                    # Scrape ads for this specific advertiser
-                    try:
-                        if page_id:
-                            # Use the superior page_id method
-                            advertiser_ads = extract_advertiser_ads(sb, country, page_id, advertiser_name)
-                        else:
-                            # Fallback to search method
-                            advertiser_ads = scrape_ads_for_advertiser(sb, advertiser_name)
-
-                        # Build the nested advertiser structure
-                        advertiser_data = {
-                            "advertiser": {
-                                "name": advertiser_name,
-                                "page_id": page_id or suggestion.get("page_id", ""),
-                                "description": suggestion.get("description", ""),
-                                "raw_text": suggestion.get("raw_text", ""),
-                                "ads": advertiser_ads
-                            }
-                        }
-
-                        nested_suggestions.append(advertiser_data)
-                        print(f"[INFO] Found {len(advertiser_ads)} ads for {advertiser_name}")
-
-                    except Exception as e:
-                        print(f"[ERROR] Failed to scrape ads for {advertiser_name}: {str(e)}")
-                        # Still add the advertiser data without ads
-                        advertiser_data = {
-                            "advertiser": {
-                                "name": advertiser_name,
-                                "page_id": page_id or suggestion.get("page_id", ""),
-                                "description": suggestion.get("description", ""),
-                                "raw_text": suggestion.get("raw_text", ""),
-                                "ads": []
-                            }
-                        }
-                        nested_suggestions.append(advertiser_data)
-
-                # Override the suggestions with the nested structure
-                suggestions = nested_suggestions
-                ads = []  # No separate ads array for this mode# Build filter details for this run
+                    print(f"[INFO] Kept {len(ads)}/{before} ads that belong to \"{advertiser}\".")            # Build filter details for this run
             filter_details = {
                 "mode": MODE,
-                "ad_category": AD_CATEGORY,                "status": STATUS,
+                "ad_category": AD_CATEGORY,
+                "status": STATUS,
                 "languages": LANGUAGES,
                 "platforms": PLATFORMS,
                 "media_type": MEDIA_TYPE,
                 "start_date": START_DATE,
                 "end_date": END_DATE,
-                "max_scrolls": MAX_SCROLLS,
+                "ads_limit": ADS_LIMIT,
+                "advertiser_ads_limit": ADVERTISER_ADS_LIMIT,
+                "scrape_advertiser_ads": SCRAPE_ADVERTISER_ADS,
                 "advertiser": advertiser,
                 "timestamp": datetime.now().isoformat()
-            }            # Build and save data immediately
-            if MODE == "suggestions_with_ads":
-                # Use the nested structure as specified in context.md
-                pair_object = {
-                    "keyword": keyword,
-                    "country": country,
-                    "timestamp": datetime.now().isoformat(),
-                    "filters": filter_details,
-                    "suggestions": suggestions  # This is already the nested structure
-                }
-            else:
-                # Use the original structure for other modes
-                pair_object = {
-                    "country": country,
-                    "keyword": keyword,
-                    "advertiser": advertiser,
-                    "filters": filter_details,
-                    **({"suggestions": suggestions} if MODE != "ads" else {}),
-                    **({"ads": ads} if MODE != "suggestions" else {}),
-                }
+            }
+
+            # Build and save data immediately
+            pair_object = {
+                "country":     country,
+                "keyword":     keyword,
+                "advertiser":  advertiser,
+                "filters":     filter_details,
+                **({"suggestions": suggestions} if MODE != "ads" else {}),
+                **({"ads": ads} if MODE != "suggestions" or SCRAPE_ADVERTISER_ADS else {}),
+            }
 
             save_data_immediately(pair_object, MODE)
             print(f"[INFO] Saved data for {country} | {search_term} {'(advertiser)' if advertiser else ''} – Suggestions: {len(suggestions)}, Ads: {len(ads)}")
