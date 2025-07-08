@@ -329,6 +329,65 @@ def _build_advertiser_url(country: str, page_id: str) -> str:
         f"&search_type=page&view_all_page_id={page_id}"
     )
 
+# ── Data saving functionality ─────────────────────────────────────────────
+
+def next_output_path(mode: str = "suggestions") -> Path:
+    """Return output file path based on APPEND setting (hardcoded to True)"""
+    APPEND = True  # Hardcoded append mode
+    
+    if APPEND:
+        return OUTPUT_DIR / f"{mode}.json"
+    else:
+        counter = 1
+        while True:
+            p = OUTPUT_DIR / f"{mode}_{counter:03d}.json"
+            if not p.exists():
+                return p
+            counter += 1
+
+
+def save_data_to_results(data: Dict[str, Any]) -> None:
+    """Save data to Results directory with append functionality"""
+    try:
+        out_file = next_output_path("suggestions")
+        
+        if out_file.exists():
+            try:
+                existing = json.loads(out_file.read_text(encoding="utf-8"))
+                if not isinstance(existing, list):
+                    existing = []
+            except Exception as e:
+                print(f"[WARNING] Error reading existing file {out_file}: {e}, starting fresh")
+                existing = []
+        else:
+            existing = []
+
+        existing.append(data)
+
+        # Save data with UTF-8 encoding
+        out_file.write_text(
+            json.dumps(existing, indent=2, ensure_ascii=False),
+            encoding="utf-8"
+        )
+        print(f"[INFO] Data saved to {out_file}")
+        print(f"[INFO] Total records in file: {len(existing)}")
+
+    except Exception as e:
+        print(f"[ERROR] Failed to save data: {e}")
+        # Try to save to a backup file
+        try:
+            backup_file = OUTPUT_DIR / f"backup_suggestions_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+            backup_file.write_text(
+                json.dumps([data], indent=2, ensure_ascii=False),
+                encoding="utf-8"
+            )
+            print(f"[INFO] Data saved to backup file: {backup_file}")
+        except Exception as backup_error:
+            print(f"[ERROR] Failed to save backup file: {backup_error}")
+
+
+# ── Main scraping functions ───────────────────────────────────────────────
+
 def scrape_suggestions_sync(country: str, keyword: str, scrape_ads: bool = False,
                            advertiser_ads_limit: int = 100, headless: bool = True) -> dict:
     """
@@ -460,20 +519,48 @@ def scrape_suggestions_sync(country: str, keyword: str, scrape_ads: bool = False
             
             print(f"[INFO] Completed advertiser ads scraping. Total ads collected: {len(ads)}")
 
-    # ── Build result object ───────────────────────────────────────────
+    # ── Build nested result object ────────────────────────────────────
+    # Create nested structure: each suggestion with its ads
+    nested_suggestions = []
+    
+    if scrape_ads:
+        # Group ads by advertiser and create nested structure
+        for suggestion in suggestions:
+            suggestion_copy = suggestion.copy()
+            page_id = _extract_page_id_from_suggestion(suggestion)
+            advertiser_name = suggestion.get("name", "Unknown")
+            
+            # Find ads for this specific advertiser
+            advertiser_ads = [ad for ad in ads if ad.get("scraped_from_advertiser") == advertiser_name]
+            
+            # Add ads to the suggestion
+            suggestion_copy["ads"] = advertiser_ads
+            suggestion_copy["ads_count"] = len(advertiser_ads)
+            
+            nested_suggestions.append(suggestion_copy)
+    else:
+        # If not scraping ads, just add empty ads array to each suggestion
+        for suggestion in suggestions:
+            suggestion_copy = suggestion.copy()
+            suggestion_copy["ads"] = []
+            suggestion_copy["ads_count"] = 0
+            nested_suggestions.append(suggestion_copy)
+
     result = {
         "country": country,
         "keyword": keyword,
-        "suggestions": suggestions,
-        "ads": ads if scrape_ads else [],
+        "suggestions": nested_suggestions,
         "timestamp": datetime.now().isoformat(),
         "scrape_advertiser_ads": scrape_ads,
-        "total_suggestions": len(suggestions),
-        "total_ads": len(ads)
+        "total_suggestions": len(nested_suggestions),
+        "total_ads": len(ads) if scrape_ads else 0
     }
 
+    # ── Save data immediately to Results directory ─────────────────────
+    save_data_to_results(result)
+
     print(f"[INFO] Completed scraping for {country} | {keyword}")
-    print(f"[INFO] Results: {len(suggestions)} suggestions, {len(ads)} ads")
+    print(f"[INFO] Results: {len(nested_suggestions)} suggestions, {len(ads) if scrape_ads else 0} ads")
     
     return result
 

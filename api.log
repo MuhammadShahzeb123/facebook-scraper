@@ -1,0 +1,3 @@
+2025-07-08 15:48:46,444 - app - INFO - GET /docs - Status: 200 - Time: 0.00s - IP: 127.0.0.1
+2025-07-08 15:48:46,655 - app - INFO - GET /openapi.json - Status: 200 - Time: 0.03s - IP: 127.0.0.1
+2025-07-08 15:48:53,503 - app - INFO - GET /data/suggestions - Status: 200 - Time: 0.10s - IP: 127.0.0.1
