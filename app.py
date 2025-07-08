@@ -29,8 +29,8 @@ import sys
 
 
 if os.name == "nt":
-    sys.stdout.reconfigure(encoding="utf-8")
-    sys.stderr.reconfigure(encoding="utf-8")
+    sys.stdout.reconfigure(encoding="utf-8") #type: ignore
+    sys.stderr.reconfigure(encoding="utf-8") #type: ignore
 
 # Configure logging
 logging.basicConfig(
@@ -69,6 +69,7 @@ RESULTS_DIR.mkdir(exist_ok=True)
 class AdsScrapingRequest(BaseModel):
     headless: bool = Field(default=True, description="Run browser in headless mode")
     max_scrolls: int = Field(default=10, description="Maximum number of scrolls to prevent infinite scrolling", gt=0, le=50)
+    ads_limit: int = Field(default=1000, description="Maximum number of ads to extract", gt=0, le=1000000)
     target_pairs: List[List[str]] = Field(
         default=[["Thailand", "properties"]],
         description="List of [country, keyword] pairs"
@@ -160,7 +161,7 @@ class SuggestionsScrapingRequest(BaseModel):
         description="List of [country, keyword] pairs"
     )
     scrape_advertiser_ads: bool = Field(
-        default=False, description="Also scrape ads from each advertiser found in suggestions"
+        default=True, description="Also scrape ads from each advertiser found in suggestions"
     )
     advertiser_ads_limit: int = Field(
         default=100, description="Maximum number of ads to extract per advertiser page", gt=0, le=1000
@@ -184,10 +185,43 @@ class SuggestionsScrapingRequest(BaseModel):
 
 class AdvertiserScrapingRequest(BaseModel):
     headless: bool = Field(default=True, description="Run browser in headless mode")
-    ads_limit: int = Field(default=1000, description="Maximum number of ads to extract", gt=0, le=5000)
+    max_scrolls: int = Field(default=10, description="Maximum number of scrolls to prevent infinite scrolling", gt=0, le=50)
+    ads_limit: int = Field(default=1000, description="Maximum number of ads to extract", gt=0, le=1000000)
     target_pairs: List[List[str]] = Field(
         default=[["Ukraine", "rental apartments"], ["United States", "rental properties"]],
         description="List of [country, keyword] pairs"
+    )
+
+    # Advanced filtering parameters
+    ad_category: Literal["all", "issues", "properties", "employment", "financial"] = Field(
+        default="all", description="Ad category filter"
+    )
+    status: Literal["active", "inactive", "all"] = Field(
+        default="active", description="Ad status filter"
+    )
+    languages: List[str] = Field(
+        default=[], description="List of language names or ISO-639-1 codes (e.g. ['English', 'fr', 'thai'])"
+    )
+    platforms: List[Literal["facebook", "instagram", "audience_network", "messenger", "threads"]] = Field(
+        default=[], description="List of platforms to filter by"
+    )
+    media_type: Literal["all", "image", "video", "meme", "image_and_meme", "none"] = Field(
+        default="all", description="Media type filter"
+    )
+    start_date: Optional[str] = Field(
+        default=None, description="Start date in YYYY-MM-DD format"
+    )
+    end_date: Optional[str] = Field(
+        default=None, description="End date in YYYY-MM-DD format"
+    )
+    append_mode: bool = Field(
+        default=True, description="True to append to existing file, False to create numbered files"
+    )
+    advertisers: List[str] = Field(
+        default=[], description="List of specific advertiser names to filter by (leave empty to disable)"
+    )
+    continuation: bool = Field(
+        default=True, description="Continue from previous checkpoint if available"
     )
 
     @validator('target_pairs')
@@ -196,11 +230,11 @@ class AdvertiserScrapingRequest(BaseModel):
             raise ValueError("At least one target pair is required")
         if len(v) > 20:
             raise ValueError("Maximum 20 target pairs allowed")
-        for pair in v:
+        for i, pair in enumerate(v):
             if not isinstance(pair, list) or len(pair) != 2:
-                raise ValueError("Each target pair must be a list with exactly 2 elements [country, keyword]")
-            if not all(isinstance(item, str) and item.strip() for item in pair):
-                raise ValueError("Both country and keyword must be non-empty strings")
+                raise ValueError(f"Target pair {i+1} must be a list with exactly 2 elements [country, keyword], e.g., ['Ukraine', 'rental apartments']")
+            if not all(isinstance(item, str) and item.strip() and item.lower() != "string" for item in pair):
+                raise ValueError(f"Target pair {i+1}: Both country and keyword must be non-empty strings (not 'string'), e.g., ['Ukraine', 'rental apartments']")
         return v
 
     class Config:
@@ -318,7 +352,7 @@ def generate_job_id() -> str:
 # Request tracking for rate limiting
 request_tracker = {}
 
-def rate_limit_check(client_ip: str, limit: int = 10, window: int = 60) -> bool:
+def rate_limit_check(client_ip: str, limit: int = 1000, window: int = 60) -> bool:
     """Simple rate limiting implementation"""
     now = time.time()
     if client_ip not in request_tracker:
@@ -513,8 +547,21 @@ def run_advertiser_scraper(job_id: str, request_data: AdvertiserScrapingRequest)
         temp_config = {
             "ADS_LIMIT": request_data.ads_limit,
             "TARGET_PAIRS": request_data.target_pairs,
-            "HEADLESS": request_data.headless
-        }        # Save temporary config
+            "HEADLESS": request_data.headless,
+            "MAX_SCROLLS": request_data.max_scrolls,
+            "AD_CATEGORY": request_data.ad_category,
+            "STATUS": request_data.status,
+            "LANGUAGES": request_data.languages,
+            "PLATFORMS": request_data.platforms,
+            "MEDIA_TYPE": request_data.media_type,
+            "START_DATE": request_data.start_date,
+            "END_DATE": request_data.end_date,
+            "APPEND": request_data.append_mode,
+            "ADVERTISERS": request_data.advertisers,
+            "CONTINUATION": request_data.continuation
+        }
+
+        # Save temporary config
         temp_config_path = f"temp_advertiser_config_{job_id}.json"
         with open(temp_config_path, 'w', encoding='utf-8') as f:
             json.dump(temp_config, f, ensure_ascii=False, indent=2)
@@ -523,10 +570,23 @@ def run_advertiser_scraper(job_id: str, request_data: AdvertiserScrapingRequest)
         env = {
             "ADS_LIMIT": str(request_data.ads_limit),
             "HEADLESS": str(request_data.headless),
+            "MAX_SCROLLS": str(request_data.max_scrolls),
+            "AD_CATEGORY": request_data.ad_category,
+            "STATUS": request_data.status,
+            "LANGUAGES": json.dumps(request_data.languages),
+            "PLATFORMS": json.dumps(request_data.platforms),
+            "MEDIA_TYPE": request_data.media_type,
+            "START_DATE": request_data.start_date or "",
+            "END_DATE": request_data.end_date or "",
+            "APPEND": str(request_data.append_mode),
+            "ADVERTISERS": json.dumps(request_data.advertisers),
+            "CONTINUATION": str(request_data.continuation),
             **dict(os.environ)
         }
 
-        cmd = [sys.executable, "facebook_advertiser_ads.py", "--config", temp_config_path]        # Use regular subprocess instead of asyncio subprocess (Windows compatibility)
+        cmd = [sys.executable, "facebook_advertiser_ads.py", "--config", temp_config_path]
+
+        # Use regular subprocess instead of asyncio subprocess (Windows compatibility)
         process = subprocess.run(
             cmd,
             stdout=subprocess.PIPE,
@@ -576,7 +636,6 @@ def run_advertiser_scraper(job_id: str, request_data: AdvertiserScrapingRequest)
         logger.error(f"Job {job_id} - Exception: {str(e)}")
         logger.error(f"Job {job_id} - Traceback: {traceback.format_exc()}")
         active_jobs[job_id]["status"] = "failed"
-        active_jobs[job_id]["error"] = str(e)
         active_jobs[job_id]["error"] = str(e)
 
 def run_pages_scraper(job_id: str, request_data: PageScrapingRequest):
@@ -939,12 +998,33 @@ async def start_posts_scraping(
 
 # GET endpoints to retrieve data from JSON files
 
-@app.get("/data/ads", response_model=DataResponse)
-async def get_ads_data():
+@app.get("/scrape/ads", response_model=DataResponse)
+async def get_ads_data(
+    keyword: str = Query(..., description="Search term for filtering ads by keyword"),
+    category: str = Query(default="all", description="Filter ads by category"),
+    location: str = Query(default="thailand", description="Filter ads by location"),
+    language: str = Query(default="thai", description="Filter ads by language"),
+    advertiser: str = Query(default="all", description="Filter ads by advertiser"),
+    platform: str = Query(default="all", description="Filter ads by platform"),
+    media_type: str = Query(default="all", description="Filter ads by media type"),
+    status: str = Query(default="all", description="Filter ads by status (active/inactive)"),
+    start_date: str = Query(default="June 18, 2018", description="Filter ads from this date"),
+    end_date: str = Query(default="today", description="Filter ads until this date"),
+    limit: int = Query(default=1000, description="Number of results per page", ge=1, le=1000000)
+):
     """
-    Get ads data from JSON files
+    Get ads data with filtering parameters as specified in the PDF
     """
     try:
+        # Convert "today" to current date
+        if end_date.lower() == "today":
+            end_date = datetime.now().strftime("%Y-%m-%d")
+
+        # Convert start_date if needed
+        if start_date == "June 18, 2018":
+            start_date = "2018-06-18"
+
+        # Load and filter ads data from JSON files
         data_files = []
         ads_files = list(RESULTS_DIR.glob("ads*.json"))
 
@@ -954,16 +1034,67 @@ async def get_ads_data():
                 with open(file_path, 'r', encoding='utf-8') as f:
                     file_data = json.load(f)
                     if isinstance(file_data, list):
-                        all_data.extend([item if isinstance(item, dict) else {"data": item} for item in file_data])
+                        # Each item in the list represents a country-keyword pair result
+                        for item in file_data:
+                            if isinstance(item, dict):
+                                # Filter based on keyword (search within country-keyword pairs)
+                                item_keyword = item.get("keyword", "").lower()
+                                if keyword.lower() in item_keyword:
+                                    # Filter ads within this pair
+                                    ads_in_pair = item.get("ads", [])
+                                    filtered_ads = []
+
+                                    for ad in ads_in_pair:
+                                        # Apply filters
+                                        if category != "all" and ad.get("category", "").lower() != category.lower():
+                                            continue
+                                        if location != "thailand" and item.get("country", "").lower() != location.lower():
+                                            continue
+                                        if language != "thai" and not any(lang.lower() == language.lower() for lang in ad.get("languages", [])):
+                                            continue
+                                        if advertiser != "all" and ad.get("page", "").lower() != advertiser.lower():
+                                            continue
+                                        if platform != "all" and not any(plat.lower() == platform.lower() for plat in ad.get("platforms", [])):
+                                            continue
+                                        if media_type != "all" and ad.get("media_type", "").lower() != media_type.lower():
+                                            continue
+                                        if status != "all" and ad.get("status", "").lower() != status.lower():
+                                            continue
+
+                                        # Add to filtered results
+                                        filtered_ads.append(ad)
+
+                                        # Check limit
+                                        if len(all_data) + len(filtered_ads) >= limit:
+                                            break
+
+                                    all_data.extend(filtered_ads)
+
+                                    # Check limit
+                                    if len(all_data) >= limit:
+                                        break
+                            else:
+                                # If it's not a dict, treat it as raw data
+                                all_data.append({"data": item})
                     else:
+                        # If file_data is not a list, add it as is
                         all_data.append(file_data if isinstance(file_data, dict) else {"data": file_data})
+
                 data_files.append({
                     "file": file_path.name,
                     "size": file_path.stat().st_size,
                     "modified": datetime.fromtimestamp(file_path.stat().st_mtime).isoformat()
                 })
+
+                # Check limit
+                if len(all_data) >= limit:
+                    break
+
             except Exception as e:
                 logger.error(f"Error reading {file_path}: {e}")
+
+        # Apply final limit
+        all_data = all_data[:limit]
 
         return DataResponse(
             success=True,
@@ -971,7 +1102,20 @@ async def get_ads_data():
             file_info={
                 "total_files": len(data_files),
                 "total_records": len(all_data),
-                "files": data_files
+                "files": data_files,
+                "filters_applied": {
+                    "keyword": keyword,
+                    "category": category,
+                    "location": location,
+                    "language": language,
+                    "advertiser": advertiser,
+                    "platform": platform,
+                    "media_type": media_type,
+                    "status": status,
+                    "start_date": start_date,
+                    "end_date": end_date,
+                    "limit": limit
+                }
             },
             timestamp=datetime.now().isoformat()
         )
@@ -981,9 +1125,9 @@ async def get_ads_data():
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/data/advertisers", response_model=DataResponse)
-async def get_advertisers_data():
+async def get_advertisers_data_legacy():
     """
-    Get advertisers data from JSON files
+    Get advertisers data from JSON files (legacy endpoint)
     """
     try:
         data_files = []
@@ -1103,73 +1247,159 @@ async def get_pages_data():
         logger.error(f"Error retrieving pages data: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/data/advertiser-ads", response_model=DataResponse)
-async def get_advertiser_ads_data():
-    """
-    Get advertiser ads data from JSON files
-    """
-    try:
-        data_files = []
-        advertiser_ads_files = list(RESULTS_DIR.glob("advertiser_ads*.json"))
-
-        all_data = []
-        for file_path in advertiser_ads_files:
-            try:
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    file_data = json.load(f)
-                    if isinstance(file_data, list):
-                        all_data.extend([item if isinstance(item, dict) else {"data": item} for item in file_data])
-                    else:
-                        all_data.append(file_data if isinstance(file_data, dict) else {"data": file_data})
-                data_files.append({
-                    "file": file_path.name,
-                    "size": file_path.stat().st_size,
-                    "modified": datetime.fromtimestamp(file_path.stat().st_mtime).isoformat()
-                })
-            except Exception as e:
-                logger.error(f"Error reading {file_path}: {e}")
-
-        return DataResponse(
-            success=True,
-            data=all_data,
-            file_info={
-                "total_files": len(data_files),
-                "total_records": len(all_data),
-                "files": data_files
-            },
-            timestamp=datetime.now().isoformat()
-        )
-
-    except Exception as e:
-        logger.error(f"Error retrieving advertiser ads data: {str(e)}")
-        raise HTTPException(status_code=500, detail=str(e))
-
 @app.get("/data/posts", response_model=DataResponse)
-async def get_posts_data():
+async def get_posts_data(
+    links: List[str] = Query(..., description="List of Facebook post URLs to retrieve data for")
+):
     """
-    Get posts data from JSON files
+    Get posts data for specific links from JSON files.
+    If links are not found in existing files, automatically scrape them.
     """
     try:
         data_files = []
-        # Look for posts files and general results files
-        posts_files = list(RESULTS_DIR.glob("*posts*.json")) + list(RESULTS_DIR.glob("results_*.json"))
+        found_data = []
+        missing_links = []
 
-        all_data = []
-        for file_path in posts_files:
+        # Look for results files that contain post data
+        results_files = list(RESULTS_DIR.glob("results_*.json"))
+
+        # Create a mapping of source URLs to their data
+        url_to_data = {}
+
+        # Read all existing result files and map URLs to data
+        for file_path in results_files:
             try:
                 with open(file_path, 'r', encoding='utf-8') as f:
                     file_data = json.load(f)
+
                     if isinstance(file_data, list):
-                        all_data.extend([item if isinstance(item, dict) else {"data": item} for item in file_data])
+                        for item in file_data:
+                            if isinstance(item, dict):
+                                # Try to get source_url from meta or directly from item
+                                source_url = None
+                                if 'meta' in item and isinstance(item['meta'], dict):
+                                    source_url = item['meta'].get('source_url')
+                                if not source_url:
+                                    source_url = item.get('source_url')
+
+                                if source_url:
+                                    url_to_data[source_url] = item
                     else:
-                        all_data.append(file_data if isinstance(file_data, dict) else {"data": file_data})
+                        # Single item file
+                        if isinstance(file_data, dict):
+                            source_url = None
+                            if 'meta' in file_data and isinstance(file_data['meta'], dict):
+                                source_url = file_data['meta'].get('source_url')
+                            if not source_url:
+                                source_url = file_data.get('source_url')
+
+                            if source_url:
+                                url_to_data[source_url] = file_data
+
                 data_files.append({
                     "file": file_path.name,
                     "size": file_path.stat().st_size,
                     "modified": datetime.fromtimestamp(file_path.stat().st_mtime).isoformat()
                 })
+
             except Exception as e:
                 logger.error(f"Error reading {file_path}: {e}")
+
+        # Check which links we have data for and which are missing
+        for link in links:
+            if link in url_to_data:
+                found_data.append(url_to_data[link])
+            else:
+                missing_links.append(link)
+
+        # If we have missing links, scrape them automatically
+        scraped_data = []
+        if missing_links:
+            logger.info(f"Found {len(missing_links)} missing links, starting automatic scraping...")
+
+            try:
+                # Create a scraping request for missing links
+                from fastapi import BackgroundTasks
+
+                # Generate a job ID for the scraping task
+                scrape_job_id = generate_job_id()
+
+                # Create the request data for posts scraping
+                scrape_request = PostsScrapingRequest(links=missing_links)
+
+                # Run the scraper synchronously (wait for completion)
+                run_posts_scraper(scrape_job_id, scrape_request)
+
+                # Wait for the scraping job to complete (poll the job status)
+                import time
+                max_wait_time = 120  # 2 minutes max wait
+                wait_interval = 2  # Check every 2 seconds
+                elapsed_time = 0
+
+                while elapsed_time < max_wait_time:
+                    if scrape_job_id in active_jobs:
+                        job_status = active_jobs[scrape_job_id].get("status")
+                        if job_status == "completed":
+                            logger.info(f"Scraping job {scrape_job_id} completed successfully")
+                            break
+                        elif job_status == "failed":
+                            logger.error(f"Scraping job {scrape_job_id} failed")
+                            break
+
+                    time.sleep(wait_interval)
+                    elapsed_time += wait_interval
+
+                # Try to read the newly scraped data
+                new_results_files = list(RESULTS_DIR.glob("results_*.json"))
+
+                # Find the newest files (created after our scraping started)
+                for file_path in new_results_files:
+                    if file_path not in [f["file"] for f in data_files]:  # New file
+                        try:
+                            with open(file_path, 'r', encoding='utf-8') as f:
+                                file_data = json.load(f)
+
+                                if isinstance(file_data, list):
+                                    for item in file_data:
+                                        if isinstance(item, dict):
+                                            source_url = None
+                                            if 'meta' in item and isinstance(item['meta'], dict):
+                                                source_url = item['meta'].get('source_url')
+                                            if not source_url:
+                                                source_url = item.get('source_url')
+
+                                            if source_url and source_url in missing_links:
+                                                scraped_data.append(item)
+                                else:
+                                    # Single item file
+                                    if isinstance(file_data, dict):
+                                        source_url = None
+                                        if 'meta' in file_data and isinstance(file_data['meta'], dict):
+                                            source_url = file_data['meta'].get('source_url')
+                                        if not source_url:
+                                            source_url = file_data.get('source_url')
+
+                                        if source_url and source_url in missing_links:
+                                            scraped_data.append(file_data)
+
+                        except Exception as e:
+                            logger.error(f"Error reading newly scraped file {file_path}: {e}")
+
+            except Exception as e:
+                logger.error(f"Error during automatic scraping: {e}")
+
+        # Combine found data and newly scraped data
+        all_data = found_data + scraped_data
+
+        # Update data files info to include any new files
+        current_files = list(RESULTS_DIR.glob("results_*.json"))
+        for file_path in current_files:
+            if file_path.name not in [f["file"] for f in data_files]:
+                data_files.append({
+                    "file": file_path.name,
+                    "size": file_path.stat().st_size,
+                    "modified": datetime.fromtimestamp(file_path.stat().st_mtime).isoformat()
+                })
 
         return DataResponse(
             success=True,
@@ -1177,7 +1407,11 @@ async def get_posts_data():
             file_info={
                 "total_files": len(data_files),
                 "total_records": len(all_data),
-                "files": data_files
+                "files": data_files,
+                "requested_links": len(links),
+                "found_in_existing_files": len(found_data),
+                "newly_scraped": len(scraped_data),
+                "missing_links": [link for link in missing_links if link not in [item.get('meta', {}).get('source_url') or item.get('source_url') for item in scraped_data]]
             },
             timestamp=datetime.now().isoformat()
         )
@@ -1236,6 +1470,48 @@ async def get_status():
         "active_jobs": len(active_jobs),
         "timestamp": datetime.now().isoformat()
     }
+
+# Keep the original /data/ads endpoint for backward compatibility
+@app.get("/data/ads", response_model=DataResponse)
+async def get_ads_data_legacy():
+    """
+    Get all ads data from JSON files (legacy endpoint)
+    """
+    try:
+        data_files = []
+        ads_files = list(RESULTS_DIR.glob("ads*.json"))
+
+        all_data = []
+        for file_path in ads_files:
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    file_data = json.load(f)
+                    if isinstance(file_data, list):
+                        all_data.extend([item if isinstance(item, dict) else {"data": item} for item in file_data])
+                    else:
+                        all_data.append(file_data if isinstance(file_data, dict) else {"data": file_data})
+                data_files.append({
+                    "file": file_path.name,
+                    "size": file_path.stat().st_size,
+                    "modified": datetime.fromtimestamp(file_path.stat().st_mtime).isoformat()
+                })
+            except Exception as e:
+                logger.error(f"Error reading {file_path}: {e}")
+
+        return DataResponse(
+            success=True,
+            data=all_data,
+            file_info={
+                "total_files": len(data_files),
+                "total_records": len(all_data),
+                "files": data_files
+            },
+            timestamp=datetime.now().isoformat()
+        )
+
+    except Exception as e:
+        logger.error(f"Error retrieving ads data: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     uvicorn.run(

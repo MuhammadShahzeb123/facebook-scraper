@@ -1,145 +1,125 @@
-# Facebook Scraper Project Context
+# Facebook Scraper API - Context
 
-## MAJOR BUG FIX - RESOLVED ✅
+## Recent Changes (2025-07-08)
 
-### Problem
-The suggestions API was NOT actually scraping ads when `scrape_advertiser_ads: true` was set. It was only returning empty ads arrays, ignoring the user's request to scrape ads for each advertiser.
+### Enhanced Posts Data Endpoint
 
-### Root Cause
-The `suggestions_scraper_api.py` file had placeholder code that printed "Would extract ads from {advertiser_name} here" instead of actually calling the main scraper with the `suggestions_with_ads` mode.
+1. **Updated `/data/posts` endpoint** to accept specific links as query parameters:
+   - **Method**: GET
+   - **Parameters**:
+     - `links` (required): List of Facebook post URLs to retrieve data for
+   - **Functionality**:
+     - Searches through existing `results_*.json` files for posts matching the provided URLs
+     - Automatically scrapes missing links using the `/scrape/posts` endpoint
+     - Returns combined data from existing files and newly scraped posts
+     - Provides detailed metadata about found vs. newly scraped data
 
-### Solution
-- Updated `suggestions_scraper_api.py` to call the main scraper subprocess with `MODE="suggestions_with_ads"` when `scrape_ads=True`
-- The API now properly uses the scroll-only approach (MAX_SCROLLS) instead of ads limits
-- Results are returned in the correct nested JSON structure as specified in the context
+### Fixed Unicode Encoding Issues in Advertiser Scraper
 
-### Changes Made
-1. **Fixed API Logic**: `suggestions_scraper_api.py` now calls main scraper with correct mode
-2. **Removed ADS_LIMIT**: All references to ads limits removed, only MAX_SCROLLS used
-3. **Proper Subprocess Call**: API calls main scraper as subprocess with correct environment variables
-4. **Result Parsing**: API reads the generated JSON file and returns the nested structure
+1. **Fixed Windows Unicode encoding errors in `facebook_advertiser_ads.py`**:
+   - Replaced Unicode characters (`↳`, `→`, `•`, `…`) with ASCII equivalents (`->`, `|`, `...`)
+   - Fixed `UnicodeEncodeError: 'charmap' codec can't encode character` errors on Windows
+   - Ensured compatibility with Windows CP1252 encoding in console output
 
-## Current State - UPDATED ✅
-The project is a comprehensive Facebook Ad Library scraper that can:
-1. Scrape ads from Facebook Ad Library
-2. Extract search suggestions (advertiser suggestions)
-3. Run both operations together
-4. **FIXED**: Scrape suggestions and ads for each advertiser in nested structure via API
+### Fixed Advertiser Scraper Error Handling
 
-## Problem Statement - COMPLETELY RESOLVED ✅
-The current script and API are working properly. The user can now:
+1. **Enhanced error handling in `facebook_advertiser_ads.py`**:
+   - Added try-catch blocks around `extract_cards()` function calls
+   - Added error handling in `_parse_card()` function to prevent crashes from malformed elements
+   - Added error handling in link and image extraction to prevent stale element reference errors
+   - Added graceful handling when no ads are found for a country/keyword pair
 
-1. **Scrape ads suggestions** from Facebook ad library ✅
-2. **For each suggestion (advertiser)**, scrape the advertiser's ads ✅
-3. **Save structured data** in a JSON format with nested structure ✅
-4. **Use API endpoints** to trigger the scraping programmatically ✅
+2. **Updated `AdvertiserScrapingRequest` model** with comprehensive parameters:
+   - Added all parameters from `AdsScrapingRequest` to match PDF specifications
+   - Includes: `max_scrolls`, `ad_category`, `status`, `languages`, `platforms`, `media_type`, `start_date`, `end_date`, `append_mode`, `advertisers`, `continuation`
+   - Updated validation to provide better error messages
 
-## Implementation Details
+3. **Updated `run_advertiser_scraper()` function** to handle all new parameters:
+   - Pass all filtering parameters to the scraper configuration
+   - Properly handle environment variables for all parameter types
+   - Enhanced error logging and debugging
 
-### New Mode: "suggestions_with_ads"
-- Added a new mode `MODE="suggestions_with_ads"`
-- This mode extracts suggestions first, then scrapes ads for each advertiser
-- Saves data in the exact nested structure specified below
+### Updated Ads Scraping Endpoints
 
-### Updated Data Structure - IMPLEMENTED ✅
-The new "suggestions_with_ads" mode saves data in this format:
-```json
-{
-  "keyword": "properties",
-  "country": "Thailand",
-  "timestamp": "2025-01-06T10:30:00Z",
-  "filters": {
-    "mode": "suggestions_with_ads",
-    "ad_category": "all",
-    "status": "active",
-    "max_scrolls": 10
-  },
-  "suggestions": [
-    {
-      "advertiser": {
-        "name": "Real Estate Company",
-        "page_id": "123456789",
-        "description": "Property development company",
-        "raw_text": "Real Estate Company\nProperty development company",
-        "ads": [
-          {
-            "status": "active",
-            "library_id": "456789123",
-            "started": "Started running on 1 Jan 2025",
-            "page": "Real Estate Company",
-            "primary_text": "Find your dream home...",
-            "cta": "Learn More",
-            "links": [...],
-            "image_urls": [...]
-          }
-        ]
-      }
-    }
-  ]
-}
-```
+1. **Added missing `ads_limit` parameter** to `AdsScrapingRequest` model
+   - Now supports limits from 1 to 1,000,000 ads
+   - Properly integrated with the scraper's `ADS_LIMIT` environment variable
 
-## Technical Changes Made - UPDATED ✅
+2. **Implemented new GET endpoint `/scrape/ads`** following PDF specifications:
+   - **Method**: GET
+   - **Parameters**:
+     - `keyword` (required): Search term for filtering ads
+     - `category` (optional, default="all"): Filter by ad category
+     - `location` (optional, default="thailand"): Filter by location
+     - `language` (optional, default="thai"): Filter by language
+     - `advertiser` (optional, default="all"): Filter by advertiser
+     - `platform` (optional, default="all"): Filter by platform
+     - `media_type` (optional, default="all"): Filter by media type
+     - `status` (optional, default="all"): Filter by status (active/inactive)
+     - `start_date` (optional, default="June 18, 2018"): Start date filter
+     - `end_date` (optional, default="today"): End date filter
+     - `limit` (optional, default=1000, max=1,000,000): Results per page
 
-### 1. ads_and_suggestions_scraper.py
-- ✅ Added new mode validation for "suggestions_with_ads"
-- ✅ Implemented new mode logic that:
-  - Extracts suggestions using existing `extract_suggestions()` function
-  - Iterates through each suggestion
-  - Scrapes ads for each advertiser using `scrape_ads_for_advertiser()` function
-  - Builds nested data structure matching the desired format
-- ✅ Modified `pair_object` construction to handle nested structure
-- ✅ Added `scrape_ads_for_advertiser()` function for focused advertiser scraping
-- ✅ **REMOVED ADS_LIMIT**: Now uses only MAX_SCROLLS to control ad extraction
-- ✅ **SCROLL-ONLY LOGIC**: All ad extraction now controlled by scroll limit, not ad count
+3. **Implemented new GET endpoint `/scrape/advertisers`** following PDF specifications:
+   - **Method**: GET
+   - **Parameters**:
+     - `keyword` (required): Search term for filtering ads by keyword
+     - `scrape_page` (optional, default=True): If True, it will scrape the advertiser's page data
 
-### 2. Data Saving Logic
-- ✅ Updated to handle the new nested structure
-- ✅ Maintains backwards compatibility with existing modes
-- ✅ Saves to `./Results/` directory with proper naming
+4. **Updated POST endpoint `/scrape/advertisers`** to match comprehensive parameter set:
+   - **Method**: POST
+   - **Parameters**:
+     - `headless` (optional, default=True): Run browser in headless mode
+     - `max_scrolls` (optional, default=10): Maximum number of scrolls
+     - `ads_limit` (optional, default=1000): Maximum number of ads to extract
+     - `target_pairs` (required): List of [country, keyword] pairs
+     - `ad_category` (optional, default="all"): Ad category filter
+     - `status` (optional, default="active"): Ad status filter
+     - `languages` (optional, default=[]): List of language names or codes
+     - `platforms` (optional, default=[]): List of platforms to filter by
+     - `media_type` (optional, default="all"): Media type filter
+     - `start_date` (optional): Start date in YYYY-MM-DD format
+     - `end_date` (optional): End date in YYYY-MM-DD format
+     - `append_mode` (optional, default=True): True to append to existing file
+     - `advertisers` (optional, default=[]): List of specific advertiser names
+     - `continuation` (optional, default=True): Continue from previous checkpoint
 
-### 3. New Configuration - SCROLL-ONLY ✅
-- `MAX_SCROLLS`: Maximum number of scrolls to prevent infinite scrolling (default: 10)
-- Removed `ADS_LIMIT` from all functions and workflows
-- All ad extraction now uses `extract_ads_with_infinite_scroll(sb)` without limit parameter
+5. **Maintained backward compatibility** with original `/data/ads` and `/data/advertisers` endpoints
 
-## Usage
+### Parameter Mapping Analysis
 
-### To use the new unified scraping:
-```bash
-# Set environment variable
-export MODE="suggestions_with_ads"
+All PDF parameters are supported by the scraper:
 
-# Or modify the script directly
-MODE = "suggestions_with_ads"
+| PDF Parameter | POST Endpoint Parameter | Scraper Support |
+|---------------|------------------------|-----------------|
+| keyword | target_pairs keyword | ✅ Full support |
+| category | ad_category | ✅ Full support |
+| location | target_pairs country | ✅ Full support |
+| language | languages | ✅ Full support |
+| advertiser | advertisers | ✅ Full support |
+| platform | platforms | ✅ Full support |
+| media_type | media_type | ✅ Full support |
+| status | status | ✅ Full support |
+| start_date | start_date | ✅ Full support |
+| end_date | end_date | ✅ Full support |
+| limit | ads_limit | ✅ Full support |
 
-# Run the scraper
-python ads_and_suggestions_scraper.py
-```
+### File Structure
 
-### Configuration Options:
-- `TARGET_PAIRS`: List of (country, keyword) pairs
-- `MAX_SCROLLS`: Maximum number of scrolls to prevent infinite scrolling (default: 10)
-- `HEADLESS`: Whether to run in headless mode
-- All existing filter options (AD_CATEGORY, STATUS, etc.)
+- All endpoints work with existing JSON files in `Results/` directory
+- GET endpoints apply filtering to existing scraped data
+- POST endpoints start new scraping jobs with specified parameters
+- Advertiser scraper outputs to `combined_ads.json` file
 
-## Results Location
-All results are saved to `./Results/` directory:
-- `suggestions_with_ads.json` (or numbered versions)
-- Structured with nested advertiser data and their ads
+### Technical Details
 
-## Current Architecture
-- Main scraper: `ads_and_suggestions_scraper.py` ✅ Updated
-- API wrapper: `advertiser_scraper_api.py`
-- Suggestions API: `suggestions_scraper_api.py`
-- Main API: `app.py`
-- Results saved to: `Results/` directory ✅
+- Fixed function naming conflict between `/scrape/advertisers` and `/data/advertisers` endpoints
+- Updated `run_advertiser_scraper` to handle all new parameters
+- All parameters are passed through environment variables and config files to the scraper
+- Comprehensive validation for all input parameters
 
-## Status: COMPLETED ✅
-The new "suggestions_with_ads" mode is fully implemented and working with scroll-only logic. It:
-1. ✅ Scrapes suggestions (advertisers) from Facebook Ad Library
-2. ✅ For each suggestion, scrapes that advertiser's ads using scroll limits only
-3. ✅ Saves data in the exact nested structure requested
-4. ✅ Maintains all existing functionality and filters
-5. ✅ Saves results to `./Results/` folder
-6. ✅ **NEW**: Uses only MAX_SCROLLS for ad extraction control, no ads limit
+### Next Steps
+
+- Test the updated POST `/scrape/advertisers` endpoint functionality
+- Verify all parameters are correctly handled by the underlying scraper
+- Consider performance optimizations for large-scale scraping jobs

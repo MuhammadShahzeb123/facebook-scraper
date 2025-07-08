@@ -1078,5 +1078,26 @@
         ]
       }
     ]
+  },
+  {
+    "country": "Thailand",
+    "keyword": "properties",
+    "advertiser": null,
+    "filters": {
+      "mode": "ads",
+      "ad_category": "all",
+      "status": "active",
+      "languages": [],
+      "platforms": [],
+      "media_type": "all",
+      "start_date": null,
+      "end_date": null,
+      "ads_limit": 100,
+      "advertiser_ads_limit": 100,
+      "scrape_advertiser_ads": true,
+      "advertiser": null,
+      "timestamp": "2025-07-08T12:42:51.098478"
+    },
+    "ads": []
   }
 ]

@@ -192,7 +192,10 @@ def _parse_card(card) -> Dict[str, Any]:
     page_name    = _t('.//a[starts-with(@href,"https://www.facebook.com/")][1]')
 
     # ── 3. Raw creative block text ────────────────────────────────────
-    raw_block = card.text.strip()
+    try:
+        raw_block = card.text.strip() if card.text else ""
+    except Exception:
+        raw_block = ""
 
     #   PRIMARY TEXT extraction
     primary_text = ""
@@ -235,28 +238,32 @@ def _parse_card(card) -> Dict[str, Any]:
     all_links = []
     image_urls = []
 
-    # Extract all <a> tags and <img> tags
-    for element in card.find_elements("xpath", ".//*[self::a or self::img]"):
-        try:
-            if element.tag_name == "a":
-                href = element.get_attribute("href")
-                if href:
-                    parsed = urlparse(href)
-                    if parsed.netloc.replace("www.", "") not in facebook_domains:
-                        all_links.append({
-                            "type": "link",
-                            "url": href,
-                            "text": element.text.strip() if element.text else ""
-                        })
+    try:
+        # Extract all <a> tags and <img> tags
+        for element in card.find_elements("xpath", ".//*[self::a or self::img]"):
+            try:
+                if element.tag_name == "a":
+                    href = element.get_attribute("href")
+                    if href:
+                        parsed = urlparse(href)
+                        if parsed.netloc.replace("www.", "") not in facebook_domains:
+                            all_links.append({
+                                "type": "link",
+                                "url": href,
+                                "text": element.text.strip() if element.text else ""
+                            })
 
-            elif element.tag_name == "img":
-                for attr in ["src", "data-src", "xlink:href"]:
-                    src = element.get_attribute(attr)
-                    if src and src.startswith(("http:", "https:")):
-                        image_urls.append(src)
-                        break
-        except StaleElementReferenceException:
-            continue
+                elif element.tag_name == "img":
+                    for attr in ["src", "data-src", "xlink:href"]:
+                        src = element.get_attribute(attr)
+                        if src and src.startswith(("http:", "https:")):
+                            image_urls.append(src)
+                            break
+            except (StaleElementReferenceException, Exception):
+                continue
+    except Exception as e:
+        print(f"[WARNING] Failed to extract links: {e}")
+        pass
 
     # ── 6. Build record ───────────────────────────────────────────────
     return {
@@ -288,36 +295,47 @@ def extract_cards(sb: SB, limit: int = None) -> List[Dict[str, Any]]:
     """Find the right prefix, scroll once, then walk /div[n]/div and parse."""
     ads: List[Dict[str, Any]] = []
 
-    # Make sure Facebook injected the grid
-    sb.execute_script("window.scrollBy(0, 800);")
-    time.sleep(1)
+    try:
+        # Make sure Facebook injected the grid
+        sb.execute_script("window.scrollBy(0, 800);")
+        time.sleep(1)
 
-    prefix = _detect_card_prefix(sb)
-    if not prefix:
+        prefix = _detect_card_prefix(sb)
+        if not prefix:
+            print("[WARNING] Could not detect card prefix - no ads found")
+            return ads
+
+        # Guarantee first card is present
+        sb.wait_for_element_visible(f"{prefix}/div[1]/div", by="xpath", timeout=15)
+
+        n = 1
+        while True:
+            # Check if we've reached the limit
+            if limit and len(ads) >= limit:
+                print(f"[INFO] Reached ads limit: {limit}")
+                break
+
+            xpath = f"{prefix}/div[{n}]/div"
+            try:
+                card_ele = sb.driver.find_element("xpath", xpath)
+            except NoSuchElementException:
+                break
+
+            try:
+                parsed_card = _parse_card(card_ele)
+                if parsed_card:  # Only add if parsing was successful
+                    ads.append(parsed_card)
+            except Exception as e:
+                print(f"[WARNING] Failed to parse card {n}: {e}")
+                pass
+            n += 1
+
+        print(f"[INFO] Found {len(ads)} ads on this page.")
         return ads
 
-    # Guarantee first card is present
-    sb.wait_for_element_visible(f"{prefix}/div[1]/div", by="xpath", timeout=15)
-
-    n = 1
-    while True:
-        # Check if we've reached the limit
-        if limit and len(ads) >= limit:
-            print(f"[INFO] Reached ads limit: {limit}")
-            break
-
-        xpath = f"{prefix}/div[{n}]/div"
-        try:
-            card_ele = sb.driver.find_element("xpath", xpath)
-        except NoSuchElementException:
-            break
-        try:
-            ads.append(_parse_card(card_ele))
-        except Exception:
-            pass
-        n += 1
-    print(f"[INFO] Found {len(ads)} ads on this page.")
-    return ads
+    except Exception as e:
+        print(f"[ERROR] Failed to extract cards: {e}")
+        return ads
 
 def close_popup_if_present(sb):
     try:
@@ -341,7 +359,7 @@ def scrape_lib_page(sb: SB, iso: str, page_name: str, lib_id: str, remaining_lim
         sb.sleep(2 + i * 0.5)
 
     ads = extract_cards(sb, limit=remaining_limit)
-    print(f"    ↳ {len(ads):3d} ads  •  {page_name}  •  lib_id={lib_id}")
+    print(f"    -> {len(ads):3d} ads  |  {page_name}  |  lib_id={lib_id}")
 
     return {
         "page_name": page_name,
@@ -359,12 +377,12 @@ def scrape_pair(sb: SB, country: str, keyword: str) -> None:
     wait_click(sb, f'//div[contains(@id,"js_") and text()="{country}"]', by="xpath")
     sb.sleep(2)
 
-    # 2) Ad category → All ads
+    # 2) Ad category -> All ads
     wait_click(sb, '//div[div/div/text()="Ad category"]/..', by="xpath")
     wait_click(sb, '//span[text()="All ads"]/../../..', by="xpath")
     sb.sleep(2)
 
-    # 3) Keyword box → type + <Enter>
+    # 3) Keyword box -> type + <Enter>
     KEY_BOX = ('//input[@type="search" and contains(@placeholder,"keyword") '
                'and not(@aria-disabled="true")]')
     safe_type(sb, KEY_BOX, keyword, by="xpath", press_enter=True)
@@ -376,7 +394,15 @@ def scrape_pair(sb: SB, country: str, keyword: str) -> None:
         sb.sleep(2 + i * 0.5)
 
     # 5) Collect one lib‐ID per distinct page name
-    ads_grid = extract_cards(sb)
+    try:
+        ads_grid = extract_cards(sb)
+        if not ads_grid:
+            print(f"[WARNING] No ads found for {country} | {keyword}")
+            return
+    except Exception as e:
+        print(f"[ERROR] Failed to extract cards for {country} | {keyword}: {e}")
+        return
+
     libs = {}
     for ad in ads_grid:
         page = ad.get('page')
@@ -431,9 +457,9 @@ def main() -> None:
     done_pairs = load_checkpoint()
 
     with SB(uc=True, headless=True) as sb:
-        print("[INFO] Opening Facebook …")
+        print("[INFO] Opening Facebook...")
         sb.open("https://facebook.com")
-        print("[INFO] Restoring session cookies …")
+        print("[INFO] Restoring session cookies...")
         for ck in load_cookies():
             try:
                 sb.driver.add_cookie(ck)
@@ -457,7 +483,7 @@ def main() -> None:
                 done_pairs.add((country, keyword))
                 save_checkpoint(done_pairs)
             except Exception as e:
-                print(f"[ERROR] Failed: {country} | {keyword} → {e}")
+                print(f"[ERROR] Failed: {country} | {keyword} -> {e}")
 
             sb.open(AD_LIBRARY_URL)
             sb.sleep(4)
