@@ -55,6 +55,33 @@ This is a comprehensive Facebook scraper project that includes web scraping capa
    - Error: `'charmap' codec can't encode character '\u0130' in position 28`
    - Fixed by implementing fallback character replacement for Windows console compatibility
 
+**Problem 4**: Posts scraper path and Unicode encoding errors causing job failures.
+
+**Root Cause**: Multiple issues in `posts_scraper.py`:
+1. Path calculation error when trying to show relative path output
+2. Unicode arrow character `→` (`\u2192`) causing Windows console encoding errors
+
+**Solution Applied**:
+
+1. **Fixed path handling** in `posts_scraper.py`:
+   - Added try-catch block around `out_path.relative_to(Path.cwd())`
+   - Implemented fallback to show filename only if relative path calculation fails
+   - Added additional exception handling for any encoding/path issues
+
+2. **Fixed Unicode encoding** in `posts_scraper.py`:
+   - Replaced Unicode arrow `→` with ASCII arrow `->`
+   - Ensures Windows console compatibility
+
+3. **Error Details**:
+   - Path Error: `ValueError: 'Results\\results_1.json' is not in the subpath of 'C:\\Users\\Shahzeb\\Desktop\\Python\\facebook-scraper'`
+   - Unicode Error: `UnicodeEncodeError: 'charmap' codec can't encode character '\u2192' in position 22`
+   - Created `safe_print()` function to handle Unicode encoding errors
+   - Replaced problematic print statements with safe Unicode handling
+
+2. **Error Details**:
+   - Error: `'charmap' codec can't encode character '\u0130' in position 28`
+   - Fixed by implementing fallback character replacement for Windows console compatibility
+
 ## Working vs Non-Working Files
 
 - ✅ **Working**: `ads_and_suggestions_scraper2.py` - Contains the latest, functional scraping logic

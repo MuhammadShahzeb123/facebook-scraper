@@ -63,7 +63,7 @@ APPEND_RESULTS: bool = False  # True → append to UNIVERSAL_JSON, False → new
 OUTPUT_DIR: str = "Results"
 UNIVERSAL_JSON: str = "all_posts.json"  # used only when APPEND_RESULTS is True
 
-# HTTP  behaviour ----------------------------------------------------------
+# HTTP behaviour ----------------------------------------------------------
 PROXY_ENDPOINT: str | None = (
     "http://250621Ev04e-resi_region-US_California:"  # type: ignore[assignment]
     "5PjDM1IoS0JSr2c@ca.proxy-jet.io:1010"
@@ -252,7 +252,7 @@ def fetch_html(url: str, max_retries: int = None) -> str:
     """
     if max_retries is None:
         max_retries = MAX_RETRIES
-        
+
     attempt_urls = [url]
     alt = _fallback_mbasic(url)
     if alt:
@@ -295,7 +295,7 @@ def fetch_html(url: str, max_retries: int = None) -> str:
 
 def is_valid_extraction(post_dict: Dict[str, Any]) -> bool:
     """Check if the extracted data is meaningful and worth keeping.
-    
+
     Returns False if:
     - Post type is unknown AND meta is empty
     - Only generic table data (like browser names) is found
@@ -306,15 +306,15 @@ def is_valid_extraction(post_dict: Dict[str, Any]) -> bool:
     meta = post_dict.get("meta", {})
     media = post_dict.get("media", [])
     tables = post_dict.get("tables", [])
-    
+
     # Check for login/access wall indicators
     title = meta.get("title", "").lower()
     description = meta.get("description", "").lower()
-    
+
     login_indicators = [
         "log in or sign up",
         "log into facebook",
-        "login to facebook", 
+        "login to facebook",
         "sign up for facebook",
         "see posts, photos and more on facebook",
         "facebook helps you connect",
@@ -322,11 +322,11 @@ def is_valid_extraction(post_dict: Dict[str, Any]) -> bool:
         "join facebook",
         "you must log in"
     ]
-    
+
     for indicator in login_indicators:
         if indicator in title or indicator in description:
             return False
-    
+
     # Check if tables contain only generic browser data (common false positive)
     if tables:
         for table in tables:
@@ -338,7 +338,7 @@ def is_valid_extraction(post_dict: Dict[str, Any]) -> bool:
                         browser_names = {"safari", "chrome", "firefox", "edge", "opera"}
                         if any(str(v).lower() in browser_names for v in values):
                             return False
-    
+
     # If we have meaningful meta data (excluding login walls), it's likely valid
     if meta and any(key in meta for key in ["url", "image"]):
         # But make sure title/description aren't just login prompts
@@ -346,23 +346,23 @@ def is_valid_extraction(post_dict: Dict[str, Any]) -> bool:
             return True
         if description and "see posts, photos and more" not in description:
             return True
-    
+
     # If we have media URLs, it's likely valid
     if media:
         return True
-    
+
     # If post type is not unknown, it's likely valid (but still check for login walls)
     if post_type != "unknown":
         return True
-    
+
     # If we have no meaningful data at all, it's invalid
     if not meta and not media and post_type == "unknown" and not tables:
         return False
-    
+
     # If we reach here with unknown post type and only login-related meta, it's invalid
     if post_type == "unknown" and not media and not tables:
         return False
-    
+
     return True
 
 
@@ -423,16 +423,16 @@ def main() -> None:
     for url in LINKS:
         max_extraction_retries = MAX_RETRIES
         successful_extraction = False
-        
+
         for attempt in range(max_extraction_retries):
             html = fetch_html(url)
             if not html:
                 continue
-                
+
             parser = PostParser(html)
             post_dict = parser.to_dict()
             post_dict["source_url"] = url
-            
+
             # Validate the extracted data
             if is_valid_extraction(post_dict):
                 results.append(post_dict)
@@ -443,10 +443,10 @@ def main() -> None:
                 print(f"WARNING: Poor quality data extracted for {url} (attempt {attempt + 1}/{max_extraction_retries})")
                 if attempt < max_extraction_retries - 1:
                     time.sleep(random.uniform(3, 6))  # Longer delay between extraction retries
-        
+
         if not successful_extraction:
             print(f"FAILED: Failed to extract valid data for {url} after {max_extraction_retries} attempts")
-            
+
         # polite delay before next URL
         time.sleep(random.uniform(1.5, 3.0))
 
@@ -454,7 +454,17 @@ def main() -> None:
     valid_results = [r for r in results if is_valid_extraction(r)]
 
     save_json(out_path, valid_results)
-    print(f"Saved {len(valid_results)} valid post(s) → {out_path.relative_to(Path.cwd())}")
+
+    # Display output path safely (avoid Unicode characters for Windows compatibility)
+    try:
+        relative_path = out_path.relative_to(Path.cwd())
+        print(f"Saved {len(valid_results)} valid post(s) -> {relative_path}")
+    except ValueError:
+        # Fallback to filename only if relative path calculation fails
+        print(f"Saved {len(valid_results)} valid post(s) -> {out_path.name}")
+    except Exception as e:
+        # Additional fallback for any other encoding/path issues
+        print(f"Saved {len(valid_results)} valid post(s) to {out_path.name}")
 
 
 if __name__ == "__main__":
