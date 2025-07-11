@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 # facebook_ads_scraper.py  –  v2.3  (2025-06-18)
 
 #  ▄───────────────────────────────────────────────────────────────────▄
@@ -8,11 +9,41 @@
 #  │    • Comprehensive non-Facebook link collection                  │
 #  ▀───────────────────────────────────────────────────────────────────▀
 
-import json, time, csv, re, os, argparse
+import json, time, csv, re, os, argparse, sys
 from pathlib import Path
 from urllib.parse import urlparse
 from collections import defaultdict
 from seleniumbase import SB #type: ignore
+
+# Set up proper encoding for Windows console output
+if os.name == "nt":
+    try:
+        # For Python 3.7+
+        if hasattr(sys.stdout, 'reconfigure'):
+            sys.stdout.reconfigure(encoding="utf-8")
+            sys.stderr.reconfigure(encoding="utf-8")
+        else:
+            # Fallback for older Python versions
+            import codecs
+            sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
+            sys.stderr = codecs.getwriter("utf-8")(sys.stderr.detach())
+    except Exception:
+        # Final fallback - just handle errors gracefully
+        pass
+
+def safe_print(*args, **kwargs):
+    """Print function that handles Unicode characters safely on Windows"""
+    try:
+        print(*args, **kwargs)
+    except UnicodeEncodeError:
+        # Replace problematic Unicode characters with ASCII equivalents
+        safe_args = []
+        for arg in args:
+            if isinstance(arg, str):
+                safe_args.append(arg.encode('ascii', 'replace').decode('ascii'))
+            else:
+                safe_args.append(arg)
+        print(*safe_args, **kwargs)
 from selenium.common.exceptions import * #type: ignore
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException #type: ignore
 from selenium.webdriver.common.by import By #type: ignore
@@ -21,12 +52,14 @@ import string
 from typing import Dict, Any, List
 
 # ── CONFIG ───────────────────────────────────────────────────────────
-SCROLLS_SEARCH = 3
-SCROLLS_PAGE   = 3
+SCROLLS_SEARCH = int(os.getenv("SCROLLS_SEARCH", "3"))
+SCROLLS_PAGE   = int(os.getenv("SCROLLS_PAGE", "3"))
+HEADLESS = os.getenv("HEADLESS", "True").lower() == "true"
 
 # ── NEW CONFIGURATION OPTIONS ─────────────────────────────────────────
-ADS_LIMIT = 1000    # Maximum number of ads to extract per (country, keyword) pair
-APPEND = True       # True: append to existing file, False: create numbered files like combined_ads001.json
+ADS_LIMIT = int(os.getenv("ADS_LIMIT", "1000"))    # Maximum number of ads to extract per (country, keyword) pair
+APPEND = os.getenv("APPEND", "True").lower() == "true"       # True: append to existing file, False: create numbered files like combined_ads001.json
+CONTINUATION = os.getenv("CONTINUATION", "False").lower() == "true"  # set to False to always start from scratch
 
 COOKIE_FILE    = Path("./saved_cookies/facebook_cookies.txt")
 TARGET_FILE    = Path("targets.csv")           # optional CSV (country,keyword)
@@ -57,6 +90,14 @@ TARGET_PAIRS: list[tuple[str,str]] = [
     ("United States", "rental properties"),
     ("Canada",        "vacation homes"),
 ]
+
+# Override from environment if available
+target_pairs_env = os.getenv("TARGET_PAIRS")
+if target_pairs_env:
+    try:
+        TARGET_PAIRS = [tuple(pair) for pair in json.loads(target_pairs_env)]
+    except Exception:
+        pass  # Keep default if parsing fails
 
 AD_LIBRARY_URL = (
     "https://www.facebook.com/ads/library/"
@@ -359,7 +400,8 @@ def scrape_lib_page(sb: SB, iso: str, page_name: str, lib_id: str, remaining_lim
         sb.sleep(2 + i * 0.5)
 
     ads = extract_cards(sb, limit=remaining_limit)
-    print(f"    -> {len(ads):3d} ads  |  {page_name}  |  lib_id={lib_id}")
+    # Use safe_print to handle Unicode characters for Windows console
+    safe_print(f"    -> {len(ads):3d} ads  |  {page_name}  |  lib_id={lib_id}")
 
     return {
         "page_name": page_name,
@@ -369,7 +411,7 @@ def scrape_lib_page(sb: SB, iso: str, page_name: str, lib_id: str, remaining_lim
 
 # ── scrape one (country, keyword) search ──────────────────────────────
 def scrape_pair(sb: SB, country: str, keyword: str) -> None:
-    print(f"\n=== {country}  |  {keyword} ===")
+    safe_print(f"\n=== {country}  |  {keyword} ===")
 
     # 1) Country chooser
     wait_click(sb, '//div[div/div/text()="All" or div/div/text()="Country"]/..', by="xpath")
@@ -397,10 +439,10 @@ def scrape_pair(sb: SB, country: str, keyword: str) -> None:
     try:
         ads_grid = extract_cards(sb)
         if not ads_grid:
-            print(f"[WARNING] No ads found for {country} | {keyword}")
+            safe_print(f"[WARNING] No ads found for {country} | {keyword}")
             return
     except Exception as e:
-        print(f"[ERROR] Failed to extract cards for {country} | {keyword}: {e}")
+        safe_print(f"[ERROR] Failed to extract cards for {country} | {keyword}: {e}")
         return
 
     libs = {}
@@ -445,7 +487,7 @@ def scrape_pair(sb: SB, country: str, keyword: str) -> None:
 
     # 9) Save data immediately
     save_data_immediately(pair_object)
-    print(f"[INFO] Saved data for {country} | {keyword} with {total_ads_extracted} ads")
+    safe_print(f"[INFO] Saved data for {country} | {keyword} with {total_ads_extracted} ads")
 
 # ── main ──────────────────────────────────────────────────────────────
 def main() -> None:
@@ -456,7 +498,7 @@ def main() -> None:
 
     done_pairs = load_checkpoint()
 
-    with SB(uc=True, headless=True) as sb:
+    with SB(uc=True, headless=HEADLESS) as sb:
         print("[INFO] Opening Facebook...")
         sb.open("https://facebook.com")
         print("[INFO] Restoring session cookies...")

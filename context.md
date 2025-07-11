@@ -1,125 +1,145 @@
-# Facebook Scraper API - Context
+# Facebook Scraper Project Context
 
-## Recent Changes (2025-07-08)
+## Project Overview
 
-### Enhanced Posts Data Endpoint
+This is a comprehensive Facebook scraper project that includes web scraping capabilities for ads, suggestions, pages, and advertisers. The project provides both standalone Python scripts and REST API endpoints.
 
-1. **Updated `/data/posts` endpoint** to accept specific links as query parameters:
-   - **Method**: GET
-   - **Parameters**:
-     - `links` (required): List of Facebook post URLs to retrieve data for
-   - **Functionality**:
-     - Searches through existing `results_*.json` files for posts matching the provided URLs
-     - Automatically scrapes missing links using the `/scrape/posts` endpoint
-     - Returns combined data from existing files and newly scraped posts
-     - Provides detailed metadata about found vs. newly scraped data
+## Issue Resolution (July 11, 2025)
 
-### Fixed Unicode Encoding Issues in Advertiser Scraper
+**Problem 1**: The ads scraping endpoint was not working but the standalone file was working.
 
-1. **Fixed Windows Unicode encoding errors in `facebook_advertiser_ads.py`**:
-   - Replaced Unicode characters (`↳`, `→`, `•`, `…`) with ASCII equivalents (`->`, `|`, `...`)
-   - Fixed `UnicodeEncodeError: 'charmap' codec can't encode character` errors on Windows
-   - Ensured compatibility with Windows CP1252 encoding in console output
+**Root Cause**: The API endpoint in `app.py` was calling `ads_and_suggestions_scraper.py` but the working, updated file is `ads_and_suggestions_scraper2.py`.
 
-### Fixed Advertiser Scraper Error Handling
+**Solution Applied**:
 
-1. **Enhanced error handling in `facebook_advertiser_ads.py`**:
-   - Added try-catch blocks around `extract_cards()` function calls
-   - Added error handling in `_parse_card()` function to prevent crashes from malformed elements
-   - Added error handling in link and image extraction to prevent stale element reference errors
-   - Added graceful handling when no ads are found for a country/keyword pair
+1. **Fixed the file reference** in `app.py` line 484:
+   - Changed: `cmd = [sys.executable, "ads_and_suggestions_scraper.py"]`
+   - To: `cmd = [sys.executable, "ads_and_suggestions_scraper2.py"]`
 
-2. **Updated `AdvertiserScrapingRequest` model** with comprehensive parameters:
-   - Added all parameters from `AdsScrapingRequest` to match PDF specifications
-   - Includes: `max_scrolls`, `ad_category`, `status`, `languages`, `platforms`, `media_type`, `start_date`, `end_date`, `append_mode`, `advertisers`, `continuation`
-   - Updated validation to provide better error messages
+2. **Added missing SCROLLS parameter** support:
+   - Updated `ads_and_suggestions_scraper2.py` to accept `SCROLLS` from environment variable
+   - Added `"SCROLLS": str(request_data.max_scrolls)` to API environment variables
 
-3. **Updated `run_advertiser_scraper()` function** to handle all new parameters:
-   - Pass all filtering parameters to the scraper configuration
-   - Properly handle environment variables for all parameter types
-   - Enhanced error logging and debugging
+3. **Added missing advertiser parameters**:
+   - Added `"SCRAPE_ADVERTISER_ADS": "False"` (disabled for ads mode)
+   - Added `"ADVERTISER_ADS_LIMIT": "100"` (default value)
 
-### Updated Ads Scraping Endpoints
+**Problem 2**: The advertiser scraping endpoint was not spawning Chrome browser.
 
-1. **Added missing `ads_limit` parameter** to `AdsScrapingRequest` model
-   - Now supports limits from 1 to 1,000,000 ads
-   - Properly integrated with the scraper's `ADS_LIMIT` environment variable
+**Root Cause**: Multiple issues in advertiser endpoint:
+1. Hardcoded `headless=True` in `facebook_advertiser_ads.py`
+2. Missing environment variable support
+3. Incorrect environment variable names between API and scraper
 
-2. **Implemented new GET endpoint `/scrape/ads`** following PDF specifications:
-   - **Method**: GET
-   - **Parameters**:
-     - `keyword` (required): Search term for filtering ads
-     - `category` (optional, default="all"): Filter by ad category
-     - `location` (optional, default="thailand"): Filter by location
-     - `language` (optional, default="thai"): Filter by language
-     - `advertiser` (optional, default="all"): Filter by advertiser
-     - `platform` (optional, default="all"): Filter by platform
-     - `media_type` (optional, default="all"): Filter by media type
-     - `status` (optional, default="all"): Filter by status (active/inactive)
-     - `start_date` (optional, default="June 18, 2018"): Start date filter
-     - `end_date` (optional, default="today"): End date filter
-     - `limit` (optional, default=1000, max=1,000,000): Results per page
+**Solution Applied**:
 
-3. **Implemented new GET endpoint `/scrape/advertisers`** following PDF specifications:
-   - **Method**: GET
-   - **Parameters**:
-     - `keyword` (required): Search term for filtering ads by keyword
-     - `scrape_page` (optional, default=True): If True, it will scrape the advertiser's page data
+1. **Fixed environment variable names** in `app.py`:
+   - Added proper environment variables: HEADLESS, SCROLLS_SEARCH, SCROLLS_PAGE, CONTINUATION, TARGET_PAIRS
 
-4. **Updated POST endpoint `/scrape/advertisers`** to match comprehensive parameter set:
-   - **Method**: POST
-   - **Parameters**:
-     - `headless` (optional, default=True): Run browser in headless mode
-     - `max_scrolls` (optional, default=10): Maximum number of scrolls
-     - `ads_limit` (optional, default=1000): Maximum number of ads to extract
-     - `target_pairs` (required): List of [country, keyword] pairs
-     - `ad_category` (optional, default="all"): Ad category filter
-     - `status` (optional, default="active"): Ad status filter
-     - `languages` (optional, default=[]): List of language names or codes
-     - `platforms` (optional, default=[]): List of platforms to filter by
-     - `media_type` (optional, default="all"): Media type filter
-     - `start_date` (optional): Start date in YYYY-MM-DD format
-     - `end_date` (optional): End date in YYYY-MM-DD format
-     - `append_mode` (optional, default=True): True to append to existing file
-     - `advertisers` (optional, default=[]): List of specific advertiser names
-     - `continuation` (optional, default=True): Continue from previous checkpoint
+2. **Added environment variable support** to `facebook_advertiser_ads.py`:
+   - Made HEADLESS configurable via environment variable
+   - Added support for SCROLLS_SEARCH, SCROLLS_PAGE, CONTINUATION, TARGET_PAIRS
 
-5. **Maintained backward compatibility** with original `/data/ads` and `/data/advertisers` endpoints
+**Problem 3**: Unicode encoding error in advertiser scraper output.
 
-### Parameter Mapping Analysis
+**Root Cause**: Windows console cannot display Unicode characters (e.g., Turkish İ character '\u0130') in page names.
 
-All PDF parameters are supported by the scraper:
+**Solution Applied**:
 
-| PDF Parameter | POST Endpoint Parameter | Scraper Support |
-|---------------|------------------------|-----------------|
-| keyword | target_pairs keyword | ✅ Full support |
-| category | ad_category | ✅ Full support |
-| location | target_pairs country | ✅ Full support |
-| language | languages | ✅ Full support |
-| advertiser | advertisers | ✅ Full support |
-| platform | platforms | ✅ Full support |
-| media_type | media_type | ✅ Full support |
-| status | status | ✅ Full support |
-| start_date | start_date | ✅ Full support |
-| end_date | end_date | ✅ Full support |
-| limit | ads_limit | ✅ Full support |
+1. **Added Unicode handling** to `facebook_advertiser_ads.py`:
+   - Added proper encoding setup for Windows console
+   - Created `safe_print()` function to handle Unicode encoding errors
+   - Replaced problematic print statements with safe Unicode handling
 
-### File Structure
+2. **Error Details**:
+   - Error: `'charmap' codec can't encode character '\u0130' in position 28`
+   - Fixed by implementing fallback character replacement for Windows console compatibility
 
-- All endpoints work with existing JSON files in `Results/` directory
-- GET endpoints apply filtering to existing scraped data
-- POST endpoints start new scraping jobs with specified parameters
-- Advertiser scraper outputs to `combined_ads.json` file
+## Working vs Non-Working Files
 
-### Technical Details
+- ✅ **Working**: `ads_and_suggestions_scraper2.py` - Contains the latest, functional scraping logic
+- ❌ **Old Version**: `ads_and_suggestions_scraper.py` - Older version (was being called by API)
 
-- Fixed function naming conflict between `/scrape/advertisers` and `/data/advertisers` endpoints
-- Updated `run_advertiser_scraper` to handle all new parameters
-- All parameters are passed through environment variables and config files to the scraper
-- Comprehensive validation for all input parameters
+## Key Features in Working File (ads_and_suggestions_scraper2.py)
 
-### Next Steps
+- Advanced filtering options (category, status, languages, platforms, media type, date ranges)
+- Robust error handling and retry logic
+- Cookie management for Facebook authentication
+- Multiple scraping modes: ads, suggestions, ads_and_suggestions
+- Advertiser ads scraping capability
+- Continuation/checkpoint system for long-running jobs
+- Proper URL engineering for applying filters
 
-- Test the updated POST `/scrape/advertisers` endpoint functionality
-- Verify all parameters are correctly handled by the underlying scraper
-- Consider performance optimizations for large-scale scraping jobs
+## API Structure
+
+- FastAPI-based REST API
+- Background task processing for scraping jobs
+- CORS enabled for web integration
+- Comprehensive request/response models
+- Job status tracking
+
+## Files Structure
+
+- `app.py` - Main FastAPI application (✅ Fixed to call correct scraper)
+- `ads_and_suggestions_scraper2.py` - Working scraper implementation (✅ Enhanced with SCROLLS support)
+- `ads_and_suggestions_scraper.py` - Older scraper version (not used by API anymore)
+- `config.json` - Account configurations with cookies and proxies
+- Various API wrapper files for different scraping types
+
+## API Environment Variables Now Properly Passed
+
+- ✅ MODE (set to "ads")
+- ✅ HEADLESS
+- ✅ ADS_LIMIT
+- ✅ SCROLLS (newly added)
+- ✅ TARGET_PAIRS
+- ✅ AD_CATEGORY
+- ✅ STATUS
+- ✅ LANGUAGES
+- ✅ PLATFORMS
+- ✅ MEDIA_TYPE
+- ✅ START_DATE / END_DATE
+- ✅ APPEND
+- ✅ ADVERTISERS
+- ✅ CONTINUATION
+- ✅ SCRAPE_ADVERTISER_ADS
+- ✅ ADVERTISER_ADS_LIMIT
+
+## How to Test the Fix
+
+1. Start the API: `python app.py`
+2. API will run on `http://localhost:8000`
+3. Access docs at `http://localhost:8000/docs`
+4. Use the `/scrape/ads` endpoint with proper parameters
+5. Monitor job status via job ID endpoints
+
+## Additional Issue Fixed (July 11, 2025)
+
+**Problem**: The advertiser scraping endpoint (`/scrape/advertisers`) was not working - it didn't spawn Chrome or scrape any data.
+
+**Root Causes**:
+1. The `facebook_advertiser_ads.py` script had hardcoded `headless=True` instead of reading from environment
+2. The script wasn't properly reading environment variables for configuration
+3. The API was passing wrong environment variable names that didn't match the script
+
+**Solution Applied**:
+
+1. **Fixed hardcoded headless mode** in `facebook_advertiser_ads.py`:
+   - Changed: `with SB(uc=True, headless=True) as sb:`
+   - To: `with SB(uc=True, headless=HEADLESS) as sb:`
+
+2. **Added environment variable support** to config section:
+   - Added: `HEADLESS = os.getenv("HEADLESS", "True").lower() == "true"`
+   - Added: `SCROLLS_SEARCH = int(os.getenv("SCROLLS_SEARCH", "3"))`
+   - Added: `SCROLLS_PAGE = int(os.getenv("SCROLLS_PAGE", "3"))`
+   - Added: `CONTINUATION = os.getenv("CONTINUATION", "False").lower() == "true"`
+   - Added proper TARGET_PAIRS environment variable support
+
+3. **Fixed API environment variables** in `app.py`:
+   - Updated environment variable names to match what the script expects
+   - Simplified to only pass variables the script actually uses
+   - Fixed variable name from `MAX_SCROLLS` to `SCROLLS_SEARCH` and `SCROLLS_PAGE`
+
+## Status: ✅ BOTH ENDPOINTS FIXED
+
+Both the ads scraping endpoint (`/scrape/ads`) and advertiser scraping endpoint (`/scrape/advertisers`) should now work properly with proper Chrome spawning and parameter passing.

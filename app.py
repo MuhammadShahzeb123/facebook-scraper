@@ -467,6 +467,7 @@ def run_ads_scraper(job_id: str, request_data: AdsScrapingRequest):
             "MODE": "ads",  # Always set to ads mode
             "HEADLESS": str(request_data.headless),
             "ADS_LIMIT": str(request_data.ads_limit),
+            "SCROLLS": str(request_data.max_scrolls),
             "TARGET_PAIRS": json.dumps(request_data.target_pairs),
             "AD_CATEGORY": request_data.ad_category,
             "STATUS": request_data.status,
@@ -477,11 +478,13 @@ def run_ads_scraper(job_id: str, request_data: AdsScrapingRequest):
             "END_DATE": request_data.end_date or "",
             "APPEND": str(request_data.append_mode),
             "ADVERTISERS": json.dumps(request_data.advertisers),
-            "CONTINUATION": str(request_data.continuation)
+            "CONTINUATION": str(request_data.continuation),
+            "SCRAPE_ADVERTISER_ADS": "False",  # For ads mode, we don't need advertiser ads
+            "ADVERTISER_ADS_LIMIT": "100"  # Default value
         })
 
         # Create command to run the scraper
-        cmd = [sys.executable, "ads_and_suggestions_scraper.py"]
+        cmd = [sys.executable, "ads_and_suggestions_scraper2.py"]
 
         # Use regular subprocess instead of asyncio subprocess (Windows compatibility)
         process = subprocess.run(
@@ -570,17 +573,11 @@ def run_advertiser_scraper(job_id: str, request_data: AdvertiserScrapingRequest)
         env = {
             "ADS_LIMIT": str(request_data.ads_limit),
             "HEADLESS": str(request_data.headless),
-            "MAX_SCROLLS": str(request_data.max_scrolls),
-            "AD_CATEGORY": request_data.ad_category,
-            "STATUS": request_data.status,
-            "LANGUAGES": json.dumps(request_data.languages),
-            "PLATFORMS": json.dumps(request_data.platforms),
-            "MEDIA_TYPE": request_data.media_type,
-            "START_DATE": request_data.start_date or "",
-            "END_DATE": request_data.end_date or "",
+            "SCROLLS_SEARCH": str(request_data.max_scrolls),
+            "SCROLLS_PAGE": str(request_data.max_scrolls),
             "APPEND": str(request_data.append_mode),
-            "ADVERTISERS": json.dumps(request_data.advertisers),
             "CONTINUATION": str(request_data.continuation),
+            "TARGET_PAIRS": json.dumps(request_data.target_pairs),
             **dict(os.environ)
         }
 
