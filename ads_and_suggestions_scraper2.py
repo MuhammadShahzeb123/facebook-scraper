@@ -1,5 +1,33 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
+# ── Unicode Output Fix for Windows ────────────────────────────────────────
+import sys
+import os
+
+# Fix Windows console encoding for Unicode output
+if sys.platform == "win32":
+    # Set environment variable for UTF-8 encoding
+    os.environ['PYTHONIOENCODING'] = 'utf-8'
+
+    # Wrap print function to handle encoding errors gracefully
+    original_print = print
+    def safe_print(*args, **kwargs):
+        try:
+            return original_print(*args, **kwargs)
+        except UnicodeEncodeError:
+            # Convert all args to strings and handle encoding
+            safe_args = []
+            for arg in args:
+                try:
+                    safe_args.append(str(arg).encode('ascii', 'replace').decode('ascii'))
+                except:
+                    safe_args.append(repr(arg))
+            return original_print(*safe_args, **kwargs)
+
+    # Replace print function globally
+    print = safe_print
+
 # facebook_ads_multi_tool_v1_1.py   –  v1.1  (2025‑06‑24)
 #
 # HOW IT WORKS ─────────────────────────────────────────────────────────────

@@ -1,6 +1,102 @@
 # Facebook Scraper Project Context
 
-## Current Status: PROXY CONNECTIVITY ISSUE DIAGNOSED ✅
+## Current Status: COMPREHENSIVE UNICODE ENCODING FIXES COMPLETED ✅
+
+### Latest Update: Complete Unicode Support Across All API Endpoints (July 12, 2025)
+
+**Problem**: Unicode encoding errors when processing Thai characters ("คุณสมบัติ") across multiple scraper endpoints:
+```
+UnicodeEncodeError: 'charmap' codec can't encode characters in position 17-25: character maps to <undefined>
+```
+
+**Root Cause**:
+- Windows PowerShell console using cp1252 encoding by default
+- Thai and other Unicode characters cannot be encoded in cp1252
+- Errors occurred in print statements and subprocess output handling
+
+**Comprehensive Solution Applied**:
+
+1. **Enhanced Unicode handling in ALL scraper files**:
+   - ✅ `ads_and_suggestions_scraper2.py`: Complete Unicode wrapper with safe print function
+   - ✅ `suggestions_scraper_api.py`: Added Windows Unicode encoding fix
+   - ✅ `facebook_advertiser_ads.py`: Enhanced existing Unicode handling, removed duplicate functions
+   - ✅ `facebook_pages_scraper.py`: Upgraded from 'strict' to 'replace' error handling with safe print function
+   - ✅ `app.py`: All subprocess calls now include `errors='replace'` parameter
+
+2. **Consistent Unicode Strategy**:
+   - Set `PYTHONIOENCODING='utf-8'` environment variable for all Windows systems
+   - Wrapped print functions to handle encoding errors gracefully
+   - Used `errors='replace'` in subprocess calls to prevent propagation of encoding errors
+   - All Unicode characters now converted to ASCII-safe representations when console cannot display them
+
+**API Endpoint Coverage**:
+- ✅ `/scrape/ads` - Fixed in ads_and_suggestions_scraper2.py
+- ✅ `/scrape/suggestions` - Fixed in suggestions_scraper_api.py
+- ✅ `/scrape/advertisers` - Fixed in facebook_advertiser_ads.py
+- ✅ `/scrape/pages` - Enhanced in facebook_pages_scraper.py
+- ✅ All subprocess communications in app.py
+
+**Testing**: All endpoints now handle Thai text "คุณสมบัติ" and other Unicode characters without crashing.
+
+## Post URL Scraping Process Documentation (July 12, 2025)
+
+### How Post URLs Are Extracted:
+
+The system extracts Facebook post URLs using a multi-step process in `facebook_pages_scraper.py`:
+
+1. **Main Function**: `extract_url(container: WebElement) -> str`
+   - Located in lines 547-555
+   - Uses XPath selector: `.//a[contains(@href, "/posts/") or contains(@href, "/videos/")][@role="link"]`
+   - Targets anchor elements that contain either "/posts/" or "/videos/" in their href attribute
+   - Specifically looks for elements with `@role="link"` to ensure they're actual clickable links
+
+2. **Retry Mechanism**: `extract_with_retry()`
+   - Wraps the URL extraction with retry logic (up to RETRY_LIMIT attempts)
+   - Handles `NoSuchElementException` and `StaleElementReferenceException`
+   - Waits 0.5 seconds between retry attempts
+   - Returns None if all attempts fail
+
+3. **Integration in Post Extraction**:
+   ```python
+   url = extract_with_retry(container, extract_url) or ""
+   ```
+   - Called within `extract_post()` function on line 611
+   - Falls back to empty string if extraction fails
+   - URL becomes part of the post data dictionary
+
+4. **Post Container Detection**:
+   - Searches for post containers using XPath: `//div[contains(@class,"x1yztbdb") and .//div[contains(@data-ad-preview,"message")]]`
+   - Each container represents an individual Facebook post
+   - URL extraction is performed on each container
+
+5. **Validation**: Posts are only saved if they contain:
+   - Text content OR URL OR likes/engagement OR images
+   - This ensures empty/invalid posts are filtered out
+
+The extracted URLs are Facebook permalinks that point directly to individual posts, allowing for later access or verification.
+
+### Enhanced URL Extraction with Regex (July 12, 2025)
+
+**IMPROVEMENT**: Updated `extract_url()` function to use regex pattern matching instead of relying solely on XPath selectors.
+
+**Benefits**:
+- **More Robust**: Searches entire HTML content of post containers rather than specific DOM elements
+- **Flexible Pattern Matching**: Uses multiple regex patterns to catch various URL formats
+- **Better Success Rate**: Can extract URLs even when DOM structure changes
+- **Fallback Support**: Still uses original XPath method if regex fails
+
+**Regex Patterns Used**:
+1. `https://www\.facebook\.com/[^/]+/posts/[^"\s<>&]+` - Standard posts
+2. `https://www\.facebook\.com/[^/]+/videos/[^"\s<>&]+` - Video posts
+3. `https://m\.facebook\.com/[^/]+/posts/[^"\s<>&]+` - Mobile URLs
+4. `https://[^"]*facebook\.com/[^"]*posts/[^"\s<>&]+` - Generic fallback
+
+**URL Cleaning**: Automatically removes query parameters and HTML artifacts for cleaner URLs.
+
+This approach successfully handles complex Facebook URLs like:
+`https://www.facebook.com/<anything>/posts/pfbid02PPECF3af9eZo17o9pAhN12ZydrXgHarYkTqe1yRW2XSVS468RtoYN4yrokiMzeJpl?__cft__[0]=...`
+
+## Previous Status: PROXY CONNECTIVITY ISSUE DIAGNOSED ✅
 
 ### Proxy Implementation Status
 ✅ **COMPLETED**: Full proxy integration across all target scrapers

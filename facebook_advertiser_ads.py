@@ -18,11 +18,14 @@ from proxy_utils_enhanced import get_proxy_string_with_fallback  # Import enhanc
 
 # Set up proper encoding for Windows console output
 if os.name == "nt":
+    # Set environment variable for UTF-8 encoding
+    os.environ['PYTHONIOENCODING'] = 'utf-8'
+
     try:
         # For Python 3.7+
         if hasattr(sys.stdout, 'reconfigure'):
-            sys.stdout.reconfigure(encoding="utf-8")
-            sys.stderr.reconfigure(encoding="utf-8")
+            sys.stdout.reconfigure(encoding="utf-8", errors='replace')
+            sys.stderr.reconfigure(encoding="utf-8", errors='replace')
         else:
             # Fallback for older Python versions
             import codecs
@@ -33,17 +36,17 @@ if os.name == "nt":
         pass
 
 def safe_print(*args, **kwargs):
-    """Print function that handles Unicode characters safely on Windows"""
+    """Print function that handles Unicode encoding errors gracefully."""
     try:
         print(*args, **kwargs)
     except UnicodeEncodeError:
-        # Replace problematic Unicode characters with ASCII equivalents
+        # Convert all args to strings and handle encoding
         safe_args = []
         for arg in args:
-            if isinstance(arg, str):
-                safe_args.append(arg.encode('ascii', 'replace').decode('ascii'))
-            else:
-                safe_args.append(arg)
+            try:
+                safe_args.append(str(arg).encode('ascii', 'replace').decode('ascii'))
+            except:
+                safe_args.append(repr(arg))
         print(*safe_args, **kwargs)
 from selenium.common.exceptions import * #type: ignore
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException #type: ignore

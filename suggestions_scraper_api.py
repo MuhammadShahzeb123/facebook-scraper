@@ -1,5 +1,33 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
+# ── Unicode Output Fix for Windows ────────────────────────────────────────
+import sys
+import os
+
+# Fix Windows console encoding for Unicode output
+if sys.platform == "win32":
+    # Set environment variable for UTF-8 encoding
+    os.environ['PYTHONIOENCODING'] = 'utf-8'
+
+    # Wrap print function to handle encoding errors gracefully
+    original_print = print
+    def safe_print(*args, **kwargs):
+        try:
+            return original_print(*args, **kwargs)
+        except UnicodeEncodeError:
+            # Convert all args to strings and handle encoding
+            safe_args = []
+            for arg in args:
+                try:
+                    safe_args.append(str(arg).encode('ascii', 'replace').decode('ascii'))
+                except:
+                    safe_args.append(repr(arg))
+            return original_print(*safe_args, **kwargs)
+
+    # Replace print function globally
+    print = safe_print
+
 """
 Suggestions Scraper API - v2 (Robust approach)
 This module provides API endpoints for scraping Facebook Ad Library suggestions
@@ -142,19 +170,19 @@ def extract_suggestions(sb, keyword: str) -> list[Dict[str, Any]]:
 def _extract_page_id_from_suggestion(suggestion: Dict[str, Any]) -> str | None:
     """Extract page_id from suggestion, handling both direct pageID and quoted formats."""
     page_id = suggestion.get("page_id", "")
-    
+
     # Handle pageID:123456 format
     if page_id.startswith("pageID:"):
         return page_id.split(":", 1)[1]
-    
+
     # Handle quoted format like "properties" - skip this as it's not a real page
     if page_id.startswith('"') and page_id.endswith('"'):
         return None
-    
+
     # If it's already a numeric ID, return it
     if page_id.isdigit():
         return page_id
-    
+
     return None
 
 
@@ -214,10 +242,10 @@ def _build_advertiser_url(country: str, page_id: str) -> str:
         "Hong Kong": "HK",
         "New Zealand": "NZ",
     }
-    
+
     # Get country code, fallback to country name if not found
     country_code = country_code_map.get(country, country)
-    
+
     # Build the URL
     return (
         f"https://www.facebook.com/ads/library/"
@@ -230,25 +258,25 @@ def _build_advertiser_url(country: str, page_id: str) -> str:
 def extract_advertiser_ads(sb, country: str, page_id: str, advertiser_name: str, limit: int = None):
     """Extract ads from a specific advertiser's page."""
     print(f"[INFO] Scraping ads from advertiser: {advertiser_name} (Page ID: {page_id})")
-    
+
     # Build and navigate to advertiser URL
     advertiser_url = _build_advertiser_url(country, page_id)
-    
+
     # Apply filters to the URL (if available)
     filtered_url = advertiser_url  # Basic implementation, can be enhanced with filters
-    
+
     print(f"[INFO] Navigating to: {filtered_url}")
     sb.open(filtered_url)
     sb.sleep(5)
-    
+
     # Extract ads using the existing logic (with infinite scroll)
     ads = extract_ads(sb, limit=limit)
-    
+
     # Add advertiser info to each ad
     for ad in ads:
         ad["scraped_from_advertiser"] = advertiser_name
         ad["advertiser_page_id"] = page_id
-    
+
     print(f"[INFO] Found {len(ads)} ads from advertiser: {advertiser_name}")
     return ads
 
@@ -335,7 +363,7 @@ def _build_advertiser_url(country: str, page_id: str) -> str:
 def next_output_path(mode: str = "suggestions") -> Path:
     """Return output file path based on APPEND setting (hardcoded to True)"""
     APPEND = True  # Hardcoded append mode
-    
+
     if APPEND:
         return OUTPUT_DIR / f"{mode}.json"
     else:
@@ -351,7 +379,7 @@ def save_data_to_results(data: Dict[str, Any]) -> None:
     """Save data to Results directory with append functionality"""
     try:
         out_file = next_output_path("suggestions")
-        
+
         if out_file.exists():
             try:
                 existing = json.loads(out_file.read_text(encoding="utf-8"))
@@ -443,7 +471,7 @@ def scrape_suggestions_sync(country: str, keyword: str, scrape_ads: bool = False
                 print(f"        - Network connectivity problems")
             else:
                 print(f"[ERROR] Failed to initialize Facebook connection: {error_msg}")
-            
+
             # Re-raise the exception to be handled by the calling function
             raise e
 
@@ -502,7 +530,7 @@ def scrape_suggestions_sync(country: str, keyword: str, scrape_ads: bool = False
     ads = []
     if scrape_ads:
         print(f"[INFO] Starting advertiser ads scraping for {len(suggestions)} suggestions...")
-        
+
         # Start a new browser session for advertiser ads scraping
         with SB(uc=True, headless=headless) as sb:
             # Login bootstrap again
@@ -517,7 +545,7 @@ def scrape_suggestions_sync(country: str, keyword: str, scrape_ads: bool = False
                     pass
             sb.open(AD_LIBRARY_URL)
             sb.sleep(5)
-            
+
             # Iterate through suggestions and scrape ads from each advertiser
             for idx, suggestion in enumerate(suggestions, 1):
                 page_id = _extract_page_id_from_suggestion(suggestion)
@@ -525,46 +553,46 @@ def scrape_suggestions_sync(country: str, keyword: str, scrape_ads: bool = False
                     try:
                         advertiser_name = suggestion.get("name", "Unknown")
                         print(f"[INFO] ({idx}/{len(suggestions)}) Scraping ads from advertiser: {advertiser_name}")
-                        
+
                         # Extract ads from this advertiser with specific limit
                         ads_from_advertiser = extract_advertiser_ads(
                             sb, country, page_id, advertiser_name, limit=advertiser_ads_limit
                         )
-                        
+
                         # Add advertiser ads to the main ads list
                         ads.extend(ads_from_advertiser)
-                        
+
                         print(f"[INFO] Collected {len(ads_from_advertiser)} ads from {advertiser_name}. Total: {len(ads)}")
-                        
+
                         # Small delay between advertiser pages
                         sb.sleep(2)
-                        
+
                     except Exception as e:
                         print(f"[ERROR] Failed to scrape ads from advertiser {suggestion.get('name', 'Unknown')}: {e}")
                         continue
                 else:
                     print(f"[INFO] Skipping suggestion '{suggestion.get('name', 'Unknown')}' - no valid page ID")
-            
+
             print(f"[INFO] Completed advertiser ads scraping. Total ads collected: {len(ads)}")
 
     # ── Build nested result object ────────────────────────────────────
     # Create nested structure: each suggestion with its ads
     nested_suggestions = []
-    
+
     if scrape_ads:
         # Group ads by advertiser and create nested structure
         for suggestion in suggestions:
             suggestion_copy = suggestion.copy()
             page_id = _extract_page_id_from_suggestion(suggestion)
             advertiser_name = suggestion.get("name", "Unknown")
-            
+
             # Find ads for this specific advertiser
             advertiser_ads = [ad for ad in ads if ad.get("scraped_from_advertiser") == advertiser_name]
-            
+
             # Add ads to the suggestion
             suggestion_copy["ads"] = advertiser_ads
             suggestion_copy["ads_count"] = len(advertiser_ads)
-            
+
             nested_suggestions.append(suggestion_copy)
     else:
         # If not scraping ads, just add empty ads array to each suggestion
@@ -589,7 +617,7 @@ def scrape_suggestions_sync(country: str, keyword: str, scrape_ads: bool = False
 
     print(f"[INFO] Completed scraping for {country} | {keyword}")
     print(f"[INFO] Results: {len(nested_suggestions)} suggestions, {len(ads) if scrape_ads else 0} ads")
-    
+
     return result
 
 

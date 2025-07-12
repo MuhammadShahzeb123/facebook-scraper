@@ -9,12 +9,33 @@ from datetime import datetime
 
 # Set up Unicode handling for Windows console
 if sys.platform.startswith('win'):
+    # Set environment variable for UTF-8 encoding
+    os.environ['PYTHONIOENCODING'] = 'utf-8'
+
     try:
         import codecs
-        sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
-        sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
+        sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'replace')
+        sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'replace')
     except:
         pass  # If this fails, continue without Unicode support
+
+    # Wrap print function to handle encoding errors gracefully
+    original_print = print
+    def safe_print(*args, **kwargs):
+        try:
+            return original_print(*args, **kwargs)
+        except UnicodeEncodeError:
+            # Convert all args to strings and handle encoding
+            safe_args = []
+            for arg in args:
+                try:
+                    safe_args.append(str(arg).encode('ascii', 'replace').decode('ascii'))
+                except:
+                    safe_args.append(repr(arg))
+            return original_print(*safe_args, **kwargs)
+
+    # Replace print function globally
+    print = safe_print
 
 from selenium.common.exceptions import (NoSuchElementException, #type: ignore
                                        StaleElementReferenceException)#type: ignore
@@ -524,12 +545,45 @@ def extract_caption(container: WebElement) -> str:
 
 
 def extract_url(container: WebElement) -> str:
-    """Extract post URL/permalink (either /posts/ or /videos/)."""
+    """Extract post URL/permalink using regex pattern matching."""
     try:
-        return container.find_element(
+        # Get the entire HTML content of the container
+        html_content = container.get_attribute("outerHTML")
+
+        # Skip if html_content is None
+        if not html_content:
+            html_content = ""
+
+        # Regex patterns to match Facebook post/video URLs
+        patterns = [
+            # Main pattern: facebook.com/<anything>/posts/
+            r'https://www\.facebook\.com/[^/]+/posts/[^"\s<>&]+',
+            # Alternative pattern: facebook.com/<anything>/videos/
+            r'https://www\.facebook\.com/[^/]+/videos/[^"\s<>&]+',
+            # Fallback for m.facebook.com posts
+            r'https://m\.facebook\.com/[^/]+/posts/[^"\s<>&]+',
+            r'https://m\.[^"]\.com/[^/]+/posts/[^"\s<>&]+',
+            # Generic facebook.com posts pattern
+            r'https://[^"]*facebook\.com/[^"]*posts/[^"\s<>&]+',
+            r'https://[^"]*[^"]\.com/[^"]*posts/[^"\s<>&]+',
+        ]
+
+        for pattern in patterns:
+            matches = re.findall(pattern, html_content)
+            if matches:
+                # Return the first valid match, clean it up
+                url = matches[0]
+                # Remove any trailing HTML artifacts or query parameters that might break the URL
+                url = url.split('?')[0] if '?' in url else url
+                url = url.split('&')[0] if '&' in url else url
+                return url.strip()
+
+        # Fallback to original XPath method if regex fails
+        href_attr = container.find_element(
             By.XPATH,
             './/a[contains(@href, "/posts/") or contains(@href, "/videos/")][@role="link"]'
         ).get_attribute("href")
+        return href_attr or ""
     except:
         return ""
 

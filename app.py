@@ -516,6 +516,7 @@ def run_ads_scraper(job_id: str, request_data: AdsScrapingRequest):
             env=env,
             text=True,  # Automatically decode output as text
             encoding='utf-8',  # Explicitly specify UTF-8 encoding
+            errors='replace',  # Replace invalid characters instead of failing
             cwd=os.getcwd()  # Ensure correct working directory
         )
 
@@ -614,6 +615,7 @@ def run_advertiser_scraper(job_id: str, request_data: AdvertiserScrapingRequest)
             env=env,
             text=True,  # Automatically decode output as text
             encoding='utf-8',  # Explicitly specify UTF-8 encoding
+            errors='replace',  # Replace invalid characters instead of failing
             cwd=os.getcwd()  # Ensure correct working directory
         )
 
@@ -713,6 +715,7 @@ def run_pages_scraper(job_id: str, request_data: PageScrapingRequest):
             env=env,
             text=True,  # Automatically decode output as text
             encoding='utf-8',  # Explicitly specify UTF-8 encoding
+            errors='replace',  # Replace invalid characters instead of failing
             cwd=os.getcwd()  # Ensure correct working directory
         )
 
@@ -822,6 +825,7 @@ def run_posts_scraper(job_id: str, request_data: PostsScrapingRequest):
             env=env,
             text=True,  # Automatically decode output as text
             encoding='utf-8',  # Explicitly specify UTF-8 encoding
+            errors='replace',  # Replace invalid characters instead of failing
             cwd=os.getcwd()  # Ensure correct working directory
         )
 
