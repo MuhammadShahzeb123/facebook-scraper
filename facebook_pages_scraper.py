@@ -7,6 +7,15 @@ from typing import Dict, List, Tuple
 from urllib.parse import urlparse, parse_qs, unquote
 from datetime import datetime
 
+# Set up Unicode handling for Windows console
+if sys.platform.startswith('win'):
+    try:
+        import codecs
+        sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
+        sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
+    except:
+        pass  # If this fails, continue without Unicode support
+
 from selenium.common.exceptions import (NoSuchElementException, #type: ignore
                                        StaleElementReferenceException)#type: ignore
 from selenium.webdriver.remote.webelement import WebElement #type: ignore
@@ -651,8 +660,9 @@ def extract_home(sb: SB) -> Dict:
     try:
         h1 = sb.wait_for_element('//div[@role="main"]//h1', "xpath", timeout=4)
         out["name"] = h1.text.strip()
-        out["verified"] = bool(
-            h1.find_elements(By.XPATH, './/svg[@title="Verified account"]'))
+        # Check for verified status by looking for exact title text in page source
+        page_source = sb.get_page_source()
+        out["verified"] = '<title>Verified account</title>' in page_source
     except: pass
 
     # Profile-picture  (single helper covers all cases)
@@ -768,45 +778,102 @@ def extract_transparency(sb: SB, data: Dict):
         # 2) Click Page Transparency
         wait_click(sb, XP["transp_link"])
         pause(1)
+        # Extract page ID from page source using multiple patterns
         try:
-            # Try the specific XPath provided by the user
-            page_id_element = sb.find_element(
-                '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div[2]/div[1]/div/div/div[4]/div/div/div/div[1]/div/div/div/div/div[2]/div/div/div/div/div[2]/div/div/div[2]/div[1]/span',
-                "xpath",
-                timeout=3
-            )
-            page_id_text = page_id_element.text.strip()
-            if re.fullmatch(r'\d{10,}', page_id_text):
-                data["page_id"] = page_id_text
-        except:
-            # Fallback to other methods if specific XPath fails
-            try:
-                # Try the alternative XPath format
-                page_id_element = sb.find_element(
-                    '//*[contains(@id, "mount_")]/div/div[1]/div/div[3]/div/div/div[2]/div[1]/div/div/div[4]/div/div/div/div[1]/div/div/div/div/div[2]/div/div/div/div/div[2]/div/div/div[2]/div[1]/span',
-                    "xpath",
-                    timeout=2
-                )
-                page_id_text = page_id_element.text.strip()
-                if re.fullmatch(r'\d{10,}', page_id_text):
-                    data["page_id"] = page_id_text
-            except:
-                # Try pattern matching in text
-                try:
-                    modal = sb.find_element('//div[@role="dialog"]', "xpath", timeout=5)
-                    transparency_text = modal.text
+            page_source = sb.get_page_source()
+            print(f"[DEBUG] Page source length: {len(page_source)} characters")
 
-                    # Look for long digit string near "Page ID"
-                    pid_match = re.search(r'Page ID\D*(\d{10,})', transparency_text)
-                    if pid_match:
-                        data["page_id"] = pid_match.group(1)
+            # Debug: Look for the general structure around page ID
+            page_id_context = re.search(r'.{0,200}Page ID.{0,200}', page_source, re.DOTALL)
+            if page_id_context:
+                print(f"[DEBUG] Found 'Page ID' context: {page_id_context.group()[:400]}...")
+            else:
+                print("[DEBUG] No 'Page ID' text found in page source")
+
+            # Try multiple patterns to find page ID - starting with the most specific
+            patterns = [
+                # Pattern based on your HTML: number followed by</span></div><div><div><span><span...>Page ID
+                r'(\d{10,})</span></div><div><div><span><span[^>]*>Page ID',
+                # Alternative: number in span, followed by Page ID structure
+                r'<span[^>]*>(\d{10,})</span>.*?Page ID',
+                # Number followed by Page ID with various spacing/tags
+                r'(\d{10,})[^<]*</span>.*?Page ID',
+                # Look for specific class structure with page ID
+                r'class="[^"]*x193iq5w[^"]*"[^>]*>(\d{10,})</span>.*?Page ID',
+                # Original patterns as fallback
+                r'(\d+)\s*Page ID',                          # [NUMBER] Page ID
+                r'(\d{10,})\s*(?:Page|page)',                # Long number before "Page"
+                r'ID:\s*(\d+)',                              # ID: [NUMBER]
+                r'(?:page|Page)\s*(?:id|ID)[::\s]*(\d+)',    # Page ID: [NUMBER] or Page ID [NUMBER]
+                r'(\d{10,})',                                # Any 10+ digit number (last resort)
+            ]
+
+            page_id_found = False
+            for i, pattern in enumerate(patterns):
+                print(f"[DEBUG] Trying pattern {i+1}: {pattern}")
+                pid_match = re.search(pattern, page_source, re.DOTALL)
+                if pid_match:
+                    potential_id = pid_match.group(1)
+                    print(f"[DEBUG] Pattern {i+1} matched: {potential_id}")
+                    # Ensure it's a reasonable page ID (10+ digits)
+                    if len(potential_id) >= 10:
+                        data["page_id"] = potential_id
+                        print(f"[INFO] Page ID found using pattern {i+1}: {potential_id}")
+                        page_id_found = True
+                        break
                     else:
-                        # Look for any long digit string in the text
-                        numbers = re.findall(r'\d{10,}', transparency_text)
-                        if numbers:
-                            data["page_id"] = numbers[0]
+                        print(f"[DEBUG] Pattern {i+1} matched but number too short: {potential_id}")
+
+            if not page_id_found:
+                print("[WARN] No page ID found in page source, trying fallback methods")
+                # Additional debugging: look for any long numbers near "Page ID"
+                numbers_near_page_id = re.findall(r'(\d{8,}).*?Page ID|Page ID.*?(\d{8,})', page_source, re.DOTALL)
+                if numbers_near_page_id:
+                    print(f"[DEBUG] Found numbers near 'Page ID': {numbers_near_page_id[:5]}")
+                else:
+                    print("[DEBUG] No numbers found near 'Page ID' text")
+            else:
+                # Fallback to existing XPath methods
+                try:
+                    # Try the specific XPath provided by the user
+                    page_id_element = sb.find_element(
+                        '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div[2]/div[1]/div/div/div[4]/div/div/div/div[1]/div/div/div/div/div[2]/div/div/div/div/div[2]/div/div/div[2]/div[1]/span',
+                        "xpath",
+                        timeout=3
+                    )
+                    page_id_text = page_id_element.text.strip()
+                    if re.fullmatch(r'\d{10,}', page_id_text):
+                        data["page_id"] = page_id_text
                 except:
-                    pass
+                    # Try the alternative XPath format
+                    try:
+                        page_id_element = sb.find_element(
+                            '//*[contains(@id, "mount_")]/div/div[1]/div/div[3]/div/div/div[2]/div[1]/div/div/div[4]/div/div/div/div[1]/div/div/div/div/div[2]/div/div/div/div/div[2]/div/div/div[2]/div[1]/span',
+                            "xpath",
+                            timeout=2
+                        )
+                        page_id_text = page_id_element.text.strip()
+                        if re.fullmatch(r'\d{10,}', page_id_text):
+                            data["page_id"] = page_id_text
+                    except:
+                        # Try pattern matching in modal text
+                        try:
+                            modal = sb.find_element('//div[@role="dialog"]', "xpath", timeout=5)
+                            transparency_text = modal.text
+
+                            # Look for long digit string near "Page ID"
+                            pid_match = re.search(r'Page ID\D*(\d{10,})', transparency_text)
+                            if pid_match:
+                                data["page_id"] = pid_match.group(1)
+                            else:
+                                # Look for any long digit string in the text
+                                numbers = re.findall(r'\d{10,}', transparency_text)
+                                if numbers:
+                                    data["page_id"] = numbers[0]
+                        except:
+                            pass
+        except Exception as e:
+            print(f"[WARN] Page ID extraction failed: {e}")
 
 
         see_all_xpath = (
@@ -873,7 +940,9 @@ def extract_transparency(sb: SB, data: Dict):
             data["name_change_lines"] = changes        # ← new field
 
             # Ads flag & Verified fallback
-            data["is_running_ads"] = ("currently running ads" in transparency_text.lower())
+            # Check for ads status by looking for exact text in page source
+            page_source = sb.get_page_source()
+            data["is_running_ads"] = "This Page is currently running ads" in page_source
             if "verified" in transparency_text:
                 data["verified"] = True
             # ------ likes / followers (override home-page regex if present) ------

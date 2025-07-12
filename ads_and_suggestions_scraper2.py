@@ -73,6 +73,7 @@ from selenium.common.exceptions import (   # type: ignore
     NoSuchElementException, StaleElementReferenceException,
     ElementNotInteractableException,
 )  # type: ignore
+from proxy_utils_enhanced import get_proxy_string_with_fallback  # Import enhanced proxy utility
 
 # ── USER‑EDITABLE SETTINGS ────────────────────────────────────────────────
 # These can be overridden by environment variables or command line args
@@ -819,195 +820,218 @@ def main():
 
     out_path = next_output_path(MODE)
 
-    with SB(uc=True, headless=HEADLESS) as sb:
-        # ── Login bootstrap ───────────────────────────────────────────────
-        print("[INFO] Opening Facebook …")
-        sb.open("https://facebook.com")
-        print("[INFO] Restoring session cookies …")
-        for ck in load_cookies():
+    # Get proxy configuration
+    proxy_string = get_proxy_string_with_fallback()
+    if proxy_string:
+        print(f"[INFO] Using proxy: {proxy_string.split('@')[-1] if '@' in proxy_string else proxy_string}")
+    else:
+        print("[INFO] No proxy configured - running without proxy")
+
+    # Initialize SeleniumBase with proxy if available
+    if proxy_string:
+        with SB(uc=True, headless=HEADLESS, proxy=proxy_string) as sb:
+            run_scraping_logic(sb, pairs, out_path)
+    else:
+        with SB(uc=True, headless=HEADLESS) as sb:
+            run_scraping_logic(sb, pairs, out_path)
+
+
+def run_scraping_logic(sb, pairs, out_path):
+    # ── Login bootstrap ───────────────────────────────────────────────
+    print("[INFO] Opening Facebook …")
+    sb.open("https://facebook.com")
+    print("[INFO] Restoring session cookies …")
+    for ck in load_cookies():
+        try:
+            sb.driver.add_cookie(ck)
+        except Exception:
+            pass
+    sb.open(AD_LIBRARY_URL)
+    sb.sleep(5)
+
+    # Build an iterable of (country, keyword, advertiser)
+    #  – if ADVERTISERS is empty we feed through a single [None] sentinel
+    triples = product(pairs, ADVERTISERS or [None])
+
+    # LOOP over all (country, keyword, advertiser) triples  ───────────
+    done_pairs = load_checkpoint()
+
+    for (country, keyword), advertiser in triples:
+        # Skip logic now tracks advertiser as well
+        if (country, keyword, advertiser) in done_pairs:
+            print(f"[SKIP] Already processed: {country} | {keyword} | {advertiser}")
+            continue
+
+        search_term = advertiser or keyword     # <- what we will type in the box
+        print(f"\n=== {country} | {search_term} {'(advertiser search)' if advertiser else ''} ===")
+
+        # 1) Country dropdown
+        wait_click(sb, '//div[div/div/text()="All" or div/div/text()="Country"]/..', by="xpath")
+        safe_type(sb, '//input[@placeholder="Search for country"]', country, by="xpath")
+
+        # More robust country selection with multiple fallback selectors
+        country_selectors = [
+            f'//div[contains(@id,"js_") and text()="{country}"]',
+            f'//div[contains(@id,"js_") and contains(text(),"{country}")]',
+            f'//div[text()="{country}"]',
+            f'//div[contains(text(),"{country}")]',
+            f'//span[text()="{country}"]',
+            f'//span[contains(text(),"{country}")]',
+            f'//*[text()="{country}"]'
+        ]
+
+        country_clicked = False
+        for selector in country_selectors:
             try:
-                sb.driver.add_cookie(ck)
-            except Exception:
-                pass
-        sb.open(AD_LIBRARY_URL)
-        sb.sleep(5)
-
-        # Build an iterable of (country, keyword, advertiser)
-        #  – if ADVERTISERS is empty we feed through a single [None] sentinel
-        triples = product(pairs, ADVERTISERS or [None])
-
-        # LOOP over all (country, keyword, advertiser) triples  ───────────
-        done_pairs = load_checkpoint()
-
-        for (country, keyword), advertiser in triples:
-            # Skip logic now tracks advertiser as well
-            if (country, keyword, advertiser) in done_pairs:
-                print(f"[SKIP] Already processed: {country} | {keyword} | {advertiser}")
+                sb.wait_for_element_visible(selector, by="xpath", timeout=5)
+                sb.click(selector, by="xpath")
+                country_clicked = True
+                print(f"[SUCCESS] Selected country using selector: {selector}")
+                break
+            except Exception as e:
+                print(f"[DEBUG] Country selector failed: {selector} - {str(e)}")
                 continue
 
-            search_term = advertiser or keyword     # <- what we will type in the box
-            print(f"\n=== {country} | {search_term} {'(advertiser search)' if advertiser else ''} ===")            # 1) Country dropdown
-            wait_click(sb, '//div[div/div/text()="All" or div/div/text()="Country"]/..', by="xpath")
-            safe_type(sb, '//input[@placeholder="Search for country"]', country, by="xpath")
+        if not country_clicked:
+            print(f"[ERROR] Could not find country '{country}' with any selector")
+            # Try to get available options for debugging
+            try:
+                available_options = sb.find_elements('//div[contains(@id,"js_")]', by="xpath")
+                print(f"[DEBUG] Available options: {[opt.text for opt in available_options[:10]]}")
+            except:
+                pass
+            raise Exception(f"Could not select country: {country}")
 
-            # More robust country selection with multiple fallback selectors
-            country_selectors = [
-                f'//div[contains(@id,"js_") and text()="{country}"]',
-                f'//div[contains(@id,"js_") and contains(text(),"{country}")]',
-                f'//div[text()="{country}"]',
-                f'//div[contains(text(),"{country}")]',
-                f'//span[text()="{country}"]',
-                f'//span[contains(text(),"{country}")]',
-                f'//*[text()="{country}"]'
-            ]
+        sb.sleep(2)
 
-            country_clicked = False
-            for selector in country_selectors:
-                try:
-                    sb.wait_for_element_visible(selector, by="xpath", timeout=5)
-                    sb.click(selector, by="xpath")
-                    country_clicked = True
-                    print(f"[SUCCESS] Selected country using selector: {selector}")
-                    break
-                except Exception as e:
-                    print(f"[DEBUG] Country selector failed: {selector} - {str(e)}")
-                    continue
+        # 2) Ad category → All ads (we will *override* via URL later if needed)
+        wait_click(sb, '//div[div/div/text()="Ad category"]/..', by="xpath")
+        wait_click(sb, '//span[text()="All ads"]/../../..', by="xpath")
+        sb.sleep(2)
 
-            if not country_clicked:
-                print(f"[ERROR] Could not find country '{country}' with any selector")
-                # Try to get available options for debugging
-                try:
-                    available_options = sb.find_elements('//div[contains(@id,"js_")]', by="xpath")
-                    print(f"[DEBUG] Available options: {[opt.text for opt in available_options[:10]]}")
-                except:
-                    pass
-                raise Exception(f"Could not select country: {country}")
+        # 3) Keyword box
+        KEY_BOX = ('//input[@type="search" and contains(@placeholder,"keyword") '
+                   'and not(@aria-disabled="true")]')
 
-            sb.sleep(2)
+        suggestions, ads = [], []
 
-            # 2) Ad category → All ads (we will *override* via URL later if needed)
-            wait_click(sb, '//div[div/div/text()="Ad category"]/..', by="xpath")
-            wait_click(sb, '//span[text()="All ads"]/../../..', by="xpath")
-            sb.sleep(2)            # 3) Keyword box
-            KEY_BOX = ('//input[@type="search" and contains(@placeholder,"keyword") '
-                       'and not(@aria-disabled="true")]')
+        if MODE == "suggestions":
+            suggestions = extract_suggestions(sb, search_term)
 
-            suggestions, ads = [], []
+            # If SCRAPE_ADVERTISER_ADS is True, scrape ads from each advertiser page
+            if SCRAPE_ADVERTISER_ADS:
+                print(f"[INFO] Found {len(suggestions)} suggestions. Starting advertiser ads scraping...")
 
-            if MODE == "suggestions":
-                suggestions = extract_suggestions(sb, search_term)
+                for idx, suggestion in enumerate(suggestions, 1):
+                    page_id = _extract_page_id_from_suggestion(suggestion)
+                    if page_id:
+                        try:
+                            advertiser_name = suggestion.get("name", "Unknown")
+                            print(f"[INFO] ({idx}/{len(suggestions)}) Scraping ads from advertiser: {advertiser_name}")
 
-                # If SCRAPE_ADVERTISER_ADS is True, scrape ads from each advertiser page
-                if SCRAPE_ADVERTISER_ADS:
-                    print(f"[INFO] Found {len(suggestions)} suggestions. Starting advertiser ads scraping...")
+                            # Extract ads from this advertiser with specific limit
+                            ads_from_advertiser = extract_advertiser_ads(
+                                sb, country, page_id, advertiser_name, limit=ADVERTISER_ADS_LIMIT
+                            )
 
-                    for idx, suggestion in enumerate(suggestions, 1):
-                        page_id = _extract_page_id_from_suggestion(suggestion)
-                        if page_id:
-                            try:
-                                advertiser_name = suggestion.get("name", "Unknown")
-                                print(f"[INFO] ({idx}/{len(suggestions)}) Scraping ads from advertiser: {advertiser_name}")
+                            # Add advertiser ads to the main ads list
+                            ads.extend(ads_from_advertiser)
 
-                                # Extract ads from this advertiser with specific limit
-                                ads_from_advertiser = extract_advertiser_ads(
-                                    sb, country, page_id, advertiser_name, limit=ADVERTISER_ADS_LIMIT
-                                )
+                            print(f"[INFO] Collected {len(ads_from_advertiser)} ads from {advertiser_name}. Total: {len(ads)}")
 
-                                # Add advertiser ads to the main ads list
-                                ads.extend(ads_from_advertiser)
+                            # Small delay between advertiser pages
+                            sb.sleep(2)
 
-                                print(f"[INFO] Collected {len(ads_from_advertiser)} ads from {advertiser_name}. Total: {len(ads)}")
+                        except Exception as e:
+                            print(f"[ERROR] Failed to scrape ads from advertiser {suggestion.get('name', 'Unknown')}: {e}")
+                            continue
+                    else:
+                        print(f"[INFO] Skipping suggestion '{suggestion.get('name', 'Unknown')}' - no valid page ID")
 
-                                # Small delay between advertiser pages
-                                sb.sleep(2)
+                print(f"[INFO] Completed advertiser ads scraping. Total ads collected: {len(ads)}")
 
-                            except Exception as e:
-                                print(f"[ERROR] Failed to scrape ads from advertiser {suggestion.get('name', 'Unknown')}: {e}")
-                                continue
-                        else:
-                            print(f"[INFO] Skipping suggestion '{suggestion.get('name', 'Unknown')}' - no valid page ID")
+                # Go back to main Ad Library page for next pair
+                sb.open(AD_LIBRARY_URL)
+                sb.sleep(3)
 
-                    print(f"[INFO] Completed advertiser ads scraping. Total ads collected: {len(ads)}")
-
-                    # Go back to main Ad Library page for next pair
-                    sb.open(AD_LIBRARY_URL)
-                    sb.sleep(3)
-
-            elif MODE == "ads":
-                safe_type(sb, KEY_BOX, search_term, by="xpath", press_enter=True)
-                sb.sleep(4)
-
-                # ── v1.1 INSERTION POINT – apply filters via URL───────────
-                filtered_url = _apply_filters_to_url(sb.driver.current_url)
-                if filtered_url != sb.driver.current_url:
-                    sb.open(filtered_url)
-                    sb.sleep(5)
-
-                # Extract ads with infinite scroll
-                ads = extract_ads(sb, limit=ADS_LIMIT)
-
-                # Filter scraped cards by advertiser
-                if advertiser:
-                    before = len(ads)
-                    ads = [ad for ad in ads if _match_page(ad.get("page"), advertiser)]
-                    print(f"[INFO] Kept {len(ads)}/{before} ads that belong to \"{advertiser}\".")
-
-            elif MODE == "ads_and_suggestions":
-                # suggestions first (no enter)
-                suggestions = extract_suggestions(sb, search_term)
-                # hit <Enter> and scrape ads
-                safe_type(sb, KEY_BOX, search_term, by="xpath", press_enter=True)
-                sb.sleep(4)
-
-                filtered_url = _apply_filters_to_url(sb.driver.current_url)
-                if filtered_url != sb.driver.current_url:
-                    sb.open(filtered_url)
-                    sb.sleep(5)
-
-                # Extract ads with infinite scroll
-                ads = extract_ads(sb, limit=ADS_LIMIT)
-
-                # Filter scraped cards by advertiser
-                if advertiser:
-                    before = len(ads)
-                    ads = [ad for ad in ads if _match_page(ad.get("page"), advertiser)]
-                    print(f"[INFO] Kept {len(ads)}/{before} ads that belong to \"{advertiser}\".")            # Build filter details for this run
-            filter_details = {
-                "mode": MODE,
-                "ad_category": AD_CATEGORY,
-                "status": STATUS,
-                "languages": LANGUAGES,
-                "platforms": PLATFORMS,
-                "media_type": MEDIA_TYPE,
-                "start_date": START_DATE,
-                "end_date": END_DATE,
-                "ads_limit": ADS_LIMIT,
-                "advertiser_ads_limit": ADVERTISER_ADS_LIMIT,
-                "scrape_advertiser_ads": SCRAPE_ADVERTISER_ADS,
-                "advertiser": advertiser,
-                "timestamp": datetime.now().isoformat()
-            }
-
-            # Build and save data immediately
-            pair_object = {
-                "country":     country,
-                "keyword":     keyword,
-                "advertiser":  advertiser,
-                "filters":     filter_details,
-                **({"suggestions": suggestions} if MODE != "ads" else {}),
-                **({"ads": ads} if MODE != "suggestions" or SCRAPE_ADVERTISER_ADS else {}),
-            }
-
-            save_data_immediately(pair_object, MODE)
-            print(f"[INFO] Saved data for {country} | {search_term} {'(advertiser)' if advertiser else ''} – Suggestions: {len(suggestions)}, Ads: {len(ads)}")
-            done_pairs.add((country, keyword, advertiser))
-            save_checkpoint(done_pairs)
-
-            # Back to Ad‑Library home for next pair
-            sb.open(AD_LIBRARY_URL)
+        elif MODE == "ads":
+            safe_type(sb, KEY_BOX, search_term, by="xpath", press_enter=True)
             sb.sleep(4)
 
+            # ── v1.1 INSERTION POINT – apply filters via URL───────────
+            filtered_url = _apply_filters_to_url(sb.driver.current_url)
+            if filtered_url != sb.driver.current_url:
+                sb.open(filtered_url)
+                sb.sleep(5)
+
+            # Extract ads with infinite scroll
+            ads = extract_ads(sb, limit=ADS_LIMIT)
+
+            # Filter scraped cards by advertiser
+            if advertiser:
+                before = len(ads)
+                ads = [ad for ad in ads if _match_page(ad.get("page"), advertiser)]
+                print(f"[INFO] Kept {len(ads)}/{before} ads that belong to \"{advertiser}\".")
+
+        elif MODE == "ads_and_suggestions":
+            # suggestions first (no enter)
+            suggestions = extract_suggestions(sb, search_term)
+            # hit <Enter> and scrape ads
+            safe_type(sb, KEY_BOX, search_term, by="xpath", press_enter=True)
+            sb.sleep(4)
+
+            filtered_url = _apply_filters_to_url(sb.driver.current_url)
+            if filtered_url != sb.driver.current_url:
+                sb.open(filtered_url)
+                sb.sleep(5)
+
+            # Extract ads with infinite scroll
+            ads = extract_ads(sb, limit=ADS_LIMIT)
+
+            # Filter scraped cards by advertiser
+            if advertiser:
+                before = len(ads)
+                ads = [ad for ad in ads if _match_page(ad.get("page"), advertiser)]
+                print(f"[INFO] Kept {len(ads)}/{before} ads that belong to \"{advertiser}\".")
+
+        # Build filter details for this run
+        filter_details = {
+            "mode": MODE,
+            "ad_category": AD_CATEGORY,
+            "status": STATUS,
+            "languages": LANGUAGES,
+            "platforms": PLATFORMS,
+            "media_type": MEDIA_TYPE,
+            "start_date": START_DATE,
+            "end_date": END_DATE,
+            "ads_limit": ADS_LIMIT,
+            "advertiser_ads_limit": ADVERTISER_ADS_LIMIT,
+            "scrape_advertiser_ads": SCRAPE_ADVERTISER_ADS,
+            "advertiser": advertiser,
+            "timestamp": datetime.now().isoformat()
+        }
+
+        # Build and save data immediately
+        pair_object = {
+            "country":     country,
+            "keyword":     keyword,
+            "advertiser":  advertiser,
+            "filters":     filter_details,
+            **({"suggestions": suggestions} if MODE != "ads" else {}),
+            **({"ads": ads} if MODE != "suggestions" or SCRAPE_ADVERTISER_ADS else {}),
+        }
+
+        save_data_immediately(pair_object, MODE)
+        print(f"[INFO] Saved data for {country} | {search_term} {'(advertiser)' if advertiser else ''} – Suggestions: {len(suggestions)}, Ads: {len(ads)}")
+        done_pairs.add((country, keyword, advertiser))
+        save_checkpoint(done_pairs)
+
+        # Back to Ad‑Library home for next pair
+        sb.open(AD_LIBRARY_URL)
+        sb.sleep(4)
+
     print("\n[DONE] All pairs processed with immediate saving.")
+
 
 # ──────────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":

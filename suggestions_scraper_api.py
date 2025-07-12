@@ -20,6 +20,7 @@ from urllib.parse import urlparse, parse_qs, urlencode, urlunparse, quote
 from datetime import datetime
 
 from seleniumbase import SB
+from proxy_utils_enhanced import get_proxy_string_with_fallback  # Import enhanced proxy utility
 from selenium.common.exceptions import (
     NoSuchElementException, StaleElementReferenceException,
     ElementNotInteractableException,
@@ -405,19 +406,46 @@ def scrape_suggestions_sync(country: str, keyword: str, scrape_ads: bool = False
     """
     print(f"[INFO] Starting suggestions scraping for: {country} | {keyword}")
 
-    with SB(uc=True, headless=headless) as sb:
-        # ── Login bootstrap ───────────────────────────────────────────────
-        print("[INFO] Opening Facebook...")
-        sb.open("https://facebook.com")
-        print("[INFO] Restoring session cookies...")
-        for ck in load_cookies():
-            try:
-                if hasattr(sb, 'driver') and sb.driver:
-                    sb.driver.add_cookie(ck)
-            except Exception:
-                pass
-        sb.open(AD_LIBRARY_URL)
-        sb.sleep(5)
+    # Get proxy configuration
+    proxy_string = get_proxy_string_with_fallback()
+    if proxy_string:
+        print(f"[INFO] Using proxy: {proxy_string.split('@')[-1] if '@' in proxy_string else proxy_string}")
+    else:
+        print("[INFO] No proxy available, running without proxy")
+
+    # Initialize SeleniumBase with or without proxy
+    sb_kwargs = {"uc": True, "headless": headless}
+    if proxy_string:
+        sb_kwargs["proxy"] = proxy_string
+
+    with SB(**sb_kwargs) as sb:
+        try:
+            # ── Login bootstrap ───────────────────────────────────────────────
+            print("[INFO] Opening Facebook...")
+            sb.open("https://facebook.com")
+            print("[INFO] Restoring session cookies...")
+            for ck in load_cookies():
+                try:
+                    if hasattr(sb, 'driver') and sb.driver:
+                        sb.driver.add_cookie(ck)
+                except Exception:
+                    pass
+            sb.open(AD_LIBRARY_URL)
+            sb.sleep(5)
+
+        except Exception as e:
+            error_msg = str(e)
+            if "ERR_NAME_NOT_RESOLVED" in error_msg:
+                print(f"[ERROR] DNS resolution failed - cannot reach Facebook through proxy")
+                print(f"[ERROR] This might be caused by:")
+                print(f"        - Proxy server DNS issues")
+                print(f"        - Proxy server blocking Facebook")
+                print(f"        - Network connectivity problems")
+            else:
+                print(f"[ERROR] Failed to initialize Facebook connection: {error_msg}")
+            
+            # Re-raise the exception to be handled by the calling function
+            raise e
 
         # ── Country Selection (EXACT v2 logic) ────────────────────────────
         print(f"[INFO] Selecting country: {country}")

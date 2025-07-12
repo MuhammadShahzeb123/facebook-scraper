@@ -1,267 +1,122 @@
 [
   {
-    "name": "Coca-Cola",
-    "profile_pic": "https://scontent-sin6-2.xx.fbcdn.net/v/t39.30808-1/347256670_197250269510933_105036682896674779_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=1&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=NFYeDnNBB2gQ7kNvwGMVICt&_nc_oc=AdmdxwVSk-MW-tbhwWe_8UCEyr2lIQS5WnHEtY4hIT1K2b8QpTFO72mSsdHL2kdUocQ&_nc_zt=24&_nc_ht=scontent-sin6-2.xx&_nc_gid=UYnV34kwR8uzwEOkVVP77Q&oh=00_AfSMtR8POWNNByhUdgydMvjtcxIdv7ynHGkz-d24sKWOzQ&oe=6876DF4D",
-    "verified": true,
-    "followers": "108M",
-    "likes": "108M",
-    "category": "Food and drink",
-    "description": "The Coca-Cola Facebook Page is a collection of your stories showing how people from around the world have helped make Coke into what it is today.",
-    "pageurl": "https://www.facebook.com/CokePakistan",
-    "website_label": "coca-cola.com.pk",
-    "page_url": "https://www.facebook.com/CokePakistan",
+    "name": "ZCopS",
+    "profile_pic": "https://scontent-sin11-1.xx.fbcdn.net/v/t39.30808-1/375062885_147480668411200_1639760871350811253_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=105&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=xyfS0UcQ1yEQ7kNvwGA3t8r&_nc_oc=Adnf2qRbGjo5rMIYxl0UWT6akiiCLBLyQAyx-3O9LXbVRwx_PBJV7X4jh6rRzdWamTQ&_nc_zt=24&_nc_ht=scontent-sin11-1.xx&_nc_gid=nl9Sf7pYzyPln_BKmN_o5w&oh=00_AfQSoqO_G3Cv8AVdHLEAbBnN6RwXSufpAbkLl8g2jdSSPA&oe=68779A0A",
+    "verified": false,
+    "followers": "4",
+    "likes": "2",
+    "category": "Marketing agency",
+    "description": "The 3.3x Growth for Businesses to Thrive",
+    "pageurl": "https://www.facebook.com/ZCopScom",
+    "website_label": "shahzeb@zcops.com",
+    "page_url": "https://www.facebook.com/ZCopScom",
+    "source_url": "https://www.facebook.com/ZCopScom",
+    "scrape_method": "url",
     "recent_posts": [
       {
-        "text": "Trip nahi shoro hogi jab tak zone mein nahi ho. Coca-Cola utha, zone mein aa.… See more",
-        "url": "https://www.facebook.com/CokePakistan/videos/1141383311143869/?__cft__[0]=AZXMYN4WoJ4uF5jjeqe4RpRUT480v1hO_Dt1yKLnO92MpQjCtn9y7ehP4zACLtiiueNdgNF7qfrRRGiL-0yX0l5HZxI160HdUumSaEIOZVMDLcf65PCJQ1P4XqCBuOuWLHvpbA1BzefIHWGCXICSqzpW-SmlUu0CyItk6rupvVteGQX-J_VlGuQ6P9jw-jlkkB-ygoCF6PH0xmm49Ykh1su8&__tn__=%2B%3FFH-R",
-        "images": [],
-        "likes": "15",
-        "comments": "",
-        "shares": "4",
-        "scraped_at": "2025-07-11T18:15:19.166260"
-      },
-      {
-        "text": "Zoned out? Coca-Cola utha, zone mein aa.… See more",
-        "url": "https://www.facebook.com/CokePakistan/videos/1077206543807345/?__cft__[0]=AZXQW52Di0cAMCNef2Vb_RAtNk0o8XX3_rVoxxMdROrS1HjJJfz0W8J_QdeGFP4e91ueoxGgRA_m_S10X9CwJYsb-lLlcwPPfHAeoF5M-AfS3FOaD82Nrk3P01HcKjdydwnGE2hm9_WKInuFogZU7_PNcIEm9h5Dk3Nwi6u32YBMbUGJ0sFZ8kSIBEw7hG3QnP6Etp8b_py4G2r2xbYehDPo&__tn__=%2B%3FFH-R",
-        "images": [],
-        "likes": "14",
+        "text": "Yes it is… See more",
+        "url": "",
+        "images": [
+          "https://scontent-sin2-1.xx.fbcdn.net/v/t39.30808-6/469549016_122212913864025852_6535854627198165063_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=InPhzeUvtS0Q7kNvwFSu1Id&_nc_oc=AdlTS0HltIzNKHd6eHQETOaryypFnRtgHScUcsPNbq70bN6kDKhL7J7A-xqGP1wFmzk&_nc_zt=23&_nc_ht=scontent-sin2-1.xx&_nc_gid=lwEIUR9016RqW37GUqAzWg&oh=00_AfQXtWNPuDhQ5EECjgfnJfXXquQqk8RnSJIexBZIEleXaQ&oe=68777BD3"
+        ],
+        "likes": "1",
         "comments": "",
         "shares": "",
-        "scraped_at": "2025-07-11T18:15:20.183902"
+        "scraped_at": "2025-07-12T06:02:26.072413"
       },
       {
-        "text": "Coca-Cola utha, zone mein aa.… See more",
-        "url": "https://www.facebook.com/CokePakistan/videos/1377269520044271/?__cft__[0]=AZUqziFTTbjQppCMEiOaJCAUoE5ZvlbT5YDtmdtCt_6Jrsz67Q66gV8CAYRKiUvc7-J_WMNv8AJ4gHzq5pw0eEQevfVSxkcLgOyYxttKl7uc5iIgXOquM4_KkFkx53DAaOoTdLRkiY5tClJgsVc3D8UNeUliKNZzKadzH4sCtHIDhEez-OUIS-44-I7Btnv6iaddsK2X3EDy0Elc5SnIPFdYEWehK4nx4pdZMvTc660ZSQ&__tn__=%2B%3FFH-R",
-        "images": [],
-        "likes": "4.1K",
-        "comments": "1",
-        "shares": "12",
-        "scraped_at": "2025-07-11T18:15:21.217078"
-      },
-      {
-        "text": "Thandi Coke, aur squad ke jokes. Life Sorted! … See more",
-        "url": "https://www.facebook.com/CokePakistan/videos/582679257858054/?__cft__[0]=AZWGusGjBUyf05ACwq9GeAzgkbaJ1lB4aIP9RhDbZs9iiKx7oISqXb6Tck1uFCIqrB3-GQuT2vlMUoqG50K2Id9eKM6ZZqB9IScQZpqvJOwLf_E0gjeiL57yHyfBavujRQyS04Fdu-airVsEtz5AwS4cwaU37cKAdIUwDrey8Re6VMnSd719mYUrJgDTbVQ-axl1rSDLCNASZgqIyloIZhgd&__tn__=%2B%3FFH-R",
-        "images": [],
-        "likes": "35",
+        "text": "This is the way to learn and earn. Suffer!",
+        "url": "",
+        "images": [
+          "https://scontent-sin6-3.xx.fbcdn.net/v/t39.30808-6/469337581_122212682708025852_3514382434016589126_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_ohc=FM7iXKQ1UOAQ7kNvwExWTcB&_nc_oc=AdlVn5lTjLxlsLewQPw2i9gyVVfnR3mkXaOZn74BtuTvE27MBDYHDTVdg1vmoJ5Y-dw&_nc_zt=23&_nc_ht=scontent-sin6-3.xx&_nc_gid=lwEIUR9016RqW37GUqAzWg&oh=00_AfRseFKea6RXYR-Im36kR5zf5MaazYuflsmFss_W3eFZxA&oe=68777CD1"
+        ],
+        "likes": "",
         "comments": "",
         "shares": "",
-        "scraped_at": "2025-07-11T18:15:22.190482"
+        "scraped_at": "2025-07-12T06:02:26.958873"
       },
       {
-        "text": "Scan it, send it, win it! … See more",
-        "url": "https://www.facebook.com/CokePakistan/videos/3004693883049730/?__cft__[0]=AZW53aTCvgnq6wtLPSFVaTQ-2FQOuXchuWutCuTOklsFdqU35tbYOzGfuOiAYI0JuxuUL9aCeoepExkLFVPLlykiyVB5DzZT_ZI7Lc9FRLKkCsraSB1AJwbhLt3bfNY6AeFzoXVUjzs58Ulr0TJTa9jEkYpp8jbWvKZF2vXzeFuSwKX1ezg-zgrN59THJJ_9B53OAPXlx6V1p0HgUFir-Zwq&__tn__=%2B%3FFH-R",
-        "images": [],
-        "likes": "61",
+        "text": "Your arrogance is what makes you ignore that fact that you are in this worlds for a Reason",
+        "url": "",
+        "images": [
+          "https://scontent-sin2-1.xx.fbcdn.net/v/t39.30808-6/469338825_122212670864025852_4652562792899162945_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=G-sc7AMHF1IQ7kNvwFokad1&_nc_oc=Adl9DqSALplo4EwWSahtpCOTV3PbxWA90Rdfxi8fsjdPt_CAnsfZHppC4aD5m5G4Ux4&_nc_zt=23&_nc_ht=scontent-sin2-1.xx&_nc_gid=ejR1rot0hZCo8vVAUGByIw&oh=00_AfSO29zlf5_iSq0jkNStkgT8_8lSEMAZLJnyq_Ace7MIPQ&oe=68778A66"
+        ],
+        "likes": "3",
         "comments": "",
-        "shares": "5",
-        "scraped_at": "2025-07-11T18:15:23.132312"
-      },
-      {
-        "text": "Coke chahye tou naam bol, cuz ab tou yehi hain Squad Goals! … See more",
-        "url": "https://www.facebook.com/CokePakistan/videos/731531132887679/?__cft__[0]=AZX2edwZZYeY2J5BdvzQHf1CSoZBdzSlx8NTXNvX3_85lHFQBzgHrF1wer9_v1wcio4gDn5YShrXDmcphI8gOvtpkqnLG4FOizT2FlJ_3i3Zv8SwfgpgjOT1NLoKP63jjwYENV9MUoEIkKCjsK1G91fvXNk8o9BJn_XF49UxNZ-JhqHtngn9rDd2GT3dKdPot4_JUkFRuI7JcOvXs5GD3Naz&__tn__=%2B%3FFH-R",
-        "images": [],
-        "likes": "65",
-        "comments": "",
-        "shares": "4",
-        "scraped_at": "2025-07-11T18:15:24.098944"
-      },
-      {
-        "text": "Eyerolls, hair flips, and a whole lot of sass. Which Drama Queen will you share a Coke with? \n#… See more",
-        "url": "https://www.facebook.com/CokePakistan/videos/1256776719205157/?__cft__[0]=AZVEckvUego9-Zwn6bu1dz05mT1_r6KC7i18Z-wN2HddgDvLPuAWY5RtOscKuevnQTs79VVX_VVVV2MA77xVglQfYYWeHLexkshxstU46cfkrRI20N6Z_g1AnBtWoVi9hpBJgffdC6pwB9s-Hr0i2y2a2r8a52FZTmVL1Yds_-JohQ-BVru4Ct0DH_ZIT8GQr3RSuNQbK5gYz41v8zbv47Iz&__tn__=%2B%3FFH-R",
-        "images": [],
-        "likes": "69",
-        "comments": "",
-        "shares": "1",
-        "scraped_at": "2025-07-11T18:15:25.037887"
-      },
-      {
-        "text": "Food crumbs, cravings and dessert craze! \n Fo… See more",
-        "url": "https://www.facebook.com/CokePakistan/videos/1046931796765856/?__cft__[0]=AZWnHsBjBDQ5F1b2V4cm-FxSNR4GhHbRU5rsVkSEmo28AvCbfNq4C9O6Yjm3063vcE9bkG5wXGBCliTGqbL7QBiLQcEBiuoI6_TQC-Q4mRC51a6xkiggVzaDwhU78e2_qez2_Bk1j3zebQv3oc8csMFKnNJKElxjFb2OsGwLiFqf4fvc8YQOrNt12d1i2b_PlBuAcg2gkJMCvRGwE2qPZ1Al&__tn__=%2B%3FFH-R",
-        "images": [],
-        "likes": "67",
-        "comments": "",
-        "shares": "2",
-        "scraped_at": "2025-07-11T18:15:26.046846"
-      },
-      {
-        "text": "When you think of Girl Boss, who comes to mind? Let them know by sharing a Coke with them. … See more",
-        "url": "https://www.facebook.com/CokePakistan/videos/1459185635259751/?__cft__[0]=AZXRFsh-HnzKLF7xzZcYDx1w3LmdC37YbtEmyvaNJteWhPBtm3skhH5TYRld_4wvsbXVq6by2uo6tcu4M5o5xEBmeWw8L_Aj-zkyec850EP8ogDu7CbZLXnIM1NtSYAWZDpjxD7g76iSEQ60NdZ7QkHdeXWG6WchMRYaXKS1M1cLupL9CjItDm1DQUD7962wbv5HaFqCsxm_PIrh5uoi08BD&__tn__=%2B%3FFH-R",
-        "images": [],
-        "likes": "57",
-        "comments": "",
-        "shares": "2",
-        "scraped_at": "2025-07-11T18:15:26.994001"
-      },
-      {
-        "text": "Hamesha limelight mein, sunglasses on and just pure vibes! Share a coke with the main character of your group. \n … See more",
-        "url": "https://www.facebook.com/CokePakistan/videos/737151225308303/?__cft__[0]=AZX-OYeaVdFn_YIev5zFZEpqmW-DlOwgrdnuNHVh9ERcQF_zwGwyIAw2zF54-o2ce9JedL7YYJU9iEsAyjvolKpMTOUCrY4Bkj7WRAtOegmeJ1FVGBtDDOe3--5Ur4lZ-3si7oI4Ry99s8l-JlD_SwUyWoIi7Bre_lge0f1MiWKtX37uh0tRHlommhfCIzcPGWiaW-wjV5Dh8AmrtUKnAyMM&__tn__=%2B%3FFH-R",
-        "images": [],
-        "likes": "49",
-        "comments": "",
-        "shares": "3",
-        "scraped_at": "2025-07-11T18:15:27.948717"
-      },
-      {
-        "text": "Coke aur squad, moments ka perfect combo!… See more",
-        "url": "https://www.facebook.com/CokePakistan/videos/1235940237889587/?__cft__[0]=AZUipDFEUQ3Ielg2Xc5Iem_GQzS8gwWzFYHAWy9UjfUkIHIP9CfkcmIyIbV_DDkY_3pAS_ypx5hVL9Ikeq-o3Gyrul0IF7ozCwG5V29Pm4cNKdZQtu7nZJ7HwtdPpVzUHqhJoOqMiE3bEnlICGMbu0jgMFDjhdBDYcySg5LJfxUPgNdLds5OR7Pr6eV3v3Auvrd5g9NHeJ7fGJpl2_TyGauM&__tn__=%2B%3FFH-R",
-        "images": [],
-        "likes": "47",
-        "comments": "",
-        "shares": "2",
-        "scraped_at": "2025-07-11T18:15:28.889675"
-      },
-      {
-        "text": "Abhi Coca-Cola ya Sprite mangwao aur ICC Champions Trophy match tickets ya dheron prizes jeetnay ka mauka pao!… See more",
-        "url": "https://www.facebook.com/CokePakistan/videos/1765882047288658/?__cft__[0]=AZWnzjhnH3sqoe-X8vmbdeT4_Cp1bYBhSrG-3gr5oaSkU8oFmSYCI209MGPAjttfwlP56pJaW_jJcNwFUjcKkwRXB6aZBsvg8fImwez3zIm8JqMFgvmsoBLri907M-Ym-jKHpyjQFeXdVBzES_sB_7dtrcS7BPnD-0nYOd69RtYusOTJC3IkjDaYh0tm0VLjjRml69RYnsgXGCpGkeNr6VnV&__tn__=%2B%3FFH-R",
-        "images": [],
-        "likes": "17",
-        "comments": "",
-        "shares": "204",
-        "scraped_at": "2025-07-11T18:15:29.850390"
-      },
-      {
-        "text": "Magic sirf tab ho, jab sath sab hon! \n#Y… See more",
-        "url": "https://www.facebook.com/CokePakistan/videos/1856013961599913/?__cft__[0]=AZX4ZRdEeO6RYeQ0P0WhoYzGHO4l78jRgLmrJetzFXh6vXKps60ba5zHI0xznuEfqobrxi2UJJxQM18nvWfPvj2Fzcvk4KFseRiTsRlZZUtO25suzSpISBpGMphQlmCeIOc9Dg2U7GWeHgtgEyAAowgm9_1qHBwNGOtbXPbM2Uok3SDAy5gBScovyzjjIuftg3sWzW4ElDQXfrd2QkiegL-Q&__tn__=%2B%3FFH-R",
-        "images": [],
-        "likes": "13",
-        "comments": "",
-        "shares": "88",
-        "scraped_at": "2025-07-11T18:15:30.800075"
-      },
-      {
-        "text": "Kya hamara yaqeen sab badal sakta hai?… See more",
-        "url": "https://www.facebook.com/CokePakistan/videos/2874625866050457/?__cft__[0]=AZVcGmZVo8hrKiSvrog8gFbX4iJj3gHA5BjLzKTwhv5a1MBG-BYyxGoquXsvrsdqHKg891DFMYG1EpOT4fl6BMDIOUnFA3s-SiNE7l2x_UD-IAfgsttBvi4Ou8Ta624FfZAqZ2r0foK1-Gohyw-9gfsjcqX0zMvyFE1snMk9qh01-DhwqKwSF7Clx_JC4erpO9gjd4cTpg8qP9eocS7Ggz-H&__tn__=%2B%3FFH-R",
-        "images": [],
-        "likes": "12",
-        "comments": "",
-        "shares": "384",
-        "scraped_at": "2025-07-11T18:15:31.846621"
-      },
-      {
-        "text": "Grab a bottle of Coke and scan the QR Code on the bottle.\nWhatsapp the code under the bottle cap along with your details to 03226222652 and win a trip to Dubai ya dhero… See more",
-        "url": "https://www.facebook.com/CokePakistan/videos/843279344103831/?__cft__[0]=AZVJjEfyvpHbj35NMq9LJ8ChnDPGo21eeBiqMtEQioe0auU_Szw7eCz34xL6uRfkeB3Zb6plvRYVaY-MvuOyruEFr_CdOQcEj9Knbu3x7nhkSx7w02y5ZCj2JokvtHTCwDzAAeE23sF3DcL5NQ9e87SR5YVrEAsn9S-rI1gmj6JXg5sb070wP5oFbv6X_dreAUWjvmLlofDylx0WqcMZOZvk&__tn__=%2B%3FFH-R",
-        "images": [],
-        "likes": "17",
-        "comments": "",
-        "shares": "181",
-        "scraped_at": "2025-07-11T18:15:33.352373"
-      },
-      {
-        "text": "Midnight cravings ka one and only solution, Paratha Roll saath ek Thandi Coke. Name a better midnight Recipe for Magic than this!\n#RecipeForMagic #CokeAndMeals",
-        "url": "https://www.facebook.com/CokePakistan/videos/1399271070956605/?__cft__[0]=AZUmz-M5mvyEpe3qW2ZXuNzXZcRuHtN7DgmI8JsuS-JhLSM503F5cNdbfebm-tBwS8W0y1V29FJjzBGRBD59_5HXasAwq6zb4k7kdW-lGqgXUv-1JrUmDXaMjG8mOdC9VKhaEO6_LOssOKXjJP5HTjZirXSK7gvZjZ1rGZfU9IoSRPZFWUeQ0MrEwfuZWNKfWuJzoqU2shRIVMLIKmivxC3C&__tn__=%2B%3FFH-R",
-        "images": [],
-        "likes": "102",
-        "comments": "",
-        "shares": "22",
-        "scraped_at": "2025-07-11T18:15:34.426754"
+        "shares": "",
+        "scraped_at": "2025-07-12T06:02:27.840918"
       }
     ],
+    "address": "85-A, Al-Minhaj Town, 49 Tail, Sargodha, Pakistan, 40100",
+    "mobile": "+92 313 7755745",
+    "email": "shahzeb@zcops.com",
     "social_links": [
-      "http://www.coca-cola.com.pk/"
+      "https://zcops.com/"
     ],
-    "page_id": "1527753387475028",
-    "created_date": "30 December 2014",
-    "admin_countries": [
-      "Pakistan (10)",
-      "Bulgaria (1)",
-      "North Macedonia (1)"
-    ],
-    "name_changes": 1,
-    "name_change_lines": [
-      "Coca-Cola"
-    ],
-    "is_running_ads": true
+    "page_id": "1024679760",
+    "created_date": "6 September 2023",
+    "name_changes": 0,
+    "name_change_lines": [],
+    "is_running_ads": false
   },
   {
-    "name": "コカ･コーラ (Coca-Cola)",
-    "profile_pic": "https://scontent-sin6-2.xx.fbcdn.net/v/t39.30808-1/347256670_197250269510933_105036682896674779_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=1&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=NFYeDnNBB2gQ7kNvwGMVICt&_nc_oc=AdmdxwVSk-MW-tbhwWe_8UCEyr2lIQS5WnHEtY4hIT1K2b8QpTFO72mSsdHL2kdUocQ&_nc_zt=24&_nc_ht=scontent-sin6-2.xx&_nc_gid=UYnV34kwR8uzwEOkVVP77Q&oh=00_AfSMtR8POWNNByhUdgydMvjtcxIdv7ynHGkz-d24sKWOzQ&oe=6876DF4D",
-    "verified": true,
-    "followers": "1M",
-    "likes": "1.1M",
-    "category": "Food and drink company",
-    "description": "ハッピーをとどける　コカ･コーラ公式Facebookページです！ https://www.cocacola.jp",
-    "pageurl": "https://www.facebook.com/cocacolapark",
-    "website_label": "cocacola.jp",
-    "page_url": "https://www.facebook.com/cocacolapark",
+    "name": "ZCopS",
+    "profile_pic": "https://scontent-sin11-1.xx.fbcdn.net/v/t39.30808-1/375062885_147480668411200_1639760871350811253_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=105&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=xyfS0UcQ1yEQ7kNvwGA3t8r&_nc_oc=Adnf2qRbGjo5rMIYxl0UWT6akiiCLBLyQAyx-3O9LXbVRwx_PBJV7X4jh6rRzdWamTQ&_nc_zt=24&_nc_ht=scontent-sin11-1.xx&_nc_gid=U9nBOwNxc8CH20IZMBmEYg&oh=00_AfSvr5RCVI7WJNBgt8_WCs5HzGLlsMQrRynRLrOlH32YYw&oe=68779A0A",
+    "verified": false,
+    "followers": "4",
+    "likes": "2",
+    "category": "Marketing agency",
+    "description": "The 3.3x Growth for Businesses to Thrive",
+    "pageurl": "https://www.facebook.com/ZCopScom",
+    "website_label": "shahzeb@zcops.com",
+    "page_url": "https://www.facebook.com/ZCopScom",
+    "source_url": "https://www.facebook.com/ZCopScom",
+    "scrape_method": "url",
     "recent_posts": [
       {
-        "text": "",
-        "url": "https://www.facebook.com/cocacolapark/videos/7583375515068485/?__cft__[0]=AZVeI-TXGTUusVg_-Z_uUaLtjhvgHXc-B2U5oZ8WEmOlSYYOGDSoc4FcJvoKIGdV4z1O9fLdbF3FkZ4MPMU8y4gikq5jLMyJuq97w7t3JldzrOy50x4iyPmmInz8eEeYam-Ivvl04nyL993TWimoU4muLgKJX1ksBYCFW3iG2O0mTox1XZPp4XavG9qgPp83GwHPr29WnuBFepNulmLpsVOR&__tn__=%2B%3FFH-R",
-        "images": [],
-        "likes": "643",
-        "comments": "394",
-        "shares": "234",
-        "scraped_at": "2025-07-11T18:16:51.680844"
-      },
-      {
-        "text": "",
-        "url": "https://www.facebook.com/cocacolapark/videos/1980202145502397/?__cft__[0]=AZV3AYEsbJuQ3S9QrTdmT1fPLVMXTJFa5_XLD5nAQWVeB96iKrBrpBnr5zIFlDxUopSpb5PxQwFEKhh4rZ4GiNKgJAQJoHyh6ALQIIYwLs1A3k5KPP0iDaegmMB_awaPDC-JC5UHLl-yYuPBwAezal-QI3Rl7d1NI0uOjkCSK5jMylQjmoFXByGdrN9-U3hs7YMb9tJt-yGqPOyBcmAZ4i2d&__tn__=%2B%3FFH-R",
-        "images": [],
-        "likes": "531",
-        "comments": "231",
-        "shares": "203",
-        "scraped_at": "2025-07-11T18:16:52.882506"
-      },
-      {
-        "text": "",
-        "url": "https://www.facebook.com/cocacolapark/posts/pfbid02DKVy9nXH1kY62zvfZ65SHMwVarTKnnNP3cw8p1NPMS2cTLdiTFVgJpuB25kreuPVl?comment_id=381142717336850&__cft__[0]=AZV1C5OACvIlxkk_Ns97QB9mBoDd2NdhwPfYxaBXCDh6iRb-QiktTDWlIUnx9CsGT1QSTAzZduOMZBqUwXfH9dRBIREqj5gwzLVpIuzU6L9jVENob7NnLyn3gGelb1cSrfEGEj2ln-jyMz7DQGHGwnjzhX3DGJQaCCL_2SN8bzXBl4-Yi0q2Kq84xwOvRHk32C-3plvoJpijFwrdrcleG1mV&__tn__=R-R",
+        "text": "Yes it is… See more",
+        "url": "",
         "images": [
-          "https://scontent-sin11-2.xx.fbcdn.net/v/t1.6435-9/83014403_2768985206492273_4828291028869971968_n.png?stp=dst-png_p526x296&_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_ohc=nOhfTY6XWugQ7kNvwEuQRSG&_nc_oc=Adn6dML8pNX8pJ-bFRzof14gnDOu7Zn1EK0YjQ-hz2kd0spHz5UL6eZjFIt5xus_RzU&_nc_zt=23&_nc_ht=scontent-sin11-2.xx&_nc_gid=LmoAJO3VdslGgWn-2KW0Xw&oh=00_AfRneb2LGhH-Uz-1R9qzCGbVx5nbEhxguxAI2Wwf_dS8Wg&oe=68989B89"
+          "https://scontent-sin2-1.xx.fbcdn.net/v/t39.30808-6/469549016_122212913864025852_6535854627198165063_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=InPhzeUvtS0Q7kNvwFSu1Id&_nc_oc=AdlTS0HltIzNKHd6eHQETOaryypFnRtgHScUcsPNbq70bN6kDKhL7J7A-xqGP1wFmzk&_nc_zt=23&_nc_ht=scontent-sin2-1.xx&_nc_gid=7-3PHh9eKde6Wm5RgXfzhA&oh=00_AfSUtyeQ9o-adSU_1Y0S9GiYAMUYqWQGq-hMPnyHAxgsPg&oe=68777BD3"
         ],
-        "likes": "1.1K",
-        "comments": "44",
-        "shares": "156",
-        "scraped_at": "2025-07-11T18:16:53.979900"
+        "likes": "1",
+        "comments": "",
+        "shares": "",
+        "scraped_at": "2025-07-12T06:10:53.950754"
       },
       {
-        "text": "",
-        "url": "https://www.facebook.com/cocacolapark/posts/pfbid02DtotubiYAc8J1muUYm5rJ7bmsbmZkRMdodCPgNpLdYsEJLyBRa2Rj6CsMeoxpJdxl?comment_id=5023068894417215&__cft__[0]=AZUe1-fbRAAO33o42SBvdjqTA7ZRH27d98JizfVt_3roYOMM0zG1vh9fN3zf1KQY0HtoO7CZKTGhd-Z1TV-yegyf2e8wHqrr0FPgLm4kJLi5QqtjRC5qA9CHxOX3C3WowUvIOvcDoUSkTkyFt0r5HbIzowsb39BWx3GJCaKwhh1jUvug0seOIkIoBeeQbd70ueiKmVEE68cFdNc1JA5F5bEF&__tn__=R-R",
+        "text": "This is the way to learn and earn. Suffer!",
+        "url": "",
         "images": [
-          "https://scontent-sin11-2.xx.fbcdn.net/v/t1.6435-9/80732751_2709053655818762_918910211484286976_n.jpg?stp=dst-jpg_p235x350_tt6&_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_ohc=238FuduNeskQ7kNvwHjLCsn&_nc_oc=AdnG9RxIaNeyiP0Rl0M3WSCTzXTs8SR5ezz-jjVpsVf9ELsDZ9cLOZqnqbXSKm2n29E&_nc_zt=23&_nc_ht=scontent-sin11-2.xx&_nc_gid=rrA0WwQ8IrJd_6jqIv1mpA&oh=00_AfS0zsno0AmDLJR4X-8YwtJ-AlE-f0rsDHyP3NKLpV_l2w&oe=689863A3",
-          "https://scontent-sin2-3.xx.fbcdn.net/v/t1.6435-9/81448209_2709053645818763_69473230611546112_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=3eeHhXh2IdcQ7kNvwGuJpwC&_nc_oc=AdlsdljixCmvwsfi-FuDxoAPQkkpCftVCmLDdN-Wrwm691IHTb_qXHDCdsVpmaVFgSg&_nc_zt=23&_nc_ht=scontent-sin2-3.xx&_nc_gid=rrA0WwQ8IrJd_6jqIv1mpA&oh=00_AfSue5srj6sUQbLbWgyE7cvc-lKjpn2yKgY3d5jkMrak2Q&oe=68988F5B",
-          "https://scontent-sin11-2.xx.fbcdn.net/v/t1.6435-9/79916882_2709053685818759_1709479374165639168_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=PUjZjnY-uRMQ7kNvwHZwafY&_nc_oc=Adn_tmlrx8gQL4D-Xwd5xmaPXwVQ5bB7wEL0lJuzo7kl8XqkvYTiOCBZTpfwnXGKqmA&_nc_zt=23&_nc_ht=scontent-sin11-2.xx&_nc_gid=rrA0WwQ8IrJd_6jqIv1mpA&oh=00_AfQ7NM1EvOUrhTYsvdCce8SUhnm_3l95nZZWxOKlou537g&oe=68988EBC",
-          "https://scontent-sin2-3.xx.fbcdn.net/v/t1.6435-9/79774269_2709053799152081_2901578848892092416_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=nWp1XETpilgQ7kNvwHmMqIC&_nc_oc=AdmKDbvxQ419LuYhrgqXi1eGO-8OEQLUjLYEZbuLMHFP4C6aSkSfB-z3gCSrOpZyY8U&_nc_zt=23&_nc_ht=scontent-sin2-3.xx&_nc_gid=rrA0WwQ8IrJd_6jqIv1mpA&oh=00_AfQapLBJeseMvtmT5DcNBwqYANqBTp3esIGXD4L9NayP0Q&oe=68988640"
+          "https://scontent-sin6-3.xx.fbcdn.net/v/t39.30808-6/469337581_122212682708025852_3514382434016589126_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_ohc=FM7iXKQ1UOAQ7kNvwExWTcB&_nc_oc=AdlVn5lTjLxlsLewQPw2i9gyVVfnR3mkXaOZn74BtuTvE27MBDYHDTVdg1vmoJ5Y-dw&_nc_zt=23&_nc_ht=scontent-sin6-3.xx&_nc_gid=7-3PHh9eKde6Wm5RgXfzhA&oh=00_AfTNuoRqA0JRujwieCl5p1oSp2My-ePJ7Y5Rks8og2iFtg&oe=68777CD1"
         ],
-        "likes": "723",
-        "comments": "9",
-        "shares": "31",
-        "scraped_at": "2025-07-11T18:16:55.188498"
+        "likes": "",
+        "comments": "",
+        "shares": "",
+        "scraped_at": "2025-07-12T06:10:54.841312"
       },
       {
-        "text": "",
-        "url": "https://www.facebook.com/cocacolapark/videos/474696319801372/?__cft__[0]=AZX-wMELTPt6FZqKYIQU2XIy1lPBDIZ3U0Y3nxgfg7HFSQgoA0r9Iw_xxq88FG5fLrjyp5P5QMKwGqd4eXWDDLEgrm9OC-uYINdLPfWKrwHhdpDdF6pVEZNjm_1YT231idOxQTLGw8lg9b5Otiv0zt0sW0IqZg-vqXKPQoERns2UZGFGIrjEIWTgDRko7Yf2witSb6fG-gEiusgNUHi8V8VC&__tn__=%2B%3FFH-R",
-        "images": [],
-        "likes": "516",
-        "comments": "60",
-        "shares": "38",
-        "scraped_at": "2025-07-11T18:16:56.370990"
-      },
-      {
-        "text": "",
-        "url": "https://www.facebook.com/cocacolapark/posts/pfbid0HiQ262yRG6vbYbzbfB3VvQ7sFiL54eJULQa1FQVvMEK5dDY1P1PH5PKygMRVdHdvl?comment_id=259262633578859&__cft__[0]=AZVinhIsTFoM60sLmC8TVVE7PX54crXb89-SQSRWlZKKvYftBiCV_66c-zVqCDntNH_dBGUCgE3r8i4vObOCBoGVdGyV6ryGur9qi-lMiH1RCneHD3-EoXfAbOv-twi5SGwVL3wmJdAOxNt-0RzbwQawnP4TvIkkcsX9DKvLOwWCreLGwyItFfv84gC5vRKKEC1BfpzcE7FbWe1c-cXSoe8A&__tn__=R-R",
+        "text": "Your arrogance is what makes you ignore that fact that you are in this worlds for a Reason",
+        "url": "",
         "images": [
-          "https://scontent-sin6-3.xx.fbcdn.net/v/t1.6435-9/72472923_2565353323522130_8226053800062877696_n.png?stp=dst-png_p526x296&_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_ohc=fti0ydR1coQQ7kNvwGruc6I&_nc_oc=AdmnLLHLmyGOctO30kXXS14PWj92pAw6eaDL375pRQiwqaYPVJCrbp5Mg7v1VZXT5C8&_nc_zt=23&_nc_ht=scontent-sin6-3.xx&_nc_gid=rrA0WwQ8IrJd_6jqIv1mpA&oh=00_AfTnHjBPdzA3905NFU3oh2dekyMEWPVJd9iiHJPm5DUSHg&oe=6898734E"
+          "https://scontent-sin2-1.xx.fbcdn.net/v/t39.30808-6/469338825_122212670864025852_4652562792899162945_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=G-sc7AMHF1IQ7kNvwFokad1&_nc_oc=Adl9DqSALplo4EwWSahtpCOTV3PbxWA90Rdfxi8fsjdPt_CAnsfZHppC4aD5m5G4Ux4&_nc_zt=23&_nc_ht=scontent-sin2-1.xx&_nc_gid=efBTaNrk5qRwntQqNny-wA&oh=00_AfTOfX7xX3ExNzMiHpTVQpIL1Dh8B2E18nLajvwIom7AAg&oe=68778A66"
         ],
-        "likes": "1.7K",
-        "comments": "45",
-        "shares": "20",
-        "scraped_at": "2025-07-11T18:16:57.511421"
+        "likes": "3",
+        "comments": "",
+        "shares": "",
+        "scraped_at": "2025-07-12T06:10:55.710960"
       }
     ],
+    "address": "85-A, Al-Minhaj Town, 49 Tail, Sargodha, Pakistan, 40100",
+    "mobile": "+92 313 7755745",
+    "email": "shahzeb@zcops.com",
     "social_links": [
-      "https://www.cocacola.jp/"
+      "https://zcops.com/"
     ],
-    "created_date": "28 December 2010",
-    "admin_countries": [
-      "Japan (240)",
-      "United Kingdom (4)",
-      "United States (2)"
-    ],
-    "name_changes": 2,
-    "name_change_lines": [
-      "コカ･コーラ (Coca-Cola)",
-      "コカ・コーラ パーク(Coca-Cola Park)"
-    ],
-    "is_running_ads": true
+    "page_id": "127304827127079",
+    "created_date": "6 September 2023",
+    "name_changes": 0,
+    "name_change_lines": [],
+    "is_running_ads": false
   }
 ]

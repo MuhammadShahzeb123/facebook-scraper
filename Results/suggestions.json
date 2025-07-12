@@ -13439,5 +13439,1140 @@
     "scrape_advertiser_ads": true,
     "total_suggestions": 11,
     "total_ads": 639
+  },
+  {
+    "country": "Thailand",
+    "keyword": "properties",
+    "suggestions": [
+      {
+        "page_id": "\"properties\"",
+        "name": "\"properties\"",
+        "raw_text": "\"properties\"\nSearch this exact phrase",
+        "ads": [],
+        "ads_count": 0
+      },
+      {
+        "page_id": "pageID:169789673075263",
+        "name": "DAMAC Properties",
+        "raw_text": "DAMAC Properties\n@DAMACPropertiesOfficial\n· 952.4K follow this · Real Estate Developer\n@damacofficial · 398.8K followers",
+        "ads": [
+          {
+            "status": "Active",
+            "library_id": "1939918540108803",
+            "started": "Started running on 11 Jul 2025 · Total active time 12 hrs",
+            "page": "DAMAC Properties",
+            "primary_text": "Experience Dubai’s first football-themed residences, with Chelsea-inspired amenities and sea views. From AED 2.32 Million*\n0:00 / 0:15\nDubai’s First Football-Branded Residences\nBuy 1,2 & 3 bedroom luxury branded waterfront apartments from DAMAC & Chelsea FC collaboration.\nLearn More",
+            "cta": null,
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fpromotions.damacproperties.com%2Fen%2Fchelsea-residences-by-damac-social-specific%2F&h=AT34YFYAG7N1_DeG46xt0o_0TZ5cK7u_rUOCP6hju_edkWgJ1Rusr7JBQRrxmeUgHhoQLPX_ZllZrFQgoUF8CAzrFOFkSj5-Iwx_rjQtOZrGLSsdDHA88qIP0sl9RDjHDl0M6fOCqyC_2gE8obUN8QgeyFg611ntJjHDUQ",
+                "text": "Dubai’s First Football-Branded Residences\nBuy 1,2 & 3 bedroom luxury branded waterfront apartments from DAMAC & Chelsea FC collaboration.\nLearn More"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518952893_1442353133588374_8245126085752890080_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=jo2VQTqq-NUQ7kNvwFrXqqD&_nc_oc=AdllKT8_UeS4LH1Uw4zmsGVDIuAlhTxqwkaXw6DItw39LKnV-26Nj9-AX4XrDx2Re8CgzbIICxuLRK2PpBCiQWyU&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=81UEzDpbr1snQNSg3yPmNQ&oh=00_AfQJMo_Ai4bn6yKaAcfC5LDbDA_ceVqfJZHKAvG413wuMw&oe=6877AAE4"
+            ],
+            "scraped_from_advertiser": "DAMAC Properties",
+            "advertiser_page_id": "169789673075263"
+          },
+          {
+            "status": "Active",
+            "library_id": "24737957375810178",
+            "started": "Started running on 11 Jul 2025 · Total active time 12 hrs",
+            "page": "DAMAC Properties",
+            "primary_text": "Invest in an off-plan apartment in Dubai and enjoy easy payment plans and high ROI. Starting from AED 1 Million. T&Cs.\n0:00 / 0:16\nDon't miss out on high ROI potential - buy a home in Dubai now.\nLearn More",
+            "cta": null,
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT34YFYAG7N1_DeG46xt0o_0TZ5cK7u_rUOCP6hju_edkWgJ1Rusr7JBQRrxmeUgHhoQLPX_ZllZrFQgoUF8CAzrFOFkSj5-Iwx_rjQtOZrGLSsdDHA88qIP0sl9RDjHDl0M6fOCqyC_2gE8obUN8QgeyFg611ntJjHDUQ",
+                "text": "Don't miss out on high ROI potential - buy a home in Dubai now.\nLearn More"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/519985526_1072280594394407_5573704101918392670_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=106&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=dPmianW16VoQ7kNvwGJkVcO&_nc_oc=AdnqG5oQ4aVSP_ZYuTJG4qSuNrKZipfIKFpLzjX-XkFdvJphuEajchD6D-KXXOtP40Ov7TL0ikYOcgZvXMjdilvx&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=81UEzDpbr1snQNSg3yPmNQ&oh=00_AfSTQLsvhaMIC0TOypVfZ8-ZXarrsZjVIUqsvSRJ17JZBw&oe=68779CE8"
+            ],
+            "scraped_from_advertiser": "DAMAC Properties",
+            "advertiser_page_id": "169789673075263"
+          },
+          {
+            "status": "Inactive",
+            "library_id": "1216312113626106",
+            "started": null,
+            "page": "DAMAC Properties",
+            "primary_text": "Own a riverside apartment with flexible plans, luxury living, and high ROI—launching soon!\nDon't miss out on high ROI potential - buy a home in Dubai now.\nLearn More",
+            "cta": null,
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fpromotions.damacproperties.com%2Fen%2Fgbp%2Fdubai-apartments-social-specific%2F%3Ffbclid%3Dfbclid&h=AT34YFYAG7N1_DeG46xt0o_0TZ5cK7u_rUOCP6hju_edkWgJ1Rusr7JBQRrxmeUgHhoQLPX_ZllZrFQgoUF8CAzrFOFkSj5-Iwx_rjQtOZrGLSsdDHA88qIP0sl9RDjHDl0M6fOCqyC_2gE8obUN8QgeyFg611ntJjHDUQ",
+                "text": "Don't miss out on high ROI potential - buy a home in Dubai now.\nLearn More"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518337909_740433015536889_7918924366181485338_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=BYJtKdY18AoQ7kNvwE8K8GO&_nc_oc=AdnTUgeNN2wAWaEx-3JhLaiQ3xT_nemrCsj-pwJH6FUQ6VMGc2cTQPRRiOByNNYpbj6yrjOVDDyqB47kx6QpMyMt&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=81UEzDpbr1snQNSg3yPmNQ&oh=00_AfSYUzFZRQkYHXf5mDUwkLKSCxsnTur21LKXf_8GEbIqHQ&oe=6877B010",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518226259_1912560752836403_8892769933570675761_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=6cPCmm4uh9gQ7kNvwHTMBG1&_nc_oc=AdnXjSX1k2tzkUQpb37-lxc7YYAqeEqycoMBmkMydGFT_J4rjS1W6G5Fus2zAoqwElH5-hKpYj3Myg8dMIorB-u-&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=81UEzDpbr1snQNSg3yPmNQ&oh=00_AfSgeysFi7MUukdmoLYfKT_1BzPV9rptYJGMs5gpoz_Lpw&oe=6877A5A3"
+            ],
+            "scraped_from_advertiser": "DAMAC Properties",
+            "advertiser_page_id": "169789673075263"
+          },
+          {
+            "status": "Inactive",
+            "library_id": "2498977473822518",
+            "started": null,
+            "page": "DAMAC Properties",
+            "primary_text": "Own a riverside apartment with flexible plans, luxury living, and high ROI—launching soon!\nDon't miss out on high ROI potential - buy a home in Dubai now.\nLearn More",
+            "cta": null,
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fpromotions.damacproperties.com%2Fen%2Fgbp%2Fdubai-apartments-social-specific%2F%3Ffbclid%3Dfbclid&h=AT34YFYAG7N1_DeG46xt0o_0TZ5cK7u_rUOCP6hju_edkWgJ1Rusr7JBQRrxmeUgHhoQLPX_ZllZrFQgoUF8CAzrFOFkSj5-Iwx_rjQtOZrGLSsdDHA88qIP0sl9RDjHDl0M6fOCqyC_2gE8obUN8QgeyFg611ntJjHDUQ",
+                "text": "Don't miss out on high ROI potential - buy a home in Dubai now.\nLearn More"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517188966_1126610129294435_1722690575832815086_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=104&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=laB-yXmQmQYQ7kNvwHdYYhR&_nc_oc=AdlYDK52LwIH9Sr4fHdcbaxfmdpIJLvdso8xRjpqtlrfXRjMBLwABnXZFol_GbLZ3kClFFk1fV8mCz70Nw4kIvoR&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=81UEzDpbr1snQNSg3yPmNQ&oh=00_AfRAg4iNYy9Lc-gvTmbOJfr-iiaGEI525_EJKV1HMVlSgg&oe=687789C8",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516589355_1189311229900891_2831225287702507940_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=tSI1qE8S3ngQ7kNvwFcgGzn&_nc_oc=AdkIjETZhsH-4jMpi9w33XYHR5Ec0SdkMsctrPTkG6Vu3FzIldQazIYeOlOsCnDIiSgScQZmv08UpTCb_1fDmCHI&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=81UEzDpbr1snQNSg3yPmNQ&oh=00_AfTvsuBLzytK9VEK1FiEbrxwrI3quPj0grbZ8VRsGoRLXg&oe=6877AD7C"
+            ],
+            "scraped_from_advertiser": "DAMAC Properties",
+            "advertiser_page_id": "169789673075263"
+          },
+          {
+            "status": "Inactive",
+            "library_id": "24603107875993166",
+            "started": null,
+            "page": "DAMAC Properties",
+            "primary_text": "Experience luxurious riverside living with world-class amenities and a flexible payment plan.\nInvest in Dubai's Luxury Real Estate\nLearn More",
+            "cta": "\nLearn More",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fpromotions.damacproperties.com%2Fen%2Fgbp%2Fdubai-apartments-social-specific%2F&h=AT34YFYAG7N1_DeG46xt0o_0TZ5cK7u_rUOCP6hju_edkWgJ1Rusr7JBQRrxmeUgHhoQLPX_ZllZrFQgoUF8CAzrFOFkSj5-Iwx_rjQtOZrGLSsdDHA88qIP0sl9RDjHDl0M6fOCqyC_2gE8obUN8QgeyFg611ntJjHDUQ",
+                "text": "Invest in Dubai's Luxury Real Estate\nLearn More"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516573009_718894514636997_3718276275611247800_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=104&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=hnrHJTOQnc8Q7kNvwHLt1zW&_nc_oc=Adk95LRQ3Ty7B2l_XjdYviugKxFjQVuvZYFu6FmWBRpUQKJ48vf3cRkTOMUF2GFYm3wUMONM3z5ORYfOIXjVLrlV&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=81UEzDpbr1snQNSg3yPmNQ&oh=00_AfS-XevLcQ9ve0UUI3pZVl3E7-61wk1rGeTKVBg0DIpctQ&oe=6877AB52",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517122913_713349774804987_1865797952349166411_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=-gTXPWLFO60Q7kNvwET_Elt&_nc_oc=AdlQrNsBnPINB5C4XHXZmyLBJ5oqqVZlljgyaSyhAH_Rxo2DS5jAr3JMMVeSik9FAsP0TaeHauuR3loN9l7XGmVl&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=81UEzDpbr1snQNSg3yPmNQ&oh=00_AfSY2Y14VufjlU7jbdGZVuPiPSqIroKKhly6x7HQ86FkPg&oe=68777F31"
+            ],
+            "scraped_from_advertiser": "DAMAC Properties",
+            "advertiser_page_id": "169789673075263"
+          }
+        ],
+        "ads_count": 5
+      },
+      {
+        "page_id": "pageID:111338558738522",
+        "name": "DECA Properties",
+        "raw_text": "DECA Properties\n@decapropertiesdubai · 941.2K follow this · Real Estate Company\n@deca.properties · 24.3K followers",
+        "ads": [
+          {
+            "status": "Active",
+            "library_id": "1656527798345172",
+            "started": "Started running on 11 Jul 2025 · Total active time 8 hrs",
+            "page": "DECA Properties",
+            "primary_text": "Pay 10% now and 30% after handover?\n\nThat’s how you invest wisely in Dubai.\n\nAVANA by Deca brings prime JVC units, resort-style amenities, and flexible terms that make it ideal for savvy investors.\n\nContact Us for More Information!\n\n‪+971 56 8686 786‬\n\n\n\n“Crafting A Better Tomorrow\n0:00 / 0:18",
+            "cta": "\nBook Now",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fdecaproperties.ae%2F&h=AT1QkgkiEubPWtJ1uc24IjJx_3OJaSaNPNyPJG9TidSGCH3a12oMjUqAKJZf_OyqvqGE_Xu48LYwa5_fiKjBLP0z5jwr51d4xZ920HxoXdvOTQga2Kd-T5gWyKFEgSs6CN_ADhNZD997a7mQAo2Pgc0hUAuRJdKhyxG3AQ",
+                "text": ""
+              },
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT1QkgkiEubPWtJ1uc24IjJx_3OJaSaNPNyPJG9TidSGCH3a12oMjUqAKJZf_OyqvqGE_Xu48LYwa5_fiKjBLP0z5jwr51d4xZ920HxoXdvOTQga2Kd-T5gWyKFEgSs6CN_ADhNZD997a7mQAo2Pgc0hUAuRJdKhyxG3AQ",
+                "text": "FB.ME\nInvestor-Friendly 60/40 Plan – Only at AVANA JVC\nBook Now. Handover in 2027. High Rental Demand.\nLearn more"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518188222_1285622212992791_7400785306749190023_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=f4qUgVwaD9gQ7kNvwFomLK2&_nc_oc=AdkE68Ut8u9uKRbFDmeYNG8R_-9vvW2TBUlALYMKWrjK2QAhktN68lDclSZN4TZt9qOapF4MecZJn905Tcu1KHle&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=obENYHz3Ew9GvBHcEAnpbw&oh=00_AfQW9Rww08upENAcgjffTjFvIm1FobW6A3AUN6lbuAhd6w&oe=6877913E"
+            ],
+            "scraped_from_advertiser": "DECA Properties",
+            "advertiser_page_id": "111338558738522"
+          },
+          {
+            "status": "Active",
+            "library_id": "608290178984139",
+            "started": "Started running on 11 Jul 2025 · Total active time 8 hrs",
+            "page": "DECA Properties",
+            "primary_text": "Looking to diversify your portfolio?\n\nAVANA by Deca Developments is strategically located in JVC — one of Dubai’s fastest-growing residential zones.\n\n🔹 Capital appreciation potential\n🔹 Flexible 60/40 payment plan\n🔹 Rooftop lifestyle + tenant demand\n\nInvest early. Hold smart.\n\nContact Us for More Information!\n\n‪+971 56 8686 786‬\n\n\n\n“Crafting A Better Tomorrow\n0:00 / 0:35",
+            "cta": "\nLearn more",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fdecaproperties.ae%2F&h=AT1QkgkiEubPWtJ1uc24IjJx_3OJaSaNPNyPJG9TidSGCH3a12oMjUqAKJZf_OyqvqGE_Xu48LYwa5_fiKjBLP0z5jwr51d4xZ920HxoXdvOTQga2Kd-T5gWyKFEgSs6CN_ADhNZD997a7mQAo2Pgc0hUAuRJdKhyxG3AQ",
+                "text": ""
+              },
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT1QkgkiEubPWtJ1uc24IjJx_3OJaSaNPNyPJG9TidSGCH3a12oMjUqAKJZf_OyqvqGE_Xu48LYwa5_fiKjBLP0z5jwr51d4xZ920HxoXdvOTQga2Kd-T5gWyKFEgSs6CN_ADhNZD997a7mQAo2Pgc0hUAuRJdKhyxG3AQ",
+                "text": "FB.ME\nCapital Growth Starts with AVANA by Deca\nStrong appreciation + investor-focused payment terms\nLearn more"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518309237_1273624844440942_1496047336525864388_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=102&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=h-G1zxDRDvkQ7kNvwGVX4zx&_nc_oc=AdmYRmWATIjAD_a7TkynASc45EmuZ6IcIwrpb5MSSL3Pk7NBPuf_rp34M5HLQ9GKGldbvyp_a776VP0Tehn0X5x7&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=obENYHz3Ew9GvBHcEAnpbw&oh=00_AfRu83Swy29CKpM8LojoKYpSX98K_bo6UTg9WVCruMgOww&oe=68777F40"
+            ],
+            "scraped_from_advertiser": "DECA Properties",
+            "advertiser_page_id": "111338558738522"
+          },
+          {
+            "status": "Active",
+            "library_id": "9932013213562522",
+            "started": "Started running on 11 Jul 2025 · Total active time 8 hrs",
+            "page": "DECA Properties",
+            "primary_text": "AVANA isn’t just a home – it’s an asset.\n\nLocated 1 min from Al Khail Road, with rooftop pool, padel court, and EV charging, AVANA offers a lifestyle tenants love and investors trust.\n\nContact Us for More Information!\n\n‪+971 56 8686 786‬\n\n\n\n“Crafting A Better Tomorrow\n0:00 / 0:24",
+            "cta": null,
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fdecaproperties.ae%2F&h=AT1QkgkiEubPWtJ1uc24IjJx_3OJaSaNPNyPJG9TidSGCH3a12oMjUqAKJZf_OyqvqGE_Xu48LYwa5_fiKjBLP0z5jwr51d4xZ920HxoXdvOTQga2Kd-T5gWyKFEgSs6CN_ADhNZD997a7mQAo2Pgc0hUAuRJdKhyxG3AQ",
+                "text": ""
+              },
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT1QkgkiEubPWtJ1uc24IjJx_3OJaSaNPNyPJG9TidSGCH3a12oMjUqAKJZf_OyqvqGE_Xu48LYwa5_fiKjBLP0z5jwr51d4xZ920HxoXdvOTQga2Kd-T5gWyKFEgSs6CN_ADhNZD997a7mQAo2Pgc0hUAuRJdKhyxG3AQ",
+                "text": "FB.ME\nLive It or Lease It – AVANA Brings ROI Either Way\nModern finishes. Post-handover plan. JVC’s rising star.\nLearn more"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518243126_1893072814819753_5092502885347857842_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=102&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=URIFDeKoCPUQ7kNvwHQ8BlC&_nc_oc=AdkBTcrk1ztNBv0YMktaSk3g-yXqJfr5-gFKmZ6eb43hCVBRDqRJQ7cd9ekN_POqLjpRaBorqpCBE3trbfpIKWiA&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=obENYHz3Ew9GvBHcEAnpbw&oh=00_AfRe91E8vGZXQqUSCeR7SHkj5EI1EcprDYoGRk8-iOFV0Q&oe=6877AE8C"
+            ],
+            "scraped_from_advertiser": "DECA Properties",
+            "advertiser_page_id": "111338558738522"
+          },
+          {
+            "status": "Active",
+            "library_id": "1621559369248135",
+            "started": "Started running on 11 Jul 2025 · Total active time 8 hrs",
+            "page": "DECA Properties",
+            "primary_text": "🚨 Pre-Launch Opportunity – Limited Units Available\n\nAVANA, a signature development by Deca, is now open for investment. Enjoy elevated design, rooftop lifestyle, and strong ROI in Dubai’s thriving JVC.\n\n🔹 Studios to 2BR\n🔹 Flexible 60/40 Payment Plan\n🔹 Handover in Q4 2027\n\nContact Us for More Information!\n\n‪+971 56 8686 786‬\n\n\n\n“Crafting A Better Tomorrow\n0:00 / 0:18",
+            "cta": "\nLearn more",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fdecaproperties.ae%2F&h=AT1QkgkiEubPWtJ1uc24IjJx_3OJaSaNPNyPJG9TidSGCH3a12oMjUqAKJZf_OyqvqGE_Xu48LYwa5_fiKjBLP0z5jwr51d4xZ920HxoXdvOTQga2Kd-T5gWyKFEgSs6CN_ADhNZD997a7mQAo2Pgc0hUAuRJdKhyxG3AQ",
+                "text": ""
+              },
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT1QkgkiEubPWtJ1uc24IjJx_3OJaSaNPNyPJG9TidSGCH3a12oMjUqAKJZf_OyqvqGE_Xu48LYwa5_fiKjBLP0z5jwr51d4xZ920HxoXdvOTQga2Kd-T5gWyKFEgSs6CN_ADhNZD997a7mQAo2Pgc0hUAuRJdKhyxG3AQ",
+                "text": "FB.ME\nInvest Early. Earn More. AVANA by Deca in JVC\nSmart layouts, rooftop pool, and post-handover terms\nLearn more"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518327870_3748170192148584_6764601540855824846_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=106&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=GLQyRvO-Oq4Q7kNvwGFSaac&_nc_oc=AdlOSNQEiRu4-pG5r4bjOx4jWMuGZvK4zhcX5XfYmUsIfNIFjO5m2dL2QU-LgG51J0vwgIKjbHuofEjHg3bm93t5&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=obENYHz3Ew9GvBHcEAnpbw&oh=00_AfRG0syZ71vmDY7e960TNEE4_3MCupQkhfCo0wPbYwhQMQ&oe=68778EB5"
+            ],
+            "scraped_from_advertiser": "DECA Properties",
+            "advertiser_page_id": "111338558738522"
+          },
+          {
+            "status": "Active",
+            "library_id": "729583749662596",
+            "started": "Started running on 11 Jul 2025 · Total active time 8 hrs",
+            "page": "DECA Properties",
+            "primary_text": "🚨 Final Units at AVANA – JVC’s Boutique Investment\n\nDon’t miss your chance to own in a fast-selling project with rooftop amenities, fitness, and a high-yield location.\nStudios to 2BR starting from 373 sq.ft.\n\n✅ Just 10% to book\n✅ Post-handover plan\n✅ Handover Q4 2027\n\nContact Us for More Information!\n\n‪+971 56 8686 786‬\n\n\n\n“Crafting A Better Tomorrow\n0:00 / 0:27",
+            "cta": "\nLearn more",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fdecaproperties.ae%2F&h=AT1QkgkiEubPWtJ1uc24IjJx_3OJaSaNPNyPJG9TidSGCH3a12oMjUqAKJZf_OyqvqGE_Xu48LYwa5_fiKjBLP0z5jwr51d4xZ920HxoXdvOTQga2Kd-T5gWyKFEgSs6CN_ADhNZD997a7mQAo2Pgc0hUAuRJdKhyxG3AQ",
+                "text": ""
+              },
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT1QkgkiEubPWtJ1uc24IjJx_3OJaSaNPNyPJG9TidSGCH3a12oMjUqAKJZf_OyqvqGE_Xu48LYwa5_fiKjBLP0z5jwr51d4xZ920HxoXdvOTQga2Kd-T5gWyKFEgSs6CN_ADhNZD997a7mQAo2Pgc0hUAuRJdKhyxG3AQ",
+                "text": "FB.ME\nLast Call: Invest in AVANA Before It's Sold Out\n10% Now | 30% After Handover | Limited Units Left\nLearn more"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518316955_728223129933605_4312761777375197418_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=nvoqhiwrFJoQ7kNvwENNaqz&_nc_oc=AdmmINxhR_cQNZIaUwiLG5jmU5JUuaxqDC-qlbt9LyDVEnEbDHT2iY6-wwHV94ggIOdjhQyBzY8n7a6jZJvnksiC&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=obENYHz3Ew9GvBHcEAnpbw&oh=00_AfTSIyb9B587boasVB5_10OhWnBMw2_eVvToTr5OojMbTA&oe=6877A301"
+            ],
+            "scraped_from_advertiser": "DECA Properties",
+            "advertiser_page_id": "111338558738522"
+          }
+        ],
+        "ads_count": 5
+      },
+      {
+        "page_id": "pageID:1406365302985662",
+        "name": "Danube Properties",
+        "raw_text": "Danube Properties\n@danubeproperties\n· 398.3K follow this · Real Estate Company\n@danubeproperties · 311.9K followers",
+        "ads": [
+          {
+            "status": "Active",
+            "library_id": "751724334072908",
+            "started": "Started running on 11 Jul 2025 · Total active time 10 hrs",
+            "page": "Danube Properties",
+            "primary_text": "Discover convertible homes at Sparklz by Danube in Al Furjan. Starting AED 900K with a 1% plan & 30+ amenities!\nConvertible 2BR to 1BR\nFully furnished apartments\nSign Up",
+            "cta": "\nSign Up",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fpromotions.danubeproperties.com%2Fsparklz%2F%3Futm_source%3DMeta%26utm_medium%3DPost-DR-New%26utm_content%3DProspect_UAE_set64-DR_SF%26utm_project_name%3DSparklz%26category%3DLead%26token%3DApr2025&h=AT2lSEx6WkeuGo5hr5pEqFJbQlbGZN03MxnuzmRTr-GLXwUYygxFixN6NERLmJJOZk-facDY38Zc9xhXXWDZjJTJTK-21EPdCJW9sfJnVfsR3jNaQjkmwjIZKI8s-vuel0G1qPf0XBxG6_Vv_0S5D3VQfCIkVmAVtjSg1Q",
+                "text": "Convertible 2BR to 1BR\nFully furnished apartments\nSign Up"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518136121_9798264780278552_4332437331198378727_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=102&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=RD5RhPyIOfAQ7kNvwHtcFk-&_nc_oc=AdncKJwZb5bnor1LTc2tUhPfd63BtLfmGaWXi7L-1ZN4Av7w5VIaT4YbQEYO_Wk-p26BVWWcWKXuOZVoRpgwprW7&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=r0trmSxjxelJ_96EON8h8Q&oh=00_AfRqAgQaGeiOXX50Ggq-8WCm-4_B8WYhUVpZ33I1QUDifQ&oe=68779F18",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517347364_24187514817509924_5895629799826068050_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=106&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=MkMNjSkmTusQ7kNvwGmC_QT&_nc_oc=AdnSrzQZTingbpdRoB5LGeovQuw_LtZqsUzc43LExkjmaIMIugul8vVVnn0qv_-wP4mTkhsI-_qIR43W6_fHfAx4&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=r0trmSxjxelJ_96EON8h8Q&oh=00_AfSxaSrmULtVrz1ZQ8I46BORGeoirQ2YYSGDIjhtHjwRgw&oe=6877A431"
+            ],
+            "scraped_from_advertiser": "Danube Properties",
+            "advertiser_page_id": "1406365302985662"
+          },
+          {
+            "status": "Active",
+            "library_id": "1379278400020594",
+            "started": "Started running on 11 Jul 2025 · Total active time 10 hrs",
+            "page": "Danube Properties",
+            "primary_text": "Discover convertible homes at Sparklz by Danube in Al Furjan. Starting AED 900K with a 1% plan & 30+ amenities!\nConvertible 2BR to 1BR\nFully furnished apartments\nSign Up",
+            "cta": "\nSign Up",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fpromotions.danubeproperties.com%2Fsparklz%2F%3Futm_source%3DMeta%26utm_medium%3DPost-DR-New%26utm_content%3DProspect_UAE_set64-DR_DP%26utm_project_name%3DSparklz%26category%3DLead%26token%3DApr2025&h=AT2lSEx6WkeuGo5hr5pEqFJbQlbGZN03MxnuzmRTr-GLXwUYygxFixN6NERLmJJOZk-facDY38Zc9xhXXWDZjJTJTK-21EPdCJW9sfJnVfsR3jNaQjkmwjIZKI8s-vuel0G1qPf0XBxG6_Vv_0S5D3VQfCIkVmAVtjSg1Q",
+                "text": "Convertible 2BR to 1BR\nFully furnished apartments\nSign Up"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516785700_730068249604476_3942704624951146469_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=106&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=vFyEl-lWmFYQ7kNvwH2B2Cw&_nc_oc=Adk046VZ901I6nUI9hnG6w0AtRYkICXeFvt6hZzeDT7GfAkN3Mm_6qMzkTsgYkqYFPc_JWW55y-fwXOp8PASAh_k&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=r0trmSxjxelJ_96EON8h8Q&oh=00_AfSk7HH71Pj_ee6HnY_A6WG3j_dHvV2LF8oVzseCWO2yTg&oe=6877A884",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518384440_4064964803758744_363823497109361895_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=vAFurzy0QQsQ7kNvwHrzmnp&_nc_oc=AdlQNSxr5GkgygY_7yh73CnppkcI2WEHn92tXBe0N1Sz1gkVUMJmJjFYS5suaLlROaji3Av9A2YrDRQM-PG5fxVh&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=r0trmSxjxelJ_96EON8h8Q&oh=00_AfSnOPcJ2LuN82MVGRBbBhMyG60CjWdjk6XcZqiDqLN0Ug&oe=6877975A"
+            ],
+            "scraped_from_advertiser": "Danube Properties",
+            "advertiser_page_id": "1406365302985662"
+          },
+          {
+            "status": "Active",
+            "library_id": "1684801345517855",
+            "started": "Started running on 11 Jul 2025 · Total active time 10 hrs",
+            "page": "Danube Properties",
+            "primary_text": "Discover convertible homes at Sparklz by Danube in Al Furjan. Starting AED 900K with a 1% plan & 30+ amenities!\nConvertible 2BR to 1BR\nFully furnished apartments\nSign Up",
+            "cta": "\nSign Up",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fpromotions.danubeproperties.com%2Fsparklz%2F%3Futm_source%3DMeta%26utm_medium%3DPost-DR-New%26utm_content%3DProspect_UAE_set64-DR_1%2525_PP%26utm_project_name%3DSparklz%26category%3DLead%26token%3DApr2025&h=AT2lSEx6WkeuGo5hr5pEqFJbQlbGZN03MxnuzmRTr-GLXwUYygxFixN6NERLmJJOZk-facDY38Zc9xhXXWDZjJTJTK-21EPdCJW9sfJnVfsR3jNaQjkmwjIZKI8s-vuel0G1qPf0XBxG6_Vv_0S5D3VQfCIkVmAVtjSg1Q",
+                "text": "Convertible 2BR to 1BR\nFully furnished apartments\nSign Up"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517711456_1407538197191270_484790369991657469_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=vA4s0ozOwk0Q7kNvwH4g6gJ&_nc_oc=AdnCPZ1Q003zofLkxeJEJbM25ILcflDJvuYt9WCDRXtE7ldntwvfIpbaSCH_wZgBbIBIVeicVA0aha7lrPCAZhN2&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=r0trmSxjxelJ_96EON8h8Q&oh=00_AfTCFg6P4nCv8yZS3SYjRQBII8I0SQis5_2OBIy-xPFYkg&oe=6877B165",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517506434_1071022978545288_923794430701211485_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=FpQ9bkePgt4Q7kNvwEPsx85&_nc_oc=AdlMc8dSvXvhzMc5qRqOioU-eNvH9DHp6gOLmJ9iEyF9kqie2Lg1T33Qvt8uYSBTei5g2voDhq-0TSSdsI8sAuTP&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=r0trmSxjxelJ_96EON8h8Q&oh=00_AfT4hqEQrWrHleqGsC9AkaNwZrckuWZox_WwoVpDjWpjqA&oe=6877970F"
+            ],
+            "scraped_from_advertiser": "Danube Properties",
+            "advertiser_page_id": "1406365302985662"
+          },
+          {
+            "status": "Active",
+            "library_id": "721213194167770",
+            "started": "Started running on 11 Jul 2025 · Total active time 10 hrs",
+            "page": "Danube Properties",
+            "primary_text": "Discover convertible homes at Sparklz by Danube in Al Furjan. Starting AED 900K with a 1% plan & 30+ amenities!\nConvertible 2BR to 1BR\nFully furnished apartments\nSign Up",
+            "cta": "\nSign Up",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fpromotions.danubeproperties.com%2Fsparklz%2F%3Futm_source%3DMeta%26utm_medium%3DPost-DR-New%26utm_content%3DProspect_UAE_set64-DR_SFSnew%26utm_project_name%3DSparklz%26category%3DLead%26token%3DApr2025&h=AT2lSEx6WkeuGo5hr5pEqFJbQlbGZN03MxnuzmRTr-GLXwUYygxFixN6NERLmJJOZk-facDY38Zc9xhXXWDZjJTJTK-21EPdCJW9sfJnVfsR3jNaQjkmwjIZKI8s-vuel0G1qPf0XBxG6_Vv_0S5D3VQfCIkVmAVtjSg1Q",
+                "text": "Convertible 2BR to 1BR\nFully furnished apartments\nSign Up"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516838282_739686338711561_1106834489268141548_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=2yxkak0mSscQ7kNvwFSlszy&_nc_oc=AdmVFfcdXa6dpYaRWABOuh7GTJew2skScf2-sgb_PdI_MybAg-V_E5swzTFHuWFGABSOsJjIno86YOnWC2BRBrtM&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=r0trmSxjxelJ_96EON8h8Q&oh=00_AfSw7FdLfUwHN0p00YN5jN7uOSVPhGll7y9f-aItzIr07g&oe=68778414",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516359905_4253000851692376_4795045141153175144_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=SbLJlEjfOkgQ7kNvwGA562E&_nc_oc=AdlVC2Qpd_RitzHk0WcW-x31fiv2Jb94335L8EMGm9rFrJD979sec7U_bzFBSnt7R9fTk5NZR9vIAjFgdJczYdnM&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=r0trmSxjxelJ_96EON8h8Q&oh=00_AfS2rgfl8EJ7fznGzhWBIRFrycLLVn5Rv19VaOlFCiaW5Q&oe=687781A0"
+            ],
+            "scraped_from_advertiser": "Danube Properties",
+            "advertiser_page_id": "1406365302985662"
+          },
+          {
+            "status": "Active",
+            "library_id": "1568549917440512",
+            "started": "Started running on 11 Jul 2025 · Total active time 10 hrs",
+            "page": "Danube Properties",
+            "primary_text": "Discover convertible homes at Sparklz by Danube in Al Furjan. Starting AED 900K with a 1% plan & 30+ amenities!\nConvertible 2BR to 1BR\nFully furnished apartments\nSign Up",
+            "cta": "\nSign Up",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fpromotions.danubeproperties.com%2Fsparklz%2F%3Futm_source%3DMeta%26utm_medium%3DPost-DR-New%26utm_content%3DProspect_UAE_set64-DR_PP%26utm_project_name%3DSparklz%26category%3DLead%26token%3DApr2025&h=AT2lSEx6WkeuGo5hr5pEqFJbQlbGZN03MxnuzmRTr-GLXwUYygxFixN6NERLmJJOZk-facDY38Zc9xhXXWDZjJTJTK-21EPdCJW9sfJnVfsR3jNaQjkmwjIZKI8s-vuel0G1qPf0XBxG6_Vv_0S5D3VQfCIkVmAVtjSg1Q",
+                "text": "Convertible 2BR to 1BR\nFully furnished apartments\nSign Up"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518390534_3672784079696143_6868265574723139534_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=cEMs1M_ozB4Q7kNvwE3xGEx&_nc_oc=Adkse6IDF1qQl5r5vZ3GOfHVV-_gyMlGGTeuITyvUmugFEWQjel2C5UIwb_EpqSUR45o8CFm6qf6PhjPrpYoKVbz&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=r0trmSxjxelJ_96EON8h8Q&oh=00_AfRgNhOXDKYU7P9GKy8WGSXZ1X70cSbcdWojVNhFHnWrvQ&oe=6877A950",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518054842_716050534516215_7856287828939880150_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=I1uQ8P1wGG0Q7kNvwFi-H29&_nc_oc=AdkAR5-eC3Q5EIBXbj8yyKfVfrTYx0-5mQtRXf7BewlIZrBfE7bIsyIoSzVExr7SGB5zUaBt0cezJ9DXL1sZgS1H&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=r0trmSxjxelJ_96EON8h8Q&oh=00_AfR1A4jY1t59STWgF3dEByYb3tgQ9ipBJbHx9zl42CGIMg&oe=687790D7"
+            ],
+            "scraped_from_advertiser": "Danube Properties",
+            "advertiser_page_id": "1406365302985662"
+          }
+        ],
+        "ads_count": 5
+      },
+      {
+        "page_id": "pageID:126301774116154",
+        "name": "fam Properties",
+        "raw_text": "fam Properties\n@famproperties\n· 60K follow this · Real Estate Agent\n@famproperties · 59.4K followers",
+        "ads": [
+          {
+            "status": "Active",
+            "library_id": "1884998309016281",
+            "started": "Started running on 11 Jul 2025 · Total active time 9 hrs",
+            "page": "fam Properties",
+            "primary_text": "Experience life at the epicenter of Dubai’s most prestigious address—Downtown.\n\nJust steps from the world-famous Burj Khalifa and Dubai Mall, this vibrant district offers unmatched luxury, iconic views, and seamless connectivity. Whether you're seeking a dynamic lifestyle or a high-yield investment, Downtown Dubai sets the standard for excellence.\nOwn the View\nGet Offer",
+            "cta": "\nGet Offer",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT2qGM947GfivRgYOomBAPhhycwplTVrI_vA6BCHVdL3Wlg2lMA2YATT-N4-THwhUB_5YDFbhYm7JJgGnkEAEP7M4cHS7aagGD-o5Bz9euRCOPil_B_VIajxaRGOiTQ1lZk2ZQ6wxtiugcJGqUUO2YT-K9lkMbqQHPV85w",
+                "text": "Own the View\nGet Offer"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517677500_2119767738499731_8776936992538972112_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=102&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=UrcKid-zWbAQ7kNvwGpBc8U&_nc_oc=AdnUrvst--aLQmQF41MJI-WhsM_jkztxDDmF4JX7X0I5HOUNQ5_KdniaNHcnKuwQkKgYPDHyKgyJAgNRawmJaY1O&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=70eHoJaP26w32HdUm73FAw&oh=00_AfS4wil3lmqZjspTm9LzLtHM5lf98Mh9ZT_HGySMuBplew&oe=68778D0C",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517409850_620205590583885_3953522936792404112_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=104&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=U9FWbYb_tCoQ7kNvwGvLSuY&_nc_oc=AdlswRdDd4534doFr7QAqnbphSchfZIP-6mI1q_v34jlIMIwog7V-zM1TUENkwOcQ4WrSu07HHlhNna3BSqs6CPk&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=70eHoJaP26w32HdUm73FAw&oh=00_AfSqy6cLgzekJlCSH6vbEg_75rvQFkQmPRrx_ytZ1ePjQA&oe=6877AD0D"
+            ],
+            "scraped_from_advertiser": "fam Properties",
+            "advertiser_page_id": "126301774116154"
+          },
+          {
+            "status": "Active",
+            "library_id": "2747444465445179",
+            "started": "Started running on 11 Jul 2025 · Total active time 13 hrs",
+            "page": "fam Properties",
+            "primary_text": "Introducing AYAAN Heights\nDubai’s new design-led community in Meydan Horizon\n🏡 Apartments & Offices with Lagoon Views\n🟢 Wellness, Retail & Smart Tech Living\n✅ Own with Just 20% Down Payment\nGet Brochures & Floor Plans\nBook Now",
+            "cta": "\nBook Now",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT2qGM947GfivRgYOomBAPhhycwplTVrI_vA6BCHVdL3Wlg2lMA2YATT-N4-THwhUB_5YDFbhYm7JJgGnkEAEP7M4cHS7aagGD-o5Bz9euRCOPil_B_VIajxaRGOiTQ1lZk2ZQ6wxtiugcJGqUUO2YT-K9lkMbqQHPV85w",
+                "text": "Get Brochures & Floor Plans\nBook Now"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518241334_1103831868299911_693357352080882323_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=m8TDC5jRW4YQ7kNvwEzTYw6&_nc_oc=Adm34aI1jrc4EpDu9hAU9lfaGeret80W8h-UwiADj6JfogjxNwyPkm51U0mcSMt9xiqv46STmNCA7mJRDX6xAmt7&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=70eHoJaP26w32HdUm73FAw&oh=00_AfQyobRAWpxgbyDILpFq8ljtzg4QtO7OgzwbwhYNVifB2g&oe=6877848D",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517761547_523125530887204_1879980331632217104_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=106&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=ScDHR2UqjBAQ7kNvwHYHD-u&_nc_oc=Adns0Zg-YY6loTu7mYBORuDN66YIhn9ITVlpO6sBCOJsMTmwb0pXzVWpugvkA-IT_kYr8Gi7hRRkAKea3aGW8z1h&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=70eHoJaP26w32HdUm73FAw&oh=00_AfQnFtQmWAPIyh65XtzeLDGB8WXa-IcONeBXtd-eFWjcHg&oe=68778E84"
+            ],
+            "scraped_from_advertiser": "fam Properties",
+            "advertiser_page_id": "126301774116154"
+          },
+          {
+            "status": "Active",
+            "library_id": "1070001168567805",
+            "started": "Started running on 11 Jul 2025 · Total active time 11 hrs",
+            "page": "fam Properties",
+            "primary_text": "Introducing AYAAN Heights\nDubai’s new design-led community in Meydan Horizon\n🏡 Apartments & Offices with Lagoon Views\n🟢 Wellness, Retail & Smart Tech Living\n✅ Own with Just 20% Down Payment\n0:00 / 1:02",
+            "cta": null,
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT2qGM947GfivRgYOomBAPhhycwplTVrI_vA6BCHVdL3Wlg2lMA2YATT-N4-THwhUB_5YDFbhYm7JJgGnkEAEP7M4cHS7aagGD-o5Bz9euRCOPil_B_VIajxaRGOiTQ1lZk2ZQ6wxtiugcJGqUUO2YT-K9lkMbqQHPV85w",
+                "text": ""
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518350564_1246989483831712_8119952618797718142_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=106&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=BEPquFA-Xy0Q7kNvwHkJeXo&_nc_oc=Adlf4vzFBg-49IMY0p_9MJap_rmmODoBteluwVOagHnNuyKFCfdMCKGE0dQXa2v2JVyPGZ2a92RZTnDP3RABhM03&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=70eHoJaP26w32HdUm73FAw&oh=00_AfTVol5OprMbLK2Hyu8xL_6gCi43qM3wAcTZY6jF_xTuxw&oe=687786DF"
+            ],
+            "scraped_from_advertiser": "fam Properties",
+            "advertiser_page_id": "126301774116154"
+          },
+          {
+            "status": "Active",
+            "library_id": "1275209957532342",
+            "started": "Started running on 11 Jul 2025 · Total active time 13 hrs",
+            "page": "fam Properties",
+            "primary_text": "Introducing AYAAN Heights\nDubai’s new design-led community in Meydan Horizon\n🏡 Apartments & Offices with Lagoon Views\n🟢 Wellness, Retail & Smart Tech Living\n✅ Own with Just 20% Down Payment\nGet Brochures & Floor Plans\nBook Now",
+            "cta": "\nBook Now",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT2qGM947GfivRgYOomBAPhhycwplTVrI_vA6BCHVdL3Wlg2lMA2YATT-N4-THwhUB_5YDFbhYm7JJgGnkEAEP7M4cHS7aagGD-o5Bz9euRCOPil_B_VIajxaRGOiTQ1lZk2ZQ6wxtiugcJGqUUO2YT-K9lkMbqQHPV85w",
+                "text": "Get Brochures & Floor Plans\nBook Now"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517093923_1659460111436005_1114840066144484519_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=VCclhhDejfUQ7kNvwGNRCN5&_nc_oc=Adnbub2n5ib-LNqMU5HpTEdIJjDETLfuJWiUNJCru0EyWXpDYlYOTpmXK7G32Ubm1nFBAU-HILGgU5M8eN7d04si&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=70eHoJaP26w32HdUm73FAw&oh=00_AfQPTwcbuRBUuit-ZmorDZ9JlC__jKgCJC-687ti_g53Dg&oe=6877A17C",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518294748_600009876137347_2631444984254798423_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Is5_q_8cxmkQ7kNvwGQfn8x&_nc_oc=Adl0iU-21UBGfVSl7k8XKfRQ6dvTNBtWOQs_8PpJ7u-NElRETkMOggIkaUytYrmXslgIvx3Ll8Vn4qXDYpXpE1e_&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=70eHoJaP26w32HdUm73FAw&oh=00_AfRlesmZW8MDhSWGhSLIObU75AFH2GCxwpqR25fn26-GcQ&oe=6877B105"
+            ],
+            "scraped_from_advertiser": "fam Properties",
+            "advertiser_page_id": "126301774116154"
+          },
+          {
+            "status": "Active",
+            "library_id": "1878564856043296",
+            "started": "Started running on 11 Jul 2025 · Total active time 13 hrs",
+            "page": "fam Properties",
+            "primary_text": "Introducing AYAAN Heights\nDubai’s new design-led community in Meydan Horizon\n🏡 Apartments & Offices with Lagoon Views\n🟢 Wellness, Retail & Smart Tech Living\n✅ Own with Just 20% Down Payment\n0:00 / 1:57",
+            "cta": null,
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT2qGM947GfivRgYOomBAPhhycwplTVrI_vA6BCHVdL3Wlg2lMA2YATT-N4-THwhUB_5YDFbhYm7JJgGnkEAEP7M4cHS7aagGD-o5Bz9euRCOPil_B_VIajxaRGOiTQ1lZk2ZQ6wxtiugcJGqUUO2YT-K9lkMbqQHPV85w",
+                "text": ""
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518352362_1402992050909063_8917977766722466022_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=pcd__mt2lPYQ7kNvwGY4vuT&_nc_oc=AdmF_Dtg1ix-GF72NEUiHJOk_0ZQaqbRysYhAPCC3dYTX359D2XZ0DqS3m4x5YLe5E6A-7_yqBxpRe6J-EjMle5K&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=70eHoJaP26w32HdUm73FAw&oh=00_AfTyqGY3LLHP6gMKrEpjePwc74bFF1yDcUqz5hewed0VgQ&oe=68779170"
+            ],
+            "scraped_from_advertiser": "fam Properties",
+            "advertiser_page_id": "126301774116154"
+          }
+        ],
+        "ads_count": 5
+      },
+      {
+        "page_id": "pageID:1593605024275869",
+        "name": "realestate.com.au Promoted Properties",
+        "raw_text": "realestate.com.au Promoted Properties\n@reapromotedproperties · 61.8K follow this · Home",
+        "ads": [],
+        "ads_count": 0
+      },
+      {
+        "page_id": "pageID:1024189787665583",
+        "name": "Domain Featured Properties",
+        "raw_text": "Domain Featured Properties\n@DomainFeaturedProperties · 152.4K follow this · Real Estate",
+        "ads": [
+          {
+            "status": "Active",
+            "library_id": "2435237846862650",
+            "started": "Started running on 11 Jul 2025 · Total active time 8 hrs",
+            "page": "Domain Featured Properties",
+            "primary_text": "Just Sold! Cloud Nine",
+            "cta": "\nLearn more",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.domain.com.au%2F34-joseph-street-woonona-nsw-2517-2020074576%3Futm_source%3Dfacebook%26utm_campaign%3Ddomain-off-network%26utm_term%3D2020074576&h=AT0sFNxOaMF3Y9-MYCDkOtxscrr4lScuqpbLTLxBegzFhIG2m3n1ba4p34ZaZF9Jpu_XMe_9g_j5qrIQLMLZ86x7eD5oFNKq-K8k-rM4I-2BmaMfFeoEtpBGR_IKm_6cosie6FXd3Qoxk3nkKLw8E3mcYKaBevnXkiZVBA",
+                "text": "DOMAIN.COM.AU\nJust Sold!\nFind it on Domain.com.au\nLearn more"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518347870_1484105956340358_514707208862231696_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=rEvHP3r5hg4Q7kNvwH3iJRt&_nc_oc=AdmDXQmZR5HUidR4_tz53vR2WC5XUPNflfVoM7qapGvuYInGtXedv8cJW8Ubp-h8myV7SzJ1WUD_DJQFDQLsF8Hh&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=COFmZw3jViLvvLVN96R98w&oh=00_AfSFZDWe4REoWCicVVs458yH7ZXECoEM3FZSYHSfxNT2tg&oe=68779F1C",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518273359_616931557629593_1485493336077159319_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=mCPOmy2OiY4Q7kNvwElvjDl&_nc_oc=Adkz6td6U32SZbHK1_xnxYsSgbyWnTvYSCJpQoU0wQ4BkI7ERauL373aEskjBHQRGgtD3CCdcJVBjl2hrejf3oC3&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=COFmZw3jViLvvLVN96R98w&oh=00_AfR3CYJEBHsnInVHw-OnA_E618Rcaj7Oq9UZM5Ewjg9iIg&oe=6877A36A"
+            ],
+            "scraped_from_advertiser": "Domain Featured Properties",
+            "advertiser_page_id": "1024189787665583"
+          },
+          {
+            "status": "Active",
+            "library_id": "1437782537417806",
+            "started": "Started running on 11 Jul 2025 · Total active time 10 hrs",
+            "page": "Domain Featured Properties",
+            "primary_text": "Modern, Low-maintenance Living in the Heart of Wellard",
+            "cta": null,
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.domain.com.au%2F61-lambeth-circle-wellard-wa-6170-2020109741%3Futm_source%3Dfacebook%26utm_campaign%3Ddomain-off-network%26utm_term%3D2020109741&h=AT0sFNxOaMF3Y9-MYCDkOtxscrr4lScuqpbLTLxBegzFhIG2m3n1ba4p34ZaZF9Jpu_XMe_9g_j5qrIQLMLZ86x7eD5oFNKq-K8k-rM4I-2BmaMfFeoEtpBGR_IKm_6cosie6FXd3Qoxk3nkKLw8E3mcYKaBevnXkiZVBA",
+                "text": ""
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518333848_2165777027223024_6023545412279225341_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=106&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=whvRDzBkjYMQ7kNvwHUGyWc&_nc_oc=AdkJN1d4IgbA1O8Pm7SV_BDai9jWwP8U2Cxrl8b7U5GG8qso0YoQjZL9cIy8ac5CJBt3d6vnI9aFA1MYRg1TROy6&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=COFmZw3jViLvvLVN96R98w&oh=00_AfS38vlJdPPh9JBJWQGzNXbKRON2kasnl4NNJm7WYDw5OQ&oe=68778639",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517704946_1142695684356147_8005073089257994349_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=103&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=nlA_YHdnR5wQ7kNvwHOKFNC&_nc_oc=AdlcV3GLsnvZZVKYoJ3eIHQDiNPRO369QjzOsdDr8bQZZXqAuRNwk2-weKKeTk-lAABKuJaSp3zFcK2FxFURjT0b&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=COFmZw3jViLvvLVN96R98w&oh=00_AfTUQ4-JfbZNeD2QQWaZqdJXb14ln44xP9jV1k94OVlnRA&oe=6877B2A3"
+            ],
+            "scraped_from_advertiser": "Domain Featured Properties",
+            "advertiser_page_id": "1024189787665583"
+          },
+          {
+            "status": "Active",
+            "library_id": "24165710696374880",
+            "started": "Started running on 11 Jul 2025 · Total active time 12 hrs",
+            "page": "Domain Featured Properties",
+            "primary_text": "Just Sold! Luxurious Oversized 1br Apartment | Prime Darlinghurst Location",
+            "cta": "\nLearn more",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.domain.com.au%2F202-18-28-neild-avenue-darlinghurst-nsw-2010-2020085055%3Futm_source%3Dfacebook%26utm_campaign%3Ddomain-off-network%26utm_term%3D2020085055&h=AT0sFNxOaMF3Y9-MYCDkOtxscrr4lScuqpbLTLxBegzFhIG2m3n1ba4p34ZaZF9Jpu_XMe_9g_j5qrIQLMLZ86x7eD5oFNKq-K8k-rM4I-2BmaMfFeoEtpBGR_IKm_6cosie6FXd3Qoxk3nkKLw8E3mcYKaBevnXkiZVBA",
+                "text": "DOMAIN.COM.AU\nJust Sold!\nFind it on Domain.com.au\nLearn more"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516302221_24447733504833782_5812489107386455335_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=6X-TGua5N90Q7kNvwE2EdLy&_nc_oc=AdkJOewggu57S5OwN-I9ELlCyXSY2F8LNoTHIHXkWo15RoIWxiWfiU9SJPzo63QIuz61f3wZ97cGnm5xjd-WxWYz&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=COFmZw3jViLvvLVN96R98w&oh=00_AfSvNnpo5_90ofnKED28wlDGKt6zBFaaUre1YmY5dqd6qg&oe=6877B1D0",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517709804_775259374854078_7114589387237379650_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=103&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=_avJIcWaXSsQ7kNvwGGdFTQ&_nc_oc=Adl1lc0SOg9zHZHZMYJcmPH_ma4l9cQIRDvwEEQnUmFjQA02HCLQyRYPVpWAn336mVsTZgdqOcb3wj4jccEO2kU9&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=COFmZw3jViLvvLVN96R98w&oh=00_AfRvYBCbcxzJR0CbIpULmLmD1z_FCn_eDhTqHFgdTN7Cyw&oe=6877AC3B"
+            ],
+            "scraped_from_advertiser": "Domain Featured Properties",
+            "advertiser_page_id": "1024189787665583"
+          },
+          {
+            "status": "Active",
+            "library_id": "510926428744526",
+            "started": "Started running on 11 Jul 2025 · Total active time 12 hrs",
+            "page": "Domain Featured Properties",
+            "primary_text": "Endless Space, Style & Potential!",
+            "cta": "\nLearn more",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.domain.com.au%2F9-perry-street-west-mackay-qld-4740-2020118336&h=AT0sFNxOaMF3Y9-MYCDkOtxscrr4lScuqpbLTLxBegzFhIG2m3n1ba4p34ZaZF9Jpu_XMe_9g_j5qrIQLMLZ86x7eD5oFNKq-K8k-rM4I-2BmaMfFeoEtpBGR_IKm_6cosie6FXd3Qoxk3nkKLw8E3mcYKaBevnXkiZVBA",
+                "text": "DOMAIN.COM.AU\n9 Perry Street West Mackay - For Sale\nView property photos, school catchments and more on Domain.com.au\nLearn more"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518329972_1242159087600828_7375862858806957428_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=103&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=oHF4E1Hy62kQ7kNvwHEovIk&_nc_oc=AdmJclHezxDt6nC6WW3_7D7sTv9O9aS7iAbVARc_NOmK4YVrTeWlPwT90lMxawxT-GvJBU5o0aB3o1mx1f1nKkHL&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=COFmZw3jViLvvLVN96R98w&oh=00_AfTJGPUEPRWTiwSy4T8CU3X0FBM2NZf9-5ZoIWil5Lb1wA&oe=68779D87",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518291666_681532291554202_5436708871189811735_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=30pQ2gbf5WMQ7kNvwF26qcz&_nc_oc=AdlRjUBrWpG2_u0LSf9Dnu5I4oIF8ZLSk_0I-We_RtjhS3XU9FM6214Y9gaWsHglvYAmkZbVwpb4ighSHTi3yqwu&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=COFmZw3jViLvvLVN96R98w&oh=00_AfR11G2TYGoddAhdDDMqnjmN8dAsRJEIHleOcnEjcf8mrg&oe=6877944F"
+            ],
+            "scraped_from_advertiser": "Domain Featured Properties",
+            "advertiser_page_id": "1024189787665583"
+          },
+          {
+            "status": "Active",
+            "library_id": "701395399375535",
+            "started": "Started running on 11 Jul 2025 · Total active time 12 hrs",
+            "page": "Domain Featured Properties",
+            "primary_text": "A Dream Escape: 50 Acres of Country Charm and Stunning Green Views.",
+            "cta": "\nLearn more",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.domain.com.au%2F93-glenara-road-tamworth-nsw-2340-2020118718&h=AT0sFNxOaMF3Y9-MYCDkOtxscrr4lScuqpbLTLxBegzFhIG2m3n1ba4p34ZaZF9Jpu_XMe_9g_j5qrIQLMLZ86x7eD5oFNKq-K8k-rM4I-2BmaMfFeoEtpBGR_IKm_6cosie6FXd3Qoxk3nkKLw8E3mcYKaBevnXkiZVBA",
+                "text": "DOMAIN.COM.AU\n93 Glenara Road Tamworth - Auction\nView property photos, school catchments and more on Domain.com.au\nLearn more"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518231184_1296705238797798_875273924109311713_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=bveoYUWdsG4Q7kNvwFeHOVN&_nc_oc=Adlqe_lOaLSh8YbRprnbnRF-R2W-1B9fO1Yi4kFUupRZyQezAWc5Dqm4A2gUBtNsQPPEs2-Q5yfZ8cdCNPu4ig_X&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=COFmZw3jViLvvLVN96R98w&oh=00_AfRp75NJJplmCqOPg18vBasTYJguTGHGaC3zS0EUZPptZw&oe=6877A2DF",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517878291_1889704215141481_5736297603652533837_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=6nHx4_nnT6EQ7kNvwF_slXF&_nc_oc=AdlXrmizeLmugc_knelpntadWoL9iK85Y2bP8GbDYPhAh2oN6BZjeAbbBiIQj7C7oa9EQidGL0oGSTax8-hyyihg&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=COFmZw3jViLvvLVN96R98w&oh=00_AfQ_N4H64DyFWP3NfAz3dT1slYulZprbm2UvoS66wtTOiA&oe=68779E09"
+            ],
+            "scraped_from_advertiser": "Domain Featured Properties",
+            "advertiser_page_id": "1024189787665583"
+          }
+        ],
+        "ads_count": 5
+      },
+      {
+        "page_id": "pageID:1598423163789271",
+        "name": "Metropolitan Premium Properties",
+        "raw_text": "Metropolitan Premium Properties\n@mpddubai · 11.6K follow this · Real Estate\n@metropolitan__properties · 30.9K followers",
+        "ads": [
+          {
+            "status": "Active",
+            "library_id": "1073588487642585",
+            "started": "Started running on 11 Jul 2025 · Total active time 17 hrs",
+            "page": "Metropolitan Premium Properties",
+            "primary_text": "TALEA by BEYOND — Forest Living Meets the Sea\n\nDiscover TALEA, the first residential tower in the Forest District of Dubai Maritime City — a unique island address where nature, architecture, and elegance converge.\n\n🌳 1–4BR residences & penthouses from AED 2.2M\n🏝️ Forest and Sea Views\n🌉 Pedestrian Bridge Connecting Park to Bay\n🏗️ Q1 2029 Completion | 50/50 Payment Plan\n🔐 Bulk Deals Available — EOI from AED 50K/unit (min. 5 units)\n\n✨ Signature amenities:\n• Infinity Pool\n• Forest Lounge & Waterfall Spaces\n• Business Center & Co-working Hub\n• Outdoor Kids’ Zone & Double-Level Gym\n\n📍 Just 10 minutes from Downtown & DIFC\n🌆 Massive capital appreciation potential in Dubai’s most forward-thinking coastal district.\n\n👉 Register now to access exclusive pre-launch inventory and pricing!",
+            "cta": null,
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT0JORP84shaIoSDoGDKdW0sz_JYvrdWQsZiJ6uuw6rpV773CENsS4i9b5DWyEYf57VpViIu0Hp7o39_M1wGQtio4N4_qr3oBirX8OK2G0R-y--kxfs45acZGxzcjlPa4deAHhqLYFuT3tILBNGymIgPwylU6dE8Oy-KLQ",
+                "text": ""
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518254216_4095833054035080_6038751161101163643_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=dhpqMOnz9DYQ7kNvwHXgnHm&_nc_oc=AdlBkhIg8vItyK2CesT_EAlQA4ten7PZY4IP-eFBO16gATwlvpu3YJEqcLWhJ6myIj6u6lg42C1oocob5VYINjIP&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=zYtCc7YMZedtYMOYqCejMA&oh=00_AfR4bHjHw9Qy-BZq9EhzJ1eD2YiEnI-9znWi8OZ9sD14Vw&oe=6877809B",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518465822_1693296584668325_3614303472855121091_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=CI4HfbytHk4Q7kNvwEBul2q&_nc_oc=AdmyKY3l37bBRiGCQ2LG2375RiSy8I67yOH01YiHy6mk2ZC_wITeplCqJClWdIVAwlh4CfTbAnmUvD44ZZDHecTo&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=zYtCc7YMZedtYMOYqCejMA&oh=00_AfSxBm2FIn2i8yLHuk4mP7gmkbw7DSULvogK7Qkan4jTiw&oe=6877A280"
+            ],
+            "scraped_from_advertiser": "Metropolitan Premium Properties",
+            "advertiser_page_id": "1598423163789271"
+          },
+          {
+            "status": "Active",
+            "library_id": "1292663832473468",
+            "started": "Started running on 11 Jul 2025 · Total active time 17 hrs",
+            "page": "Metropolitan Premium Properties",
+            "primary_text": "TALEA by BEYOND — Forest Living Meets the Sea\n\nDiscover TALEA, the first residential tower in the Forest District of Dubai Maritime City — a unique island address where nature, architecture, and elegance converge.\n\n🌳 1–4BR residences & penthouses from AED 2.2M\n🏝️ Forest and Sea Views\n🌉 Pedestrian Bridge Connecting Park to Bay\n🏗️ Q1 2029 Completion | 50/50 Payment Plan\n🔐 Bulk Deals Available — EOI from AED 50K/unit (min. 5 units)\n\n✨ Signature amenities:\n• Infinity Pool\n• Forest Lounge & Waterfall Spaces\n• Business Center & Co-working Hub\n• Outdoor Kids’ Zone & Double-Level Gym\n\n📍 Just 10 minutes from Downtown & DIFC\n🌆 Massive capital appreciation potential in Dubai’s most forward-thinking coastal district.\n\n👉 Register now to access exclusive pre-launch inventory and pricing!",
+            "cta": null,
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT0JORP84shaIoSDoGDKdW0sz_JYvrdWQsZiJ6uuw6rpV773CENsS4i9b5DWyEYf57VpViIu0Hp7o39_M1wGQtio4N4_qr3oBirX8OK2G0R-y--kxfs45acZGxzcjlPa4deAHhqLYFuT3tILBNGymIgPwylU6dE8Oy-KLQ",
+                "text": ""
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518243238_2169724440174414_3520321043417878371_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=aNOXP5Jur30Q7kNvwF8HhO2&_nc_oc=Adl7wpLsX1VoifiI3-qJSARSJqS_9jWBettahJC8Nyh5ZDc7n_humYncWZKQYBQ-CopRdLFt5RKQH-r3BW07Whmi&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=zYtCc7YMZedtYMOYqCejMA&oh=00_AfRRI7mRDN0CISdGhKkozGNpGU-UeJDibXC6jHaowlgRLA&oe=6877821E",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518331120_2888991884642408_5772607183639046394_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=3Cq6ZQIzxcUQ7kNvwHyjYWk&_nc_oc=AdmNoKWR4Am2YlFDMbCHlEZX_Dzr9ouRcuz5jM9NN9NTHBjpohh7--D7QY1VSpARl1qtREt8XxVj24ZddQlpBXF8&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=zYtCc7YMZedtYMOYqCejMA&oh=00_AfTZN8jL15MHLbidEjDasi0w-HPhWgrF4PGImsf2e1H9pQ&oe=6877B561"
+            ],
+            "scraped_from_advertiser": "Metropolitan Premium Properties",
+            "advertiser_page_id": "1598423163789271"
+          },
+          {
+            "status": "Active",
+            "library_id": "1308609070859575",
+            "started": "Started running on 11 Jul 2025 · Total active time 17 hrs",
+            "page": "Metropolitan Premium Properties",
+            "primary_text": "TALEA by BEYOND — Forest Living Meets the Sea\n\nDiscover TALEA, the first residential tower in the Forest District of Dubai Maritime City — a unique island address where nature, architecture, and elegance converge.\n\n🌳 1–4BR residences & penthouses from AED 2.2M\n🏝️ Forest and Sea Views\n🌉 Pedestrian Bridge Connecting Park to Bay\n🏗️ Q1 2029 Completion | 50/50 Payment Plan\n🔐 Bulk Deals Available — EOI from AED 50K/unit (min. 5 units)\n\n✨ Signature amenities:\n• Infinity Pool\n• Forest Lounge & Waterfall Spaces\n• Business Center & Co-working Hub\n• Outdoor Kids’ Zone & Double-Level Gym\n\n📍 Just 10 minutes from Downtown & DIFC\n🌆 Massive capital appreciation potential in Dubai’s most forward-thinking coastal district.\n\n👉 Register now to access exclusive pre-launch inventory and pricing!",
+            "cta": null,
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT0JORP84shaIoSDoGDKdW0sz_JYvrdWQsZiJ6uuw6rpV773CENsS4i9b5DWyEYf57VpViIu0Hp7o39_M1wGQtio4N4_qr3oBirX8OK2G0R-y--kxfs45acZGxzcjlPa4deAHhqLYFuT3tILBNGymIgPwylU6dE8Oy-KLQ",
+                "text": ""
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517364377_579922411864707_3652273836522432835_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=i44FyYEjCI0Q7kNvwG6yw3Y&_nc_oc=AdmHmXyedJE7bijr2KyaNTNLOS8lwqc0zAPseiObR9PqlWAX2bv9Bm8lZZKb0GV0XOYy2mwZoObU00Te550WZoOe&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=zYtCc7YMZedtYMOYqCejMA&oh=00_AfRsZA0cGWhq_Q6xA685MI07LcQxqe7lz3qrUNlm45S6Eg&oe=687788F3",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518005928_1559066121720729_5616186895721146026_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=102&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=s_pG3IX5PkQQ7kNvwG5S1y7&_nc_oc=AdlWLe3qDYn3HtmYZxi_9x9gitrZoIHc4Gw3DdJjJoZUNMfu1QpsX_IQvQEVMFjuxXOSpHAfXP4CPJHu9XrmTZoc&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=zYtCc7YMZedtYMOYqCejMA&oh=00_AfTQjhJ8a9aMfn2C31oidc_c0aVslmxLvcEd1mRC1mV-Rg&oe=68778DE4"
+            ],
+            "scraped_from_advertiser": "Metropolitan Premium Properties",
+            "advertiser_page_id": "1598423163789271"
+          },
+          {
+            "status": "Active",
+            "library_id": "1785167372412647",
+            "started": "Started running on 11 Jul 2025 · Total active time 17 hrs",
+            "page": "Metropolitan Premium Properties",
+            "primary_text": "TALEA by BEYOND — Forest Living Meets the Sea\n\nDiscover TALEA, the first residential tower in the Forest District of Dubai Maritime City — a unique island address where nature, architecture, and elegance converge.\n\n🌳 1–4BR residences & penthouses from AED 2.2M\n🏝️ Forest and Sea Views\n🌉 Pedestrian Bridge Connecting Park to Bay\n🏗️ Q1 2029 Completion | 50/50 Payment Plan\n🔐 Bulk Deals Available — EOI from AED 50K/unit (min. 5 units)\n\n✨ Signature amenities:\n• Infinity Pool\n• Forest Lounge & Waterfall Spaces\n• Business Center & Co-working Hub\n• Outdoor Kids’ Zone & Double-Level Gym\n\n📍 Just 10 minutes from Downtown & DIFC\n🌆 Massive capital appreciation potential in Dubai’s most forward-thinking coastal district.\n\n👉 Register now to access exclusive pre-launch inventory and pricing!",
+            "cta": "\nLearn more",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT0JORP84shaIoSDoGDKdW0sz_JYvrdWQsZiJ6uuw6rpV773CENsS4i9b5DWyEYf57VpViIu0Hp7o39_M1wGQtio4N4_qr3oBirX8OK2G0R-y--kxfs45acZGxzcjlPa4deAHhqLYFuT3tILBNGymIgPwylU6dE8Oy-KLQ",
+                "text": "FB.ME\nMetropolitan Premium Properties\nLearn more"
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517714916_747336394519308_6948022936142161079_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=UG6reLBofGsQ7kNvwGTEy2Q&_nc_oc=Adn-Op26s4qTWT9g68NxP8BAgYFvMIyI5anE1ednmeY_If0aEZFfKsL2DR4I9jEyVJMTOQVeeYQtmFSsmIAuJM4P&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=zYtCc7YMZedtYMOYqCejMA&oh=00_AfRqAoQrvMVByviy7Yc4Dpspk_ItDTBAfVtfPlViEAZkLA&oe=687792DF",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518747968_2406149579769923_3466588338555639240_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=JY0Fg3rpBs8Q7kNvwFiSRWW&_nc_oc=AdkpsCpKDyxnpFyaWBGMeGXZhY1F8T3LtfRzPIoaaR8Vs6RstUmxWjaxAY4Bk_Kj8rUICzXYOtoSVmiVPkBTWfuc&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=zYtCc7YMZedtYMOYqCejMA&oh=00_AfQ5fWGZok2nJTxc95nyfXsYvetMsE7KZRVJs8AYBYOO3Q&oe=6877AA07"
+            ],
+            "scraped_from_advertiser": "Metropolitan Premium Properties",
+            "advertiser_page_id": "1598423163789271"
+          },
+          {
+            "status": "Active",
+            "library_id": "1373086467124119",
+            "started": "Started running on 11 Jul 2025 · Total active time 19 hrs",
+            "page": "Metropolitan Premium Properties",
+            "primary_text": "TALEA by BEYOND — Forest Living Meets the Sea\n\nDiscover TALEA, the first residential tower in the Forest District of Dubai Maritime City — a unique island address where nature, architecture, and elegance converge.\n\n🌳 1–4BR residences & penthouses from AED 2.2M\n🏝️ Forest and Sea Views\n🌉 Pedestrian Bridge Connecting Park to Bay\n🏗️ Q1 2029 Completion | 50/50 Payment Plan\n🔐 Bulk Deals Available — EOI from AED 50K/unit (min. 5 units)\n\n✨ Signature amenities:\n• Infinity Pool\n• Forest Lounge & Waterfall Spaces\n• Business Center & Co-working Hub\n• Outdoor Kids’ Zone & Double-Level Gym\n\n📍 Just 10 minutes from Downtown & DIFC\n🌆 Massive capital appreciation potential in Dubai’s most forward-thinking coastal district.\n\n👉 Register now to access exclusive pre-launch inventory and pricing!",
+            "cta": null,
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT0JORP84shaIoSDoGDKdW0sz_JYvrdWQsZiJ6uuw6rpV773CENsS4i9b5DWyEYf57VpViIu0Hp7o39_M1wGQtio4N4_qr3oBirX8OK2G0R-y--kxfs45acZGxzcjlPa4deAHhqLYFuT3tILBNGymIgPwylU6dE8Oy-KLQ",
+                "text": ""
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517259746_593973476804223_7631941698272708040_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=106&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=0VNVR-v_XOMQ7kNvwE9X4n9&_nc_oc=AdlU1D30DEnAcBLNCuTIGLg7qN-Vboze-iiOj41BLwuzXyCcLDLANdKqgfPttAadYd35cBzOEsjOqIHiulKQHkgQ&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=zYtCc7YMZedtYMOYqCejMA&oh=00_AfS5jmrNwIY-ALacsA_AFA6NLz7WzWUaEw4pBjDk9UHMOg&oe=68779015",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517751308_1015797547292543_3100701887992691410_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=8gzt2rH1TMUQ7kNvwEjcKfN&_nc_oc=AdmUKxFocf8kANY6F2j9knjUmTPBm8BewloAseV-F0nOD0YGGy4X6mdXOGhPM1rssUuHTsHw80dgREdJzoDmHsRz&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=zYtCc7YMZedtYMOYqCejMA&oh=00_AfTfOGV6DW9ytaC6KC5VqgxIdABVEoS-jsyZj-cN-Dt3cw&oe=6877B261"
+            ],
+            "scraped_from_advertiser": "Metropolitan Premium Properties",
+            "advertiser_page_id": "1598423163789271"
+          }
+        ],
+        "ads_count": 5
+      },
+      {
+        "page_id": "pageID:460353851118501",
+        "name": "Lucienne Cassar - Lea Properties",
+        "raw_text": "Lucienne Cassar - Lea Properties\n@lucienne.leaproperties · 10.7K follow this · Real Estate Agent",
+        "ads": [
+          {
+            "status": "Active",
+            "library_id": "766357209066278",
+            "started": "Started running on 10 Jul 2025",
+            "page": "Lucienne Cassar - Lea Properties",
+            "primary_text": "✅ MARSASCALA FULLY FURNISHED BRAND NEW APARTMENT\n⭐️ PRICED: €315,000\n\n🔲 Situated in a nice location and forming part of a smart new block comes this apartment served with lift and consisting of....\n.\n🔸 Fully furnished with new appliances\n🔸 2 bedrooms\n🔸 Bathroom & en-suite\n🔸 3 Air/conditioners\n🔸 Optional interconnected garages\n🔸 1 Front Terrace\n🔸 All common parts finished and served with lift\n🔸 Freehold\n\n⭕️ Contact Direct Seller Lucienne Cassar : 99805238 or WhatsApp\n\nDescription\n\nDiscover a brand‑new, never‑lived-in 2 Bedrooms, 2 Bathrooms luxury Apartment in the heart of sought-after area in Marsascala. Fully furnished with sleek modern decor, this first-floor, freehold gem served with a lift – offers a  good sized open plan Living / Dining / Kitchen leading unto a front terrace and decent sized rear balcony (ideal for Laundry area). This property also comes with  optional 1‑ or 2‑car Garages available. Ready to move in, and enjoy the vibrant seaside lifestyle. Book your viewing today – not to be missed!\nLucienne Cassar - Lea Properties\nSend WhatsApp message",
+            "cta": "\nSend WhatsApp message",
+            "links": [],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517409854_1888175298647089_3004520718540530731_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=JqpfdXQEkT0Q7kNvwFmhFXD&_nc_oc=Adm2_gE_SlnVE9lVMeqy-WicQvRXieDC6Creo1pInPHHQDsP3k4wKFUOPcX-6ybBbdfn6rKHQNpXDsZacD1UJaAQ&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfSNmT65fZAbt3focfXM6gjYM-fYhFB31E_tdJmguw-qwQ&oe=68779F5B",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516801412_2000302620376272_1391280586819647092_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=2SbpDV1JEs8Q7kNvwHlwhlb&_nc_oc=AdkJLUzSmITOG6kF7smsqOd-xodOBHFqYael3-oBz8CDQeNTnCP9_LNBshGWfnFIW5QXNonS1QaOI-24CYQRr4nc&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRIsXYWy_erAal8ljRmIAzfEFlWYhJUbHspICmol3_Ukw&oe=6877A05B",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518594418_9978508518926269_3321812434444364103_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=ZaRldG2iTuEQ7kNvwGT9psc&_nc_oc=AdmbfqMkBAEYkVZvD99RW4yG72XGwuY2oKf_JsxOSko-hoW248ESOLV2N4HIK0wK4AQHiU82B-jvwzTCjhi5o74E&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfS4-ZwbpMazBiM54ss0NXykNLp9aw6ZQdBB3DgKgUC0lA&oe=6877AFA8",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517565342_1125033762779514_373480385954614159_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=103&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=s7tB1KETzAkQ7kNvwHYUxGG&_nc_oc=AdmPym2rkhv7C_IeihticuEMKzJYNE6Y4YBG_6WS43GEEsab5RD8MQCmZGJgsWv2K0ci4rLwY7Qo_zuuqhX9zQVY&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTZ32c2J9RcR54_-EnthgCUHCVFzBKwlSBPgjWHfhDd9A&oe=6877AC6E",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516928250_4091960394353617_3015259425000875793_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=103&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=xQHJGzqcRx4Q7kNvwGDcjsO&_nc_oc=Adk3S243-NNzEap-yg5UKRCIlqV_sZ-GqKnZ5wt0LWJakKG2-MsB-MPWoiw2QiGMASu7TO5AdqDYN8IUlJvRyhNU&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQ650r9sMejv0TAEYyo_XCoExIxZyF9lM29VutWHJ-eEg&oe=6877B65F",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517273679_1079955304088376_1994212182104636261_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=3Oh0qB7ExAsQ7kNvwF7bv3N&_nc_oc=AdnpD9IGb3J3-M_PMUqJRFvoOciWQjHI2yauieJpJ5OjRkUZo1REk-O5POQTkoypHk4jaksq46IFD9pYC2IEN4o2&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTdud0cSg1MWoB6Jnfu_CXJSpSG5UlkabPrVXm2f6P67Q&oe=6877AF2A",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518305079_3096579787162949_308146473774855000_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=kBLZWl_7KE4Q7kNvwFmy9Lu&_nc_oc=AdkVf-axrDd1wQs1GI2aAL08CVk2KSwLaaLViQCyJZv_M0XlKT4M0yMPWblkV7QRuiNfCh8gTBT4XraANiy710fG&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfT9tJ5cv8cOlWjNRcg2MAyn6bpJVo_POuh1l5im9apigw&oe=6877B29D",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518027276_1488039325973984_125694173808114194_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=_zxGQ4Z9tgkQ7kNvwFnCEHx&_nc_oc=AdlSnZOsYIyFdObsRElq1s1O8AFjTccXk6usvu8yMII_GYFdHt0a0rMSXrOcYt84jetO_Q32WpNX96fYtT-dBYwz&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQp0wdnV3gVayJvP4etaUwFYlUrNiZOlXwj5QLU5QzfrQ&oe=68779336",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516475450_761147669708963_2164465268562515709_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=jTECfYn4VjsQ7kNvwHhJ6Mz&_nc_oc=Adl7bdnPo5SinCce3Fb5YH-3mtwLg-XFpGnoPm98z7jluWNEiN2nkX5FIDjStn-xuFovW2CKDyApDSnCx5sRord4&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRCxRZtg-Vd8OuxnAjiJ_rdQRZrhN5fSJnPzQ6CR53esA&oe=6877B3D4",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/515941736_744564741556042_4172734441288730909_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=70auTCIZCksQ7kNvwFnefNZ&_nc_oc=Adngm090kBE1Pa2XZCcceTzofDadnqesavaWTSWuH9E8o6LqiBeFPiVM1EEeEX3nbWr-Xwou_P7TDDRUAs0r9Sm4&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQ5AJjdz6e7cixIZK0GGwFS0TdfiE2_Z2miJ2Mj13MRng&oe=6877868D",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516155485_1734715677141036_32953821396803605_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=106&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=IWObrK2DbNUQ7kNvwHziQvm&_nc_oc=AdlHzl9zR-p82UAwNLHEyjfqjJ0dwdyUsoStZhpN-1r6iGU_Sb6y0mg0E8Q7-xjeS7x77jC2j3QluqlN3iAqb2tj&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfStrOBqhfpXDpO4USECCKdX9wII8PNRT1ZDsBo_RYB8eg&oe=6877AE1B",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517377144_589418613956222_2691572212760939509_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=106&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=2YZAwzF12VcQ7kNvwFBjAJJ&_nc_oc=AdnC1RMl8c6lhJEersaCISIOgR7Cr4p7-koAM-97Ya7YnAMN84yT78qTaF6DIEGHTWsDn06yXyPZsbYEIfsRYhsb&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQ_HRNr5IO71_FMSVl4-5FXwpS3KnuUPk5QxMJ6BJ3eFA&oe=6877AEFC",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518104125_1808895070049926_6627670493158363779_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=102&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=JKE4yu2u-TUQ7kNvwF2TQgD&_nc_oc=Adm7ckzad-BRrZPDlwHokWpmsQpBh0oO5xtQPs0gs-hrfbf0oHeIMYXid7UBDk6eMsxqb_c6urszrXgh1U6IvfQ4&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTMMsWtXeWhSawst_BHglhL5-KBjYX4oQwM-lUBCIWrLA&oe=687794D2",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518248472_1925086014997230_5801458255840154205_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=106&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=PL7icNr168YQ7kNvwH6sXvS&_nc_oc=Adm-7RUxnFG6QLYinADIqlESlpgfp_ZtsHk4-U4UJ-oJ09HZgBWguSHS8kq3O48Ab8CAeL6B1LLpR09UpsUVMo9u&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfThwNSQYIfkIBJI9dlMelnPSn_1AG2eag5308AAnyPfFw&oe=68779F65",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517614123_1448342012864951_8148858270662813377_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=wRw_c8CoyaAQ7kNvwEEL1B0&_nc_oc=AdnXKRM641QcbT1Yz9UkTErhulOeWq8-o9eTi7X-ppp_7jnfyCa3G8Jzypy3aHlXTqidrn2DzqZq6PIbVBE2EbQ4&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfSxSQ44wHl2iDdqxrxWKdIw1anMGDOP-nSaH-KP3_BvPQ&oe=68779116",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517320824_1136238488347986_5624894730265962674_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=TzNrlPRos-0Q7kNvwE_df--&_nc_oc=Adlw63NsBrzQ8s--vQ6txYoyqNFyrOgNGSs9pVO7WrBK4BNebNpLiWzyJYKQ2D3LEZBe2Qef1fIBlbhey3qfaCFf&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfS6X38G41BS6SvK-ly7OL51hcbnO6xdzVI466a0c4vuYg&oe=6877A838",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517643680_1823513194873915_8161702712909979770_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=rgfNQnxj5OIQ7kNvwF4NmEf&_nc_oc=AdkdOgoW3eD-bVTbrs0QHhBu8-iOKDcYgjt3uLkYpcFUvrbZQCvzOLZ1ZahmwZtefAcF4DhCfuU9poFA7YYEWbQi&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQ99qbiXc-RkXeHzPCJcsrMu-7PIwYKCS-mVibg9wyVLA&oe=687795B7",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518239652_1913623825703908_5468124342642980412_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=VC7k529XGiQQ7kNvwEh7-jZ&_nc_oc=Adl_YoQRP8WsBZETH0-UkKMFm1Dld7jvUiHCiPoVrjZwga7Cpl4II_GX9lc_IB5U5rULM7cqlV7swFw1CmezcxCh&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTkp9_bC2S4jviiJWt3l8ty1bfZ17MxJnbi9JoYnpjOzw&oe=68779880",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516142879_1402422814206206_11808157684164901_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=103&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=g0iGst8slRkQ7kNvwFUulor&_nc_oc=AdlCd13LeBaOvoHWIbosEvMo8ckMGP561tsu4RTGUNL6Ond4ek5nvyVq2hgZW-wYFQSk6BZHOmRz0-TG7uys2VIm&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRDeQgC6cdvKK9GM2XGi_SBGl5WrFWumHGo3uMT0RwXzQ&oe=6877A1FF",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518198535_1273993887710365_6068142299528453247_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=106&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=LBHeCpZONswQ7kNvwFxVHKC&_nc_oc=Adkc27nQ1NCLlDmzXQqj0Kuzirxqpnyw-AbT3POyv9w2jBNdqEJkuE_-zWAE02C-A8cgYDWef_aAuVufI4CmJoN0&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfSUK7zF21Sql_LBqx7U5CWOxmZimQ-yEWJ5dsBwW9o4Iw&oe=6877A60B"
+            ],
+            "scraped_from_advertiser": "Lucienne Cassar - Lea Properties",
+            "advertiser_page_id": "460353851118501"
+          },
+          {
+            "status": "Active",
+            "library_id": "1901928863934534",
+            "started": "Started running on 10 Jul 2025",
+            "page": "Lucienne Cassar - Lea Properties",
+            "primary_text": "✅ FGURA : PENTHOUSE WITH LIFT & OWN AIRSPACE THAT CAN BE BUILT\n⭕️ PRICED €460,000\n\n✅ This very nice unique fully furnished and ready to move into  property consist of .......\n\n🔸 Entrance hallway\n🔸 Spacious open plan kitchen/ dining / living area\n🔸 Large main bathroom with Jacuzzi\n🔸 2 bedrooms\n🔸 Fully air-conditioned\n🔸 Large front veranda with Jacuzzi\n🔸 Laundry room with drying area\n🔸 191 meter squared plot area\n🔸 14 Solar panels\n🔸 Solar water heater\n🔸 Freehold\n\n ⭕️ Contact Direct Seller Lucienne Cassar : 9980 5238\n\nNew on the market comes this stylish two-bedroom Penthouse enjoys full airspace ownership, lift access, and is being sold fully furnished and freehold. The generous layout of approximately 191 sqm footprint includes – a master Bedroom with en-suite and a second spacious Bedroom, accompanied by a luxurious bathroom with a Jacuzzi tub. A bright, open-plan Kitchen, Living, and Dining area flows effortlessly onto a large front terrace offering open views—ideal for alfresco dining and entertaining with another outdoor Jacuzzi. Property also comes with the potentiality of developing another floor level if one wishes too. Eco-conscious owners will appreciate the 14 solar panels and solar water heater. This beautiful property ticks all the boxes to comfort and luxury living. Not to be missed – book your viewing today!",
+            "cta": null,
+            "links": [],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518200110_1259582059292015_7159980890330897050_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=103&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=UE16vr_AG9wQ7kNvwG7NomN&_nc_oc=Adk0c6UFL9QRNxq7SdMZ41aZrKIgJ9PLpwVnve6XSc8JlMv34HivPy1G8UAxH453DxqnI7jdxMTPlzRlplsi253H&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRuXF8R-tTt1PYvwI0TNQsQ4LwMDL-3QhdbKZtPO-2Utg&oe=6877ADF3",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518072816_752670057246639_246569525710136312_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=102&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=DnBNYdWUHTQQ7kNvwEyAn8i&_nc_oc=Adnx911sJ90wbI26XctO3Pmnk9mZpD8BJrtBEJwi-0aGGTIc-sOnmBD12y6FpjSlYPlsyBoJgWegq1QS3oYJTr8v&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRQyXobAYYM40tGtLI4udWL0UHu0tduZpcq8iFDS1mxzw&oe=687799A2",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516924811_756173820163110_8579486105540566055_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Oi2X0kBF0D0Q7kNvwHDtQsu&_nc_oc=Adn0ystcQKmXGrQ2BRlJ_I8kLttg4hK8ZNZbCdk0vwL96li48LOnyAw2eEEu6_6W4OnKnbxcLdoQuSpaRfomYJSv&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRyIwFJJYRQVb7YKXaCxq0C9nEyMbVCzWx23Ky8TIXVzw&oe=68778E6F",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517420206_691785707018295_5124998353001374046_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=PYID8mHHj8sQ7kNvwH1MyCm&_nc_oc=Adlgl9ZHNWqv1TbFJMV967r8LDm-CD2TZ5g0B0QXOA8U-tYOlAtObPV0HoPuEgF_Xg50NMz9-GTAgzc2odxUhWDI&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfT0TEpPFY9JjwGFTpVYd5VPOywBc5Ru0UmRRb4oIjBivw&oe=6877853C",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517668895_719627004295156_5788369760732689941_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=104&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=XydynpAhBSYQ7kNvwG8jHvq&_nc_oc=Adl_3t_t0X9jo3EVVgXXr6pA3OajyZ8NpoKMrZScZShBhilmCXxzNgxATdpEvBaN2IkMEdG8bLkp8LhKoA_HGKrF&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRmNvr_C3koiURrCZTq-aoe920CFGncDBz-gouseTVWtg&oe=68777F5A",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517842808_4193918300884652_8689954322298555353_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=vSXr4hNrSEsQ7kNvwElhVXD&_nc_oc=Adl9Y7tWjR8BmU6c4ygYP10Y4Jd083JAk1JL7mxFG4GxGHq-eFI0dILQZAPTj1NPcom5LFpbUCSno6rDTcQLc0rp&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfSOBs2EWYhns5DVOmEg9NVsX0I2bzgmQ25f6qE1wKs7qA&oe=6877885D",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518008130_761754169610993_2187586755559069145_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=kafIXgc54noQ7kNvwE8_f4B&_nc_oc=AdlUTbahGRCRruXN6CkePUV9EHUCwlbkQWjWSpUlu-Y-H5WwUGZtbIPP3X1PR5uuyL1svskdzzeBQympiXo2cdgR&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTRTWOr33bbLA3n6N3VYUC4_o2Bg2kg2ZuczkT3LvFsSg&oe=68778C9B",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518885947_719083150765697_376644477527116736_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=38BY7EbCHEoQ7kNvwGWPPB_&_nc_oc=Adlv1flsnkOhaPcJMbW6k_GgztXh1AidVcffjOKJ3vT4ZEccgQG_x7okzJshAH9pKvFvAo2jMQsrCnmcbq_gc6cE&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfSkH7UgNvGovomQfBNs25W-dj43nKjefhkx6K9z2rWUTg&oe=6877A1E6",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518117459_1785195535768749_5279688732533634006_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=57w_mHjQ00QQ7kNvwEcg9HA&_nc_oc=AdlyT4Gu-BBOMcfHxA-SHeEBPFTU5rUnRLftn-qc41OeLgBe6EELOy0i12H8kqeDLbdRJbxC7cPrQ_mH_wR-N10b&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTly06_bVCCxiBUu3cdkWP2ExIB5kKcAaN_VVXRVpesJw&oe=687788CE",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517321815_1253271863099978_781955724554371132_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Tyrip2WI_kAQ7kNvwGWSPXQ&_nc_oc=AdkqbyeuhBst1c7lv2vmxhcpQQomitSRNH2O1pqLcvynGDDpnanSv5F-UWyE0AAU0NuZ92HNr2URHRNN4KbR6fE9&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQND615u4tdoMGAYBz5P-nSWeHqfFFlW2qr1yRIlY8TsQ&oe=6877A312",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518301654_1403077174334933_315974111077910238_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=y-U10UFP1JYQ7kNvwHnnJl7&_nc_oc=Adnh3uNC884izTNnMCCX7BRkUTJN319wwCIux4Ei0EaBB9tPtNzFt8woMonr32x9u1LXP1vlXjZe_uph9QnZn2Pc&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfS2kc-aICZkD_KD4-UuGDjiwOZ5oNz8pTlGcb19v-vGlg&oe=68778E95",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518007379_1251776569978640_902536531005941349_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=KHaTFlNsTI8Q7kNvwF47lOo&_nc_oc=Adm6q13lfdV52H0QCVDDz99ScnpREFrfyLSViejyHRvGaOwN-fvZH3JPg1gsSUf_sZ8uoN-LpwAMs2tOCCCVAFeq&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQsYuSwVXJJSVpUFy8-nONaReEM0oiQeg9vKHjPmECtaA&oe=68779639",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518176266_1250507439375876_2884522471790160630_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=su9ooWXJR7sQ7kNvwF4_Cjn&_nc_oc=AdnElbrurT2KRhtQnUddbfZrmHf7Vwv9x1NEu1lGJkyc_nGI75G9DU9DWSp5heL9yY3oounIhj7VfqR9faprvNk8&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRKIOh8-R9CmI5wUZgg0SotXEmWoQHcWjWayM8YOKEjjw&oe=6877A151",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517470636_1024597222990659_8334478705152113788_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=WbgVE9VxOxMQ7kNvwEvybst&_nc_oc=AdnKaZNBZ46fRx2DLwXZJJgkucAwaetz1Hakrgkd7EJ1p6qYzBJQzkeFS5d9kPrBXTIWB7ijWbacEoUC0kme25Le&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQm__So4OyHFcKWRnVloZl-zDDoNEx0ghWwVQJJNj_OBA&oe=6877AF74",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517495197_1937798240391656_3246071477885795766_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=104&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=OhsnjUnyDmYQ7kNvwENKT77&_nc_oc=AdlSs4KgaKSbdjVMymSQ3vJ-LFpmksMwN0DfCSeKr42GtwzQlfZ-WuMnxR_NOzb9GirMV1WL1evZah0uhr3EsqQc&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQReeh23Ks12CXW_lyPrQW3aoENaG9r4mOSyTNphSQ9IA&oe=6877A8AB",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518019916_1370122350729472_6484776246223802036_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=dca3gURzQvcQ7kNvwH4_Z9N&_nc_oc=AdkHBGOcv-5Q5QMZ2a7VFdV5kkxmzRHn8DQAi5li9Wh-5DvzGljRmdrzUbs1B3flSHMxcopENvRNjM-QNIlr62E5&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfSwM4oCOfhOXlq0REObFud1a8MTn5KABzSNNzBh9fZ-DA&oe=68778E1F",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518120494_24241474845554198_4005024484547590428_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=104&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=F2eqJabKeJMQ7kNvwEIyKtR&_nc_oc=AdkC89_ez8nge1b__NjZqdenwAvadlPQGUFHcyibR9jo7W554rdwDKx06RaZC1oHUTfonaFv-1U8JCjXFyj-BS_N&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfT4SEzprJB_rkMFNonb-r6MjuF4qtEWf85xe4VUj5g7qQ&oe=6877AAFE",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517992760_1048118917392785_7979828943897142697_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=A8RTIacAuBoQ7kNvwE57bJX&_nc_oc=AdnTf-w5DUUQg8jwL2jAhnnz2-grvP44ay74bdEIOiBQ9CMldot8CKIHiaM99v4xeL-eDM_GFqOGnjPwQkxujMkz&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTpaZ0ah5pGyoHztYlXaKQKCg4I0Iz4kQNfIFX8EjcvGQ&oe=68778FE9",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518299357_761418366563797_9086834093375684663_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=104&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=IPOS0Ug6jr4Q7kNvwFZn9Gg&_nc_oc=AdmNFetJCCAfm_RLBfG5f40hhOBcqLUuos6gGyfPKLwtaSRT5gNFRciyCRbVw8XZCvJ7WIRkG3vi1XAORagMBT7m&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRBKEGvrlx-70vEiMCXRJx2F66-RVxMY7UIzoyNc9AHfg&oe=687783E2",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518182515_4328459414039634_8689745933988286837_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=103&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=1pe0G_yv8YIQ7kNvwGJ5O7F&_nc_oc=Adn0LwKDaxL6gAVoOQcEMuG1-28iO_DHugwAzO81l8THPgS0qEwREZMMEpFUNjggzRM9duG764EM90UShbYPSAZQ&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfT5yfx5FK-h9JTsxGc82F-7_opIdSSAB5yUk1fpQktCxQ&oe=68779E4F",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517162273_1238299874173539_6520817072790309634_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=-NoD6PukrDsQ7kNvwGB8LtU&_nc_oc=AdmGw6zJAugaTN7-ccq8OL6bVhR_iLsUCRwIf0Lkj3p463nsVCoDYw77zASpP-9PdFdJ9Y7wOshT2gOwuAFJ57Q7&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQrS0h_uKFtKJd4HcXjnxVBCi-pHGMANB8Gvxqe_-viXg&oe=68778554",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518288713_1220967066494624_6567344746019079486_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Y_XGarQzfp4Q7kNvwFGwwyo&_nc_oc=AdlctSDQdOi-j3rOIEptuta4KPHE9BI-51ke89lfFS2zn_cj6pz2Ra9AmBje7ydqcn8WslahMeL3JJP3fxvyyoEm&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfScIn6SGYivSsMhgjzwiBWlLhWpS-h9hDQxGREbz3gc4g&oe=6877AFAB",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517277755_766482949172213_8835433683059309772_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=103&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=-UxMLuH2liAQ7kNvwEXqlt4&_nc_oc=Adm3eTMF2274TVs_UD6cARhbb8mahkBGhRIipxdyuAwym2I0FZUvek2b8irD8UlhJmvPe8jOmGUMuWn_emQMOek5&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfT5jnrZCUd4x758AHjne6TND0zFGSqSFkvkdHZfk8ikmA&oe=68779C25",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518001077_709901835240168_7111088008701807135_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Pt10OC7aMCkQ7kNvwHxkqRg&_nc_oc=Adm2ubsY6hlcKUYJCrmakT_2V2PbYtmwF3vXH39QP6v-GkiT_AHtv6yT7rrw5rktxRC6HFGVZ5_fFgqyGUs4cXVN&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfSpEPBGOCaS1apoKDULPeoIKqAn1CLYKRrCom06DJdeFA&oe=68778C8D",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516433708_1828855341026816_6374016261242647812_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Ly7NPOhwfEgQ7kNvwHyDT06&_nc_oc=Adna-iCo5TgKrHqi8XYMbL0QqFiBrlPBRgDovjXNKgZLMVpcRXl6_imGUsIlkpYPBysbMQ801HHGXog5nyQJ7xXt&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQAcLAmdclDVtBjFeMUDfCwTQySQ-HUQb_wRmfWPukSfg&oe=68778AF1",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518281997_1069699131369531_205122672155078703_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=JudYsi1rHOAQ7kNvwHOaKfI&_nc_oc=Adk2GqMgtUBEmelbgUWbydAb2AHAjf4qLGi-au9l2_bTzyMhSWQORgcGKw9_lYcByt5Cx1iaYwVESTwnxnGFbje4&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRMAurBX6V9gBZAs3lzPi7qEDDy7OT-6sZLNu3anTZ-hQ&oe=68778B02",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517117542_584327341179986_6418320903134175604_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=gj8GeAepbv0Q7kNvwHW267P&_nc_oc=AdkNP8u4PF3X8FR8Zo8ZBYJRuPen2bIWHVuISC7y4u_x9FoKSYCLwupIM3aYrJft3rGvSTVJ2uwT4QGi4_p24hJ8&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTc0R-lDCzGGOaZ1YvfBhhqoZ9wQNETZJ-Tq-u1umr4pQ&oe=687798F5",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517407584_1459123198785008_6440670010185686499_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=102&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Jk36jCTrdAIQ7kNvwE0NGhj&_nc_oc=AdlSGLwapHLKqg8LseFgwY-gibHBk0iNpQiX1EngUtIYtnD8vcetjyQKAXLQCkq22cgiYKLej-CE3tZG1452SRn2&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRmojwbktKy_Lf4y6F5OS-hrFfzeJp3SeS2_Z1m9A3G9g&oe=68778F48",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517936729_688711697497823_2200586899046169429_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=GYeYXt44pFQQ7kNvwFB5AQQ&_nc_oc=Adme8mmbxembUMnK-kmbA5T9igZ41ehWwQcLsoLIXssOe8ci7JaVBtejYgsVZ3P0aORMU3gjV64mz3Q9WxuX8K6n&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfSTgFd1kUywLwnNrtSJo-lxrenOuQyvbfUKNwRhE3GPrA&oe=68779935",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516774325_738415742481215_3092069145030380070_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=emuTbeGFI5IQ7kNvwFzyRb2&_nc_oc=AdmSeM5wlQH0JMeI5KrTJewVga6uESrhLtODgrKPvH1XLXgZSpb1gEU0zfXdt57EXeER5nxQd75yhT9G0UEhURPX&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTBSbVS3zJxa9eKZzCRQ9TtM5BRdlBencragMr9dtcdaw&oe=6877ACA1",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517596736_1440683436954179_3530139346770347977_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=KdtimYrZsbEQ7kNvwFyCd9h&_nc_oc=Adlsub-chse0wFQEOvya7EYdmNrBHfI8YmFb71HJ5A4NcrvLeaHnCwnfExErUiQFvQd8iflGTOxLYniuR5h9KGii&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTYByVQw_oSbe_I-wi5giiHViiij9BjCUFkjgnBq1KxWg&oe=68778C35",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517366564_23968956509425367_765909616234532980_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=qDmz6dGZKwwQ7kNvwHVE31R&_nc_oc=Admqh_DKHnhB-4w95BLbuoBYaWGWUr01xaIlf2DJCwn02uK_k2V_FhOVQAvh3I8l5NB1KB7UoSDzN7S9Y-SPri1U&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQ3OQD9rp0Xg0B5IImZqTdaF4Yyz7aPjYQ1Ru-AgNT1Ww&oe=6877B295",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517592996_719474920981058_8552350350883661216_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=NMCBKmD3dQ8Q7kNvwEzuitg&_nc_oc=AdnWUtp4HvUArkgXFL-G0up74QsIvF-TKQLLyx1Oh0EwAc_es70WPDEZH_WeooMqcoofL2BxwJmj6k7X9qWR3rh7&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRVYbzPO_0MBuriWtToIAsUqAVM5T1pM_ssg8WBTNeAaA&oe=6877959D",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517581199_604629276015824_6468359493850031839_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=aFp7WDYMlyAQ7kNvwFksD5f&_nc_oc=AdkznUzlplcFrAsQW_YxCds3Qmq43DFbkevDPaNDOw6vmbpYUoyCdPh8undzSnNTUZM3m0vMKyOHwmyDe_0IoYOW&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRrN_O2YBnDC5_2CxtPRdx_nQivNSjVAKiusdVtpC5dIQ&oe=68778B76"
+            ],
+            "scraped_from_advertiser": "Lucienne Cassar - Lea Properties",
+            "advertiser_page_id": "460353851118501"
+          },
+          {
+            "status": "Active",
+            "library_id": "1075648361331185",
+            "started": "Started running on 9 Jul 2025",
+            "page": "Lucienne Cassar - Lea Properties",
+            "primary_text": "✅ ZEJTUN : SOLITARY MAISONETTE MAISONETTE  (UCA AREA)\n⭐️ PRICED: €285,000\n\n🔲 Situated in a uca area and a quite residential area jet close to all amenities....\n.\n🔸 First floor level\n🔸 2 Bedrooms\n🔸 2 Bathrooms\n🔸 Full roof\n🔸 Separate Kitchen/ dining\n🔸 Sitting room\n🔸 Full Airspace\n🔸 Freehold\n\n⭕️ Contact Direct Seller Lucienne Cassar : 99805238 or WhatsApp\n\nCharming Freehold Maisonette in Quiet Żejtun Village with Roof Development Potential\n\nDiscover this rare opportunity to own a solitary maisonette located in the peaceful and sought-after village of Żejtun, Malta. This freehold property is ideal for buyers seeking tranquility, authentic village charm, and long-term investment potential.\n\nUpon entering, a staircase leads to a spacious living and dining area, perfect for relaxing or entertaining. A separate kitchen is situated just behind, offering convenient access to a main bathroom.\n\nOn the first floor, you’ll find one of the main double bedrooms, while the second floor hosts another generously sized main bedroom. This level also provides access to a washroom and a rear terrace/roof, ideal for outdoor living. A front terrace offers additional outdoor space and leads to the upper roof area.\n\nThe roof level boasts full development potential, with space to build an additional full floor and possibly a receding floor, allowing the maisonette to be transformed into a spacious three-bedroom, three-bathroom home.\n\nThis property is freehold, offering complete ownership and flexibility for future development or customization.\nLucienne Cassar - Lea Properties\nSend WhatsApp message",
+            "cta": "\nSend WhatsApp message",
+            "links": [],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517339059_1078640550893707_8659805309325483971_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=102&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=6sC7oEV0JLgQ7kNvwHUXrrj&_nc_oc=AdlSY6eTaCJ21Hwncu2VTNJZtuQCKlsxXU9XViYnlyIAsRSYpQQXVlzFl09cFlHOXDo45P28Y0mH_SF-cU16Alji&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfT-krEKO8JIZhijlwI482kObUX3X3xNeCa49jy7HTlMDw&oe=6877A21F",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517705890_1299333385044486_6657228882352427290_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=7z6i_FBh4o0Q7kNvwEQQGQC&_nc_oc=Adn1Fdd61JGj3lHuZZmVMpXJ9hApkyWiL0mOb2hI9h-9xoas7mtnFC2j43bzO7vW-g36AHwtjt4z498wZHt_Fye_&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQftIa1byyQWJ_t-DpxaPYRkZ0e7mhZKeA0HRp1jldMdQ&oe=68779045",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518358104_1794369994847912_7832575775107697420_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=VbrAR4NKNkoQ7kNvwGRslRJ&_nc_oc=Admltm24junKUC5m5eORlc-bWcAjjbaM9jRXOToa1SQ4WOyJxYoVJZs0VyfVaekXOa_85IAUX52dpjoJ9S2tyUgs&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfSZ0nr0ktUPzcIAbXpx-JhUpKoNcifh3oQuNU2NnEIstA&oe=68778BF2",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518331200_1811938939744619_7404497711835900187_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=74_QSvvXUwEQ7kNvwGX_KkU&_nc_oc=AdlnwJNXbUexjBaZjsSNsa9Ze3JQS-VKPUB0OCO4PLCRxHT13zW8-3tsOYN1EbZ_3Wzq0_g_b6AkAM_wE-E3_WhY&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTAVoFncy6JqLtTm-6ow-5m0bFoA09EtqcKm8huFndjXQ&oe=6877B1E3",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517536659_1944736296256309_4338594458527133717_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=0Xvk8MeVTboQ7kNvwH769lj&_nc_oc=AdmB0HugkLNGJqPdLRDVaBb0qrciSA2LwDenrPt9XCjl4TYpc8fGHUyTM5MPFW6cDypcdEonVP3EKcS_UgDMPOFu&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRWFDR_yBySnxsxQp57sFYCbpSMql61v0M5e2rrg2FdCA&oe=6877A50D",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516817076_1678638726178196_4022955716510115188_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=PogLo0bRVAEQ7kNvwEearRv&_nc_oc=AdmQNJOQEDxCrxKwkWzt3uSA5tgO2f0MEgrecieOdyvJWp-LOZgf4MJx93uK8AqViyDi8ZVyj2Elpf6GtSPZs2-R&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTgzzFtCLxZGhmvWZ6VUtaznHGl_-H98LeIV-q-eFRB5Q&oe=68778785",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516619179_1246283973092946_3644030909395690920_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=MD0JebqWYVkQ7kNvwHSuTCc&_nc_oc=AdllMBzPF0KjsBkyROyLFMj9q6oEbJqyWROgsN7LIQ99fGZXEEUV6XjrStynVfbtR_YE75lBVLmtRyvCMgWXLK4m&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfSvsg0CpN8WITeZEhE8-PwIL2PjUMT0foZh5Lm8muMBwQ&oe=6877AC57",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518324951_706191858918733_2689577170606401280_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=zzx3uLkQPH8Q7kNvwGfREOM&_nc_oc=AdntTh9NXr0NnQMuSvnwzqtabj4pcGA28XNyjC5yXYhQXMQTYSTs_g-PtKOQMytRnjTOB3NmwzWufGmN1qpvU6G5&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfT3oWEzkgX2_OslrctakF6-NtNjVbYy9FNY_21yDFQypQ&oe=6877AA64",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516290525_2168823610208694_5646022688304815002_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=yAf_vk4-cQMQ7kNvwEGPQ60&_nc_oc=AdkNi1jUUYXe07gYzA_LLWKcAHYmLGnD6z9GgtYLGqP4GIPje2KCsxBqz7m_J1rzAbUSExxhqOSd2OsOa8GjuW1g&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQbht8CteupoYO91RPaDPgklO8lFSCPb0qfvcZmqcvkLA&oe=6877B492",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/515981689_2536668496688074_5871051686335785879_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Yh2xlB2xhrkQ7kNvwHk-mS2&_nc_oc=AdnJYB7Oxiv77CPmHnmQMi669I1gxH5D0qSq3HNRCRj3fX0JDE4wVbtCxc441Qsfl1Fkev0RGiN8fJN-8V7MBqBb&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQNOeUETzbqMbi2T4P2J3NViI_caWa648TnpG9PoEjq8g&oe=6877AF94",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518512281_1073308791411169_8658414317369226928_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=103&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=uiSYYqwBEnAQ7kNvwFIFItH&_nc_oc=AdlIrqRce9KnkXyC8BS59fwuRODd6dwuPSPFCl_GizqYu6GWdhLWiIRLcKd7EFDFu01gfMngeFioVnmxv2yifL3i&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTipM8ClYPAitjNCvgNyXSIM0Al2JYq6v_h32xPObno9A&oe=68779B8D",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518090902_1824528191805825_7684986217340928583_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=0CeaKgpoMJsQ7kNvwG5Uf6_&_nc_oc=AdkSRbLLybX4QF47ulRqyw5f1YJKDQWS-f2BLet5DntgjSItZGEK4XLRIUFUzUwrmoOZEyo86Ogag81q6jS75kuo&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRnBRdl1olBQdWMHL2KZEuBT3uKnhAEYMiX697qqoj-gQ&oe=687784B9",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517382389_999888842042987_3674044032478488160_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=0t_hV0yc_k0Q7kNvwG6dkRK&_nc_oc=AdmDCg85UqvIyWG-Rsy3-OAiWPrIHiC2z9xya37hAfg94rIHUkjnwJh0hkxaf0NA78CJyVtevJJdkcBPf7Fppn6D&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTTqAmUFPyqWrIPnk7JX1iUhccIOM0N4vxYK-C23uojYw&oe=68778BF2",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517704551_1265162658609232_7381578132086979695_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=106&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=kh9POa4EjZwQ7kNvwFAF5-V&_nc_oc=AdnI8tdM_acv1P6K1gAcnPI1oBq5qLWWS_9EEiQlzhrHr7-Im3eyPrqqSDlPMW3Al5TZGrLEygqWjL3vSEZ3wlqE&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfR25hV2_7AExmMOCoRtxaJZ02IT2gTCgv0Wx9ZvGiMGrQ&oe=6877A491",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517163794_744581334707133_8456509861111492375_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=od0k04XzJOkQ7kNvwGvtWBk&_nc_oc=AdkYB-3CVTcy7ZSbvkEJwb85w2S5L-4v4tXjjtGmTG_3tWwCBTPm93HMKXutGxK4yS6pMWT_SVO7jlMS8l8w5Sse&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQpdesBo38bzq6j3DewJZX_JzHJKmS0OQjVj0bSbKHK0w&oe=68777EEC",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518320041_996660785707834_3562772460517257493_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=104&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=ylrjrmAqLawQ7kNvwHbuEKe&_nc_oc=AdmK7i53nAdUAZQBj0b-oJTBBxawuoEtKtFt-8bGk49d9xsDIUX6RXIexVv4sh5Bpu6-18tY98XN_TRvvZS3Qexw&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTwpM8-eGZpPShR4Bh_ib3a4LD2ezO3XxqSVXV50BtwPA&oe=687791AD",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516864259_750077164230506_1834844714541163166_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=102&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=fWzrIGV36fAQ7kNvwFPi7-B&_nc_oc=AdkpfEybMNWUL2QYwKFGmVI__HhvE2iSLZCW5hQnpChc1ctUQ0whAA5_oHFJkEUDjynMMiNqmOhduc_1YG2Uh1CS&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTdGtchW-NzjI9PNhzrWSRowlx9hi0CfoJUX85LvZwXQQ&oe=68779148",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517627315_2439844403059962_8590679171942027307_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=L_iBPH85IwYQ7kNvwEhjC62&_nc_oc=AdkjYn5vt-RkDxBJ_YRyhp2JwKKjZ2VJwBpGC8kPW93FQU5uEW6VRLeFX6oND2Y8a1Nh9miPYf_p3Zs84O_29ACB&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTd8tMDP2jlBiH6w66dr7ULl9HgjzB-5G3PS9-byTCe6Q&oe=6877AC6A",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516436306_1510736523642606_6746138412115298846_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Y2JqyBOO34EQ7kNvwEWA0KV&_nc_oc=AdmgoFpHajc6aDrEeQg_rN_QtXXL_iUcmL3VVAjeRkuEE9DdZ46fRNjGNenSQ1r2sgBfmkFNIhx-yzdwRbHzPsgD&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTod-jIGGo6jwolquWIKg9z2foRpGd9kNZK6MhVDQ-EbA&oe=687792D7",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516377933_757459006951339_2356130713552462710_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=7QtrubEyX-wQ7kNvwEQdQyl&_nc_oc=AdlpTllFI6uT6ZVeXepHW1WoJI-6qz7kqFfcY0FAnbpG9uB8n4SWeJo1K57kU66ldbxQyl_uqWUY0y3IL-nrpEIm&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTHpQxsoR50INWfPPp-4DN4JPLQ8NyB5zBTmqMPcvbfmQ&oe=6877ABB9",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517032492_1035669278547824_3218363531301211727_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=p-x3u09THs0Q7kNvwFdTn0B&_nc_oc=AdncBTmXkIyrFaZaBRGE-Gm4SiqkfZxn5glLh3YVjdgX8LLp4WPXD2ryZz2olmYk6RQF6I3sifb5tRfSL3oZS-Ty&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTg6I0MWC2duYFrQ8zw-_Q3_5HHROcy2pG6AljY-7wK0Q&oe=68778847",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518114621_24024925107127343_2412589633460971352_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=xg-HtAEiaEQQ7kNvwEDmKI2&_nc_oc=AdnVSq_EG4W3FWO1GlKuL-QjoEyo-T749ZY_NQqA042e092htXKHiDknZOYAeOG5N26u3tggmqqGKM0-8WTOzdhL&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfS2QShve2w0CGvnkKjkfG16O351eVrTAnFERd23PlsGsw&oe=687783A0",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516619179_693337660365411_4086143310891382034_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=qGjf7RxaVVIQ7kNvwH9ybWN&_nc_oc=Adn1lR44wIUVs9PeK4y5HuyFDtbxsFVLQaVW3qTHxfwC2LrY8UGpGmun0qSXz1X-ljeHBTHqNMrupZzMb_JZaRPE&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRglU7J5K74ZyeLrIeZ26AnW6zMNl6fyNAxW6JQS4F_aQ&oe=6877B1B1"
+            ],
+            "scraped_from_advertiser": "Lucienne Cassar - Lea Properties",
+            "advertiser_page_id": "460353851118501"
+          },
+          {
+            "status": "Active",
+            "library_id": "736181218771969",
+            "started": "Started running on 9 Jul 2025",
+            "page": "Lucienne Cassar - Lea Properties",
+            "primary_text": "✅ LUQA UNCONVERTED HOUSE OF CHARACTER  (UCA AREA)\n⭐️ PRICED: €380,000\n\n🔲 Situated in  a private alley a very nice quite location and consisting of....\n.\n🔸 Entrance hall\n🔸 2 bedrooms\n🔸 1 Bathroom\n🔸 Internal yard\n🔸 Separate Kitchen\n🔸 Sitting room\n🔸 Full Airspace\n🔸 Freehold\n\n⭕️ Contact Direct Seller Lucienne Cassar : 99805238 or WhatsApp\n\nNEW ON THE MARKET – Comes this delightful UNCONVERTED two‑bedroom House of Character tucked away in a tranquil alley in the heart of Luqa, nestled within a protected Urban Conservation Area (UCA). Steeped with traditional charm – property revolves around a bright central courtyard with all principal rooms: living, dining, kitchen and both bedrooms – opening onto this peaceful haven. At roof level, two additional rooms overlook the courtyard and offer scope to evolve the home further, whether adding more bedrooms, or extra living space this property is compact yet brimming with potential, this characterful gem provides a rare opportunity to create a personalized home in a serene area. Don’t miss out on this beautiful gem.\nLucienne Cassar - Lea Properties\nSend WhatsApp message",
+            "cta": "\nSend WhatsApp message",
+            "links": [],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518162608_30236988015946672_5995180740839722561_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=h_YOzV_mOqEQ7kNvwGlMkhx&_nc_oc=AdkX9S036gZKBb8-3OygjrJF_IP7V52n4_cvzxBrlrtwUjVA3mDRc3KLy8MHuaEik41fVy23Y4uDOw3V52wIey1T&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfS1IjnAjkNKbo5i_VcUQ1T-8YXbIdIwBEtHkZeUSEGWPg&oe=6877AC98",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517596974_1064146475272993_1886545309172269092_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=vcYaBJrZMpYQ7kNvwEHR3Ov&_nc_oc=AdmeGM7lp6IuNZXgyhpcGr1BKg_EL-CI4TeN8tmgWs_a9R7MCB1WxH06F8kVH8hg0ggTxgQ1K-egG5gya9sCvwJc&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfT7Mv31CykJ-GXSG1VLnXeO2kCkYhVJ_s1_fwouifyKGg&oe=68779F9A",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517516270_1037181255247668_8833641043702673180_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Ezwv8YiWSlYQ7kNvwFhEiK8&_nc_oc=AdkY9Wz2SWRjUYee32nTcF7adwVJH5dbGEKKsNBu08EEedycJsk36sg6v2DMWGMYjWypTyPbgF3RjVEWu14E823P&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRid-IGg1MYiLALrjErKUUbXz5i48fkHSWJxpvJIMMnUA&oe=6877A230",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517333053_720599560938456_3147319596428339453_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=350SjoOGeEoQ7kNvwEWWnBC&_nc_oc=AdlqbuaP46f4ydTeBPrQ0Eo2bqxBr-PBkGabv0olZolzulG4XhSWMko2Yu6vk76NdwN0SlTxXH6P_vLIKZIAIiun&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTNIgOmjJ1nYuQuKEZCrznZxikI96y2kVhjaCj_EHUmfA&oe=68778F7F",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517588897_1387063799242960_5243598030699996163_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=4vADW3xxw4wQ7kNvwE1n4MF&_nc_oc=Adlv8h6T4SPAJOyYexbKnogQAif5mcrgB_ZP48dmmurHWsP2fccfQf_-SQQh06f82n_EXwAn6qclMI2bahN-gDeY&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTBKj7RtlZod1tey2dwwlLSryPUVjanjL1nc4OFN14iug&oe=6877A552",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516738875_1894986751285858_1506337400310043172_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=N7rF5EIKGswQ7kNvwFIUWtW&_nc_oc=AdmUfYa6hZO_f1D5J9zpr3bME-BguWYQWv87D7R1zRGk5DNWBVzxHEk98O9vpgkPzaapTYSD1tKK1F829kWT_ZHk&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTljxT_RQ77Haoyrn2p81OT5U9RnzX5o3Ac6OwuB9ME4A&oe=6877B25B",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516814694_1069463248475039_7995174549596150218_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=BM1oPWIvc2YQ7kNvwGbqH3g&_nc_oc=AdlL4pXSbNO9o-zv5T_u0HpkhD4g1ruyQMlWNFSLvWp-HnfSztaVLuMyy7dxEvbKqvzaImACiVLr4Hz6uakYibeS&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQJSxO-pFumiua2UBdYl78QA1O6whGN3gNwfup0k8knnQ&oe=6877802D",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516836696_1239069654346278_7724127437457149068_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=foN_d2GWdWAQ7kNvwFzhWJ6&_nc_oc=Adl2uao4L-I49dLGLxU3epnuXDn8u-12SfMgdfeV_16N93oz6rhkoYth9Ou4LrCKngAm0TBh05olIk8ihEh5gPul&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQN67OAt7ngbXGECK9gI-T735kgpPyeinV7qS1TV_Xzkw&oe=6877B15B",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517364379_2723684731175383_7963585122903861769_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=103&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=vK8JoGyEh5wQ7kNvwFJfBqY&_nc_oc=AdlhuYETkYMRYZ4u4s5z6_ePWhJvlDyFNh_HJBvSlG_wvPiRlvQJ4yIjFobPxxiv22V57DtoK2d4OV3aKLdxue4e&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfSG613bLjsPRoQR-czPLcZmKNHEqttombPJvX3fjCUs6Q&oe=68779CA4",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517017494_740659045185964_6865060352215119584_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=TDYmiKMVe8cQ7kNvwGUEnYy&_nc_oc=Adk5Lj-aw26k4jRrJQQpv2n8zOGz7Xe26j5nCvMng7-sTBe0vU6hsX43LIIrR7OhBP93X4grpLHwo4t4hz1rIh4Q&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfS72lvJeL-l5viPepODQ9mAdYNSwH8My6gDIYsF6JJ1CA&oe=6877B4C3",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516785369_4118273725055177_5632858319628008463_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=EeLiRlWBQe8Q7kNvwE-bZD4&_nc_oc=AdlvLVAziod_rZI4rjY1Ep66rrszb_xdYOebl_Zw_jOFaC40pk7Jmm5hNrAjX_KLjZU0PQ9CF_yHjPs69L7RLDd2&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfS2lkuSu84AivwBu_ogLE69QhRJvpja-vsvJKKlq7QbzA&oe=68778587",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518162587_2535499476801131_7022283660222183729_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=WRybGaJVfFEQ7kNvwFC_aYA&_nc_oc=AdlNOcQgv4kGl3r-eaD-tNPA4_k5nqpcn3-ampSyE7QzMOx72UDGySnbujjswZ0Ua-E3WzJjEXtpvFGZ4-ZKolPg&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfT1OE0Eqv4BRF6T3OObNqpDIXbv4FH92bv6Kct6_txUCQ&oe=6877868A",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517141843_562398510141864_5372448569937580231_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=104&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=YjXyZDF7YAAQ7kNvwG8bGhT&_nc_oc=AdlxnilMHVVqpSSrt4cQlPl2oTkkC9iiN8BkjdLM3dk9EAFM0Rlyr_j65Ryl64zyCFDDYZ-gLZH4htUjy1ykNXtp&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTQKkbu7NTRC-508MJyNiVgmCP98thddsZ8tvdeOVFQIw&oe=6877AE16",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517021175_1923304855102256_7332408024070118576_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=102&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=bD_dne4MM18Q7kNvwFIsQGe&_nc_oc=Adkdht7K6_jsLCGOiUfttcvtB80YIqdOCNvnlDI8fRAFax_2Rv7AOJwgHMUnerXskjFkT07z28fVHkUWA05PsyDj&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfSHEWuMMhNirv3RQPpJahD10fyjNiw9SMF4cS-V9Du4ZQ&oe=6877A3C6",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516872949_1020960069904616_4389805876886669514_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=X3uH6YZZB0IQ7kNvwFUE6CH&_nc_oc=AdmPu3yLylPY1EDMlRVWLZJ-ZK3fX_vOKsfA04vv1H1fKS5tDoN1zesN7u5i1BAR3ITiEC5UmDR5VFl4D5jbv5-G&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRJixT8Mm9iSiLDRcL5SPe_8W0vuTTk2WVFiTeeB60bfw&oe=68778850",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518310726_1376211516803438_6710455545369642710_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=eDMjAbodUsoQ7kNvwHfnNpG&_nc_oc=AdlaAM7ExrZWkJqnr0BJ3vXehQwOGXNUKCt1-po6s_UXX9crf5Lts9rynvV8DPYHb0r2ej9N7teLj0bhYk5DS-j-&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRlvSx41Oxdl58DBA5Njb-Xgo10lxoFQY652HscCGQF0w&oe=6877874E",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518044010_736635288730055_5603730154153207271_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=104&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=xb_s38_PAq4Q7kNvwFQjPus&_nc_oc=AdlRbbKeHOPfTs5ty-TKBROEGnHL7_ZeoJpIzxYmC-i9RYfIdkePlla3QBxzAJongtyFAHRtclNgnO86n5cgSTnK&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRFz6q_nsoBm_7zuVx2fr1cT8dg_PQyuvWwawi0nB1pCg&oe=68779980",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516337360_1737846503786792_4740983008002018875_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=URLoaKXItJUQ7kNvwEyZV2U&_nc_oc=AdlQwQBlgmKegKUEmBY0y5_LXlQIxJ7Yah9s_a4Xmg_skDxae2QlmpMit5ED3twedzDcoiJRprleEltdyElBGofo&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfS55TjU99WKIBwbphPFS0FHGcnlhx9CwcOMSTfQJr8JIA&oe=68779754",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518064706_24005522312437757_5490954702089628723_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=yBq31rdJmSQQ7kNvwHU0nTR&_nc_oc=AdlODb92aaLuei0bGwjg6uIeoCRnQlOSx9ASmcpe-kjbBtNPcb8omINzlGx2WuVp0OR6INrBavZnEHck8WdsItON&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQ5U_nzBeBdisGfuGBPF104wSH873jJjRKD6RbK3RpPQg&oe=6877B255",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517014159_710116558607638_8066328791266045829_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=1d2_p6ONFWsQ7kNvwGy_UY1&_nc_oc=AdkNY7ZmoiDnwHzY5Ox_LUGWR4T_QHdnmnYGxEcCzN7zka6OHDjiT2fFxzqCXw--gm9XJyj7z67PPhhz0B7MyjLp&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRudB_HLP_KY0ZmoTh5ICDG7DEnr7GyX_Gvsy8SlfqzVA&oe=6877839A",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517717026_1798657747719700_1566548096835216288_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=39Jxej-k6PIQ7kNvwFxsCUo&_nc_oc=AdkVrz8Iy4YLgeo8gl2T_ynfidOHdN-xngWZso7x5LuSUE958GaDqwBzhN8IkDO_vsItrdnDpdublVnF7_rZ7d1H&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfT_WMYtah5rzU0vWq4QEEuq0SNgQbb_C2LHQDxbFob_jg&oe=68779990",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518317154_1059038869631095_2191035477037818665_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Ikp_Kjdvbi4Q7kNvwE8hbLH&_nc_oc=AdlR_satBHq-jSdlOQyhFFz8MXFm9SwySFWwFquyFAY0Bf-n95_gepavn-doN4AhrFB-1QNGBuVNmJSOzv_z92Oe&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRW1VvpTwrV0fNz7gnM0I88kvUXKmqZSh5lX6CS1iL5rA&oe=6877A987",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517947042_1674972779873103_526722977675904048_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=yzBqvtbp03MQ7kNvwFTJsF_&_nc_oc=Adny7ieeob_olwslc2QWm6c54AJ7hzE-c4Yd4FSWCYmPHkifKD1QCWGMzZapwSV42M5jwJISW6-hwu_iWGjtOzMb&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQKU-7-bEMPSyiSX-bpeL8E_Djn5awcGS6yagLzaFItNg&oe=68778BB4",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518254406_562415566809592_6859941862625785300_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=7DOGGHPjYpMQ7kNvwHfUpQP&_nc_oc=Adm7HrSrIMCHILlTVrl9AjzQ3nUI9gPIVkweKQRqVCxTVnsnUBGGnU3ysiaJQLoNu5mXULhMHpd_Ani9Mx2w0khR&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRo3VrfsRKkg8BukSJadT9oiCvYRIfjcyscGVY2ALOcUA&oe=6877ADB9",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517159714_1261621192282170_6244283055362925182_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=apdPybK-MQoQ7kNvwEVzieI&_nc_oc=AdmwkiUfpEDUjkaU_sZcbKIcdC64w-wIC2YJhc8-2aRk1Hx5EfNUSLcclhyJ0VTwBKbIZMp7QeOtdPrzhgnE8YIQ&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRdQensTeLH7P5pUXDs4nY6mfRxm9fypMXzXJftyVkvEg&oe=6877921B"
+            ],
+            "scraped_from_advertiser": "Lucienne Cassar - Lea Properties",
+            "advertiser_page_id": "460353851118501"
+          },
+          {
+            "status": "Active",
+            "library_id": "1821720145425595",
+            "started": "Started running on 9 Jul 2025",
+            "page": "Lucienne Cassar - Lea Properties",
+            "primary_text": "✅ XGHAJRA MALTA : 3 BEDROOMS FULLY FURNISHED APARTMENT\n⭕️ PRICE : €330,000\n\n💥 Fully Furnished ready to move into forming part of a smart block and consisting of.... .\n\n🔸 Entrance hall\n🔸 Separate Open plan with  kitchen / living/ dining\n🔸 Front balcony and back balcony with open sea views\n🔸 3 bedrooms\n🔸 Bathroom & en-suite\n🔸 Laundry\n🔸 Lift installed\n🔸 4 air-conditioners\n🔸 Freehold\n\n📲Contact Seller Lucienne Cassar : 9980 5238\n\nNew on the market. Fully furnished ready to move into 2nd floor level apartment forming part of a smart new block. Consisting of entrance hall leading to a spacious open plan kitchen/ dining/ living area with sea views and leading to a back balcony, 3 spacious bedrooms, front balcony, en-suite, main bathroom and laundry room. All common parts finished and served with lift. Must be seen !",
+            "cta": null,
+            "links": [],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517579153_733454125760176_727725529699168250_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=102&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=e6jT57GWoK8Q7kNvwHdesY9&_nc_oc=AdksHTOxtBGndoIwoYglT-sl_BlF5voLhSTVVZbT0E0ahitjgeGtF1X-1PKqhGejhf3n-GGkXX0dKdIPBfyq3BUr&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTHVDHyMw1Vr1xcInmxUHrRK8-s49u_O7GJHo-_L7grbQ&oe=6877A98B",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518292747_757690273613348_328576591179311803_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=iCeaAhDbqzMQ7kNvwE2LGXx&_nc_oc=AdnVFJajD4SrIJE9-NCXErNB0zYATXeMkfETJ1tye717FDY2mpLJmOkBEfyF0yb9noEFzGYAZBv43KAvWY36fiw-&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQTdp3twCzYlghpFiJBnAwFAvcQI1F55ls2I1QVi680mA&oe=68778794",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516864406_1264787608368090_6960993311162963507_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=aqEEZGT6yFoQ7kNvwHPw9fj&_nc_oc=AdlRRXn8lXbNfJVsJlIYZDrOWagv62B0DtJbliJx5oiTMgHl4X5k6RP0BpZ-OkL3G1m0kXrZTMQqivUwoG8B-nwC&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTQvAwPoTUMe1cu_v8w89OjMY5v2-tN_j0816OQRE-KOw&oe=68777EAF",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517593334_1077034294387262_4521731126446369109_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=V3wxA5bGSo4Q7kNvwG_wUU9&_nc_oc=AdmMV-AKdODpsCajv-x-38XqjbeqqvMy_hY9uKF8yapfTuGpsFw_Uzbxh1nQOr2xBTGSRVGXNjTKrGg8XAlfSLRE&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfSnMhxvAXMzsdcFxyiEowYrvtNT5h8lcOHPh-GGDXlHjQ&oe=687783B6",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517121273_1270382357885600_5716850609261245750_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=hSQEHQTicqoQ7kNvwHVns2E&_nc_oc=AdkBsXVm-8bVvHxbXWy8l_yIl48DUG7PG1ScwPJj4I0qAQXucI2NHzqpiJocmnZvrCc-3oo2vb3Bhd50UPpFdrUt&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRISYZFBjuaFbjRvPLrMhiqHCGiEvgnO_6qqJJOrPRs-w&oe=6877912E",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517322799_1831928690994922_6922924124908854127_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=QeaWonq1wFUQ7kNvwGvKocF&_nc_oc=AdlLc4b-CgxSVdw_Cs7QuRYUEMt7Ex03WTr9JpK5pUX2jedVyN28Zb0D2sJM_VCvEZB7gGaNfCekrUlAfF_0ucNE&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfSzIFRbabKI6MhbZOu6NvnlcTiQBmRCw9MOeIuDPr62sA&oe=68778535",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518287256_1247067593633381_9197113310515984721_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=hZGsBa277xIQ7kNvwHUUUXE&_nc_oc=Adktf-uiN_b4d6aFYWFSHRGI8DQHdNINiiQoXCVJxT9OoeVJsQwxuYOVQ-K59ChG7EY41XR3GDKUi4PhHc7a95y4&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQHrLrNuNg9SZvD0wCmWYO2CQbuE3weGRod4iRJADFcfw&oe=6877915F",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517329650_756053730206730_4472476386827845260_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=106&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=pNVJdpfGKM8Q7kNvwHh2UNq&_nc_oc=Adl7mlnjFywrQ7ZXuBmc4oM0IXGNIauksrIG0wvOVK10ftcacPNANGUAVYL6Oj_QoOOaZv_-wmNBt68ercD8trat&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRhjl__BjMEq2PgtcUnUrQSMMZMKWk5oXNy8D_BLNiD-w&oe=6877A1F1",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518163684_2230988817333794_6860997427736508467_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Og2bS1BltmwQ7kNvwHJ2WmU&_nc_oc=AdnoLpTLCDVNHBg6oIWADuz1b1IDqofDC1xQJzShNSgXYq0pAM2Xii5T_yFvr72CSbJhrU50RYw-p35m27UBlzE0&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfT1WvI09ZZkNkEGqGhvMlof1NKU1nr6kyLCDfGeHsUjIw&oe=6877986B",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516653460_1194171862465657_8298840704442039239_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=dHJflBnWEeEQ7kNvwEaGJNi&_nc_oc=Adk0mSoceJGffNgQLz74E8uuju9bwUC3JslgPjDp3r6ZP-IVD7BQxGajb2GwtejP4k01hskp3iUqhvaStJOnRpOq&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfT4YyA40TAldN3MuH6FjJBsUT2i1FapPxHQi79ADmQrQA&oe=68778FB7",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518001321_1260206529034512_5150384398234319213_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=9EJwXZpdlQcQ7kNvwH1yedR&_nc_oc=Adm2hFJRryjH9_j6InqedVJwl1gh_Yok4nSJUUhzSYKErJP5ZV3iMbeTYeqdza4UPIRUO_XcZuSdred_dQtansiq&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRGqjeRUp87s37zUC-YorLhdn6qc9J01ylR2N6YnVZUCA&oe=68777EE9",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517171152_10080075318746201_7565579779928212667_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=102&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Gy3Ko2uJSOsQ7kNvwEd0aHE&_nc_oc=AdkEYFk5CVqnl5vcwsLRRc1XmXoKOBPjyxz9PXv-adazQY6giMMkJ4fjKcjpvgZz_kLQ4Z1LN0_7PKMVpffc7cAT&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTaRZJne1evuuDEN4RoZ7dGB1GtV0Fb4amFHcAwlPL6IQ&oe=68779E59",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517415122_1469526917812605_622417745370232380_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=iSP4dCVh9WgQ7kNvwF6yFwe&_nc_oc=AdlSqefuPytrW_mfckVRvl34im7i3WXLbJ5fRe7nGoJ2jTXqZDZ3v5TZvoVuO9qVlSoPubPwDXn6X42H7nUDvqg_&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRPxoDTCkyC5ewBwemNarzWafLETZxiggo3s87kEtYHhw&oe=6877AE4B",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517105621_1072997471447613_8517638438717375116_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=rsFKn8R1PiEQ7kNvwGIHj0b&_nc_oc=Adn5a1_5N4tBOQ1bITDN017zP2B3qp0P0wDqSnrxxTGH3G7F3yWSf4R9MLiVQfIkohh5s95A3vQjtLKza1ixiFFU&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfR0XkdkYhJ71D8Lcd6tCcvQZrMmdsVxQpIUWVgBNqbQPA&oe=6877AFA2",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518661078_1289426235930321_5766072610321308044_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=-sjWIoBLvaUQ7kNvwFbbE5_&_nc_oc=Adn7aqytdlvPWuItmsv241gX8oQBAhLFI_FubSZbQ2140fs_3IkhY5heeyVxvH3BZEpDrb8TYlkQch0tYIYcrxk-&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRxvDCndAIpixvfuM2-03K1IoqXHLV207vl3qrxr-Thdg&oe=6877AB24",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518175124_718280234165276_8395638739454453827_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=wV8xlkUPs-4Q7kNvwFo-V8_&_nc_oc=Adls6t0KrJnfmNr5JpSduaCYkW3J_cgTBRHVa1qPA1XjOznU2A3vj1f32Uk9CxjngBfqBTPX-Y2SD6sbjVIVEu_A&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTAZ8xwWdQxEQ-wwsjndnjZ-2VtPJFMOLiX1R0N1RwsoA&oe=6877907E",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517717456_2149967815506593_6524097169228742302_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=RO1p4FysKSwQ7kNvwGMq_Sj&_nc_oc=AdmBsKVHWWUjhLjop8Xc-ouDKYQ3y7RWLyDs04xq5EJZU6IqWwyGfnSOsY4usE80TwRTe5QPiEFODFkTFHSyondA&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfTqCtW0tKmT568m4XqHNg9ODi0rddtOuKaQMQX0iTYOfQ&oe=68778B8F",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518037402_1182225770325736_7252235914343565466_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=104&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=wbIRXDAnfPMQ7kNvwF5FnCV&_nc_oc=AdlANsjmk3YdMBUPDmL1Fxi9d-42FFtDiPV9Ay8DgiXFXOHDO2gBdU4UDbDX_6IvVMslJVr6erCiEkIqOvr5_QN4&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfR1qEfW2NoGBowkHgwqwNcvCKE2u1X6TrThTA9rElgrag&oe=68778B36",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518177472_1422999905707052_7658314741025089920_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=qmT0e4Ho_qkQ7kNvwFPLPwC&_nc_oc=Admk_pkEL5cSxvQPqpFo-9lTPV9Ul1v9WWqj95F0l2ct4MvzSYlrOZiHaDkehbF0cEDAMEqgWY5FjesY49h3CNw7&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfQrBNrDRSxThQZnjcHsA2l7ZT6j91ZHPWdMKwI48dCMig&oe=6877AC50",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516602909_30971895359091041_2150242194073145275_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=103&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=V_39i1WlN4QQ7kNvwGO7VTp&_nc_oc=AdlpTx-hEVjk57sIisSpwAn5L0XshPiFET4FVeS5rOrcWrPgj1YsUbr6pWf3yFatmVwuoeHeaRB7lQgjMgp09EVu&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfRUoCPv3Aqepb0YqIW_0aW7iXJ_UoDN14zv85ySUGAcRA&oe=68779361",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517023206_732764439301273_4029698472848503914_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=gVbMeRuiZgAQ7kNvwEsK9Fx&_nc_oc=Admyl83SKxo7n9ZbQPPD64cf9A1X_IZNkY0ZCfLg--4N2F0JyrA_KP4gk3ffv-MfFAjaiqxxP4yfEZpyQhlRSqxa&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=Afauar3Ui_iUO0rAfuYjRw&oh=00_AfSyyqQlakhlxG1NADZIieKh-HuS5kye3DKyy-Q67ccwhg&oe=6877B445"
+            ],
+            "scraped_from_advertiser": "Lucienne Cassar - Lea Properties",
+            "advertiser_page_id": "460353851118501"
+          }
+        ],
+        "ads_count": 5
+      },
+      {
+        "page_id": "pageID:114291815041929",
+        "name": "Rich Key Properties",
+        "raw_text": "Rich Key Properties\n@richkeyproperties · 3.5K follow this · Real Estate Company\n@richkey_properties · 42K followers",
+        "ads": [
+          {
+            "status": "Active",
+            "library_id": "4188108701516089",
+            "started": "Started running on 11 Jul 2025 · Total active time 9 hrs",
+            "page": "Rich Key Properties",
+            "primary_text": "برج على الواجهة البحرية بإطلالات مذهلة على البحر\n\n- ادفع 5٪ فقط كل 6 أشهر مع خطة دفع مرنة لمدة 3 سنوات - و50٪ عند التسليم!\n- اختر من بين شقق من غرفة إلى 4 غرف نوم\n- الأسعار تبدأ من 612,500 يورو\n\n--> التسليم: الربع الرابع من عام 2028\n\n👇 هل ترغب في معرفة المزيد؟\nاترك بياناتك الآن وسيتصل بك أحد المتخصصين!\n0:00 / 0:32",
+            "cta": null,
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT1RxxhfsebebAwrrnxG0LtXXGux_NrSSEFZjfQqGRseOktcIKQcdRRypFuV__Dlt365BcRQDJ-5amvsQi98zUGsuZSBca_4E1BV_CCmXcH5NC7_bvvYJl9t-0NXHdGkMQ5UMCwaS8amZqstXYa4PDhL5t_qJtlsRfoJqA",
+                "text": ""
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516804086_1854462505114937_5082010384565554435_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=106&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=269-ZzF_nDIQ7kNvwE5YG8s&_nc_oc=AdkTMGtK9lk6wxaCP4UcmhTDdGZFwk-hRzVUxxjclXfmNjaik2Xvwb9dkCKokCAuqHTbWm7VxlXaPXzOXXPzcQsa&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=mU77X5yWgb4_Iw8bTK60tg&oh=00_AfT1UFPshY0HsI6DRDlNVyNW-ziVe4qS4XT5EGXFQwlSGw&oe=687791DC"
+            ],
+            "scraped_from_advertiser": "Rich Key Properties",
+            "advertiser_page_id": "114291815041929"
+          },
+          {
+            "status": "Active",
+            "library_id": "1036969835312919",
+            "started": "Started running on 11 Jul 2025 · Total active time 9 hrs",
+            "page": "Rich Key Properties",
+            "primary_text": "برج على الواجهة البحرية بإطلالات مذهلة على البحر\n\n- ادفع 5٪ فقط كل 6 أشهر مع خطة دفع مرنة لمدة 3 سنوات - و50٪ عند التسليم!\n- اختر من بين شقق من غرفة إلى 4 غرف نوم\n- الأسعار تبدأ من 612,500 يورو\n\n--> التسليم: الربع الرابع من عام 2028\n\n👇 هل ترغب في معرفة المزيد؟\nاترك بياناتك الآن وسيتصل بك أحد المتخصصين!\n0:00 / 1:13",
+            "cta": null,
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT1RxxhfsebebAwrrnxG0LtXXGux_NrSSEFZjfQqGRseOktcIKQcdRRypFuV__Dlt365BcRQDJ-5amvsQi98zUGsuZSBca_4E1BV_CCmXcH5NC7_bvvYJl9t-0NXHdGkMQ5UMCwaS8amZqstXYa4PDhL5t_qJtlsRfoJqA",
+                "text": ""
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517780529_1072716847715612_551057701082555782_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=khF4dG1GXjMQ7kNvwEc_euW&_nc_oc=AdmV9yOFM27U1Qshz3y0WGtaizvgIvdmz4Yr_u-TFEnPw00Ztflp2x124pPmnjI0SS-7JXgNXGWzxRuRulSbV0n7&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=mU77X5yWgb4_Iw8bTK60tg&oh=00_AfRYTRfVxwJPcw8GV-nPamws4UGtHoXm4wYEOJPWTJZuEQ&oe=68779C49"
+            ],
+            "scraped_from_advertiser": "Rich Key Properties",
+            "advertiser_page_id": "114291815041929"
+          },
+          {
+            "status": "Active",
+            "library_id": "4150862575150672",
+            "started": "Started running on 11 Jul 2025 · Total active time 9 hrs",
+            "page": "Rich Key Properties",
+            "primary_text": "برج على الواجهة البحرية بإطلالات مذهلة على البحر\n\n- ادفع 5٪ فقط كل 6 أشهر مع خطة دفع مرنة لمدة 3 سنوات - و50٪ عند التسليم!\n- اختر من بين شقق من غرفة إلى 4 غرف نوم\n- الأسعار تبدأ من 525,000 دولار\n\n--> التسليم: الربع الرابع من عام 2028\n\n👇 هل ترغب في معرفة المزيد؟\nاترك بياناتك الآن وسيتصل بك أحد المتخصصين!\n0:00 / 0:32",
+            "cta": null,
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT1RxxhfsebebAwrrnxG0LtXXGux_NrSSEFZjfQqGRseOktcIKQcdRRypFuV__Dlt365BcRQDJ-5amvsQi98zUGsuZSBca_4E1BV_CCmXcH5NC7_bvvYJl9t-0NXHdGkMQ5UMCwaS8amZqstXYa4PDhL5t_qJtlsRfoJqA",
+                "text": ""
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518251224_1798195404158129_5228274358522098471_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=OfhBPaJ4LucQ7kNvwH-X8Qe&_nc_oc=AdnI098jaVJew6Ptpf7DiwovsXHD7VPOYICNfRA10TEkYtnDYy5nN1o1o-exkQANIEJY15mVm76O66l9Lhoe93zC&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=mU77X5yWgb4_Iw8bTK60tg&oh=00_AfSpeAhvmmlKT1FcoSxqsQLWImCBWkYQSEZ4o35ACM7tdw&oe=68779201"
+            ],
+            "scraped_from_advertiser": "Rich Key Properties",
+            "advertiser_page_id": "114291815041929"
+          },
+          {
+            "status": "Active",
+            "library_id": "1845909466363121",
+            "started": "Started running on 11 Jul 2025 · Total active time 9 hrs",
+            "page": "Rich Key Properties",
+            "primary_text": "برج على الواجهة البحرية بإطلالات مذهلة على البحر\n\n- ادفع 5٪ فقط كل 6 أشهر مع خطة دفع مرنة لمدة 3 سنوات - و50٪ عند التسليم!\n- اختر من بين شقق من غرفة إلى 4 غرف نوم\n- الأسعار تبدأ من 525,000 دولار\n\n--> التسليم: الربع الرابع من عام 2028\n\n👇 هل ترغب في معرفة المزيد؟\nاترك بياناتك الآن وسيتصل بك أحد المتخصصين!\n0:00 / 1:13",
+            "cta": null,
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT1RxxhfsebebAwrrnxG0LtXXGux_NrSSEFZjfQqGRseOktcIKQcdRRypFuV__Dlt365BcRQDJ-5amvsQi98zUGsuZSBca_4E1BV_CCmXcH5NC7_bvvYJl9t-0NXHdGkMQ5UMCwaS8amZqstXYa4PDhL5t_qJtlsRfoJqA",
+                "text": ""
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518354298_2940298442823472_6166807007254821254_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=j7fcrZxapMkQ7kNvwHZa95e&_nc_oc=Adk8T80pbSxNtpZNCm3KG4OJp1H5texRFHAsd4mDT3QFxUnzb_WRvPREnNtG4Gv2BThZWMN-eu1OesKqsisbchbx&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=mU77X5yWgb4_Iw8bTK60tg&oh=00_AfRY_BTJ3i3sdPH3AlNZ3_6loj-jE9UER7-fMKLajVGdXg&oe=6877A209"
+            ],
+            "scraped_from_advertiser": "Rich Key Properties",
+            "advertiser_page_id": "114291815041929"
+          },
+          {
+            "status": "Active",
+            "library_id": "3207259429450495",
+            "started": "Started running on 11 Jul 2025 · Total active time 10 hrs",
+            "page": "Rich Key Properties",
+            "primary_text": "YENİ PROJE: DAMAC Islands - Dubai'de Tropik Yaşam\n\n4-5 yatak odalı müstakil evler ve 5-7 yatak odalı lüks villalar:\n- %1 esnek aylık ödeme planı\n- Sadece 600.000 $'dan başlayan fiyatlar\n- 30 milyon m²'lik tropik ada yaşamı\n- Burj Khalifa'ya sadece 17 dakika uzaklıkta\n\nAdadan ilham alan olanaklar sizi bekliyor: orman nehirleri, sıcak su kaynakları, Aqua Dome ve daha fazlası.\n\nBilgilerinizi şimdi bırakın!\n0:00 / 0:47",
+            "cta": null,
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Ffb.me%2F&h=AT1RxxhfsebebAwrrnxG0LtXXGux_NrSSEFZjfQqGRseOktcIKQcdRRypFuV__Dlt365BcRQDJ-5amvsQi98zUGsuZSBca_4E1BV_CCmXcH5NC7_bvvYJl9t-0NXHdGkMQ5UMCwaS8amZqstXYa4PDhL5t_qJtlsRfoJqA",
+                "text": ""
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518241745_3979715339023801_3509455948630354702_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=_GvgnjLJqc8Q7kNvwGE7_Uc&_nc_oc=AdmsfWeQZbqxs9OyO_L5IFpyLMvoHjl5hsy09x4jxicmIvmbvv87zJ5JxeiAb5VPut_WslICH7VLBiuqLwea-_t1&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=mU77X5yWgb4_Iw8bTK60tg&oh=00_AfSf5pBpsvLHJ1LOs889CEEhDUP5Bg6SKGRoRTZzh7PfSQ&oe=6877B448"
+            ],
+            "scraped_from_advertiser": "Rich Key Properties",
+            "advertiser_page_id": "114291815041929"
+          }
+        ],
+        "ads_count": 5
+      },
+      {
+        "page_id": "pageID:345985832164400",
+        "name": "Sabbianco Properties",
+        "raw_text": "Sabbianco Properties\n@SabbiancoProperties · 39.6K follow this · Real Estate Agent\n@sabbiancoproperties · 25.4K followers",
+        "ads": [
+          {
+            "status": "Active",
+            "library_id": "695108423520925",
+            "started": "Started running on 11 Jul 2025 · Total active time 11 hrs",
+            "page": "Sabbianco Properties",
+            "primary_text": "ΠΩΛΕΙΤΑΙ ΥΠΟ ΑΝΕΓΕΡΣΗ ΗΜΙΑΝΕΞΑΡΤΗΤΗ ΚΑΤΟΙΚΙΑ ΤΡΙΩΝ ΥΠΝΟΔΩΜΑΤΙΩΝ ΣΤΗΝ ΠΕΡΙΟΧΗ ΑΥΓΟΡΟΥ – ΑΜΜΟΧΩΣΤΟΣ\n\n Κωδικός:002197654\n💶 € 187,000\n📐 118m2– εσωτερικοί χώροι\n📐 264m2 – οικόπεδο\n🛏️ 3 Υπνοδωμάτια\n☎️ Τηλ. 97770166– 70009991\n\nΠερισσότερες πληροφορίες για το ακίνητο βρείτε εδώ:\n#SabbiancoHousesForSaleFamagusta #SabbiancoProperties\nΠΩΛΕΙΤΑΙ ΥΠΟ ΑΝΕΓΕΡΣΗ ΗΜΙΑΝΕΞΑΡΤΗΤΗ ΚΑΤΟΙΚΙΑ ΤΡΙΩΝ ΥΠΝΟΔΩΜΑΤΙΩΝ ΣΤΗΝ ΠΕΡΙΟΧΗ ΑΥΓΟΡΟΥ – ΑΜΜΟΧΩΣΤΟΣ – ID 002197654 - Sabbianco Properties Cyprus\nReal Estate\nSend message",
+            "cta": "\nSend message",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Ftinyurl.com%2Fs7jxkmc6&h=AT2FjG2v8k_4KJ5rO2g2raWVoxUXKCsYM4IA_ahqYYsqSlaCu71xgzgmn6YHIbgs4Fcl6ZBTPZrMBQdXE8enXIjL6E51Ay-h3_sXtQs3qBje-C7nXdA_EtCoNQ1UIo-_Vudhn6fWAMnLvLKu4KrYH1hmKUk1DTlfmgRSmg",
+                "text": ""
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518327518_1135284011982177_1668506957624825418_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=rA7HZr0-MHkQ7kNvwFgSeDz&_nc_oc=AdklKUhfR34fuJkc0ADGlAgfDATxlQWhnrCcMD36Y3sRIwQBBncJXb2aMOpqzRNJcLm9qnVRBstZB3GdwTiz708N&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=gkodO8Ut_QhruzyCMHPsJQ&oh=00_AfSAMsNLiLtH9Rtnbo3Xx3aI_cjMtxwn_ANU9n5_CTnrqg&oe=6877A1A7",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518328109_1372565027136823_482551627667449013_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=sf3Vx53277IQ7kNvwHiNfSk&_nc_oc=AdnEQRY703pZQKuK9LIPQxnEQO-Pj86Gh9o20cb4XVaX1GIkZ9cqwdKHHIjcZtSznkCjKAzZrD0MT0mRLcljHyRj&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=gkodO8Ut_QhruzyCMHPsJQ&oh=00_AfThzjspMvF62QFExxxMBYyy2G7CoDKyTvMA48Vi6QPblw&oe=68778B81"
+            ],
+            "scraped_from_advertiser": "Sabbianco Properties",
+            "advertiser_page_id": "345985832164400"
+          },
+          {
+            "status": "Active",
+            "library_id": "724811443799753",
+            "started": "Started running on 11 Jul 2025 · Total active time 11 hrs",
+            "page": "Sabbianco Properties",
+            "primary_text": "ΠΩΛΕΙΤΑΙ ΔΙΑΜΕΡΙΣΜΑ ΕΝΟΣ ΥΠΝΟΔΩΜΑΤΙΟΥ ΣΤΗΝ ΔΕΡΥΝΕΙΑ – ΑΜΜΟΧΩΣΤΟΣ\n\n🔐 Κωδικός:002204938\n💶 € 115,000\n📐 60m2– εσωτερικοί χώροι\n📐 10m2 – καλυμμένη βεράντα\n🛏️ 1 Υπνοδωμάτιο\n☎️ Τηλ. 96500007 – 70009991\n\nΠερισσότερες πληροφορίες για το ακίνητο βρείτε εδώ:\n#SabbiancoFlatsForSaleFamagusta #SabbiancoProperties\nΠΩΛΕΙΤΑΙ ΔΙΑΜΕΡΙΣΜΑ ΕΝΟΣ ΥΠΝΟΔΩΜΑΤΙΟΥ ΣΤΗΝ ΔΕΡΥΝΕΙΑ - ΑΜΜΟΧΩΣΤΟΣ - ID 002204938 - Sabbianco Properties Cyprus\nReal Estate\nSend message",
+            "cta": "\nSend message",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Ftinyurl.com%2F34hnkzw9&h=AT2FjG2v8k_4KJ5rO2g2raWVoxUXKCsYM4IA_ahqYYsqSlaCu71xgzgmn6YHIbgs4Fcl6ZBTPZrMBQdXE8enXIjL6E51Ay-h3_sXtQs3qBje-C7nXdA_EtCoNQ1UIo-_Vudhn6fWAMnLvLKu4KrYH1hmKUk1DTlfmgRSmg",
+                "text": ""
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/516931339_3852481554895787_3053357659841286077_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Jn7y-0xIgG0Q7kNvwHgdMMH&_nc_oc=Adl4xLDBZu6uxKrXmkZ6z_gJ8WEHFrxRE2CTPtVeKd6u6kpLWDIjn6nLUzvxYlBQPn0mUxOjgYBpy8WK9Rf_VX2L&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=gkodO8Ut_QhruzyCMHPsJQ&oh=00_AfQlHFE7N2Aos_7YNPkjpu-YObMdyzQ7iMHNGdSkRoTCKQ&oe=68778A9F",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/519606554_1760354951585588_8621380223221618059_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=106&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Wn0WXDmg5DgQ7kNvwFf6MP8&_nc_oc=AdklkBmnh1bum592e4A-H-m3GL4W8luvYsY0BbmvxH9OQ2kA7D9z-Q8gDhrPHpduwKohJe3lTnHkWEsFwsosqQ_x&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=gkodO8Ut_QhruzyCMHPsJQ&oh=00_AfTyL4ge_ncf-qbrkP3IyX4fU1qPi37Sv5V_W6GyvWMTFA&oe=6877A217"
+            ],
+            "scraped_from_advertiser": "Sabbianco Properties",
+            "advertiser_page_id": "345985832164400"
+          },
+          {
+            "status": "Active",
+            "library_id": "1959498051546231",
+            "started": "Started running on 11 Jul 2025 · Total active time 11 hrs",
+            "page": "Sabbianco Properties",
+            "primary_text": "ΠΩΛΕΙΤΑΙ ΥΠΟ ΑΝΕΓΕΡΣΗ ΔΙΑΜΕΡΙΣΜΑ ΔΥΟ ΥΠΝΟΔΩΜΑΤΙΩΝ ΜΕ ΣΥΣΤΗΜΑ ΚΛΙΜΑΤΙΣΜΟΥ ΣΤΗΝ ΑΡΑΔΙΠΠΟΥ – ΛΑΡΝΑΚΑ\n\n🔐 Κωδικός:002203021\n💶 €180,000\n📐 80m2– εσωτερικοί χώροι\n📐 19m2 – καλυμμένη βεράντα\n🛏️ 2 Υπνοδωμάτια\n☎️ Τηλ. 96440886 – 70009991\n\nΠερισσότερες πληροφορίες για το ακίνητο βρείτε εδώ:\n#SabbiancoFlatsForSaleLar #SabbiancoProperties\n96440886 – 70009991\nΠΩΛΕΙΤΑΙ ΥΠΟ ΑΝΕΓΕΡΣΗ ΔΙΑΜΕΡΙΣΜΑ ΔΥΟ ΥΠΝΟΔΩΜΑΤΙΩΝ ΜΕ ΣΥΣΤΗΜΑ ΚΛΙΜΑΤΙΣΜΟΥ ΣΤΗΝ ΑΡΑΔΙΠΠΟΥ – ΛΑΡΝΑΚΑ - ID 002203021 - Sabbianco Properties Cyprus\nReal Estate\nSend message",
+            "cta": "\nSend message",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Ftinyurl.com%2F3jusja9j&h=AT2FjG2v8k_4KJ5rO2g2raWVoxUXKCsYM4IA_ahqYYsqSlaCu71xgzgmn6YHIbgs4Fcl6ZBTPZrMBQdXE8enXIjL6E51Ay-h3_sXtQs3qBje-C7nXdA_EtCoNQ1UIo-_Vudhn6fWAMnLvLKu4KrYH1hmKUk1DTlfmgRSmg",
+                "text": ""
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517339805_1290833089322899_7586962296083563569_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=103&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=w9dZnVo3Mu0Q7kNvwHuW9K8&_nc_oc=AdnWZEG8WOiwozUHgE78esCIqwpR6mhtCjf9GvQAh_hg0LwBHNncsZgV0BAJE2L7EERxTY8n63LxbYNUAH99w9q0&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=gkodO8Ut_QhruzyCMHPsJQ&oh=00_AfRggODcHf-fsEdHykuFYqbNn5iWfKNMy-H9BljiXUnxOQ&oe=6877AEB8",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/519481490_587223927528585_8056148453182175825_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=7q3gKpNzjF4Q7kNvwFhTrwj&_nc_oc=AdmIoG3sou6Wp3l_LjpwNZyByyhiY9RbZsLlTdRtHZj-k-M78qtREv22GAssW9VC93Qs-s26ch1Kiluy9TDTdd1_&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=gkodO8Ut_QhruzyCMHPsJQ&oh=00_AfTjxwby3QWo_7PKIwecsp4YmXTidbD8p3DbDSo-rBN8zQ&oe=687786B5"
+            ],
+            "scraped_from_advertiser": "Sabbianco Properties",
+            "advertiser_page_id": "345985832164400"
+          },
+          {
+            "status": "Active",
+            "library_id": "1248965436476625",
+            "started": "Started running on 11 Jul 2025 · Total active time 11 hrs",
+            "page": "Sabbianco Properties",
+            "primary_text": "ΠΩΛΕΙΤΑΙ ΥΠΟ ΑΝΕΓΕΡΣΗ ΚΑΤΟΙΚΙΑ ΤΡΙΩΝ ΥΠΝΟΔΩΜΑΤΙΩΝ ΣΤΟ ΑΛΕΘΡΙΚΟ – ΛΑΡΝΑΚΑ\n\n🔐 Κωδικός:002201723\n💶 €220,000\n📐 139m2– εσωτερικοί χώροι\n📐 155m2 – οικόπεδο\n🛏️ 3 Υπνοδωμάτια\n☎️ Τηλ. 96440886 – 70009991\n\nΠερισσότερες πληροφορίες για το ακίνητο βρείτε εδώ:\n#SabbiancoHousesForSaleLar #SabbiancoProperties\n97770166 – 70009991\nΠΩΛΕΙΤΑΙ ΥΠΟ ΑΝΕΓΕΡΣΗ ΚΑΤΟΙΚΙΑ ΤΡΙΩΝ ΥΠΝΟΔΩΜΑΤΙΩΝ ΣΤΟ ΑΛΕΘΡΙΚΟ - ΛΑΡΝΑΚΑ- ID 002201723 - Sabbianco Properties Cyprus\nReal Estate\nSend message",
+            "cta": "\nSend message",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Ftinyurl.com%2F385jptvp&h=AT2FjG2v8k_4KJ5rO2g2raWVoxUXKCsYM4IA_ahqYYsqSlaCu71xgzgmn6YHIbgs4Fcl6ZBTPZrMBQdXE8enXIjL6E51Ay-h3_sXtQs3qBje-C7nXdA_EtCoNQ1UIo-_Vudhn6fWAMnLvLKu4KrYH1hmKUk1DTlfmgRSmg",
+                "text": ""
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518192975_745239337908834_3750589846047288053_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=JQ7eiRqtkSYQ7kNvwEqr7P7&_nc_oc=AdmrSsO1TiSG6UHxIkLR-PCHBONlL0PlBceWNBn7ZhxWhuDPwC5m_kOf4BT_In4vj9UP3GCePJlwSRMugr6UDAfj&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=gkodO8Ut_QhruzyCMHPsJQ&oh=00_AfSJzX5SR_fLmgj5lBy0LACe-QcfKWH2E3B4yzpc7iiY3g&oe=687795AC",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518506977_1333942871489608_3667150545204280296_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=106&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=WAhLn4Bis1MQ7kNvwGHiMlr&_nc_oc=Adn4iSezAFMtIQbQiPqs-_gcAcSUhHAgIHVa208SYENYbqsPgVAILF-gQT9Z4bZgmnarrG4frqDYbTa7FCn5USQV&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=gkodO8Ut_QhruzyCMHPsJQ&oh=00_AfTHPf7QlbITF4Jf96S0Sn5l4qflogwU3PgPwvYIKkAOHQ&oe=68777F3B"
+            ],
+            "scraped_from_advertiser": "Sabbianco Properties",
+            "advertiser_page_id": "345985832164400"
+          },
+          {
+            "status": "Active",
+            "library_id": "717572714490684",
+            "started": "Started running on 11 Jul 2025 · Total active time 11 hrs",
+            "page": "Sabbianco Properties",
+            "primary_text": "ΠΩΛΕΙΤΑΙ ΚΑΤΟΙΚΙΑ ΤΡΙΩΝ ΥΠΝΟΔΩΜΑΤΙΩΝ ΜΕ ΙΔΙΩΤΙΚΗ ΠΙΣΙΝΑ ΣΤΗΝ ΠΕΡΙΟΧΗ ΠΕΡΝΕΡΑ – ΑΜΜΟΧΩΣΤΟΣ\n\n Κωδικός:002190995\n💶 € 320,000\n📐145m2– εσωτερικοί χώροι\n📐 220m2 – οικόπεδο\n🛏️ 3 Υπνοδωμάτια\n☎️ Τηλ. 97770166– 70009991\n\nΠερισσότερες πληροφορίες για το ακίνητο βρείτε εδώ:\n#SabbiancoHousesForSaleFamagusta #SabbiancoProperties\nΠΩΛΕΙΤΑΙ ΚΑΤΟΙΚΙΑ ΤΡΙΩΝ ΥΠΝΟΔΩΜΑΤΙΩΝ ΜΕ ΙΔΙΩΤΙΚΗ ΠΙΣΙΝΑ ΣΤΗΝ ΠΕΡΙΟΧΗ ΠΕΡΝΕΡΑ - ΑΜΜΟΧΩΣΤΟΣ - ID 002190995 - Sabbianco Properties Cyprus\nReal Estate\nSend message",
+            "cta": "\nSend message",
+            "links": [
+              {
+                "type": "link",
+                "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Ftinyurl.com%2F3vusthfm&h=AT2FjG2v8k_4KJ5rO2g2raWVoxUXKCsYM4IA_ahqYYsqSlaCu71xgzgmn6YHIbgs4Fcl6ZBTPZrMBQdXE8enXIjL6E51Ay-h3_sXtQs3qBje-C7nXdA_EtCoNQ1UIo-_Vudhn6fWAMnLvLKu4KrYH1hmKUk1DTlfmgRSmg",
+                "text": ""
+              }
+            ],
+            "image_urls": [
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/517338608_746722351269132_9001847307637890825_n.jpg?stp=dst-jpg_s60x60_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=sLOeTnoVMdsQ7kNvwF7ZbeT&_nc_oc=AdlE1zAuBRGAV5ND7gzW0hCkdv4aTE0icfM-8oDrq6qdIFaMl8Pl_Qd1G1DMv3m-aI2R1qqS9yjfdN3AUgiq81m6&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=gkodO8Ut_QhruzyCMHPsJQ&oh=00_AfTIfalfWnYW6CR2Pp-SEDJqpiXBz4E-1XbBcwakE-U1EQ&oe=68779058",
+              "https://scontent.fsgi2-1.fna.fbcdn.net/v/t39.35426-6/518188536_950558113826421_3266998905923742075_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=104&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Zp21LoaRBbMQ7kNvwHr6Phz&_nc_oc=AdnkVx527FW60gnllqZtUSsYLszv6fgwI8N-kJDsN8U6Enwdr56Pkaaykh0jmilI6RkeFpsEXy_GlHWEqPxKzkIU&_nc_zt=14&_nc_ht=scontent.fsgi2-1.fna&_nc_gid=gkodO8Ut_QhruzyCMHPsJQ&oh=00_AfRJyiQvXfusYDurTkwGPcVDcgGMSqu0oCws31r2G9yMgQ&oe=68779427"
+            ],
+            "scraped_from_advertiser": "Sabbianco Properties",
+            "advertiser_page_id": "345985832164400"
+          }
+        ],
+        "ads_count": 5
+      }
+    ],
+    "timestamp": "2025-07-12T07:27:07.297981",
+    "scrape_advertiser_ads": true,
+    "total_suggestions": 11,
+    "total_ads": 45
   }
 ]

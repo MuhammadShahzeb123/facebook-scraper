@@ -28,6 +28,18 @@ import uvicorn
 import sys
 
 
+# Custom JSON Response class to ensure proper Unicode handling
+class UnicodeJSONResponse(JSONResponse):
+    def render(self, content: Any) -> bytes:
+        return json.dumps(
+            content,
+            ensure_ascii=False,
+            allow_nan=False,
+            indent=None,
+            separators=(",", ":"),
+        ).encode("utf-8")
+
+
 if os.name == "nt":
     sys.stdout.reconfigure(encoding="utf-8") #type: ignore
     sys.stderr.reconfigure(encoding="utf-8") #type: ignore
@@ -37,7 +49,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('api.log'),
+        logging.FileHandler('api.log', encoding='utf-8'),
         logging.StreamHandler()
     ]
 )
@@ -49,8 +61,18 @@ app = FastAPI(
     description="POST endpoints to start scraping jobs, GET endpoints to retrieve JSON data",
     version="2.0.0",
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
+    default_response_class=UnicodeJSONResponse
 )
+
+# Configure JSON responses to properly handle Unicode
+@app.middleware("http")
+async def unicode_json_middleware(request: Request, call_next):
+    """Ensure all JSON responses use proper Unicode encoding"""
+    response = await call_next(request)
+    if response.headers.get("content-type") == "application/json":
+        response.headers["content-type"] = "application/json; charset=utf-8"
+    return response
 
 # Add CORS middleware
 app.add_middleware(
@@ -378,7 +400,7 @@ async def log_requests(request, call_next):
 
     # Rate limiting check
     if not rate_limit_check(client_ip):
-        return JSONResponse(
+        return UnicodeJSONResponse(
             status_code=429,
             content={
                 "success": False,
@@ -403,7 +425,7 @@ async def log_requests(request, call_next):
 async def global_exception_handler(request, exc):
     """Global exception handler"""
     logger.error(f"Global exception: {str(exc)}\n{traceback.format_exc()}")
-    return JSONResponse(
+    return UnicodeJSONResponse(
         status_code=500,
         content={
             "success": False,
@@ -421,7 +443,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
         field = " -> ".join(str(loc) for loc in error["loc"])
         error_details.append(f"{field}: {error['msg']}")
 
-    return JSONResponse(
+    return UnicodeJSONResponse(
         status_code=400,
         content={
             "success": False,
@@ -440,7 +462,7 @@ async def rate_limit_middleware(request: Request, call_next):
         return await call_next(request)
 
     if not rate_limit_check(client_ip):
-        return JSONResponse(
+        return UnicodeJSONResponse(
             status_code=429,
             content={
                 "success": False,
@@ -468,16 +490,16 @@ def run_ads_scraper(job_id: str, request_data: AdsScrapingRequest):
             "HEADLESS": str(request_data.headless),
             "ADS_LIMIT": str(request_data.ads_limit),
             "SCROLLS": str(request_data.max_scrolls),
-            "TARGET_PAIRS": json.dumps(request_data.target_pairs),
+            "TARGET_PAIRS": json.dumps(request_data.target_pairs, ensure_ascii=False),
             "AD_CATEGORY": request_data.ad_category,
             "STATUS": request_data.status,
-            "LANGUAGES": json.dumps(request_data.languages),
-            "PLATFORMS": json.dumps(request_data.platforms),
+            "LANGUAGES": json.dumps(request_data.languages, ensure_ascii=False),
+            "PLATFORMS": json.dumps(request_data.platforms, ensure_ascii=False),
             "MEDIA_TYPE": request_data.media_type,
             "START_DATE": request_data.start_date or "",
             "END_DATE": request_data.end_date or "",
             "APPEND": str(request_data.append_mode),
-            "ADVERTISERS": json.dumps(request_data.advertisers),
+            "ADVERTISERS": json.dumps(request_data.advertisers, ensure_ascii=False),
             "CONTINUATION": str(request_data.continuation),
             "SCRAPE_ADVERTISER_ADS": "False",  # For ads mode, we don't need advertiser ads
             "ADVERTISER_ADS_LIMIT": "100"  # Default value
@@ -493,6 +515,7 @@ def run_ads_scraper(job_id: str, request_data: AdsScrapingRequest):
             stderr=subprocess.PIPE,
             env=env,
             text=True,  # Automatically decode output as text
+            encoding='utf-8',  # Explicitly specify UTF-8 encoding
             cwd=os.getcwd()  # Ensure correct working directory
         )
 
@@ -577,7 +600,7 @@ def run_advertiser_scraper(job_id: str, request_data: AdvertiserScrapingRequest)
             "SCROLLS_PAGE": str(request_data.max_scrolls),
             "APPEND": str(request_data.append_mode),
             "CONTINUATION": str(request_data.continuation),
-            "TARGET_PAIRS": json.dumps(request_data.target_pairs),
+            "TARGET_PAIRS": json.dumps(request_data.target_pairs, ensure_ascii=False),
             **dict(os.environ)
         }
 
@@ -590,6 +613,7 @@ def run_advertiser_scraper(job_id: str, request_data: AdvertiserScrapingRequest)
             stderr=subprocess.PIPE,
             env=env,
             text=True,  # Automatically decode output as text
+            encoding='utf-8',  # Explicitly specify UTF-8 encoding
             cwd=os.getcwd()  # Ensure correct working directory
         )
 
@@ -688,6 +712,7 @@ def run_pages_scraper(job_id: str, request_data: PageScrapingRequest):
             stderr=subprocess.PIPE,
             env=env,
             text=True,  # Automatically decode output as text
+            encoding='utf-8',  # Explicitly specify UTF-8 encoding
             cwd=os.getcwd()  # Ensure correct working directory
         )
 
@@ -778,7 +803,7 @@ def run_posts_scraper(job_id: str, request_data: PostsScrapingRequest):
         # Create environment variables with default settings and always use proxy
         env = dict(os.environ)
         env.update({
-            "LINKS": json.dumps(request_data.links),
+            "LINKS": json.dumps(request_data.links, ensure_ascii=False),
             "APPEND_RESULTS": "false",  # Always create new numbered files
             "USE_PROXY": "true",        # Always use proxy
             "PROXY_ENDPOINT": "http://250621Ev04e-resi_region-US_California:5PjDM1IoS0JSr2c@ca.proxy-jet.io:1010",
@@ -796,6 +821,7 @@ def run_posts_scraper(job_id: str, request_data: PostsScrapingRequest):
             stderr=subprocess.PIPE,
             env=env,
             text=True,  # Automatically decode output as text
+            encoding='utf-8',  # Explicitly specify UTF-8 encoding
             cwd=os.getcwd()  # Ensure correct working directory
         )
 

@@ -1,172 +1,162 @@
 # Facebook Scraper Project Context
 
-## Project Overview
+## Current Status: PROXY CONNECTIVITY ISSUE DIAGNOSED ✅
 
-This is a comprehensive Facebook scraper project that includes web scraping capabilities for ads, suggestions, pages, and advertisers. The project provides both standalone Python scripts and REST API endpoints.
+### Proxy Implementation Status
+✅ **COMPLETED**: Full proxy integration across all target scrapers
+- ✅ `proxy_utils_enhanced.py`: Advanced proxy management with health checking
+- ✅ `ads_and_suggestions_scraper2.py`: Uses enhanced proxy utilities
+- ✅ `facebook_advertiser_ads.py`: Uses enhanced proxy utilities
+- ✅ API endpoints automatically use proxies via subprocess execution
+- ✅ Comprehensive testing and diagnostic tools implemented
 
-## Issue Resolution (July 11, 2025)
+### Current Issue: ERR_EMPTY_RESPONSE Root Cause Identified
 
-**Problem 1**: The ads scraping endpoint was not working but the standalone file was working.
+**Diagnostic Results (2025-07-12 06:58:00):**
 
-**Root Cause**: The API endpoint in `app.py` was calling `ads_and_suggestions_scraper.py` but the working, updated file is `ads_and_suggestions_scraper2.py`.
+**Proxy Status:**
+- ✅ **WORKING**: PXY_c1elo8vs@122.8.43.208:8208 - Fully functional
+- ❌ **FAILED**: arudiba@45.207.142.74:9568 - Connection refused (proxy server down)
 
-**Solution Applied**:
+**Facebook Access Test Results:**
+- ✅ Direct Facebook access (no proxy): **200 OK** - Facebook is accessible
+- ✅ Working proxy basic connectivity: **4/4 sites accessible**
+- ⚠️ Facebook through working proxy: **400/301 status** - Facebook detecting proxy but responding
 
-1. **Fixed the file reference** in `app.py` line 484:
-   - Changed: `cmd = [sys.executable, "ads_and_suggestions_scraper.py"]`
-   - To: `cmd = [sys.executable, "ads_and_suggestions_scraper2.py"]`
+**Key Findings:**
+1. **One proxy is completely functional** (122.8.43.208:8208)
+2. **Second proxy is dead** (45.207.142.74:9568) - "Remote end closed connection"
+3. **Facebook responds through working proxy** but with 400/301 status codes
+4. **SeleniumBase integration working** - Successfully connects and shows proxy IP
 
-2. **Added missing SCROLLS parameter** support:
-   - Updated `ads_and_suggestions_scraper2.py` to accept `SCROLLS` from environment variable
-   - Added `"SCROLLS": str(request_data.max_scrolls)` to API environment variables
+### Root Cause Analysis
+The ERR_EMPTY_RESPONSE is likely caused by:
+1. **Dead proxy selection**: Random selection was picking the failed proxy 50% of the time
+2. **Facebook proxy detection**: Working proxy gets 400 responses indicating Facebook detects/limits proxy traffic
+3. **Connection timeouts**: Dead proxy causes connection failures that manifest as empty responses
 
-3. **Added missing advertiser parameters**:
-   - Added `"SCRAPE_ADVERTISER_ADS": "False"` (disabled for ads mode)
-   - Added `"ADVERTISER_ADS_LIMIT": "100"` (default value)
+### Solution Strategy
+1. **Remove dead proxy** from proxies.json configuration
+2. **Enhanced proxy testing** now automatically filters out dead proxies
+3. **Browser behavior improvements** needed for better Facebook compatibility
+4. **Consider residential proxies** if datacenter proxy blocking continues
 
-**Problem 2**: The advertiser scraping endpoint was not spawning Chrome browser.
+### Technical Implementation
+- ✅ Enhanced proxy utilities with connection testing and fallback mechanisms
+- ✅ Automatic dead proxy filtering to prevent ERR_EMPTY_RESPONSE
+- ✅ SeleniumBase integration confirmed working with proxy IP verification
+- ✅ Comprehensive diagnostic tools for ongoing proxy health monitoring
 
-**Root Cause**: Multiple issues in advertiser endpoint:
-1. Hardcoded `headless=True` in `facebook_advertiser_ads.py`
-2. Missing environment variable support
-3. Incorrect environment variable names between API and scraper
+### Next Steps
+1. **Remove dead proxy** (45.207.142.74:9568) from proxies.json
+2. **Test scrapers** with only working proxy to confirm ERR_EMPTY_RESPONSE resolution
+3. **Monitor Facebook responses** for rate limiting or blocking patterns
+4. **Consider proxy rotation strategy** with multiple working proxies for scale
 
-**Solution Applied**:
+### Files Updated in This Session
+- `proxy_utils_enhanced.py`: Advanced proxy management with testing
+- `proxy_diagnostics.py`: Comprehensive proxy connectivity diagnostics
+- `test_working_proxy.py`: Simple Facebook access validation
+- `ads_and_suggestions_scraper2.py`: Updated to use enhanced proxy utilities
+- `facebook_advertiser_ads.py`: Updated to use enhanced proxy utilities
 
-1. **Fixed environment variable names** in `app.py`:
-   - Added proper environment variables: HEADLESS, SCROLLS_SEARCH, SCROLLS_PAGE, CONTINUATION, TARGET_PAIRS
+## Issue Resolution History
 
-2. **Added environment variable support** to `facebook_advertiser_ads.py`:
-   - Made HEADLESS configurable via environment variable
-   - Added support for SCROLLS_SEARCH, SCROLLS_PAGE, CONTINUATION, TARGET_PAIRS
 
-**Problem 3**: Unicode encoding error in advertiser scraper output.
+**Problem 4**: Incorrect verified status and ads detection in Facebook pages scraper.
 
-**Root Cause**: Windows console cannot display Unicode characters (e.g., Turkish İ character '\u0130') in page names.
-
-**Solution Applied**:
-
-1. **Added Unicode handling** to `facebook_advertiser_ads.py`:
-   - Added proper encoding setup for Windows console
-   - Created `safe_print()` function to handle Unicode encoding errors
-   - Replaced problematic print statements with safe Unicode handling
-
-2. **Error Details**:
-   - Error: `'charmap' codec can't encode character '\u0130' in position 28`
-   - Fixed by implementing fallback character replacement for Windows console compatibility
-
-**Problem 4**: Posts scraper path and Unicode encoding errors causing job failures.
-
-**Root Cause**: Multiple issues in `posts_scraper.py`:
-1. Path calculation error when trying to show relative path output
-2. Unicode arrow character `→` (`\u2192`) causing Windows console encoding errors
-
-**Solution Applied**:
-
-1. **Fixed path handling** in `posts_scraper.py`:
-   - Added try-catch block around `out_path.relative_to(Path.cwd())`
-   - Implemented fallback to show filename only if relative path calculation fails
-   - Added additional exception handling for any encoding/path issues
-
-2. **Fixed Unicode encoding** in `posts_scraper.py`:
-   - Replaced Unicode arrow `→` with ASCII arrow `->`
-   - Ensures Windows console compatibility
-
-3. **Error Details**:
-   - Path Error: `ValueError: 'Results\\results_1.json' is not in the subpath of 'C:\\Users\\Shahzeb\\Desktop\\Python\\facebook-scraper'`
-   - Unicode Error: `UnicodeEncodeError: 'charmap' codec can't encode character '\u2192' in position 22`
-   - Created `safe_print()` function to handle Unicode encoding errors
-   - Replaced problematic print statements with safe Unicode handling
-
-2. **Error Details**:
-   - Error: `'charmap' codec can't encode character '\u0130' in position 28`
-   - Fixed by implementing fallback character replacement for Windows console compatibility
-
-## Working vs Non-Working Files
-
-- ✅ **Working**: `ads_and_suggestions_scraper2.py` - Contains the latest, functional scraping logic
-- ❌ **Old Version**: `ads_and_suggestions_scraper.py` - Older version (was being called by API)
-
-## Key Features in Working File (ads_and_suggestions_scraper2.py)
-
-- Advanced filtering options (category, status, languages, platforms, media type, date ranges)
-- Robust error handling and retry logic
-- Cookie management for Facebook authentication
-- Multiple scraping modes: ads, suggestions, ads_and_suggestions
-- Advertiser ads scraping capability
-- Continuation/checkpoint system for long-running jobs
-- Proper URL engineering for applying filters
-
-## API Structure
-
-- FastAPI-based REST API
-- Background task processing for scraping jobs
-- CORS enabled for web integration
-- Comprehensive request/response models
-- Job status tracking
-
-## Files Structure
-
-- `app.py` - Main FastAPI application (✅ Fixed to call correct scraper)
-- `ads_and_suggestions_scraper2.py` - Working scraper implementation (✅ Enhanced with SCROLLS support)
-- `ads_and_suggestions_scraper.py` - Older scraper version (not used by API anymore)
-- `config.json` - Account configurations with cookies and proxies
-- Various API wrapper files for different scraping types
-
-## API Environment Variables Now Properly Passed
-
-- ✅ MODE (set to "ads")
-- ✅ HEADLESS
-- ✅ ADS_LIMIT
-- ✅ SCROLLS (newly added)
-- ✅ TARGET_PAIRS
-- ✅ AD_CATEGORY
-- ✅ STATUS
-- ✅ LANGUAGES
-- ✅ PLATFORMS
-- ✅ MEDIA_TYPE
-- ✅ START_DATE / END_DATE
-- ✅ APPEND
-- ✅ ADVERTISERS
-- ✅ CONTINUATION
-- ✅ SCRAPE_ADVERTISER_ADS
-- ✅ ADVERTISER_ADS_LIMIT
-
-## How to Test the Fix
-
-1. Start the API: `python app.py`
-2. API will run on `http://localhost:8000`
-3. Access docs at `http://localhost:8000/docs`
-4. Use the `/scrape/ads` endpoint with proper parameters
-5. Monitor job status via job ID endpoints
-
-## Additional Issue Fixed (July 11, 2025)
-
-**Problem**: The advertiser scraping endpoint (`/scrape/advertisers`) was not working - it didn't spawn Chrome or scrape any data.
-
-**Root Causes**:
-1. The `facebook_advertiser_ads.py` script had hardcoded `headless=True` instead of reading from environment
-2. The script wasn't properly reading environment variables for configuration
-3. The API was passing wrong environment variable names that didn't match the script
+**Root Cause**: The scraper was using unreliable methods to detect verified pages and running ads status.
 
 **Solution Applied**:
 
-1. **Fixed hardcoded headless mode** in `facebook_advertiser_ads.py`:
-   - Changed: `with SB(uc=True, headless=True) as sb:`
-   - To: `with SB(uc=True, headless=HEADLESS) as sb:`
+1. **Fixed verified status detection** in `extract_home()` function:
+   - Changed from checking SVG elements to searching for exact text `<title>Verified account</title>` in page source
+   - This provides more reliable verification status detection
 
-2. **Added environment variable support** to config section:
-   - Added: `HEADLESS = os.getenv("HEADLESS", "True").lower() == "true"`
-   - Added: `SCROLLS_SEARCH = int(os.getenv("SCROLLS_SEARCH", "3"))`
-   - Added: `SCROLLS_PAGE = int(os.getenv("SCROLLS_PAGE", "3"))`
-   - Added: `CONTINUATION = os.getenv("CONTINUATION", "False").lower() == "true"`
-   - Added proper TARGET_PAIRS environment variable support
+2. **Fixed ads running status detection** in `extract_transparency()` function:
+   - Changed from checking transparency modal text to searching for exact text `"This Page is currently running ads"` in page source
+   - This provides more accurate ads status detection
 
-3. **Fixed API environment variables** in `app.py`:
-   - Updated environment variable names to match what the script expects
-   - Simplified to only pass variables the script actually uses
-   - Fixed variable name from `MAX_SCROLLS` to `SCROLLS_SEARCH` and `SCROLLS_PAGE`
+3. **Improved page ID extraction** in `extract_transparency()` function:
+   - Added primary method: Extract page ID from page source using regex pattern `purpose of this Page\.(\d+)Page ID`
+   - This looks for a number that appears after text ending with "purpose of this Page." and before "Page ID"
+   - Kept existing XPath methods as fallbacks for robustness
+   - Added proper error handling and logging for page ID extraction failures
 
-## Status: ✅ BOTH ENDPOINTS FIXED
+**Changes Made**:
+- Modified `extract_home()` function to use page source for verified status
+- Modified `extract_transparency()` function to use page source for ads status
+- Enhanced page ID extraction with new regex pattern and fallback methods
+- All changes maintain backward compatibility with existing functionality
 
-Both the ads scraping endpoint (`/scrape/ads`) and advertiser scraping endpoint (`/scrape/advertisers`) should now work properly with proper Chrome spawning and parameter passing.
+## Latest Update (July 12, 2025 - Advanced Page ID Extraction with Debugging)
+
+**Problem 6**: Page ID extraction still failing despite multiple regex patterns.
+
+**Root Cause**: The regex patterns were not specific enough to match the exact HTML structure that Facebook uses for page IDs.
+
+**Solution Applied**:
+
+1. **Added HTML-structure-specific regex patterns** based on user-provided HTML:
+   - Primary pattern: `(\d{10,})</span></div><div><div><span><span[^>]*>Page ID` - matches the exact structure
+   - Alternative patterns: `<span[^>]*>(\d{10,})</span>.*?Page ID` and variations
+   - Added class-specific pattern: `class="[^"]*x193iq5w[^"]*"[^>]*>(\d{10,})</span>.*?Page ID`
+
+2. **Enhanced debugging capabilities**:
+   - Added comprehensive logging to show which patterns are being tried
+   - Added context extraction to show 400 characters around "Page ID" text
+   - Added fallback debugging to find any numbers near "Page ID" text
+   - Added pattern match validation and length checking with debug output
+
+3. **Improved regex matching**:
+   - Added `re.DOTALL` flag to handle newlines in HTML structure
+   - Enhanced pattern specificity to match Facebook's exact HTML structure
+
+## Proxy Implementation (July 12, 2025)
+
+**Task Completed**: Successfully implemented proxy support across all Facebook scrapers.
+
+**Solution Applied**:
+
+1. **Created `proxy_utils.py`** - A robust utility module that:
+   - Loads proxies from `proxies.json` file
+   - Randomly selects proxies for load balancing
+   - Formats them properly for SeleniumBase
+   - Handles errors gracefully with fallbacks
+
+2. **Updated scrapers with proxy support**:
+   - `ads_and_suggestions_scraper2.py` - Added proxy import and integration
+   - `facebook_advertiser_ads.py` - Added proxy import and integration
+   - `facebook_pages_scraper.py` - Already had proxy support (no changes needed)
+
+3. **Key features implemented**:
+   - Automatic proxy rotation - Different runs use different proxies
+   - Secure logging - Passwords are masked in console output
+   - Graceful fallback - Works without proxy if none available
+   - Zero configuration changes - Uses existing `proxies.json`
+   - API compatibility - Proxy support works through API endpoints
+
+**Current Issue (July 12, 2025)**: ERR_EMPTY_RESPONSE from Facebook when using proxies
+
+**Root Cause**: Proxy connection issues or blocked proxy servers
+
+**Investigation Needed**:
+- Test proxy connectivity
+- Check if proxies are blocked by Facebook
+- Implement proxy health checking and rotation
+- Add fallback mechanisms for failed proxy connections
+   - Added multiple fallback patterns for different page layouts
+
+**Technical Implementation**:
+- Pattern 1: Exact HTML structure match based on provided element
+- Pattern 2-4: Variations handling different span structures
+- Pattern 5-9: Original fallback patterns for backward compatibility
+- Debug logging shows page source length, context around "Page ID", and pattern matching results
+
+**Changes Made**:
+- Enhanced `extract_transparency()` function with 9 different regex patterns
+- Added comprehensive debugging output for troubleshooting
+- Improved error handling and pattern validation
+- All changes maintain backward compatibility
+
+This should now successfully extract page IDs from the specific HTML structure you provided: `127304827127079`.

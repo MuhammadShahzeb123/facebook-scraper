@@ -14,6 +14,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 from collections import defaultdict
 from seleniumbase import SB #type: ignore
+from proxy_utils_enhanced import get_proxy_string_with_fallback  # Import enhanced proxy utility
 
 # Set up proper encoding for Windows console output
 if os.name == "nt":
@@ -498,40 +499,56 @@ def main() -> None:
 
     done_pairs = load_checkpoint()
 
-    with SB(uc=True, headless=HEADLESS) as sb:
-        print("[INFO] Opening Facebook...")
-        sb.open("https://facebook.com")
-        print("[INFO] Restoring session cookies...")
-        for ck in load_cookies():
-            try:
-                sb.driver.add_cookie(ck)
-            except Exception:
-                pass
+    # Get proxy configuration
+    proxy_string = get_proxy_string_with_fallback()
+    if proxy_string:
+        print(f"[INFO] Using proxy: {proxy_string.split('@')[-1] if '@' in proxy_string else proxy_string}")
+    else:
+        print("[INFO] No proxy configured - running without proxy")
+
+    # Initialize SeleniumBase with proxy if available
+    if proxy_string:
+        with SB(uc=True, headless=HEADLESS, proxy=proxy_string) as sb:
+            run_advertiser_scraping_logic(sb, pairs, done_pairs)
+    else:
+        with SB(uc=True, headless=HEADLESS) as sb:
+            run_advertiser_scraping_logic(sb, pairs, done_pairs)
+
+
+def run_advertiser_scraping_logic(sb, pairs, done_pairs):
+    print("[INFO] Opening Facebook...")
+    sb.open("https://facebook.com")
+    print("[INFO] Restoring session cookies...")
+    for ck in load_cookies():
+        try:
+            sb.driver.add_cookie(ck)
+        except Exception:
+            pass
+
+    sb.open(AD_LIBRARY_URL)
+    sb.sleep(5)
+
+    if not OUTPUT_FILE.exists():
+        OUTPUT_FILE.write_text("[]", encoding="utf-8")
+        print(f"[INFO] Created new output file: {OUTPUT_FILE}")
+
+    for country, keyword in pairs:
+        if (country, keyword) in done_pairs:
+            print(f"[SKIP] Already processed: {country} | {keyword}")
+            continue
+
+        try:
+            scrape_pair(sb, country, keyword)
+            done_pairs.add((country, keyword))
+            save_checkpoint(done_pairs)
+        except Exception as e:
+            print(f"[ERROR] Failed: {country} | {keyword} -> {e}")
 
         sb.open(AD_LIBRARY_URL)
-        sb.sleep(5)
+        sb.sleep(4)
 
-        if not OUTPUT_FILE.exists():
-            OUTPUT_FILE.write_text("[]", encoding="utf-8")
-            print(f"[INFO] Created new output file: {OUTPUT_FILE}")
-
-        for country, keyword in pairs:
-            if (country, keyword) in done_pairs:
-                print(f"[SKIP] Already processed: {country} | {keyword}")
-                continue
-
-            try:
-                scrape_pair(sb, country, keyword)
-                done_pairs.add((country, keyword))
-                save_checkpoint(done_pairs)
-            except Exception as e:
-                print(f"[ERROR] Failed: {country} | {keyword} -> {e}")
-
-            sb.open(AD_LIBRARY_URL)
-            sb.sleep(4)
-
-        print("\n[DONE] All pairs processed – browser stays open for 3 min.")
-        sb.sleep(180)
+    print("\n[DONE] All pairs processed – browser stays open for 3 min.")
+    sb.sleep(180)
 
 # ── LOAD CONFIG FROM FILE OR COMMAND LINE ──────────────────────────────────
 def load_config():

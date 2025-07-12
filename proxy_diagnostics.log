@@ -1,0 +1,14 @@
+2025-07-12 06:58:00,266 - INFO - Loaded 2 proxies from proxies.json
+2025-07-12 06:58:01,512 - INFO - Loaded 2 proxies from proxies.json
+2025-07-12 06:58:08,527 - INFO - Loaded 2 proxies from proxies.json
+2025-07-12 06:58:15,589 - INFO - Loaded 2 proxies from proxies.json
+2025-07-12 06:58:15,589 - INFO - Testing proxy PXY_c1elo8vs@122.8.43.208:8208 with http://httpbin.org/ip
+2025-07-12 06:58:17,206 - INFO - Testing proxy arudiba@45.207.142.74:9568 with http://httpbin.org/ip
+2025-07-12 06:58:17,596 - INFO - Testing proxy arudiba@45.207.142.74:9568 with https://www.google.com
+2025-07-12 06:58:17,980 - INFO - Testing proxy arudiba@45.207.142.74:9568 with http://www.facebook.com
+2025-07-12 06:58:19,440 - INFO - Strategy 1: Testing proxy connectivity...
+2025-07-12 06:58:19,442 - INFO - Loaded 2 proxies from proxies.json
+2025-07-12 06:58:19,442 - INFO - Testing 2 proxies...
+2025-07-12 06:58:19,442 - INFO - Testing proxy PXY_c1elo8vs@122.8.43.208:8208 with http://httpbin.org/ip
+2025-07-12 06:58:20,294 - INFO - Found 1 working proxies out of 2
+2025-07-12 06:58:20,295 - INFO - Selected proxy: PXY_c1elo8vs@122.8.43.208:8208
